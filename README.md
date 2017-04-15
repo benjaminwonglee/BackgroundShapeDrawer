@@ -1,7 +1,7 @@
 # PseudoRandomBackgroundDrawer
 A psuedo-random background drawer which draws shapes on a background with chosen colours. It's pseudo-random because choices can be made to how it should be able to draw up an image.
 
-Currently there is one related project to this going on. It is the series of pages of themed colours; this program should output a bitmap to put on the backgrounds for these HTML pages.
+Currently there is one related project to this going on. It is the series of pages of themed colours; this program should output a bitmap of shapes to put on the backgrounds for the HTML pages in that project. 
 
 The first thing to do is to click "Fork" and fork your own copy of this to your GitHub account... However I have no idea how it works so please let me know how that goes, I'm keen to find out, and comment on the issue that I posted regarding this.
 
