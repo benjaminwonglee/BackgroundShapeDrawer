@@ -41,25 +41,7 @@ public class PseudoRandomBackgroundDrawer {
 	}
 
 	public Border buttonWithLabel(String label) {
-		Border border = new Border() {
-			@Override
-			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-				g.setColor(new Color(140, 0, 0));
-				g.setFont(new Font("Arial", 1, 25));
-				g.drawString(label, width / 2 - (g.getFontMetrics().stringWidth(label) / 2), height / 2 + 8);
-			}
-
-			@Override
-			public boolean isBorderOpaque() {
-				return false;
-			}
-
-			@Override
-			public Insets getBorderInsets(Component c) {
-				return new Insets(0, 0, 0, 0);
-			}
-
-		};
+		Border border = new ActivateBorder(label);		
 		return border;
 	}
 
