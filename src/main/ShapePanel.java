@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
 
-	private final static int BUTTON_WD = 200;
-	private final static int BUTTON_HT = 150;
+	private final static int BUTTON_WD = 180;
+	private final static int BUTTON_HT = 160;
 
 	private List<JButton> buttonList;
 	private int xLoc = 20;
@@ -39,6 +38,7 @@ public class ShapePanel extends JPanel {
 		JButton circle = setButtonDefaults("Circle");
 		JButton ellipse = setButtonDefaults("Ellipse");
 		JButton hexagon = setButtonDefaults("Hexagon");
+		JButton lightning = setButtonDefaults("Lightning");
 		JButton octagon = setButtonDefaults("Octagon");
 		JButton polygon = setButtonDefaults("Polygon");
 		JButton rectangle = setButtonDefaults("Rectangle");
@@ -48,6 +48,7 @@ public class ShapePanel extends JPanel {
 		buttonList.add(circle);
 		buttonList.add(ellipse);
 		buttonList.add(hexagon);
+		buttonList.add(lightning);
 		buttonList.add(octagon);
 		buttonList.add(polygon);
 		buttonList.add(rectangle);
