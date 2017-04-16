@@ -29,19 +29,22 @@ public class ActivateBorder implements Border {
 
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+		g.setColor(new Color(244, 244, 200));
+		g.fillRect(x, y, width, height);
+
+		// Red or green
 		if (!activated) {
 			g.setColor(new Color(140, 0, 0));
 		} else {
 			g.setColor(new Color(0, 180, 0));
 		}
 
-		// Three layers of border
-		g.drawRect(x, y, width - 1, height - 1);
-		g.drawRect(x + 1, y + 1, width - 2, height - 2);
-		g.drawRect(x + 2, y + 2, width, height);
-
-		g.setFont(new Font("Arial", 1, 25));
-		g.drawString(label, width / 2 - (g.getFontMetrics().stringWidth(label) / 2), height / 2 + 8);
+		int layers = 3;
+		for (int i = 0; i < layers; i++) {
+			g.drawRect(x + i, y + i, width - (i + 1), height - (i + 1));
+			g.setFont(new Font("Arial", 1, 25));
+			g.drawString(label, width / 2 - (g.getFontMetrics().stringWidth(label) / 2), height / 2 + 8);
+		}
 	}
 
 	public void setActivated(boolean activated) {
