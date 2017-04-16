@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 
 public class ActivateBorder implements Border {
 
-	boolean activated = false;
+	private boolean activated = false;
 	private String label;
 
 	public ActivateBorder(String label) {
@@ -44,8 +44,11 @@ public class ActivateBorder implements Border {
 		g.drawString(label, width / 2 - (g.getFontMetrics().stringWidth(label) / 2), height / 2 + 8);
 	}
 
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+
 	public boolean getActivated() {
 		return activated;
 	}
-
 }
