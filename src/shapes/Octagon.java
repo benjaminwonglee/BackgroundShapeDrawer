@@ -1,5 +1,29 @@
 package shapes;
 
-public class Octagon {
+import java.awt.Point;
 
+public class Octagon extends ShapeAbstract implements Shape {
+
+	@Override
+	public void drawShape() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Point[] xPointMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Point[] yPointMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String name() {
+		return "octagon";
+	}
 }

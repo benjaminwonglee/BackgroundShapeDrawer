@@ -1,5 +1,30 @@
 package shapes;
 
-public class Polygon {
+import java.awt.Point;
+
+public class Polygon extends ShapeAbstract implements Shape {
+
+	@Override
+	public void drawShape() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Point[] xPointMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Point[] yPointMap() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String name() {
+		return "polygon";
+	}
 
 }

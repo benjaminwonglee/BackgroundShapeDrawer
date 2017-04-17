@@ -21,6 +21,11 @@ public class Square extends ShapeAbstract implements Shape{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String name() {
+		return "square";
+	}
 	
 	
 

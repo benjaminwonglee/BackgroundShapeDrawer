@@ -71,4 +71,9 @@ public class ActivateBorder implements Border {
 	public boolean getActivated() {
 		return activated;
 	}
+	
+	public String getLabel() {
+		return label;
+	}
+
 }

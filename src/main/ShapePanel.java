@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class ShapePanel extends JPanel {
@@ -25,6 +26,7 @@ public class ShapePanel extends JPanel {
 	private List<JButton> buttonList;
 	private int xLoc = 20;
 	private int yLoc = 20;
+	private Rectangle canvasSize;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -68,13 +70,15 @@ public class ShapePanel extends JPanel {
 			}
 		});
 		draw.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				drawShapes();
 			}
 		});
 		this.add(draw);
+		// Tested canvas size. It is correct.
+		canvasSize = new Rectangle(xLoc, 40 + BUTTON_HT, this.getPreferredSize().width - xLoc - 20,
+				this.getPreferredSize().height - BUTTON_HT - 140);
 	}
 
 	public void defineButtons() {
@@ -125,7 +129,34 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawShapes() {
-
+		JTextField display = new JTextField();
+		boolean retry = true;
+		for (JButton j : buttonList) {
+			ActivateBorder border = (ActivateBorder) j.getBorder();
+			if (border.getActivated()) {
+				// Keep retrying until user enters integers
+				while (retry) {
+					display.setText("How many " + border.getLabel().toLowerCase() + "s: ");
+					String s = "";
+					try {
+						int input = Integer.parseInt(s);
+						if (input > 10) {
+							display.setText("That's too many!");
+						} else if (input < 0) {
+							display.setText("That number's too little!");
+						} else {
+							retry = false;
+						}
+					} catch (NumberFormatException e) {
+						display.setText("You didn't enter an integer number!");
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+						}
+						retry = true;
+					}
+				}
+			}
+		}
 	}
-
 }

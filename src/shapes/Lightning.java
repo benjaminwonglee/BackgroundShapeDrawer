@@ -22,4 +22,9 @@ public class Lightning extends ShapeAbstract implements Shape{
 		return null;
 	}
 
+	@Override
+	public String name() {
+		return "lightning";
+	}
+
 }

@@ -8,5 +8,6 @@ public interface Shape {
 	public Point[] xPointMap();
 
 	public Point[] yPointMap();
-
+	
+	public String name();
 }

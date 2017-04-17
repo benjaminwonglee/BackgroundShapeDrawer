@@ -22,4 +22,9 @@ public class Ellipse extends ShapeAbstract implements Shape{
 		return null;
 	}
 
+	@Override
+	public String name() {
+		return "ellipse";
+	}
+
 }

@@ -12,7 +12,7 @@ public class Triangle extends ShapeAbstract implements Shape{
 
 	@Override
 	public Point[] xPointMap() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -20,6 +20,11 @@ public class Triangle extends ShapeAbstract implements Shape{
 	public Point[] yPointMap() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String name() {
+		return "triangle";
 	}
 
 }
