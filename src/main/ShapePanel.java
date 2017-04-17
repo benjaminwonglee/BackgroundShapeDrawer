@@ -9,12 +9,18 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 
 public class ShapePanel extends JPanel {
@@ -27,12 +33,18 @@ public class ShapePanel extends JPanel {
 	private int xLoc = 20;
 	private int yLoc = 20;
 	private JTextArea textDisplay;
+	private Console userEntry;
 	private Rectangle canvasSize;
+
+	private int canvasRed = 20;
+	private int canvasBlue = 20;
+	private int canvasGreen = 20;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
 		textDisplay = new JTextArea("Click \"Draw!\" when ready");
+		userEntry = System.console();
 		createButtons();
 	}
 
@@ -43,14 +55,14 @@ public class ShapePanel extends JPanel {
 			arrangeLayout(j);
 		}
 		createDrawButton();
-		createTextField(); 
+		createTextAreas();
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(0, 0, 0));
+		g.setColor(new Color(canvasRed, canvasBlue, canvasGreen));
 		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 	}
 
@@ -137,17 +149,69 @@ public class ShapePanel extends JPanel {
 		yLoc = BUTTON_HT + 40;
 	}
 
-	private void createTextField() {
+	private void createTextAreas() {
 		textDisplay.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
+		userEntry.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
 		// this.getPreferredSize().width - xLoc == 1080
 		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
-		textDisplay.setFont(new Font("Times New Roman", 1, 16));
 		yLoc += 40;
+		userEntry.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
+		yLoc += 40;
+		textDisplay.setFont(new Font("Times New Roman", 1, 16));
+		userEntry.setFont(new Font("Times New Roman", 1, 16));
+		textDisplay.setEditable(false);
 		this.add(textDisplay);
+		this.add(userEntry);
 	}
 
 	public void drawShapes() {
 		boolean retry = true;
+		while (retry) {
+			textDisplay.setText(
+					"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values: ");
+			userEntry.set(System.console());
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Scanner sc = new Scanner(userEntry.getText());
+			System.out.println("WHOA");
+			try {
+				int red = Integer.parseInt(sc.next());
+				if (red < 0 || red > 255) {
+					textDisplay.setText("The chosen red value was out of range, please try again");
+					continue;
+				}
+				canvasRed = red;
+
+				int green = Integer.parseInt(sc.next());
+				if (green < 0 || green > 255) {
+					textDisplay.setText("The chosen red value was out of range, please try again");
+					continue;
+				}
+				canvasGreen = Integer.parseInt(sc.next());
+
+				int blue = Integer.parseInt(sc.next());
+				if (blue < 0 || blue > 255) {
+					textDisplay.setText("The chosen red value was out of range, please try again");
+					continue;
+				}
+				canvasBlue = Integer.parseInt(sc.next());
+				retry = false;
+			} catch (NumberFormatException e) {
+				textDisplay.setText("An integer number was not entered!");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+				}
+				retry = true;
+				continue;
+			}
+			sc.close();
+		}
+
+		retry = true;
 		for (JButton j : buttonList) {
 			ActivateBorder border = (ActivateBorder) j.getBorder();
 			if (border.getActivated()) {

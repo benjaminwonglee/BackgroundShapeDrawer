@@ -10,7 +10,6 @@ public class PseudoRandomBackgroundDrawer {
 		ShapePanel sp = new ShapePanel();
 		frame.add(sp);
 		setFrameProperties(frame);
-		sp.drawShapes();
 	}
 
 	private void setFrameProperties(JFrame frame) {
