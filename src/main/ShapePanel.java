@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +34,7 @@ public class ShapePanel extends JPanel {
 	private int xLoc = 20;
 	private int yLoc = 20;
 	private JTextArea textDisplay;
-	private Console userEntry;
+	private JTextArea userEntry;
 	private Rectangle canvasSize;
 
 	private int canvasRed = 20;
@@ -44,7 +45,7 @@ public class ShapePanel extends JPanel {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
 		textDisplay = new JTextArea("Click \"Draw!\" when ready");
-		userEntry = System.console();
+		userEntry = new JTextArea("Use this text area for answering queries");
 		createButtons();
 	}
 
@@ -169,12 +170,7 @@ public class ShapePanel extends JPanel {
 		while (retry) {
 			textDisplay.setText(
 					"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values: ");
-			userEntry.set(System.console());
-			try {
-				System.in.read();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			userEntry.setText("0 200 0");
 			Scanner sc = new Scanner(userEntry.getText());
 			System.out.println("WHOA");
 			try {
@@ -190,15 +186,18 @@ public class ShapePanel extends JPanel {
 					textDisplay.setText("The chosen red value was out of range, please try again");
 					continue;
 				}
-				canvasGreen = Integer.parseInt(sc.next());
+				canvasGreen = green;
 
 				int blue = Integer.parseInt(sc.next());
 				if (blue < 0 || blue > 255) {
 					textDisplay.setText("The chosen red value was out of range, please try again");
 					continue;
 				}
-				canvasBlue = Integer.parseInt(sc.next());
+				canvasBlue = blue;
 				retry = false;
+				Graphics g = this.getGraphics();
+				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 			} catch (NumberFormatException e) {
 				textDisplay.setText("An integer number was not entered!");
 				try {
