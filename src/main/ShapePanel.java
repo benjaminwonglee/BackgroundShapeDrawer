@@ -11,10 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 public class ShapePanel extends JPanel {
@@ -27,12 +29,19 @@ public class ShapePanel extends JPanel {
 	private int xLoc = 20;
 	private int yLoc = 20;
 	private JTextArea textDisplay;
+	private JTextField userEntry;
 	private Rectangle canvasSize;
+
+	private int canvasRed = 20;
+	private int canvasBlue = 20;
+	private int canvasGreen = 20;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
-		textDisplay = new JTextArea("Click \"Draw!\" when ready");
+		textDisplay = new JTextArea(
+				"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
+		userEntry = new JTextField();
 		createButtons();
 	}
 
@@ -43,14 +52,14 @@ public class ShapePanel extends JPanel {
 			arrangeLayout(j);
 		}
 		createDrawButton();
-		createTextField(); 
+		createTextAreas();
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(0, 0, 0));
+		g.setColor(new Color(canvasRed, canvasBlue, canvasGreen));
 		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 	}
 
@@ -137,17 +146,102 @@ public class ShapePanel extends JPanel {
 		yLoc = BUTTON_HT + 40;
 	}
 
-	private void createTextField() {
+	private void createTextAreas() {
 		textDisplay.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
+		userEntry.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
 		// this.getPreferredSize().width - xLoc == 1080
-		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
-		textDisplay.setFont(new Font("Times New Roman", 1, 16));
+		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 40));
+		yLoc += 50;
+		userEntry.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
 		yLoc += 40;
+		textDisplay.setFont(new Font("Times New Roman", 1, 16));
+		userEntry.setFont(new Font("Times New Roman", 1, 16));
+		textDisplay.setEditable(false);
 		this.add(textDisplay);
+		this.add(userEntry);
 	}
 
 	public void drawShapes() {
 		boolean retry = true;
+		if (userEntry.getText().equals("")) {
+			textDisplay.setText("No numbers were entered! Try again.");
+			textDisplay.update(textDisplay.getGraphics());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			}
+			textDisplay.setText("Choose rgb color in the panel below: input 3 integers; each between 0 and 255 "
+					+ "(with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
+			textDisplay.update(textDisplay.getGraphics());
+			return;
+		}
+		Scanner sc = new Scanner(userEntry.getText());
+		try {
+			int x = 0;
+			while (sc.hasNext() && x < 3) {
+				x++;
+				String currentColor = "red";
+				if (x == 2) {
+					currentColor = "green";
+				} else if (x == 3) {
+					currentColor = "blue";
+				}
+				int color = Integer.parseInt(sc.next());
+				// Error scenario 1
+				if (color < 0 || color > 255) {
+					sc.close();
+					textDisplay.setText("The chosen " + currentColor + " value was out of range, please try again");
+					textDisplay.update(textDisplay.getGraphics());
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+					}
+					textDisplay.setText("Choose rgb color in the panel below: input 3 integers; each between 0 and 255 "
+							+ "(with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
+					textDisplay.update(textDisplay.getGraphics());
+					return;
+				}
+				if (x == 1) {
+					canvasRed = color;
+				} else if (x == 2) {
+					canvasGreen = color;
+				} else if (x == 3) {
+					canvasBlue = color;
+				}
+			}
+			// Error scenario 2
+			if (x != 3) {
+				sc.close();
+				textDisplay.setText("Not enough integers were entered, please try again");
+				textDisplay.update(textDisplay.getGraphics());
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+				}
+				textDisplay.setText("Choose rgb color in the panel below: input 3 integers; each between 0 and 255 "
+						+ "(with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
+				textDisplay.update(textDisplay.getGraphics());
+				return;
+			}
+			Graphics g = this.getGraphics();
+			g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+			g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+		} catch (NumberFormatException e) {
+			// Error scenario 3
+			textDisplay.setText("An integer number was not entered, please try again.");
+			textDisplay.update(textDisplay.getGraphics());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			}
+			textDisplay.setText("Choose rgb color in the panel below: input 3 integers; each between 0 and 255 "
+					+ "(with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
+			textDisplay.update(textDisplay.getGraphics());
+			return;
+		}
+		sc.close();
+
+		retry = true;
 		for (JButton j : buttonList) {
 			ActivateBorder border = (ActivateBorder) j.getBorder();
 			if (border.getActivated()) {
