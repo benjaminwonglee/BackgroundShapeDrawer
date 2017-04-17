@@ -1,6 +1,11 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -20,8 +26,8 @@ public class ShapePanel extends JPanel {
 	private int xLoc = 20;
 	private int yLoc = 20;
 
-	public ShapePanel(Dimension frameSize) {
-		this.setPreferredSize(frameSize);
+	public ShapePanel() {
+		this.setPreferredSize(new Dimension(1500, 1000));
 		createButtons();
 		this.setLayout(null);
 	}
@@ -32,6 +38,43 @@ public class ShapePanel extends JPanel {
 		for (JButton j : buttonList) {
 			arrangeLayout(j);
 		}
+		createDrawButton();
+	}
+
+	private void createDrawButton() {
+		// Add Draw! JButton
+		JButton draw = new JButton();
+		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		draw.setBounds(new Rectangle(xLoc, 20, this.getPreferredSize().width - xLoc - 20, BUTTON_HT));
+		draw.setBorder(new Border() {
+			@Override
+			public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
+				g.setColor(new Color(100, 200, 100));
+				g.setFont(new Font("Georgia", 1, 44));
+				g.drawString("Draw!", wd / 2 - (g.getFontMetrics().stringWidth("Draw!") / 2), ht / 2 + 14);
+				for (int i = 0; i < 5; i++) {
+					g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
+				}
+			}
+
+			@Override
+			public boolean isBorderOpaque() {
+				return false;
+			}
+
+			@Override
+			public Insets getBorderInsets(Component arg0) {
+				return new Insets(0, 0, 0, 0);
+			}
+		});
+		draw.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		this.add(draw);
 	}
 
 	public void defineButtons() {
@@ -79,6 +122,10 @@ public class ShapePanel extends JPanel {
 			yLoc = 20;
 		}
 		this.add(j);
+	}
+
+	public void drawShapes() {
+
 	}
 
 }

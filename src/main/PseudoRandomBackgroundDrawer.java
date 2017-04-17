@@ -7,9 +7,10 @@ import javax.swing.JFrame;
 public class PseudoRandomBackgroundDrawer {
 	public PseudoRandomBackgroundDrawer() {
 		JFrame frame = new JFrame();
-		ShapePanel sp = new ShapePanel(frame.getPreferredSize());
+		ShapePanel sp = new ShapePanel();
 		frame.add(sp);
 		setFrameProperties(frame);
+		sp.drawShapes();
 	}
 
 	private void setFrameProperties(JFrame frame) {
