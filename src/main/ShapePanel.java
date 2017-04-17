@@ -14,7 +14,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 public class ShapePanel extends JPanel {
@@ -26,12 +26,14 @@ public class ShapePanel extends JPanel {
 	private List<JButton> buttonList;
 	private int xLoc = 20;
 	private int yLoc = 20;
+	private JTextArea textDisplay;
 	private Rectangle canvasSize;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
+		this.setLayout(null); // Important for specifying own layout preferences
+		textDisplay = new JTextArea("Click \"Draw!\" when ready");
 		createButtons();
-		this.setLayout(null);
 	}
 
 	private void createButtons() {
@@ -41,44 +43,15 @@ public class ShapePanel extends JPanel {
 			arrangeLayout(j);
 		}
 		createDrawButton();
+		createTextField(); 
+		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
+				this.getPreferredSize().height - yLoc - 100);
 	}
 
-	private void createDrawButton() {
-		// Add Draw! JButton
-		JButton draw = new JButton();
-		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		draw.setBounds(new Rectangle(xLoc, 20, this.getPreferredSize().width - xLoc - 20, BUTTON_HT));
-		draw.setBorder(new Border() {
-			@Override
-			public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
-				g.setColor(new Color(100, 200, 100));
-				g.setFont(new Font("Georgia", 1, 44));
-				g.drawString("Draw!", wd / 2 - (g.getFontMetrics().stringWidth("Draw!") / 2), ht / 2 + 14);
-				for (int i = 0; i < 5; i++) {
-					g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
-				}
-			}
-
-			@Override
-			public boolean isBorderOpaque() {
-				return false;
-			}
-
-			@Override
-			public Insets getBorderInsets(Component arg0) {
-				return new Insets(0, 0, 0, 0);
-			}
-		});
-		draw.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				drawShapes();
-			}
-		});
-		this.add(draw);
-		// Tested canvas size. It is correct.
-		canvasSize = new Rectangle(xLoc, 40 + BUTTON_HT, this.getPreferredSize().width - xLoc - 20,
-				this.getPreferredSize().height - BUTTON_HT - 140);
+	@Override
+	public void paintComponent(Graphics g) {
+		g.setColor(new Color(0, 0, 0));
+		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 	}
 
 	public void defineButtons() {
@@ -128,27 +101,71 @@ public class ShapePanel extends JPanel {
 		this.add(j);
 	}
 
+	private void createDrawButton() {
+		// Add Draw! JButton
+		JButton draw = new JButton();
+		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		draw.setBounds(new Rectangle(xLoc, 20, this.getPreferredSize().width - xLoc - 20, BUTTON_HT));
+		draw.setBorder(new Border() {
+			@Override
+			public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
+				g.setColor(new Color(100, 200, 100));
+				g.setFont(new Font("Georgia", 1, 44));
+				g.drawString("Draw!", wd / 2 - (g.getFontMetrics().stringWidth("Draw!") / 2), ht / 2 + 14);
+				for (int i = 0; i < 5; i++) {
+					g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
+				}
+			}
+
+			@Override
+			public boolean isBorderOpaque() {
+				return false;
+			}
+
+			@Override
+			public Insets getBorderInsets(Component arg0) {
+				return new Insets(0, 0, 0, 0);
+			}
+		});
+		draw.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				drawShapes();
+			}
+		});
+		this.add(draw);
+		yLoc = BUTTON_HT + 40;
+	}
+
+	private void createTextField() {
+		textDisplay.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
+		// this.getPreferredSize().width - xLoc == 1080
+		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
+		textDisplay.setFont(new Font("Times New Roman", 1, 16));
+		yLoc += 40;
+		this.add(textDisplay);
+	}
+
 	public void drawShapes() {
-		JTextField display = new JTextField();
 		boolean retry = true;
 		for (JButton j : buttonList) {
 			ActivateBorder border = (ActivateBorder) j.getBorder();
 			if (border.getActivated()) {
 				// Keep retrying until user enters integers
 				while (retry) {
-					display.setText("How many " + border.getLabel().toLowerCase() + "s: ");
+					textDisplay.setText("How many " + border.getLabel().toLowerCase() + "s: ");
 					String s = "";
 					try {
 						int input = Integer.parseInt(s);
 						if (input > 10) {
-							display.setText("That's too many!");
+							textDisplay.setText("That's too many!");
 						} else if (input < 0) {
-							display.setText("That number's too little!");
+							textDisplay.setText("That number's too little!");
 						} else {
 							retry = false;
 						}
 					} catch (NumberFormatException e) {
-						display.setText("You didn't enter an integer number!");
+						textDisplay.setText("You didn't enter an integer number!");
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e1) {
