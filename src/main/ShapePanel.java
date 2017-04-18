@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import shapes.*;
+
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
 
@@ -37,6 +39,7 @@ public class ShapePanel extends JPanel {
 	private int canvasGreen = 20;
 
 	private ArrayList<String> activated;
+	private ArrayList<Shape> shapes;
 
 	// Button response booleans
 	private boolean changeBackground = false;
@@ -48,6 +51,7 @@ public class ShapePanel extends JPanel {
 		textDisplay = new JTextArea("Choose buttons then either change the background or draw shapes");
 		userInput = new JTextField();
 		activated = new ArrayList<String>();
+		shapes = new ArrayList<Shape>();
 		createButtons();
 	}
 
@@ -211,7 +215,6 @@ public class ShapePanel extends JPanel {
 		textDisplay.setText(
 				"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values. \nClick \"OK!\" when ready");
 		textDisplay.update(textDisplay.getGraphics());
-		System.out.println("Hey hey hey hey hey");
 	}
 
 	public void changeBackground() {
@@ -229,9 +232,7 @@ public class ShapePanel extends JPanel {
 
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
-	}
-
-	public void drawShapes() {
+		
 		// Add activated shapes
 		this.activated = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
@@ -243,24 +244,35 @@ public class ShapePanel extends JPanel {
 		}
 		userInput.setText("");
 		userInput.update(userInput.getGraphics());
+		userInputResponse();
+	}
+
+	public void drawShapes() {
 		if (activated.size() > 0) {
 			textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
 			textDisplay.update(textDisplay.getGraphics());
 			if (!userInput.getText().equals("")) {
 				try {
 					int input = Integer.parseInt(userInput.getText());
-					if (input > 10) {
-						textDisplay.setText("That's too many!");
-						textDisplay.update(textDisplay.getGraphics());
-						return;
-					} else if (input < 0) {
-						textDisplay.setText("That number's too little!");
+					if (input > 20 || input <= 0) {
+						textDisplay.setText("Please enter a number that is less than 21 and greater than 0");
 						textDisplay.update(textDisplay.getGraphics());
 						return;
 					}
 					// Success
+					System.out.println("Success!");
+					createShape(activated.get(0), input);
+					activated.remove(activated.get(0));
+					if (!activated.isEmpty()) {
+						textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+						textDisplay.update(textDisplay.getGraphics());
+					} else {
+						textDisplay.setText("And..... Draw!");
+						textDisplay.update(textDisplay.getGraphics());
+					}
 				} catch (NumberFormatException e) {
 					textDisplay.setText("You didn't enter an integer number!");
+					textDisplay.update(textDisplay.getGraphics());
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e1) {
@@ -272,9 +284,54 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
+	private void createShape(String shapeName, int amount) {
+		if (shapeName.equalsIgnoreCase("circle")) {
+			Circle c = new Circle();
+			c.setAmount(amount);
+			shapes.add(c);
+		} else if (shapeName.equalsIgnoreCase("ellipse")) {
+			Ellipse e = new Ellipse();
+			e.setAmount(amount);
+			shapes.add(e);
+		} else if (shapeName.equalsIgnoreCase("hexagon")) {
+			Hexagon h = new Hexagon();
+			h.setAmount(amount);
+			shapes.add(h);
+		} else if (shapeName.equalsIgnoreCase("lightning")) {
+			Lightning l = new Lightning();
+			l.setAmount(amount);
+			shapes.add(l);
+		} else if (shapeName.equalsIgnoreCase("octagon")) {
+			Octagon o = new Octagon();
+			o.setAmount(amount);
+			shapes.add(o);
+		} else if (shapeName.equalsIgnoreCase("polygon")) {
+			Polygon p = new Polygon();
+			p.setAmount(amount);
+			shapes.add(p);
+		} else if (shapeName.equalsIgnoreCase("rectangle")) {
+			shapes.Rectangle r = new shapes.Rectangle();
+			r.setAmount(amount);
+			shapes.add(r);
+		} else if (shapeName.equalsIgnoreCase("square")) {
+			Square s = new Square();
+			s.setAmount(amount);
+			shapes.add(s);
+		} else if (shapeName.equalsIgnoreCase("star")) {
+			Star s = new Star();
+			s.setAmount(amount);
+			shapes.add(s);
+		} else if (shapeName.equalsIgnoreCase("triangle")) {
+			Triangle t = new Triangle();
+			t.setAmount(amount);
+			shapes.add(t);
+		}
+	}
+
 	private void userInputResponse() {
 		if (changeBackground) {
 			changeBackground = false;
+			drawShapes = false;
 			changeBackground();
 		} else if (drawShapes) {
 			drawShapes();

@@ -26,5 +26,4 @@ public class Star extends ShapeAbstract implements Shape{
 	public String name() {
 		return "star";
 	}
-	
 }

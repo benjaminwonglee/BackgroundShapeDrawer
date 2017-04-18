@@ -26,5 +26,4 @@ public class Circle extends ShapeAbstract implements Shape{
 	public String name() {
 		return "circle";
 	}
-
 }

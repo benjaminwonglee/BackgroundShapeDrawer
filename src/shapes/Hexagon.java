@@ -26,5 +26,4 @@ public class Hexagon extends ShapeAbstract implements Shape{
 	public String name() {
 		return "hexagon";
 	}
-
 }

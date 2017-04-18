@@ -26,5 +26,4 @@ public class Ellipse extends ShapeAbstract implements Shape{
 	public String name() {
 		return "ellipse";
 	}
-
 }

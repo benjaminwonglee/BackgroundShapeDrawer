@@ -26,5 +26,4 @@ public class Polygon extends ShapeAbstract implements Shape {
 	public String name() {
 		return "polygon";
 	}
-
 }

@@ -26,5 +26,4 @@ public class Lightning extends ShapeAbstract implements Shape{
 	public String name() {
 		return "lightning";
 	}
-
 }

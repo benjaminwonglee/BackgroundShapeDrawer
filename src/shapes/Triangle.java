@@ -2,17 +2,16 @@ package shapes;
 
 import java.awt.Point;
 
-public class Triangle extends ShapeAbstract implements Shape{
+public class Triangle extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Point[] xPointMap() {
-		
 		return null;
 	}
 
@@ -26,5 +25,4 @@ public class Triangle extends ShapeAbstract implements Shape{
 	public String name() {
 		return "triangle";
 	}
-
 }

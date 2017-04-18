@@ -26,7 +26,4 @@ public class Square extends ShapeAbstract implements Shape{
 	public String name() {
 		return "square";
 	}
-	
-	
-
 }
