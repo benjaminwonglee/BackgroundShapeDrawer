@@ -29,29 +29,32 @@ public class ShapePanel extends JPanel {
 	private int xLoc = 20;
 	private int yLoc = 20;
 	private JTextArea textDisplay;
-	private JTextField userEntry;
+	private JTextField userInput;
 	private Rectangle canvasSize;
 
 	private int canvasRed = 20;
 	private int canvasBlue = 20;
 	private int canvasGreen = 20;
 
+	private ArrayList<String> activated;
+
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
 		textDisplay = new JTextArea(
 				"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values. \nClick \"Draw!\" when ready");
-		userEntry = new JTextField();
+		userInput = new JTextField();
+		activated = new ArrayList<String>();
 		createButtons();
 	}
 
-	private void createButtons() {
+	public void createButtons() {
 		buttonList = new ArrayList<JButton>();
 		defineButtons();
 		for (JButton j : buttonList) {
 			arrangeLayout(j);
 		}
-		createDrawButton();
+		createOptionsButtons();
 		createTextAreas();
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
@@ -63,7 +66,7 @@ public class ShapePanel extends JPanel {
 		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 	}
 
-	public void defineButtons() {
+	private void defineButtons() {
 		JButton circle = setButtonDefaults("Circle");
 		JButton ellipse = setButtonDefaults("Ellipse");
 		JButton hexagon = setButtonDefaults("Hexagon");
@@ -110,60 +113,99 @@ public class ShapePanel extends JPanel {
 		this.add(j);
 	}
 
-	private void createDrawButton() {
-		// Add Draw! JButton
-		JButton draw = new JButton();
-		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		draw.setBounds(new Rectangle(xLoc, 20, this.getPreferredSize().width - xLoc - 20, BUTTON_HT));
-		draw.setBorder(new Border() {
+	private void createOptionsButtons() {
+		// Add Change Background Button
+		int width = (this.getPreferredSize().width - xLoc - 30) / 2;
+		JButton changeBackground = new JButton();
+		changeBackground.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		changeBackground.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
+		changeBackground.setBorder(new OptionBorder("Change Background"));
+		changeBackground.addActionListener(new ActionListener() {
 			@Override
-			public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
-				g.setColor(new Color(100, 200, 100));
-				g.setFont(new Font("Georgia", 1, 44));
-				g.drawString("Draw!", wd / 2 - (g.getFontMetrics().stringWidth("Draw!") / 2), ht / 2 + 14);
-				for (int i = 0; i < 5; i++) {
-					g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
-				}
-			}
-
-			@Override
-			public boolean isBorderOpaque() {
-				return false;
-			}
-
-			@Override
-			public Insets getBorderInsets(Component arg0) {
-				return new Insets(0, 0, 0, 0);
+			public void actionPerformed(ActionEvent e) {
+				changeBackground();
 			}
 		});
+		xLoc += (width + 20);
+
+		// Add Draw Shapes Button
+		JButton draw = new JButton();
+		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		draw.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
+		draw.setBorder(new OptionBorder("Draw Shapes"));
 		draw.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				drawShapes();
 			}
 		});
+
+		this.add(changeBackground);
 		this.add(draw);
+
+		xLoc -= (width + 20);
 		yLoc = BUTTON_HT + 40;
+	}
+
+	private class OptionBorder implements Border {
+		private String label;
+
+		public OptionBorder(String label) {
+			this.label = label;
+		}
+
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
+			g.setColor(new Color(100, 200, 100));
+			g.setFont(new Font("Georgia", 1, 44));
+			g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
+			for (int i = 0; i < 5; i++) {
+				g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
+			}
+		}
+
+		@Override
+		public boolean isBorderOpaque() {
+			return false;
+		}
+
+		@Override
+		public Insets getBorderInsets(Component arg0) {
+			return new Insets(0, 0, 0, 0);
+		}
+
 	}
 
 	private void createTextAreas() {
 		textDisplay.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
-		userEntry.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
-		// this.getPreferredSize().width - xLoc == 1080
 		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 40));
 		yLoc += 50;
-		userEntry.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 30));
+
+		userInput.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
+		userInput.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 90, 30));
+		JButton ok = new JButton("OK!");
+		ok.setBounds(new Rectangle(this.getPreferredSize().width - 90, yLoc - 5, 70, 30));
+		ok.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				userInputResponse();
+			}
+		});
 		yLoc += 40;
+
 		textDisplay.setFont(new Font("Times New Roman", 1, 16));
-		userEntry.setFont(new Font("Times New Roman", 1, 16));
 		textDisplay.setEditable(false);
+
+		userInput.setFont(new Font("Times New Roman", 1, 16));
+		ok.setFont(new Font("Times New Roman", 1, 14));
+
 		this.add(textDisplay);
-		this.add(userEntry);
+		this.add(userInput);
+		this.add(ok);
 	}
 
-	public void drawShapes() {
-		boolean retry = true;
-		if (userEntry.getText().equals("")) {
+	public void changeBackground() {
+		if (userInput.getText().equals("")) {
 			textDisplay.setText("No numbers were entered! Try again.");
 			textDisplay.update(textDisplay.getGraphics());
 			try {
@@ -175,7 +217,54 @@ public class ShapePanel extends JPanel {
 			textDisplay.update(textDisplay.getGraphics());
 			return;
 		}
-		Scanner sc = new Scanner(userEntry.getText());
+		chooseBackgroundColour();
+	}
+
+	public void drawShapes() {
+		// Add activated shapes
+		this.activated = new ArrayList<String>();
+		for (int i = 0; i < buttonList.size(); i++) {
+			ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
+			if (border.getActivated()) {
+				String name = border.getLabel();
+				activated.add(name);
+			}
+		}
+		userInput.setText("");
+		userInput.update(userInput.getGraphics());
+		userInputResponse();
+	}
+
+	private void userInputResponse() {
+		if (activated.size() > 0) {
+			textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+			textDisplay.update(textDisplay.getGraphics());
+			if (!userInput.getText().equals("")) {
+				try {
+					int input = Integer.parseInt(userInput.getText());
+					if (input > 10) {
+						textDisplay.setText("That's too many!");
+						textDisplay.update(textDisplay.getGraphics());
+						return;
+					} else if (input < 0) {
+						textDisplay.setText("That number's too little!");
+						textDisplay.update(textDisplay.getGraphics());
+						return;
+					}
+					// Success
+				} catch (NumberFormatException e) {
+					textDisplay.setText("You didn't enter an integer number!");
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+					}
+				}
+			}
+		}
+	}
+
+	private void chooseBackgroundColour() {
+		Scanner sc = new Scanner(userInput.getText());
 		try {
 			int x = 0;
 			while (sc.hasNext() && x < 3) {
@@ -240,34 +329,5 @@ public class ShapePanel extends JPanel {
 			return;
 		}
 		sc.close();
-
-		retry = true;
-		for (JButton j : buttonList) {
-			ActivateBorder border = (ActivateBorder) j.getBorder();
-			if (border.getActivated()) {
-				// Keep retrying until user enters integers
-				while (retry) {
-					textDisplay.setText("How many " + border.getLabel().toLowerCase() + "s: ");
-					String s = "";
-					try {
-						int input = Integer.parseInt(s);
-						if (input > 10) {
-							textDisplay.setText("That's too many!");
-						} else if (input < 0) {
-							textDisplay.setText("That number's too little!");
-						} else {
-							retry = false;
-						}
-					} catch (NumberFormatException e) {
-						textDisplay.setText("You didn't enter an integer number!");
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e1) {
-						}
-						retry = true;
-					}
-				}
-			}
-		}
 	}
 }
