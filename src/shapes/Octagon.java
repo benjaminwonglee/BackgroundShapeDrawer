@@ -7,10 +7,11 @@ import java.awt.Point;
 public class Octagon extends ShapeAbstract implements Shape {
 
 	@Override
-	public void drawShape(Graphics g, Color c) {
+	public void drawShape(Graphics g, Color c, java.awt.Rectangle canvasSize) {
 		// TODO Auto-generated method stub
-
+		
 	}
+	
 
 	@Override
 	public int[] xPointMap() {

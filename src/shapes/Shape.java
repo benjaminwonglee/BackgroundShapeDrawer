@@ -2,10 +2,9 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 
 public interface Shape {
-	public void drawShape(Graphics g, Color c);
+	public void drawShape(Graphics g, Color c, java.awt.Rectangle canvasSize);
 
 	/**
 	 * Makes a random point array. Some shapes should only have one point; the
@@ -24,4 +23,5 @@ public interface Shape {
 	public int[] yPointMap();
 
 	public String name();
+
 }

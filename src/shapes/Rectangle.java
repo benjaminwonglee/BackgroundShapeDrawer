@@ -7,9 +7,9 @@ import java.awt.Point;
 public class Rectangle extends ShapeAbstract implements Shape {
 
 	@Override
-	public void drawShape(Graphics g, Color c) {
+	public void drawShape(Graphics g, Color c, java.awt.Rectangle canvasSize) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

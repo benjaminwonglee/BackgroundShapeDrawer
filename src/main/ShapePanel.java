@@ -329,8 +329,9 @@ public class ShapePanel extends JPanel {
 
 	private void draw() {
 		for (Shape s : shapes) {
-			s.drawShape(getGraphics(), outlineColor);
+			s.drawShape(getGraphics(), outlineColor, canvasSize);
 		}
+		shapes = new ArrayList<Shape>();
 	}
 
 	private void userInputResponse() {
