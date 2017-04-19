@@ -46,6 +46,7 @@ public class ShapePanel extends JPanel {
 	// Button response booleans
 	private boolean changeBackground = false;
 	private boolean drawShapes = false;
+	private boolean shapeColour = false;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -125,7 +126,7 @@ public class ShapePanel extends JPanel {
 
 	private void createOptionsButtons() {
 		// Add Change Background Button
-		int width = (this.getPreferredSize().width - xLoc - 30) / 2;
+		int width = (this.getPreferredSize().width - xLoc - 30) / 4;
 		JButton changeBackground = new JButton();
 		changeBackground.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
 		changeBackground.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
@@ -135,6 +136,20 @@ public class ShapePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				changeBackgroundButtonResponse();
 			}
+		});
+		xLoc += (width + 20);
+
+		// Add Choose Shape Colour Button
+		JButton shapeColour = new JButton();
+		shapeColour.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		shapeColour.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
+		shapeColour.setBorder(new OptionBorder("Shape Colour"));
+		shapeColour.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				shapeColourButtonResponse();
+			}
+
 		});
 		xLoc += (width + 20);
 
@@ -151,9 +166,10 @@ public class ShapePanel extends JPanel {
 		});
 
 		this.add(changeBackground);
+		this.add(shapeColour);
 		this.add(draw);
 
-		xLoc -= (width + 20);
+		xLoc -= ((width * 2) + 40);
 		yLoc = BUTTON_HT + 40;
 	}
 
@@ -167,7 +183,7 @@ public class ShapePanel extends JPanel {
 		@Override
 		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
 			g.setColor(new Color(100, 200, 100));
-			g.setFont(new Font("Georgia", 1, 44));
+			g.setFont(new Font("Georgia", 1, 22));
 			g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
 			for (int i = 0; i < 5; i++) {
 				g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
@@ -216,7 +232,7 @@ public class ShapePanel extends JPanel {
 	public void changeBackgroundButtonResponse() {
 		this.changeBackground = true;
 		textDisplay.setText(
-				"Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (with spaces in between them) for red, green, blue values. \nClick \"OK!\" when ready");
+				"Changing background color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated)\nfor red, green, blue values. Click \"OK!\" when ready");
 		textDisplay.update(textDisplay.getGraphics());
 	}
 
@@ -231,6 +247,13 @@ public class ShapePanel extends JPanel {
 			return;
 		}
 		chooseBackgroundColour();
+	}
+
+	public void shapeColourButtonResponse() {
+		this.shapeColour = true;
+		textDisplay.setText(
+				"Changing outline color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated)\nfor red, green, blue values. Click \"OK!\" when ready");
+		textDisplay.update(textDisplay.getGraphics());
 	}
 
 	public void drawShapesButtonResponse() {
@@ -336,15 +359,23 @@ public class ShapePanel extends JPanel {
 
 	private void userInputResponse() {
 		if (changeBackground) {
-			changeBackground = false;
 			drawShapes = false;
+			changeBackground = false;
+			changeBackground();
+		} else if (shapeColour) {
+			drawShapes = false;
+			changeBackground = false;
 			changeBackground();
 		} else if (drawShapes) {
+			changeBackground = false;
 			drawShapes();
 		}
 	}
 
 	private void chooseBackgroundColour() {
+		boolean localShapeColour = shapeColour;
+		shapeColour = false;
+
 		Scanner sc = new Scanner(userInput.getText());
 		try {
 			int x = 0;
@@ -379,9 +410,14 @@ public class ShapePanel extends JPanel {
 				textDisplay.update(textDisplay.getGraphics());
 				return;
 			}
-			Graphics g = this.getGraphics();
-			g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-			g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+			// Check if we are changing the shape colour or background colour
+			if (!localShapeColour) {
+				Graphics g = this.getGraphics();
+				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+			} else {
+				outlineColor = new Color(canvasRed, canvasGreen, canvasBlue);
+			}
 		} catch (NumberFormatException e) {
 			// Error scenario 3
 			textDisplay.setText("An integer number was not entered, please try again.");
