@@ -34,12 +34,14 @@ public class ShapePanel extends JPanel {
 	private JTextField userInput;
 	private Rectangle canvasSize;
 
-	private int canvasRed = 20;
-	private int canvasBlue = 20;
-	private int canvasGreen = 20;
+	private int canvasRed = 0;
+	private int canvasBlue = 0;
+	private int canvasGreen = 0;
 
 	private ArrayList<String> activated;
 	private ArrayList<Shape> shapes;
+
+	private Color outlineColor;
 
 	// Button response booleans
 	private boolean changeBackground = false;
@@ -52,6 +54,7 @@ public class ShapePanel extends JPanel {
 		userInput = new JTextField();
 		activated = new ArrayList<String>();
 		shapes = new ArrayList<Shape>();
+		outlineColor = new Color(200, 0, 0);
 		createButtons();
 	}
 
@@ -232,7 +235,7 @@ public class ShapePanel extends JPanel {
 
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
-		
+
 		// Add activated shapes
 		this.activated = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
@@ -260,7 +263,6 @@ public class ShapePanel extends JPanel {
 						return;
 					}
 					// Success
-					System.out.println("Success!");
 					createShape(activated.get(0), input);
 					activated.remove(activated.get(0));
 					if (!activated.isEmpty()) {
@@ -273,13 +275,10 @@ public class ShapePanel extends JPanel {
 				} catch (NumberFormatException e) {
 					textDisplay.setText("You didn't enter an integer number!");
 					textDisplay.update(textDisplay.getGraphics());
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e1) {
-					}
 				}
 			}
 		} else {
+			draw();
 			drawShapes = false;
 		}
 	}
@@ -325,6 +324,12 @@ public class ShapePanel extends JPanel {
 			Triangle t = new Triangle();
 			t.setAmount(amount);
 			shapes.add(t);
+		}
+	}
+
+	private void draw() {
+		for (Shape s : shapes) {
+			s.drawShape(getGraphics(), outlineColor);
 		}
 	}
 

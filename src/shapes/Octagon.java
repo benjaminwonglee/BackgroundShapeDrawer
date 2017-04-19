@@ -1,23 +1,25 @@
 package shapes;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 
 public class Octagon extends ShapeAbstract implements Shape {
 
 	@Override
-	public void drawShape() {
+	public void drawShape(Graphics g, Color c) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Point[] xPointMap() {
+	public int[] xPointMap() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Point[] yPointMap() {
+	public int[] yPointMap() {
 		// TODO Auto-generated method stub
 		return null;
 	}

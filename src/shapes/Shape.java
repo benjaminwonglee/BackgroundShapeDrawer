@@ -1,13 +1,27 @@
 package shapes;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 
 public interface Shape {
-	public void drawShape();
+	public void drawShape(Graphics g, Color c);
 
-	public Point[] xPointMap();
+	/**
+	 * Makes a random point array. Some shapes should only have one point; the
+	 * beginning point. Some shapes have determined points based on one point.
+	 *
+	 * @return An array of all the x points on the shape
+	 */
+	public int[] xPointMap();
 
-	public Point[] yPointMap();
-	
+	/**
+	 * Makes a random point map. Some shapes should only have one point; the
+	 * beginning point. Some shapes have determined points based on one point.
+	 *
+	 * @return An array of all the y points on the shape
+	 */
+	public int[] yPointMap();
+
 	public String name();
 }
