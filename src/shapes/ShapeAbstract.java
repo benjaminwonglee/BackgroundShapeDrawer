@@ -3,7 +3,6 @@ package shapes;
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private static java.awt.Rectangle canvasSize;
-	// TODO: Ask for width and height
 	private static int width = 70;
 	private static int height = 70;
 
@@ -28,7 +27,17 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public void setCanvasSize(java.awt.Rectangle canvasSize) {
-		this.canvasSize = canvasSize;
+		ShapeAbstract.canvasSize = canvasSize;
+	}
+
+	public int generateRandomIntegerX() {
+		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
+		return x;
+	}
+
+	public int generateRandomIntegerY() {
+		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()) + getCanvasSize().getY());
+		return y;
 	}
 
 	public int getWidth() {
@@ -36,7 +45,7 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		ShapeAbstract.width = width;
 	}
 
 	public int getHeight() {
@@ -44,7 +53,7 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		ShapeAbstract.height = height;
 	}
 
 }

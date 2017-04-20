@@ -33,6 +33,7 @@ public class ShapePanel extends JPanel {
 	private JTextArea textDisplay;
 	private JTextField userInput;
 	private Rectangle canvasSize;
+	private int optionButtonWidth;
 
 	private int canvasRed = 0;
 	private int canvasBlue = 0;
@@ -50,6 +51,8 @@ public class ShapePanel extends JPanel {
 	private boolean widthHeight = false;
 	private boolean changeWidth = false;
 	private boolean changeHeight = false;
+
+	private int optionButtonHeight;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -128,25 +131,27 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createOptionsButtons() {
+		int space = 18;
+		Color optColour = new Color(100, 200, 100);
+
 		// Add Change Background Button
-		int width = (this.getPreferredSize().width - xLoc - 70) / 4;
+		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
+		optionButtonHeight = BUTTON_HT/2;
 		JButton changeBackground = new JButton();
-		changeBackground.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		changeBackground.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
-		changeBackground.setBorder(new OptionBorder("Change Background"));
+		changeBackground.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		changeBackground.setBorder(new OptionBorder("Change Background", optColour));
 		changeBackground.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeBackgroundButtonResponse();
 			}
 		});
-		xLoc += (width + 20);
+		xLoc += (optionButtonWidth + space);
 
 		// Add Choose Shape Colour Button
 		JButton shapeColour = new JButton();
-		shapeColour.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		shapeColour.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
-		shapeColour.setBorder(new OptionBorder("Shape Colour"));
+		shapeColour.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		shapeColour.setBorder(new OptionBorder("Shape Colour", optColour));
 		shapeColour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -154,53 +159,53 @@ public class ShapePanel extends JPanel {
 			}
 
 		});
-		xLoc += (width + 20);
+		xLoc += (optionButtonWidth + space);
 
 		// Add Choose Set width & height Button
 		JButton widthHeight = new JButton();
-		widthHeight.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		widthHeight.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
-		widthHeight.setBorder(new OptionBorder("Set Width & Height"));
+		widthHeight.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		widthHeight.setBorder(new OptionBorder("Set Width & Height", optColour));
 		widthHeight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				widthHeightButtonResponse();
 			}
 		});
-		xLoc += (width + 20);
+		xLoc += (optionButtonWidth + space);
 
 		// Add Draw Shapes Button
 		JButton draw = new JButton();
-		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
-		draw.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
-		draw.setBorder(new OptionBorder("Draw Shapes"));
+		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		draw.setBorder(new OptionBorder("Draw Shapes", optColour));
 		draw.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				drawShapesButtonResponse();
 			}
 		});
-		xLoc += (width + 20);
+		xLoc += (optionButtonWidth + space);
 
 		this.add(changeBackground);
 		this.add(shapeColour);
 		this.add(widthHeight);
 		this.add(draw);
 
-		xLoc -= (width * 4) + 80;
-		yLoc = BUTTON_HT + 40;
+		xLoc -= (optionButtonWidth * 4) + (space * 4);
+		yLoc = optionButtonHeight + 40;
 	}
 
 	private class OptionBorder implements Border {
 		private String label;
+		private Color color;
 
-		public OptionBorder(String label) {
+		public OptionBorder(String label, Color c) {
 			this.label = label;
+			this.color = c;
 		}
 
 		@Override
 		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
-			g.setColor(new Color(100, 200, 100));
+			g.setColor(color);
 			g.setFont(new Font("Georgia", 1, 22));
 			g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
 			for (int i = 0; i < 5; i++) {
@@ -219,15 +224,35 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
+	public class SimpleBorder implements Border {
+		@Override
+		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
+			g.setColor(new Color(10, 10, 10));
+			g.drawRect(x, y, wd - 1, ht - 1);
+		}
+
+		@Override
+		public boolean isBorderOpaque() {
+			return false;
+		}
+
+		@Override
+		public Insets getBorderInsets(Component arg0) {
+			return new Insets(0, 0, 0, 0);
+		}
+	}
+
 	private void createTextAreas() {
-		textDisplay.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
-		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 20, 50));
+		int textBoxWidth = this.getPreferredSize().width - xLoc - 20;
+		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth, 50));
+		textDisplay.setBorder(new SimpleBorder());
 		yLoc += 55;
 
-		userInput.setPreferredSize(new Dimension(this.getPreferredSize().width - xLoc, 30));
-		userInput.setBounds(new Rectangle(xLoc, yLoc - 5, this.getPreferredSize().width - xLoc - 90, 30));
+		userInput.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth - optionButtonWidth, 30));
+		userInput.setBorder(new SimpleBorder());
 		JButton ok = new JButton("OK!");
-		ok.setBounds(new Rectangle(this.getPreferredSize().width - 90, yLoc - 5, 70, 30));
+		ok.setBounds(new Rectangle((xLoc + textBoxWidth) - optionButtonWidth + 5, yLoc - 5, optionButtonWidth - 5, 30));
+		ok.setBorder(new SimpleBorder());
 		ok.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -306,7 +331,6 @@ public class ShapePanel extends JPanel {
 		if (!userInput.getText().equals("")) {
 			try {
 				int input = Integer.parseInt(userInput.getText());
-				Circle c = new Circle();
 				if (input < 0 || input > 400) {
 					textDisplay.setText("Please enter an integer between 0 to 400.");
 					textDisplay.update(textDisplay.getGraphics());
@@ -320,10 +344,11 @@ public class ShapePanel extends JPanel {
 						textDisplay.update(textDisplay.getGraphics());
 					} else {
 						textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
-						textDisplay.update(textDisplay.getGraphics());	
+						textDisplay.update(textDisplay.getGraphics());
 					}
 					return;
 				}
+				Circle c = new Circle();
 				if (changeWidth) {
 					c.setWidth(input);
 					changeWidth = false;
