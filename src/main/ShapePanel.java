@@ -286,6 +286,7 @@ public class ShapePanel extends JPanel {
 						return;
 					}
 					// Success
+					System.out.println(activated.get(0));
 					createShape(activated.get(0), input);
 					activated.remove(activated.get(0));
 					if (!activated.isEmpty()) {
@@ -308,52 +309,75 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createShape(String shapeName, int amount) {
-		if (shapeName.equalsIgnoreCase("circle")) {
+		switch (shapeName) {
+		case ("Circle"):
 			Circle c = new Circle();
 			c.setAmount(amount);
+			c.setCanvasSize(canvasSize);
 			shapes.add(c);
-		} else if (shapeName.equalsIgnoreCase("ellipse")) {
+			break;
+		case ("Ellipse"):
 			Ellipse e = new Ellipse();
 			e.setAmount(amount);
+			e.setCanvasSize(canvasSize);
 			shapes.add(e);
-		} else if (shapeName.equalsIgnoreCase("hexagon")) {
+			break;
+		case ("Hexagon"):
 			Hexagon h = new Hexagon();
 			h.setAmount(amount);
+			h.setCanvasSize(canvasSize);
 			shapes.add(h);
-		} else if (shapeName.equalsIgnoreCase("lightning")) {
+			break;
+		case ("Lightning"):
 			Lightning l = new Lightning();
 			l.setAmount(amount);
+			l.setCanvasSize(canvasSize);
 			shapes.add(l);
-		} else if (shapeName.equalsIgnoreCase("octagon")) {
+			break;
+		case ("Octagon"):
 			Octagon o = new Octagon();
 			o.setAmount(amount);
+			o.setCanvasSize(canvasSize);
 			shapes.add(o);
-		} else if (shapeName.equalsIgnoreCase("polygon")) {
+			break;
+		case ("Polygon"):
 			Polygon p = new Polygon();
 			p.setAmount(amount);
+			p.setCanvasSize(canvasSize);
 			shapes.add(p);
-		} else if (shapeName.equalsIgnoreCase("rectangle")) {
+			break;
+		case ("Rectangle"):
 			shapes.Rectangle r = new shapes.Rectangle();
 			r.setAmount(amount);
+			r.setCanvasSize(canvasSize);
 			shapes.add(r);
-		} else if (shapeName.equalsIgnoreCase("square")) {
+			break;
+		case ("Square"):
 			Square s = new Square();
 			s.setAmount(amount);
+			s.setCanvasSize(canvasSize);
 			shapes.add(s);
-		} else if (shapeName.equalsIgnoreCase("star")) {
-			Star s = new Star();
-			s.setAmount(amount);
-			shapes.add(s);
-		} else if (shapeName.equalsIgnoreCase("triangle")) {
+			break;
+		case ("Star"):
+			Star star = new Star();
+			star.setAmount(amount);
+			star.setCanvasSize(canvasSize);
+			shapes.add(star);
+			break;
+		case ("Triangle"):
 			Triangle t = new Triangle();
 			t.setAmount(amount);
+			t.setCanvasSize(canvasSize);
 			shapes.add(t);
+			break;
+		default:
+			break;
 		}
 	}
 
 	private void draw() {
 		for (Shape s : shapes) {
-			s.drawShape(getGraphics(), outlineColor, canvasSize);
+			s.drawShape(getGraphics(), outlineColor);
 		}
 		shapes = new ArrayList<Shape>();
 	}

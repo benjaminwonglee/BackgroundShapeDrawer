@@ -5,20 +5,17 @@ import java.awt.Graphics;
 
 public class Circle extends ShapeAbstract implements Shape {
 
-	java.awt.Rectangle canvasSize;
-	int width = 70;
-
 	@Override
-	public void drawShape(Graphics g, Color c, java.awt.Rectangle canvasSize) {
+	public void drawShape(Graphics g, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
-			this.canvasSize = canvasSize;
+			this.setCanvasSize(getCanvasSize());
 			int x = xPointMap()[0];
 			int y = yPointMap()[0];
 			if (fill()) {
-				g.fillOval(x, y, width, width);
+				g.fillOval(x, y, getWidth(), getWidth());
 			} else {
-				g.drawOval(x, y, width, width);
+				g.drawOval(x, y, getWidth(), getWidth());
 			}
 		}
 	}
@@ -26,14 +23,14 @@ public class Circle extends ShapeAbstract implements Shape {
 	@Override
 	public int[] xPointMap() {
 		int[] points = new int[1];
-		points[0] = (int) (Math.random() * (canvasSize.getWidth() - width) + canvasSize.getX());
+		points[0] = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
 		return points;
 	}
 
 	@Override
 	public int[] yPointMap() {
 		int[] points = new int[1];
-		points[0] = (int) (Math.random() * (canvasSize.getHeight() - width) + canvasSize.getY());
+		points[0] = (int) (Math.random() * (getCanvasSize().getHeight() - getWidth()) + getCanvasSize().getY());
 		return points;
 	}
 

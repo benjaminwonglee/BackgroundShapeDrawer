@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public interface Shape {
-	public void drawShape(Graphics g, Color c, java.awt.Rectangle canvasSize);
+	public void drawShape(Graphics g, Color c);
 
 	/**
 	 * Makes a random point array. Some shapes should only have one point; the
