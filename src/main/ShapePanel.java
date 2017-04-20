@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import borders.OptionBorder;
+import borders.SimpleBorder;
 import shapes.*;
 
 public class ShapePanel extends JPanel {
@@ -136,7 +138,7 @@ public class ShapePanel extends JPanel {
 
 		// Add Change Background Button
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
-		optionButtonHeight = BUTTON_HT/2;
+		optionButtonHeight = BUTTON_HT / 2;
 		JButton changeBackground = new JButton();
 		changeBackground.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
 		changeBackground.setBorder(new OptionBorder("Change Background", optColour));
@@ -192,54 +194,18 @@ public class ShapePanel extends JPanel {
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
 		yLoc = optionButtonHeight + 40;
-	}
 
-	private class OptionBorder implements Border {
-		private String label;
-		private Color color;
-
-		public OptionBorder(String label, Color c) {
-			this.label = label;
-			this.color = c;
-		}
-
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
-			g.setColor(color);
-			g.setFont(new Font("Georgia", 1, 22));
-			g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
-			for (int i = 0; i < 5; i++) {
-				g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
+		// Add Fill Button
+		JButton fill = new JButton();
+		fill.setBounds(new Rectangle(xLoc, 30 + optionButtonHeight, optionButtonWidth, optionButtonHeight));
+		fill.setBorder(new OptionBorder("Fill", optColour));
+		fill.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fillButtonResponse();
 			}
-		}
 
-		@Override
-		public boolean isBorderOpaque() {
-			return false;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component arg0) {
-			return new Insets(0, 0, 0, 0);
-		}
-	}
-
-	public class SimpleBorder implements Border {
-		@Override
-		public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
-			g.setColor(new Color(10, 10, 10));
-			g.drawRect(x, y, wd - 1, ht - 1);
-		}
-
-		@Override
-		public boolean isBorderOpaque() {
-			return false;
-		}
-
-		@Override
-		public Insets getBorderInsets(Component arg0) {
-			return new Insets(0, 0, 0, 0);
-		}
+		});
 	}
 
 	private void createTextAreas() {
@@ -308,6 +274,11 @@ public class ShapePanel extends JPanel {
 		userInput.setText("");
 		userInput.update(userInput.getGraphics());
 		userInputResponse();
+	}
+
+	private void fillButtonResponse() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void userInputResponse() {
