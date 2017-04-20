@@ -2,7 +2,7 @@ package shapes;
 
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
-	private java.awt.Rectangle canvasSize;
+	private static java.awt.Rectangle canvasSize;
 	// TODO: Ask for width and height
 	private int width = 70;
 	private int height = 70;

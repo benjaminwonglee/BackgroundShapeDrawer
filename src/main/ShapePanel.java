@@ -309,65 +309,58 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createShape(String shapeName, int amount) {
+		// Set the static canvas size
+		Circle setCanvas = new Circle();
+		setCanvas.setCanvasSize(canvasSize);
 		switch (shapeName) {
 		case ("Circle"):
 			Circle c = new Circle();
 			c.setAmount(amount);
-			c.setCanvasSize(canvasSize);
 			shapes.add(c);
 			break;
 		case ("Ellipse"):
 			Ellipse e = new Ellipse();
 			e.setAmount(amount);
-			e.setCanvasSize(canvasSize);
 			shapes.add(e);
 			break;
 		case ("Hexagon"):
 			Hexagon h = new Hexagon();
 			h.setAmount(amount);
-			h.setCanvasSize(canvasSize);
 			shapes.add(h);
 			break;
 		case ("Lightning"):
 			Lightning l = new Lightning();
 			l.setAmount(amount);
-			l.setCanvasSize(canvasSize);
 			shapes.add(l);
 			break;
 		case ("Octagon"):
 			Octagon o = new Octagon();
 			o.setAmount(amount);
-			o.setCanvasSize(canvasSize);
 			shapes.add(o);
 			break;
 		case ("Polygon"):
 			Polygon p = new Polygon();
 			p.setAmount(amount);
-			p.setCanvasSize(canvasSize);
 			shapes.add(p);
 			break;
 		case ("Rectangle"):
 			shapes.Rectangle r = new shapes.Rectangle();
 			r.setAmount(amount);
-			r.setCanvasSize(canvasSize);
 			shapes.add(r);
 			break;
 		case ("Square"):
 			Square s = new Square();
 			s.setAmount(amount);
-			s.setCanvasSize(canvasSize);
 			shapes.add(s);
 			break;
 		case ("Star"):
 			Star star = new Star();
 			star.setAmount(amount);
-			star.setCanvasSize(canvasSize);
 			shapes.add(star);
 			break;
 		case ("Triangle"):
 			Triangle t = new Triangle();
 			t.setAmount(amount);
-			t.setCanvasSize(canvasSize);
 			shapes.add(t);
 			break;
 		default:
