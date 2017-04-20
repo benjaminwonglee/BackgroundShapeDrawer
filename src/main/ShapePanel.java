@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import borders.OptionBorder;
 import borders.SimpleBorder;
-import borders.YesNoBorder;
+import borders.TextBorder;
 import shapes.Circle;
 import shapes.Ellipse;
 import shapes.Hexagon;
@@ -67,7 +67,7 @@ public class ShapePanel extends JPanel {
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
-		textDisplay = new JTextArea("Choose buttons then either change the background or draw shapes");
+		textDisplay = new JTextArea();
 		userInput = new JTextField();
 		activated = new ArrayList<String>();
 		shapes = new ArrayList<Shape>();
@@ -212,7 +212,8 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 		JTextArea fillStatus = new JTextArea();
 		fillStatus.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		YesNoBorder fillBorder = new YesNoBorder("");
+		TextBorder fillBorder = new TextBorder("");
+		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
 		if (ShapeAbstract.getFill()) {
 			fillBorder.setText("Yes");
 		} else {
@@ -228,7 +229,7 @@ public class ShapePanel extends JPanel {
 				} else {
 					fillBorder.setText("No");
 				}
-				//ShapePanel.this.repaint();
+				fillStatus.repaint();
 			}
 		});
 		xLoc += (optionButtonWidth + space);
@@ -244,14 +245,14 @@ public class ShapePanel extends JPanel {
 	private void createTextAreas() {
 		int textBoxWidth = this.getPreferredSize().width - xLoc - 20;
 		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth, 50));
-		textDisplay.setBorder(new SimpleBorder());
+		textDisplay.setBorder(new TextBorder("Select buttons, then either change the properties, or draw shapes"));
 		yLoc += 55;
 
 		userInput.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth - optionButtonWidth, 30));
 		userInput.setBorder(new SimpleBorder());
 		JButton ok = new JButton("OK!");
-		ok.setBounds(new Rectangle((xLoc + textBoxWidth) - optionButtonWidth + 5, yLoc - 5, optionButtonWidth - 5, 30));
 		ok.setBorder(new SimpleBorder());
+		ok.setBounds(new Rectangle((xLoc + textBoxWidth) - optionButtonWidth + 5, yLoc - 5, optionButtonWidth - 5, 30));
 		ok.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -259,12 +260,10 @@ public class ShapePanel extends JPanel {
 			}
 		});
 		yLoc += 35;
-
-		textDisplay.setFont(new Font("Times New Roman", 1, 18));
 		textDisplay.setEditable(false);
 
-		userInput.setFont(new Font("Times New Roman", 1, 16));
-		ok.setFont(new Font("Times New Roman", 1, 14));
+		userInput.setFont(new Font("Arial", 1, 18));
+		ok.setFont(new Font("Arial", 1, 18));
 
 		this.add(textDisplay);
 		this.add(userInput);
@@ -273,24 +272,27 @@ public class ShapePanel extends JPanel {
 
 	public void changeBackgroundButtonResponse() {
 		this.changeBackground = true;
-		textDisplay.setText(
-				"Changing background color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated)\nfor red, green, blue values. Click \"OK!\" when ready");
-		textDisplay.update(textDisplay.getGraphics());
+		TextBorder t = (TextBorder) textDisplay.getBorder();
+		t.setText(
+				"Changing background color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
+		textDisplay.repaint();
 	}
 
 	public void shapeColourButtonResponse() {
 		this.shapeColour = true;
-		textDisplay.setText(
-				"Changing outline color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated)\nfor red, green, blue values. Click \"OK!\" when ready");
-		textDisplay.update(textDisplay.getGraphics());
+		TextBorder t = (TextBorder) textDisplay.getBorder();
+		t.setText(
+				"Changing outline color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
+		textDisplay.repaint();
 	}
 
 	private void widthHeightButtonResponse() {
 		this.widthHeight = true;
 		this.changeWidth = true;
 		this.changeHeight = true;
-		textDisplay.setText("Choose width: (enter an integer between 0 to 400) ");
-		textDisplay.update(textDisplay.getGraphics());
+		TextBorder t = (TextBorder) textDisplay.getBorder();
+		t.setText("Choose width: (enter an integer between 0 to 400) ");
+		textDisplay.repaint();
 	}
 
 	public void drawShapesButtonResponse() {
@@ -330,46 +332,49 @@ public class ShapePanel extends JPanel {
 		if (!userInput.getText().equals("")) {
 			try {
 				int input = Integer.parseInt(userInput.getText());
+				TextBorder t = (TextBorder) textDisplay.getBorder();
 				if (input < 0 || input > 400) {
-					textDisplay.setText("Please enter an integer between 0 to 400.");
-					textDisplay.update(textDisplay.getGraphics());
+					t.setText("Please enter an integer between 0 to 400.");
+					textDisplay.repaint();
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 					if (changeWidth) {
-						textDisplay.setText("Choose width: (enter an integer between 0 to 400) ");
-						textDisplay.update(textDisplay.getGraphics());
+						t.setText("Choose width: (enter an integer between 0 to 400) ");
+						textDisplay.repaint();
 					} else {
-						textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
-						textDisplay.update(textDisplay.getGraphics());
+						t.setText("Choose height: (enter an integer between 0 to 400) ");
+						textDisplay.repaint();
 					}
 					return;
 				}
 				if (changeWidth) {
 					ShapeAbstract.setWidth(input);
 					changeWidth = false;
-					textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
-					textDisplay.update(textDisplay.getGraphics());
+					t.setText("Choose height: (enter an integer between 0 to 400) ");
+					textDisplay.repaint();
 				} else if (changeHeight) {
 					ShapeAbstract.setHeight(input);
 					changeHeight = false;
-					textDisplay.setText("Width and height adjusted.");
-					textDisplay.update(textDisplay.getGraphics());
+					t.setText("Width and height adjusted.");
+					textDisplay.repaint();
 					widthHeight = false;
 				}
 			} catch (NumberFormatException e) {
-				textDisplay.setText("You didn't enter an integer number!");
-				textDisplay.update(textDisplay.getGraphics());
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("You didn't enter an integer number!");
+				textDisplay.repaint();
 			}
 		}
 	}
 
 	public void changeBackground() {
+		TextBorder t = (TextBorder) textDisplay.getBorder();
 		if (userInput.getText().equals("")) {
-			textDisplay.setText("No numbers were entered! Try again.");
-			textDisplay.update(textDisplay.getGraphics());
+			t.setText("No numbers were entered! Try again.");
+			textDisplay.repaint();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e1) {
@@ -380,15 +385,16 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawShapes() {
+		TextBorder t = (TextBorder) textDisplay.getBorder();
 		if (activated.size() > 0) {
-			textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
-			textDisplay.update(textDisplay.getGraphics());
+			t.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+			textDisplay.repaint();
 			if (!userInput.getText().equals("")) {
 				try {
 					int input = Integer.parseInt(userInput.getText());
 					if (input > 40 || input <= 0) {
-						textDisplay.setText("Please enter a number that is less than 41 and greater than 0");
-						textDisplay.update(textDisplay.getGraphics());
+						t.setText("Please enter a number that is less than 41 and greater than 0");
+						textDisplay.repaint();
 						return;
 					}
 					// Success
@@ -396,18 +402,18 @@ public class ShapePanel extends JPanel {
 					activated.remove(activated.get(0));
 					if (!activated.isEmpty()) {
 						// Continue. Pressing the ok button restarts this method
-						textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
-						textDisplay.update(textDisplay.getGraphics());
+						t.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+						textDisplay.repaint();
 					} else {
 						// End case
-						textDisplay.setText("And..... Draw!");
-						textDisplay.update(textDisplay.getGraphics());
+						t.setText("And..... Draw!");
+						textDisplay.repaint();
 						draw();
 						drawShapes = false;
 					}
 				} catch (NumberFormatException e) {
-					textDisplay.setText("You didn't enter an integer number!");
-					textDisplay.update(textDisplay.getGraphics());
+					t.setText("You didn't enter an integer number!");
+					textDisplay.repaint();
 				}
 			}
 		}
@@ -480,6 +486,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void chooseBackgroundColour() {
+		TextBorder t = (TextBorder) textDisplay.getBorder();
 		boolean localShapeColour = shapeColour;
 		shapeColour = false;
 
@@ -498,8 +505,8 @@ public class ShapePanel extends JPanel {
 				// Error scenario 1
 				if (color < 0 || color > 255) {
 					sc.close();
-					textDisplay.setText("The chosen " + currentColor + " value was out of range, please try again");
-					textDisplay.update(textDisplay.getGraphics());
+					t.setText("The chosen " + currentColor + " value was out of range, please try again");
+					textDisplay.repaint();
 					return;
 				}
 				if (x == 1) {
@@ -513,8 +520,8 @@ public class ShapePanel extends JPanel {
 			// Error scenario 2
 			if (x != 3) {
 				sc.close();
-				textDisplay.setText("Not enough integers were entered, please try again");
-				textDisplay.update(textDisplay.getGraphics());
+				t.setText("Not enough integers were entered, please try again");
+				textDisplay.repaint();
 				return;
 			}
 			// Check if we are changing the shape colour or background colour
@@ -524,13 +531,13 @@ public class ShapePanel extends JPanel {
 				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 			} else {
 				outlineColor = new Color(canvasRed, canvasGreen, canvasBlue);
-				textDisplay.setText("Outline colour successfully changed");
-				textDisplay.update(textDisplay.getGraphics());
+				t.setText("Outline colour successfully changed");
+				textDisplay.repaint();
 			}
 		} catch (NumberFormatException e) {
 			// Error scenario 3
-			textDisplay.setText("An integer number was not entered, please try again.");
-			textDisplay.update(textDisplay.getGraphics());
+			t.setText("An integer number was not entered, please try again.");
+			textDisplay.repaint();
 			return;
 		}
 		sc.close();

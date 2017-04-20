@@ -24,4 +24,3 @@ public class SimpleBorder implements Border {
 		return new Insets(0, 0, 0, 0);
 	}
 }
-
