@@ -11,7 +11,7 @@ public class Circle extends ShapeAbstract implements Shape {
 			g.setColor(c);
 			int x = generateRandomIntegerX();
 			int y = generateRandomIntegerY();
-			if (fill()) {
+			if (getFill()) {
 				g.fillOval(x, y, getWidth(), getWidth());
 			} else {
 				g.drawOval(x, y, getWidth(), getWidth());

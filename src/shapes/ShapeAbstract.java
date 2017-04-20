@@ -5,13 +5,17 @@ public abstract class ShapeAbstract implements Shape {
 	private static java.awt.Rectangle canvasSize;
 	private static int width = 70;
 	private static int height = 70;
+	private static boolean fill = false;
+	
+	
+	public int generateRandomIntegerX() {
+		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
+		return x;
+	}
 
-	public boolean fill() {
-		double choice = Math.random();
-		if (choice >= 0.5) {
-			return true;
-		}
-		return false;
+	public int generateRandomIntegerY() {
+		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()) + getCanvasSize().getY());
+		return y;
 	}
 
 	public int getAmount() {
@@ -26,34 +30,32 @@ public abstract class ShapeAbstract implements Shape {
 		return canvasSize;
 	}
 
-	public void setCanvasSize(java.awt.Rectangle canvasSize) {
+	public static void setCanvasSize(java.awt.Rectangle canvasSize) {
 		ShapeAbstract.canvasSize = canvasSize;
 	}
 
-	public int generateRandomIntegerX() {
-		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
-		return x;
-	}
-
-	public int generateRandomIntegerY() {
-		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()) + getCanvasSize().getY());
-		return y;
-	}
-
-	public int getWidth() {
+	public static int getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public static void setWidth(int width) {
 		ShapeAbstract.width = width;
 	}
 
-	public int getHeight() {
+	public static int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public static void setHeight(int height) {
 		ShapeAbstract.height = height;
+	}
+
+	public static boolean getFill() {
+		return fill;
+	}
+
+	public static void setFill(boolean fill) {
+		ShapeAbstract.fill = fill;
 	}
 
 }

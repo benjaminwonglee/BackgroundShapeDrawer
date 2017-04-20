@@ -11,7 +11,7 @@ public class Square extends ShapeAbstract implements Shape {
 			g.setColor(c);
 			int x = generateRandomIntegerX();
 			int y = generateRandomIntegerY();
-			if (fill()) {
+			if (getFill()) {
 				g.fillRect(x, y, getWidth(), getWidth());
 			} else {
 				g.drawRect(x, y, getWidth(), getWidth());

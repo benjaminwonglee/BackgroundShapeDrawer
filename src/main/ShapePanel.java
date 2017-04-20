@@ -1,11 +1,9 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +15,21 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import borders.OptionBorder;
 import borders.SimpleBorder;
-import shapes.*;
+import borders.YesNoBorder;
+import shapes.Circle;
+import shapes.Ellipse;
+import shapes.Hexagon;
+import shapes.Lightning;
+import shapes.Octagon;
+import shapes.Polygon;
+import shapes.Shape;
+import shapes.ShapeAbstract;
+import shapes.Square;
+import shapes.Star;
+import shapes.Triangle;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -193,19 +201,44 @@ public class ShapePanel extends JPanel {
 		this.add(draw);
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
-		yLoc = optionButtonHeight + 40;
+		yLoc += optionButtonHeight + space;
 
+		// Row 2
 		// Add Fill Button
 		JButton fill = new JButton();
-		fill.setBounds(new Rectangle(xLoc, 30 + optionButtonHeight, optionButtonWidth, optionButtonHeight));
+		fill.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth + space, optionButtonHeight));
 		fill.setBorder(new OptionBorder("Fill", optColour));
+
+		xLoc += (optionButtonWidth + space);
+		JTextArea fillStatus = new JTextArea();
+		fillStatus.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		YesNoBorder fillBorder = new YesNoBorder("");
+		if (ShapeAbstract.getFill()) {
+			fillBorder.setText("Yes");
+		} else {
+			fillBorder.setText("No");
+		}
+		fillStatus.setBorder(fillBorder);
 		fill.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fillButtonResponse();
+				ShapeAbstract.setFill(!ShapeAbstract.getFill());
+				if (ShapeAbstract.getFill()) {
+					fillBorder.setText("Yes");
+				} else {
+					fillBorder.setText("No");
+				}
+				//ShapePanel.this.repaint();
 			}
-
 		});
+		xLoc += (optionButtonWidth + space);
+
+		this.add(fill);
+		this.add(fillStatus);
+
+		xLoc -= (optionButtonWidth * 2) + (space * 2);
+		yLoc += optionButtonHeight + space;
+
 	}
 
 	private void createTextAreas() {
@@ -276,11 +309,6 @@ public class ShapePanel extends JPanel {
 		userInputResponse();
 	}
 
-	private void fillButtonResponse() {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void userInputResponse() {
 		if (changeBackground) {
 			drawShapes = false;
@@ -319,14 +347,13 @@ public class ShapePanel extends JPanel {
 					}
 					return;
 				}
-				Circle c = new Circle();
 				if (changeWidth) {
-					c.setWidth(input);
+					ShapeAbstract.setWidth(input);
 					changeWidth = false;
 					textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
 					textDisplay.update(textDisplay.getGraphics());
 				} else if (changeHeight) {
-					c.setHeight(input);
+					ShapeAbstract.setHeight(input);
 					changeHeight = false;
 					textDisplay.setText("Width and height adjusted.");
 					textDisplay.update(textDisplay.getGraphics());
@@ -388,8 +415,7 @@ public class ShapePanel extends JPanel {
 
 	private void createShape(String shapeName, int amount) {
 		// Set the static canvas size
-		Circle setCanvas = new Circle();
-		setCanvas.setCanvasSize(canvasSize);
+		ShapeAbstract.setCanvasSize(canvasSize);
 		switch (shapeName) {
 		case ("Circle"):
 			Circle c = new Circle();
