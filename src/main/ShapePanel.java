@@ -280,8 +280,8 @@ public class ShapePanel extends JPanel {
 			if (!userInput.getText().equals("")) {
 				try {
 					int input = Integer.parseInt(userInput.getText());
-					if (input > 20 || input <= 0) {
-						textDisplay.setText("Please enter a number that is less than 21 and greater than 0");
+					if (input > 40 || input <= 0) {
+						textDisplay.setText("Please enter a number that is less than 41 and greater than 0");
 						textDisplay.update(textDisplay.getGraphics());
 						return;
 					}
@@ -289,20 +289,21 @@ public class ShapePanel extends JPanel {
 					createShape(activated.get(0), input);
 					activated.remove(activated.get(0));
 					if (!activated.isEmpty()) {
+						// Continue. Pressing the ok button restarts this method
 						textDisplay.setText("How many " + activated.get(0).toLowerCase() + "s? ");
 						textDisplay.update(textDisplay.getGraphics());
 					} else {
+						// End case
 						textDisplay.setText("And..... Draw!");
 						textDisplay.update(textDisplay.getGraphics());
+						draw();
+						drawShapes = false;
 					}
 				} catch (NumberFormatException e) {
 					textDisplay.setText("You didn't enter an integer number!");
 					textDisplay.update(textDisplay.getGraphics());
 				}
 			}
-		} else {
-			draw();
-			drawShapes = false;
 		}
 	}
 
@@ -417,6 +418,8 @@ public class ShapePanel extends JPanel {
 				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 			} else {
 				outlineColor = new Color(canvasRed, canvasGreen, canvasBlue);
+				textDisplay.setText("Outline colour successfully changed");
+				textDisplay.update(textDisplay.getGraphics());
 			}
 		} catch (NumberFormatException e) {
 			// Error scenario 3

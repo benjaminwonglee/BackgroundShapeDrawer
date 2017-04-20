@@ -17,7 +17,6 @@ public class Circle extends ShapeAbstract implements Shape {
 			int y = yPointMap()[0];
 			if (fill()) {
 				g.fillOval(x, y, width, width);
-				System.out.println("x: " + x);
 			} else {
 				g.drawOval(x, y, width, width);
 			}
