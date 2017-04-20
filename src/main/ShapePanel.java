@@ -47,6 +47,9 @@ public class ShapePanel extends JPanel {
 	private boolean changeBackground = false;
 	private boolean drawShapes = false;
 	private boolean shapeColour = false;
+	private boolean widthHeight = false;
+	private boolean changeWidth = false;
+	private boolean changeHeight = false;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -126,7 +129,7 @@ public class ShapePanel extends JPanel {
 
 	private void createOptionsButtons() {
 		// Add Change Background Button
-		int width = (this.getPreferredSize().width - xLoc - 30) / 4;
+		int width = (this.getPreferredSize().width - xLoc - 70) / 4;
 		JButton changeBackground = new JButton();
 		changeBackground.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
 		changeBackground.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
@@ -153,6 +156,19 @@ public class ShapePanel extends JPanel {
 		});
 		xLoc += (width + 20);
 
+		// Add Choose Set width & height Button
+		JButton widthHeight = new JButton();
+		widthHeight.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
+		widthHeight.setBounds(new Rectangle(xLoc, 20, width - 10, BUTTON_HT));
+		widthHeight.setBorder(new OptionBorder("Set Width & Height"));
+		widthHeight.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				widthHeightButtonResponse();
+			}
+		});
+		xLoc += (width + 20);
+
 		// Add Draw Shapes Button
 		JButton draw = new JButton();
 		draw.setPreferredSize(new Dimension(xLoc, BUTTON_HT));
@@ -164,12 +180,14 @@ public class ShapePanel extends JPanel {
 				drawShapesButtonResponse();
 			}
 		});
+		xLoc += (width + 20);
 
 		this.add(changeBackground);
 		this.add(shapeColour);
+		this.add(widthHeight);
 		this.add(draw);
 
-		xLoc -= ((width * 2) + 40);
+		xLoc -= (width * 4) + 80;
 		yLoc = BUTTON_HT + 40;
 	}
 
@@ -236,19 +254,6 @@ public class ShapePanel extends JPanel {
 		textDisplay.update(textDisplay.getGraphics());
 	}
 
-	public void changeBackground() {
-		if (userInput.getText().equals("")) {
-			textDisplay.setText("No numbers were entered! Try again.");
-			textDisplay.update(textDisplay.getGraphics());
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-			}
-			return;
-		}
-		chooseBackgroundColour();
-	}
-
 	public void shapeColourButtonResponse() {
 		this.shapeColour = true;
 		textDisplay.setText(
@@ -256,9 +261,16 @@ public class ShapePanel extends JPanel {
 		textDisplay.update(textDisplay.getGraphics());
 	}
 
+	private void widthHeightButtonResponse() {
+		this.widthHeight = true;
+		this.changeWidth = true;
+		this.changeHeight = true;
+		textDisplay.setText("Choose width: (enter an integer between 0 to 400) ");
+		textDisplay.update(textDisplay.getGraphics());
+	}
+
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
-
 		// Add activated shapes
 		this.activated = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
@@ -271,6 +283,77 @@ public class ShapePanel extends JPanel {
 		userInput.setText("");
 		userInput.update(userInput.getGraphics());
 		userInputResponse();
+	}
+
+	private void userInputResponse() {
+		if (changeBackground) {
+			drawShapes = false;
+			changeBackground = false;
+			changeBackground();
+		} else if (shapeColour) {
+			drawShapes = false;
+			changeBackground = false;
+			changeBackground();
+		} else if (widthHeight) {
+			setWidthHeight();
+		} else if (drawShapes) {
+			changeBackground = false;
+			drawShapes();
+		}
+	}
+
+	private void setWidthHeight() {
+		if (!userInput.getText().equals("")) {
+			try {
+				int input = Integer.parseInt(userInput.getText());
+				Circle c = new Circle();
+				if (input < 0 || input > 400) {
+					textDisplay.setText("Please enter an integer between 0 to 400.");
+					textDisplay.update(textDisplay.getGraphics());
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (changeWidth) {
+						textDisplay.setText("Choose width: (enter an integer between 0 to 400) ");
+						textDisplay.update(textDisplay.getGraphics());
+					} else {
+						textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
+						textDisplay.update(textDisplay.getGraphics());	
+					}
+					return;
+				}
+				if (changeWidth) {
+					c.setWidth(input);
+					changeWidth = false;
+					textDisplay.setText("Choose height: (enter an integer between 0 to 400) ");
+					textDisplay.update(textDisplay.getGraphics());
+				} else if (changeHeight) {
+					c.setHeight(input);
+					changeHeight = false;
+					textDisplay.setText("Width and height adjusted.");
+					textDisplay.update(textDisplay.getGraphics());
+					widthHeight = false;
+				}
+			} catch (NumberFormatException e) {
+				textDisplay.setText("You didn't enter an integer number!");
+				textDisplay.update(textDisplay.getGraphics());
+			}
+		}
+	}
+
+	public void changeBackground() {
+		if (userInput.getText().equals("")) {
+			textDisplay.setText("No numbers were entered! Try again.");
+			textDisplay.update(textDisplay.getGraphics());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+			}
+			return;
+		}
+		chooseBackgroundColour();
 	}
 
 	public void drawShapes() {
@@ -286,7 +369,6 @@ public class ShapePanel extends JPanel {
 						return;
 					}
 					// Success
-					System.out.println(activated.get(0));
 					createShape(activated.get(0), input);
 					activated.remove(activated.get(0));
 					if (!activated.isEmpty()) {
@@ -373,21 +455,6 @@ public class ShapePanel extends JPanel {
 			s.drawShape(getGraphics(), outlineColor);
 		}
 		shapes = new ArrayList<Shape>();
-	}
-
-	private void userInputResponse() {
-		if (changeBackground) {
-			drawShapes = false;
-			changeBackground = false;
-			changeBackground();
-		} else if (shapeColour) {
-			drawShapes = false;
-			changeBackground = false;
-			changeBackground();
-		} else if (drawShapes) {
-			changeBackground = false;
-			drawShapes();
-		}
 	}
 
 	private void chooseBackgroundColour() {
