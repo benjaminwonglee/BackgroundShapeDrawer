@@ -3,8 +3,8 @@ package shapes;
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private static java.awt.Rectangle canvasSize;
-	private static int width = 70;
-	private static int height = 70;
+	private static int width = 80;
+	private static int height = 80;
 	private static boolean fill = false;
 
 
