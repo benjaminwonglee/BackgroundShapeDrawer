@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import borders.ColorBorder;
 import borders.OptionBorder;
 import borders.SimpleBorder;
 import borders.TextBorder;
@@ -63,6 +64,10 @@ public class ShapePanel extends JPanel {
 	private boolean changeHeight = false;
 
 	private int optionButtonHeight;
+
+	private JTextArea changeBackgroundColour;
+
+	private JTextArea changeOutlineColour;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -146,9 +151,9 @@ public class ShapePanel extends JPanel {
 
 		// Add Change Background Button
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
-		optionButtonHeight = BUTTON_HT / 2;
+		optionButtonHeight = BUTTON_HT / 3;
 		JButton changeBackground = new JButton();
-		changeBackground.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		changeBackground.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		changeBackground.setBorder(new OptionBorder("Change Background", optColour));
 		changeBackground.addActionListener(new ActionListener() {
 			@Override
@@ -156,7 +161,13 @@ public class ShapePanel extends JPanel {
 				changeBackgroundButtonResponse();
 			}
 		});
+		yLoc += BUTTON_HT / 3;
+		this.changeBackgroundColour = new JTextArea();
+		changeBackgroundColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		changeBackgroundColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
+
 		xLoc += (optionButtonWidth + space);
+		yLoc -= BUTTON_HT / 3;
 
 		// Add Choose Shape Colour Button
 		JButton shapeColour = new JButton();
@@ -169,6 +180,13 @@ public class ShapePanel extends JPanel {
 			}
 
 		});
+
+		yLoc += BUTTON_HT / 3;
+		this.changeOutlineColour = new JTextArea();
+		changeOutlineColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		changeOutlineColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
+
+		yLoc -= BUTTON_HT / 3;
 		xLoc += (optionButtonWidth + space);
 
 		// Add Choose Set width & height Button
@@ -196,12 +214,14 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 
 		this.add(changeBackground);
+		this.add(changeBackgroundColour);
 		this.add(shapeColour);
+		this.add(changeOutlineColour);
 		this.add(widthHeight);
 		this.add(draw);
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
-		yLoc += optionButtonHeight + space;
+		yLoc += optionButtonHeight * 2 + space;
 
 		// Row 2
 		// Add Fill Button
@@ -238,7 +258,7 @@ public class ShapePanel extends JPanel {
 		this.add(fillStatus);
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
-		yLoc += optionButtonHeight + space;
+		yLoc += optionButtonHeight * 2 + space;
 
 	}
 
@@ -526,11 +546,20 @@ public class ShapePanel extends JPanel {
 			}
 			// Check if we are changing the shape colour or background colour
 			if (!localShapeColour) {
+				// Background colour change
+				Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 				Graphics g = this.getGraphics();
-				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.setColor(change);
 				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+				ColorBorder bord = (ColorBorder) changeBackgroundColour.getBorder();
+				bord.setColor(change);
+				changeBackgroundColour.repaint();
 			} else {
-				outlineColor = new Color(canvasRed, canvasGreen, canvasBlue);
+				Color change = new Color(canvasRed, canvasGreen, canvasBlue);
+				outlineColor = change;
+				ColorBorder bord = (ColorBorder) changeOutlineColour.getBorder();
+				bord.setColor(change);
+				changeOutlineColour.repaint();
 				t.setText("Outline colour successfully changed");
 				textDisplay.repaint();
 			}
