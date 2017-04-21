@@ -25,11 +25,11 @@ import shapes.Ellipse;
 import shapes.Hexagon;
 import shapes.Lightning;
 import shapes.Octagon;
-import shapes.Polygon;
+import shapes.Star6;
 import shapes.Shape;
 import shapes.ShapeAbstract;
 import shapes.Square;
-import shapes.Star;
+import shapes.Star5;
 import shapes.Triangle;
 
 public class ShapePanel extends JPanel {
@@ -106,20 +106,20 @@ public class ShapePanel extends JPanel {
 		JButton hexagon = setButtonDefaults("Hexagon");
 		JButton lightning = setButtonDefaults("Lightning");
 		JButton octagon = setButtonDefaults("Octagon");
-		JButton polygon = setButtonDefaults("Polygon");
 		JButton rectangle = setButtonDefaults("Rectangle");
 		JButton square = setButtonDefaults("Square");
-		JButton star = setButtonDefaults("Star");
+		JButton star5 = setButtonDefaults("5 Point Star");
+		JButton star6 = setButtonDefaults("6 Point Star");
 		JButton triangle = setButtonDefaults("Triangle");
 		buttonList.add(circle);
 		buttonList.add(ellipse);
 		buttonList.add(hexagon);
 		buttonList.add(lightning);
 		buttonList.add(octagon);
-		buttonList.add(polygon);
 		buttonList.add(rectangle);
 		buttonList.add(square);
-		buttonList.add(star);
+		buttonList.add(star5);
+		buttonList.add(star6);
 		buttonList.add(triangle);
 	}
 
@@ -216,7 +216,7 @@ public class ShapePanel extends JPanel {
 
 		// Add Draw Shapes Button
 		JButton draw = new JButton();
-		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 2));
+		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
 		draw.setBorder(new OptionBorder("Draw Shapes", optColour));
 		draw.addActionListener(new ActionListener() {
 			@Override
@@ -482,11 +482,6 @@ public class ShapePanel extends JPanel {
 			o.setAmount(amount);
 			shapes.add(o);
 			break;
-		case ("Polygon"):
-			Polygon p = new Polygon();
-			p.setAmount(amount);
-			shapes.add(p);
-			break;
 		case ("Rectangle"):
 			shapes.Rectangle r = new shapes.Rectangle();
 			r.setAmount(amount);
@@ -497,10 +492,15 @@ public class ShapePanel extends JPanel {
 			s.setAmount(amount);
 			shapes.add(s);
 			break;
-		case ("Star"):
-			Star star = new Star();
+		case ("Star5"):
+			Star5 star = new Star5();
 			star.setAmount(amount);
 			shapes.add(star);
+			break;
+		case ("Star6"):
+			Star6 st = new Star6();
+			st.setAmount(amount);
+			shapes.add(st);
 			break;
 		case ("Triangle"):
 			Triangle t = new Triangle();

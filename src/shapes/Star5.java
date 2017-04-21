@@ -3,7 +3,7 @@ package shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Star extends ShapeAbstract implements Shape {
+public class Star5 extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape(Graphics g, Color c) {
@@ -28,6 +28,6 @@ public class Star extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "Star";
+		return "Star5";
 	}
 }
