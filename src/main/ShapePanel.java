@@ -65,9 +65,11 @@ public class ShapePanel extends JPanel {
 
 	private int optionButtonHeight;
 
+	// GUI display fields
 	private JTextArea changeBackgroundColour;
-
 	private JTextArea changeOutlineColour;
+	private JTextArea widthText;
+	private JTextArea heightText;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -161,13 +163,13 @@ public class ShapePanel extends JPanel {
 				changeBackgroundButtonResponse();
 			}
 		});
-		yLoc += BUTTON_HT / 3;
+		yLoc += optionButtonHeight;
 		this.changeBackgroundColour = new JTextArea();
 		changeBackgroundColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		changeBackgroundColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
 
 		xLoc += (optionButtonWidth + space);
-		yLoc -= BUTTON_HT / 3;
+		yLoc -= optionButtonHeight;
 
 		// Add Choose Shape Colour Button
 		JButton shapeColour = new JButton();
@@ -181,12 +183,12 @@ public class ShapePanel extends JPanel {
 
 		});
 
-		yLoc += BUTTON_HT / 3;
+		yLoc += optionButtonHeight;
 		this.changeOutlineColour = new JTextArea();
 		changeOutlineColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		changeOutlineColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
 
-		yLoc -= BUTTON_HT / 3;
+		yLoc -= optionButtonHeight;
 		xLoc += (optionButtonWidth + space);
 
 		// Add Choose Set width & height Button
@@ -199,11 +201,22 @@ public class ShapePanel extends JPanel {
 				widthHeightButtonResponse();
 			}
 		});
+
+		yLoc += optionButtonHeight;
+		this.widthText = new JTextArea();
+		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
+		widthText.setBorder(new TextBorder("" + ShapeAbstract.getWidth()));
+		this.heightText = new JTextArea();
+		heightText.setBounds(
+				new Rectangle(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight));
+		heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
+
+		yLoc -= optionButtonHeight;
 		xLoc += (optionButtonWidth + space);
 
 		// Add Draw Shapes Button
 		JButton draw = new JButton();
-		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 2));
 		draw.setBorder(new OptionBorder("Draw Shapes", optColour));
 		draw.addActionListener(new ActionListener() {
 			@Override
@@ -218,6 +231,8 @@ public class ShapePanel extends JPanel {
 		this.add(shapeColour);
 		this.add(changeOutlineColour);
 		this.add(widthHeight);
+		this.add(widthText);
+		this.add(heightText);
 		this.add(draw);
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
@@ -226,10 +241,10 @@ public class ShapePanel extends JPanel {
 		// Row 2
 		// Add Fill Button
 		JButton fill = new JButton();
-		fill.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth + space, optionButtonHeight));
+		fill.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		fill.setBorder(new OptionBorder("Fill", optColour));
 
-		xLoc += (optionButtonWidth + space);
+		yLoc += (optionButtonHeight);
 		JTextArea fillStatus = new JTextArea();
 		fillStatus.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		TextBorder fillBorder = new TextBorder("");
@@ -252,12 +267,14 @@ public class ShapePanel extends JPanel {
 				fillStatus.repaint();
 			}
 		});
+
+		yLoc -= optionButtonHeight;
 		xLoc += (optionButtonWidth + space);
 
 		this.add(fill);
 		this.add(fillStatus);
 
-		xLoc -= (optionButtonWidth * 2) + (space * 2);
+		xLoc -= (optionButtonWidth) + (space);
 		yLoc += optionButtonHeight * 2 + space;
 
 	}
@@ -354,18 +371,13 @@ public class ShapePanel extends JPanel {
 				int input = Integer.parseInt(userInput.getText());
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				if (input < 0 || input > 400) {
-					t.setText("Please enter an integer between 0 to 400.");
-					textDisplay.repaint();
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 					if (changeWidth) {
-						t.setText("Choose width: (enter an integer between 0 to 400) ");
+						t.setText("Please enter an integer between 0 to 400. "
+								+ "Choose width: (enter an integer between 0 to 400) ");
 						textDisplay.repaint();
 					} else {
-						t.setText("Choose height: (enter an integer between 0 to 400) ");
+						t.setText("Please enter an integer between 0 to 400. "
+								+ "Choose height: (enter an integer between 0 to 400) ");
 						textDisplay.repaint();
 					}
 					return;
@@ -374,12 +386,18 @@ public class ShapePanel extends JPanel {
 					ShapeAbstract.setWidth(input);
 					changeWidth = false;
 					t.setText("Choose height: (enter an integer between 0 to 400) ");
+					TextBorder text = (TextBorder) widthText.getBorder();
+					text.setText("" + input);
 					textDisplay.repaint();
+					widthText.repaint();
 				} else if (changeHeight) {
 					ShapeAbstract.setHeight(input);
 					changeHeight = false;
 					t.setText("Width and height adjusted.");
+					TextBorder text = (TextBorder) heightText.getBorder();
+					text.setText("" + input);
 					textDisplay.repaint();
+					heightText.repaint();
 					widthHeight = false;
 				}
 			} catch (NumberFormatException e) {
@@ -395,10 +413,6 @@ public class ShapePanel extends JPanel {
 		if (userInput.getText().equals("")) {
 			t.setText("No numbers were entered! Try again.");
 			textDisplay.repaint();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-			}
 			return;
 		}
 		chooseBackgroundColour();
@@ -412,8 +426,8 @@ public class ShapePanel extends JPanel {
 			if (!userInput.getText().equals("")) {
 				try {
 					int input = Integer.parseInt(userInput.getText());
-					if (input > 40 || input <= 0) {
-						t.setText("Please enter a number that is less than 41 and greater than 0");
+					if (input > 100 || input < 0) {
+						t.setText("Please enter a number that is 100 or less and 0 or greater");
 						textDisplay.repaint();
 						return;
 					}
