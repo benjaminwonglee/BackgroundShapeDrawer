@@ -6,14 +6,14 @@ public abstract class ShapeAbstract implements Shape {
 	private static int width = 70;
 	private static int height = 70;
 	private static boolean fill = false;
-	
-	
-	public int generateRandomIntegerX() {
+
+
+	public int randomXIntegerInCanvas() {
 		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
 		return x;
 	}
 
-	public int generateRandomIntegerY() {
+	public int randomYIntegerInCanvas() {
 		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()) + getCanvasSize().getY());
 		return y;
 	}

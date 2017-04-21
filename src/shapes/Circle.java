@@ -9,8 +9,8 @@ public class Circle extends ShapeAbstract implements Shape {
 	public void drawShape(Graphics g, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
-			int x = generateRandomIntegerX();
-			int y = generateRandomIntegerY();
+			int x = randomXIntegerInCanvas();
+			int y = randomYIntegerInCanvas();
 			if (getFill()) {
 				g.fillOval(x, y, getWidth(), getWidth());
 			} else {
