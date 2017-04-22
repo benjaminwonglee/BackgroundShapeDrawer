@@ -9,6 +9,8 @@ public class PseudoRandomBackgroundDrawer {
 		JFrame frame = new JFrame();
 		ShapePanel sp = new ShapePanel();
 		frame.add(sp);
+		sp.setFocusable(true);
+		
 		setFrameProperties(frame);
 	}
 
@@ -20,6 +22,7 @@ public class PseudoRandomBackgroundDrawer {
 		frame.pack();
 		frame.setLocationRelativeTo(null); // Center frame after pack
 		frame.setVisible(true);
+
 	}
 
 	public static void main(String args[]) {

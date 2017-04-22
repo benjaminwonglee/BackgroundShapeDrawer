@@ -28,6 +28,6 @@ public class Star5 extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "Star5";
+		return "5 Point Star";
 	}
 }

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import borders.ActivateBorder;
 import borders.ColorBorder;
 import borders.OptionBorder;
 import borders.SimpleBorder;
@@ -123,7 +125,7 @@ public class ShapePanel extends JPanel {
 		buttonList.add(triangle);
 	}
 
-	private JButton setButtonDefaults(String shape) {
+	public JButton setButtonDefaults(String shape) {
 		JButton button = new JButton();
 		button.setPreferredSize(new Dimension(BUTTON_WD, BUTTON_HT));
 		ActivateBorder onOffBorder = new ActivateBorder(shape);
@@ -186,7 +188,7 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight;
 		this.changeOutlineColour = new JTextArea();
 		changeOutlineColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		changeOutlineColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
+		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
 
 		yLoc -= optionButtonHeight;
 		xLoc += (optionButtonWidth + space);
@@ -287,6 +289,7 @@ public class ShapePanel extends JPanel {
 
 		userInput.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth - optionButtonWidth, 30));
 		userInput.setBorder(new SimpleBorder());
+		userInput.addKeyListener(new UserInputKeyListener(this));
 		JButton ok = new JButton("OK!");
 		ok.setBorder(new SimpleBorder());
 		ok.setBounds(new Rectangle((xLoc + textBoxWidth) - optionButtonWidth + 5, yLoc - 5, optionButtonWidth - 5, 30));
@@ -323,7 +326,7 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
-	private void widthHeightButtonResponse() {
+	public void widthHeightButtonResponse() {
 		this.widthHeight = true;
 		this.changeWidth = true;
 		this.changeHeight = true;
@@ -348,7 +351,7 @@ public class ShapePanel extends JPanel {
 		userInputResponse();
 	}
 
-	private void userInputResponse() {
+	public void userInputResponse() {
 		if (changeBackground) {
 			drawShapes = false;
 			changeBackground = false;
@@ -365,7 +368,7 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	private void setWidthHeight() {
+	public void setWidthHeight() {
 		if (!userInput.getText().equals("")) {
 			try {
 				int input = Integer.parseInt(userInput.getText());
@@ -453,7 +456,7 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	private void createShape(String shapeName, int amount) {
+	public void createShape(String shapeName, int amount) {
 		// Set the static canvas size
 		ShapeAbstract.setCanvasSize(canvasSize);
 		switch (shapeName) {
@@ -492,12 +495,12 @@ public class ShapePanel extends JPanel {
 			s.setAmount(amount);
 			shapes.add(s);
 			break;
-		case ("Star5"):
+		case ("5 Point Star"):
 			Star5 star = new Star5();
 			star.setAmount(amount);
 			shapes.add(star);
 			break;
-		case ("Star6"):
+		case ("6 Point Star"):
 			Star6 st = new Star6();
 			st.setAmount(amount);
 			shapes.add(st);
@@ -508,18 +511,18 @@ public class ShapePanel extends JPanel {
 			shapes.add(t);
 			break;
 		default:
-			break;
+			throw new NoSuchElementException();
 		}
 	}
 
-	private void draw() {
+	public void draw() {
 		for (Shape s : shapes) {
 			s.drawShape(getGraphics(), outlineColor);
 		}
 		shapes = new ArrayList<Shape>();
 	}
 
-	private void chooseBackgroundColour() {
+	public void chooseBackgroundColour() {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		boolean localShapeColour = shapeColour;
 		shapeColour = false;
@@ -540,6 +543,7 @@ public class ShapePanel extends JPanel {
 				if (color < 0 || color > 255) {
 					sc.close();
 					t.setText("The chosen " + currentColor + " value was out of range, please try again");
+					userInput.requestFocus();
 					textDisplay.repaint();
 					return;
 				}
@@ -568,13 +572,15 @@ public class ShapePanel extends JPanel {
 				ColorBorder bord = (ColorBorder) changeBackgroundColour.getBorder();
 				bord.setColor(change);
 				changeBackgroundColour.repaint();
+				t.setText("Background colour changed successfully");
+				textDisplay.repaint();
 			} else {
 				Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 				outlineColor = change;
 				ColorBorder bord = (ColorBorder) changeOutlineColour.getBorder();
 				bord.setColor(change);
 				changeOutlineColour.repaint();
-				t.setText("Outline colour successfully changed");
+				t.setText("Outline colour changed successfully");
 				textDisplay.repaint();
 			}
 		} catch (NumberFormatException e) {
