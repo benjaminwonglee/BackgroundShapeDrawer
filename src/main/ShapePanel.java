@@ -315,6 +315,7 @@ public class ShapePanel extends JPanel {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		t.setText(
 				"Changing background color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
+		userInput.requestFocus();
 		textDisplay.repaint();
 	}
 
@@ -323,6 +324,7 @@ public class ShapePanel extends JPanel {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		t.setText(
 				"Changing outline color: Choose rgb color in the panel below: input 3 integers; each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
+		userInput.requestFocus();
 		textDisplay.repaint();
 	}
 
@@ -332,6 +334,7 @@ public class ShapePanel extends JPanel {
 		this.changeHeight = true;
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		t.setText("Choose width: (enter an integer between 0 to 400) ");
+		userInput.requestFocus();
 		textDisplay.repaint();
 	}
 
@@ -389,6 +392,7 @@ public class ShapePanel extends JPanel {
 					ShapeAbstract.setWidth(input);
 					changeWidth = false;
 					t.setText("Choose height: (enter an integer between 0 to 400) ");
+					userInput.requestFocus();
 					TextBorder text = (TextBorder) widthText.getBorder();
 					text.setText("" + input);
 					textDisplay.repaint();
@@ -425,6 +429,7 @@ public class ShapePanel extends JPanel {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		if (activated.size() > 0) {
 			t.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+			userInput.requestFocus();
 			textDisplay.repaint();
 			if (!userInput.getText().equals("")) {
 				try {
@@ -543,7 +548,6 @@ public class ShapePanel extends JPanel {
 				if (color < 0 || color > 255) {
 					sc.close();
 					t.setText("The chosen " + currentColor + " value was out of range, please try again");
-					userInput.requestFocus();
 					textDisplay.repaint();
 					return;
 				}
