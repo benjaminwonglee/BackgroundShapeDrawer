@@ -462,8 +462,10 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void createShape(String shapeName, int amount) {
-		// Set the static canvas size
+		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
+		ShapeAbstract.setXCursor((int) canvasSize.getX() + 1);
+		ShapeAbstract.setYCursor((int) canvasSize.getY() + 1);
 		switch (shapeName) {
 		case ("Circle"):
 			Circle c = new Circle();

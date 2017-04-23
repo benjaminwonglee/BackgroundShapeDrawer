@@ -7,8 +7,22 @@ public class Lightning extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape(Graphics g, Color c) {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < getAmount(); i++) {
+			g.setColor(c);
+			int x = randomXIntegerInCanvas();
+			int y = randomYIntegerInCanvas();
+			int[] xInts = new int[] { x + getWidth() / 5 * 2, x + getWidth(), x + getWidth() / 5 * 3, x + getWidth(),
+					x + getWidth() / 5 * 3, x + getWidth(), x + getWidth() / 5, x + getWidth() / 5 * 2, x,
+					x + getWidth() / 5 * 2, x, x + getWidth() / 5 * 2 };
+			int[] yInts = new int[] { y, y, y + getHeight() / 7 * 2, y + getHeight() / 7 * 2, y + getHeight() / 7 * 4,
+					y + getHeight() / 7 * 4, y + getHeight(), y + getHeight() / 7 * 5, y + getHeight() / 7 * 5,
+					y + getHeight() / 7 * 3, y + getHeight() / 7 * 3, y };
+			if (getFill()) {
+				g.fillPolygon(xInts, yInts, 11);
+			} else {
+				g.drawPolygon(xInts, yInts, 11);
+			}
+		}
 	}
 
 	@Override
