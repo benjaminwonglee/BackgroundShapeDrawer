@@ -27,28 +27,26 @@ public abstract class ShapeAbstract implements Shape {
 	public int alignedXIntegerInCanvas() {
 		xCursor += getWidth();
 		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
-			xCursor = (int) canvasSize.getX() + 1;
-			if (yCursor >= canvasSize.getY() + canvasSize.getHeight()) {
+			if (alignedYIntegerInCanvas() != -1) {
+				xCursor = (int) canvasSize.getX() + getWidth();
+			} else {
 				// Abort
 				return -1;
 			}
 		}
-		System.out.println(xCursor - getWidth() + "  Cream cheese width?  " + canvasSize.getWidth());
 		return xCursor - getWidth();
 	}
 
 	public int alignedYIntegerInCanvas() {
-		yCursor += getHeight();
-		if (yCursor >= canvasSize.getY() + canvasSize.getHeight()) {
-			yCursor = (int) canvasSize.getY() + 1;
-			if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+			yCursor += getHeight();
+			if (yCursor + getHeight() >= canvasSize.getY() + canvasSize.getHeight()) {
 				// Abort
 				return -1;
 			}
-
+			return yCursor - getHeight();
 		}
-		System.out.println(yCursor - getHeight() + "  Cream cheese?  " + canvasSize.getHeight());
-		return yCursor - getHeight();
+		return yCursor;
 	}
 
 	public int getAmount() {
@@ -92,13 +90,11 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int xSelection() {
-		System.out.println(1);
 		if (pattern == DrawPattern.RANDOM) {
 			return randomXIntegerInCanvas();
 		} else if (pattern == DrawPattern.ALIGNED) {
 			return alignedXIntegerInCanvas();
 		}
-		System.out.println(-2);
 		return 0;
 	}
 

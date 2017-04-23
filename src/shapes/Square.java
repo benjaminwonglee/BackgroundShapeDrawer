@@ -9,8 +9,11 @@ public class Square extends ShapeAbstract implements Shape {
 	public void drawShape(Graphics g, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
-			int x = randomXIntegerInCanvas();
-			int y = randomYIntegerInCanvas();
+			int x = xSelection();
+			int y = ySelection();
+			if (x == -1 || y == -1) {
+				return;
+			}
 			if (getFill()) {
 				g.fillRect(x, y, getWidth(), getWidth());
 			} else {

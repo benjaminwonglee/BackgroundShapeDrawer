@@ -11,6 +11,9 @@ public class Circle extends ShapeAbstract implements Shape {
 			g.setColor(c);
 			int x = xSelection();
 			int y = ySelection();
+			if (x == -1 || y == -1) {
+				return;
+			}
 			if (getFill()) {
 				g.fillOval(x, y, getWidth(), getWidth());
 			} else {

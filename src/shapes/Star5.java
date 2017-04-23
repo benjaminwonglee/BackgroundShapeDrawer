@@ -9,8 +9,11 @@ public class Star5 extends ShapeAbstract implements Shape {
 	public void drawShape(Graphics g, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
-			int x = randomXIntegerInCanvas();
-			int y = randomYIntegerInCanvas();
+			int x = xSelection();
+			int y = ySelection();
+			if (x == -1 || y == -1) {
+				return;
+			}
 			double span = getWidth() / 6;
 			int sp = (int) span;
 			int[] xInts = new int[] { x, x + getWidth() / 3, x + getWidth() / 2, x + getWidth() - (getWidth() / 3),

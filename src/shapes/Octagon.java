@@ -9,8 +9,11 @@ public class Octagon extends ShapeAbstract implements Shape {
 	public void drawShape(Graphics g, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
-			int x = randomXIntegerInCanvas();
-			int y = randomYIntegerInCanvas();
+			int x = xSelection();
+			int y = ySelection();
+			if (x == -1 || y == -1) {
+				return;
+			}
 			int[] xInts = new int[] { x, x + getWidth() / 4, x + getWidth() / 4 * 3, x + getWidth(), x + getWidth(),
 					x + getWidth() / 4 * 3, x + getWidth() / 4, x, x };
 			int[] yInts = new int[] { y + (getHeight() / 4), y, y, y + (getHeight() / 4), y + getHeight() / 4 * 3,
