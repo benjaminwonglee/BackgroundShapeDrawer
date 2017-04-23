@@ -2,7 +2,7 @@ package shapes;
 
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
-	private DrawPattern pattern = DrawPattern.ALIGNED;
+	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static java.awt.Rectangle canvasSize;
 	private static int width = 80;
 	private static int height = 80;
@@ -107,8 +107,8 @@ public abstract class ShapeAbstract implements Shape {
 		return 0;
 	}
 
-	public void setPattern(DrawPattern p) {
-		this.pattern = p;
+	public static void setPattern(DrawPattern p) {
+		ShapeAbstract.pattern = p;
 	}
 
 	public static int getXCursor() {

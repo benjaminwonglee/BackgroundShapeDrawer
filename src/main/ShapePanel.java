@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -72,6 +73,7 @@ public class ShapePanel extends JPanel {
 	private JTextArea changeOutlineColour;
 	private JTextArea widthText;
 	private JTextArea heightText;
+	private JComboBox<String> patternSelector;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -270,13 +272,41 @@ public class ShapePanel extends JPanel {
 			}
 		});
 
-		yLoc -= optionButtonHeight;
 		xLoc += (optionButtonWidth + space);
+		yLoc -= optionButtonHeight;
+
+		JTextArea patternSelect = new JTextArea();
+		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		TextBorder patternBorder = new TextBorder("Select Pattern");
+		patternBorder.setFont(new Font("Arial", 1, 32));
+		patternSelect.setBorder(patternBorder);
+
+		yLoc += optionButtonHeight;
+		this.patternSelector = new JComboBox<String>();
+		patternSelector.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		patternSelector.setFont(new Font("Arial", 1, 24));
+		patternSelector.addItem("Random");
+		patternSelector.addItem("Aligned");
+		patternSelector.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(patternSelector.getSelectedItem().equals("Random")){
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.RANDOM);
+				} else if(patternSelector.getSelectedItem().equals("Aligned")){
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
+				}
+			}
+		});
+
+		xLoc += (optionButtonWidth + space);
+		yLoc -= optionButtonHeight;
 
 		this.add(fill);
 		this.add(fillStatus);
+		this.add(patternSelect);
+		this.add(patternSelector);
 
-		xLoc -= (optionButtonWidth) + (space);
+		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
 
 	}
