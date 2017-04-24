@@ -100,7 +100,7 @@ public class ShapePanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(canvasRed, canvasBlue, canvasGreen));
+		g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
 		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 	}
 
@@ -288,6 +288,7 @@ public class ShapePanel extends JPanel {
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
 		patternSelector.addItem("Alternating");
+		patternSelector.addItem("Cross Alternating");
 		patternSelector.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -297,6 +298,8 @@ public class ShapePanel extends JPanel {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
 				} else if (patternSelector.getSelectedItem().equals("Alternating")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
+				} else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSSALTERNATING);
 				}
 			}
 		});
@@ -304,10 +307,25 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 		yLoc -= optionButtonHeight;
 
+		JButton clear = new JButton();
+		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
+		clear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				paintComponent(getGraphics());
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("Drawing Cleared");
+				textDisplay.repaint();
+
+			}
+		});
+
 		this.add(fill);
 		this.add(fillStatus);
 		this.add(patternSelect);
 		this.add(patternSelector);
+		this.add(clear);
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
@@ -561,6 +579,13 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
 			ShapeAbstract.setYCursor((int) canvasSize.getY());
 			ShapeAbstract.setAlternatingInt(0);
+			if (ShapeAbstract.getCrossAlternatingInt() % 2 == 0) {
+				ShapeAbstract.setCrossAlternatingInt(1);
+				ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
+			} else {
+				ShapeAbstract.setCrossAlternatingInt(0);
+				ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
+			}
 		}
 		ShapeAbstract.setAlternatingInt(0);
 		shapes = new ArrayList<Shape>();
