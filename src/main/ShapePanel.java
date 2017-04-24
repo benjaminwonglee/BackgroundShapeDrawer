@@ -579,15 +579,11 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
 			ShapeAbstract.setYCursor((int) canvasSize.getY());
 			ShapeAbstract.setAlternatingInt(0);
-			if (ShapeAbstract.getCrossAlternatingInt() % 2 == 0) {
-				ShapeAbstract.setCrossAlternatingInt(1);
-				ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
-			} else {
-				ShapeAbstract.setCrossAlternatingInt(0);
-				ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
-			}
+			ShapeAbstract.setCrossAlternatingInt(1);
+			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
 		}
 		ShapeAbstract.setAlternatingInt(0);
+		ShapeAbstract.setCrossAlternatingInt(0);
 		shapes = new ArrayList<Shape>();
 	}
 
