@@ -287,13 +287,16 @@ public class ShapePanel extends JPanel {
 		patternSelector.setFont(new Font("Arial", 1, 24));
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
+		patternSelector.addItem("Alternating");
 		patternSelector.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(patternSelector.getSelectedItem().equals("Random")){
+				if (patternSelector.getSelectedItem().equals("Random")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.RANDOM);
-				} else if(patternSelector.getSelectedItem().equals("Aligned")){
+				} else if (patternSelector.getSelectedItem().equals("Aligned")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
+				} else if (patternSelector.getSelectedItem().equals("Alternating")) {
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
 				}
 			}
 		});
@@ -555,7 +558,11 @@ public class ShapePanel extends JPanel {
 	public void draw() {
 		for (Shape s : shapes) {
 			s.drawShape(getGraphics(), outlineColor);
+			ShapeAbstract.setXCursor((int) canvasSize.getX());
+			ShapeAbstract.setYCursor((int) canvasSize.getY());
+			ShapeAbstract.setAlternatingInt(0);
 		}
+		ShapeAbstract.setAlternatingInt(0);
 		shapes = new ArrayList<Shape>();
 	}
 
