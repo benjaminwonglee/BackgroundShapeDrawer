@@ -52,6 +52,9 @@ public class ShapePanel extends JPanel {
 	private int canvasRed = 0;
 	private int canvasBlue = 0;
 	private int canvasGreen = 0;
+	private int prevCanvasRed = 0;
+	private int prevCanvasGreen = 0;
+	private int prevCanvasBlue = 0;
 
 	private ArrayList<String> activated;
 	private ArrayList<Shape> shapes;
@@ -601,6 +604,9 @@ public class ShapePanel extends JPanel {
 		shapeColour = false;
 
 		Scanner sc = new Scanner(userInput.getText());
+		prevCanvasRed = canvasRed;
+		prevCanvasGreen = canvasGreen;
+		prevCanvasBlue = canvasBlue;
 		try {
 			int x = 0;
 			while (sc.hasNext() && x < 3) {
@@ -615,6 +621,7 @@ public class ShapePanel extends JPanel {
 				// Error scenario 1
 				if (color < 0 || color > 255) {
 					sc.close();
+					resetPrevColors();
 					t.setText("The chosen " + currentColor + " value was out of range, please try again");
 					textDisplay.repaint();
 					return;
@@ -630,14 +637,15 @@ public class ShapePanel extends JPanel {
 			// Error scenario 2
 			if (x != 3) {
 				sc.close();
+				resetPrevColors();
 				t.setText("Not enough integers were entered, please try again");
 				textDisplay.repaint();
 				return;
 			}
 			// Check if we are changing the shape colour or background colour
+			Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 			if (!localShapeColour) {
 				// Background colour change
-				Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 				Graphics g = this.getGraphics();
 				g.setColor(change);
 				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
@@ -647,20 +655,27 @@ public class ShapePanel extends JPanel {
 				t.setText("Background colour changed successfully");
 				textDisplay.repaint();
 			} else {
-				Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 				outlineColor = change;
 				ColorBorder bord = (ColorBorder) changeOutlineColour.getBorder();
 				bord.setColor(change);
+				resetPrevColors();
 				changeOutlineColour.repaint();
 				t.setText("Outline colour changed successfully");
 				textDisplay.repaint();
 			}
 		} catch (NumberFormatException e) {
 			// Error scenario 3
+			resetPrevColors();
 			t.setText("An integer number was not entered, please try again.");
 			textDisplay.repaint();
 			return;
 		}
 		sc.close();
+	}
+
+	private void resetPrevColors() {
+		canvasRed = prevCanvasRed;
+		canvasGreen = prevCanvasGreen;
+		canvasBlue = prevCanvasBlue;
 	}
 }
