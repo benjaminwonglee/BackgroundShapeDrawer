@@ -67,6 +67,8 @@ public class ShapePanel extends JPanel {
 	private boolean changeHeight = false;
 
 	private int optionButtonHeight;
+	private boolean clear = true;
+	private PNGOutput bp;
 
 	// GUI display fields
 	private JTextArea changeBackgroundColour;
@@ -100,8 +102,11 @@ public class ShapePanel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-		g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+		super.paintComponent(g);
+		if (clear) {
+			g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+			g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+		}
 	}
 
 	private void defineButtons() {
@@ -574,6 +579,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void draw() {
+		clear = false;
 		for (Shape s : shapes) {
 			s.drawShape(getGraphics(), outlineColor);
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
@@ -582,9 +588,11 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setCrossAlternatingInt(1);
 			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
 		}
+		// Finished drawing. Reset variables and save states
 		ShapeAbstract.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);
 		shapes = new ArrayList<Shape>();
+		this.bp = new PNGOutput(this, canvasSize);
 	}
 
 	public void chooseBackgroundColour() {
