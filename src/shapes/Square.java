@@ -13,6 +13,7 @@ public class Square extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			if (getFill()) {
@@ -22,9 +23,14 @@ public class Square extends ShapeAbstract implements Shape {
 			}
 		}
 	}
-	
+
 	@Override
 	public String name() {
 		return "square";
+	}
+
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
 	}
 }

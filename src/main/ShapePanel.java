@@ -507,8 +507,6 @@ public class ShapePanel extends JPanel {
 						textDisplay.repaint();
 					} else {
 						// End case
-						t.setText("And..... Draw!");
-						textDisplay.repaint();
 						draw();
 						drawShapes = false;
 					}
@@ -583,14 +581,20 @@ public class ShapePanel extends JPanel {
 
 	public void draw() {
 		clear = false;
+		StringBuilder sb = new StringBuilder();
+		int x = 0;
 		for (Shape s : shapes) {
 			s.drawShape(getGraphics(), outlineColor);
+			sb.append(s.name() + "s: " + s.getDrawnAmount() + ". ");
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
 			ShapeAbstract.setYCursor((int) canvasSize.getY());
 			ShapeAbstract.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(1);
 			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
 		}
+		textDisplay.setText("Canvas was filled. Drew: " + sb.toString());
+		textDisplay.repaint();
+
 		// Finished drawing. Reset variables and save states
 		ShapeAbstract.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);

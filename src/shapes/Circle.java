@@ -13,6 +13,7 @@ public class Circle extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			if (getFill()) {
@@ -26,5 +27,10 @@ public class Circle extends ShapeAbstract implements Shape {
 	@Override
 	public String name() {
 		return "circle";
+	}
+
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
 	}
 }

@@ -13,12 +13,14 @@ public class Star5 extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			double span = getWidth() / 6;
 			int sp = (int) span;
 			int[] xInts = new int[] { x, x + getWidth() / 3, x + getWidth() / 2, x + getWidth() - (getWidth() / 3),
-					x + getWidth(), x + getWidth() / 4 * 3, x + getWidth() - sp, x + getWidth() / 2, x + sp - 2, x + getWidth() / 4, x };
+					x + getWidth(), x + getWidth() / 4 * 3, x + getWidth() - sp, x + getWidth() / 2, x + sp - 2,
+					x + getWidth() / 4, x };
 			int[] yInts = new int[] { y + (getHeight() / 3), y + (getHeight() / 3), y, y + (getHeight() / 3),
 					y + (getHeight() / 3), y + (getHeight() / 8) * 5, y + getHeight(), y + (getHeight() / 8 * 7),
 					y + getHeight(), y + (getHeight() / 8) * 5, y + (getHeight() / 3) };
@@ -29,9 +31,14 @@ public class Star5 extends ShapeAbstract implements Shape {
 			}
 		}
 	}
-	
+
 	@Override
 	public String name() {
 		return "5-pointed star";
+	}
+	
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
 	}
 }

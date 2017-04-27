@@ -13,6 +13,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			int[] xInts = new int[] { x, x + getWidth() / 2, x + getWidth(), x };
@@ -28,5 +29,10 @@ public class Triangle extends ShapeAbstract implements Shape {
 	@Override
 	public String name() {
 		return "triangle";
+	}
+	
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
 	}
 }

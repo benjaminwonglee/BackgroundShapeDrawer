@@ -13,6 +13,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			int[] xInts = new int[] { x, x + getWidth() / 3, x + getWidth() / 4, x + getWidth() / 2,
@@ -33,5 +34,10 @@ public class Star6 extends ShapeAbstract implements Shape {
 	@Override
 	public String name() {
 		return "6-pointed star";
+	}
+	
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
 	}
 }

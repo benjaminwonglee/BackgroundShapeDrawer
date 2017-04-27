@@ -1,10 +1,10 @@
 package shapes;
 
-import javax.swing.JTextArea;
-
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private int drawnAmount = 0;
+	
+	protected boolean canvasFilled = false;
 	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static java.awt.Rectangle canvasSize;
 	private static int width = 80;
@@ -219,4 +219,11 @@ public abstract class ShapeAbstract implements Shape {
 		this.drawnAmount  = i;
 	}
 
+	public boolean getCanvasFilled(){
+		return canvasFilled;
+	}
+	
+	public void setCanvasFilled(boolean b) {
+		canvasFilled = b;	
+	}
 }

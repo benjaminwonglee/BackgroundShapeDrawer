@@ -5,6 +5,10 @@ import java.awt.Graphics;
 
 public interface Shape {
 	public void drawShape(Graphics g, Color c);
-	
+
 	public String name();
+
+	public boolean getCanvasFilled();
+	
+	public int getDrawnAmount();
 }

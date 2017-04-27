@@ -13,6 +13,7 @@ public class Octagon extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			int[] xInts = new int[] { x, x + getWidth() / 4, x + getWidth() / 4 * 3, x + getWidth(), x + getWidth(),
@@ -26,10 +27,14 @@ public class Octagon extends ShapeAbstract implements Shape {
 			}
 		}
 	}
-	
+
 	@Override
 	public String name() {
 		return "octagon";
 	}
 
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
+	}
 }

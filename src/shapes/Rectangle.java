@@ -13,6 +13,7 @@ public class Rectangle extends ShapeAbstract implements Shape {
 			int y = ySelection();
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
+				setCanvasFilled(true);
 				return;
 			}
 			if (getFill()) {
@@ -28,4 +29,8 @@ public class Rectangle extends ShapeAbstract implements Shape {
 		return "rectangle";
 	}
 
+	@Override
+	public boolean getCanvasFilled() {
+		return canvasFilled;
+	}
 }
