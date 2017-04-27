@@ -3,7 +3,7 @@ package shapes;
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private int drawnAmount = 0;
-	
+
 	protected boolean canvasFilled = false;
 	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static java.awt.Rectangle canvasSize;
@@ -20,20 +20,20 @@ public abstract class ShapeAbstract implements Shape {
 	};
 
 	public int randomXIntegerInCanvas() {
-		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()) + getCanvasSize().getX());
+		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
 		return x;
 	}
 
 	public int randomYIntegerInCanvas() {
-		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()) + getCanvasSize().getY());
+		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
 		return y;
 	}
 
 	public int alignedXIntegerInCanvas() {
 		xCursor += getWidth();
-		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getWidth()) {
 			if (alignedYIntegerInCanvas() != -1) {
-				xCursor = (int) canvasSize.getX() + getWidth();
+				xCursor = getWidth();
 			} else {
 				// Abort
 				return -1;
@@ -43,9 +43,9 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int alignedYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getWidth()) {
 			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getY() + canvasSize.getHeight()) {
+			if (yCursor + getHeight() >= canvasSize.getHeight()) {
 				// Abort
 				return -1;
 			}
@@ -56,13 +56,13 @@ public abstract class ShapeAbstract implements Shape {
 
 	public int borderingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
-		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getWidth()) {
 			if (alignedYIntegerInCanvas() != -1) {
 				if (alternatingInt % 2 == 0) {
-					xCursor = (int) canvasSize.getX() + getWidth();
+					xCursor = getWidth();
 					alternatingInt++;
 				} else {
-					xCursor = (int) canvasSize.getX() + getWidth() * 2;
+					xCursor = getWidth() * 2;
 					alternatingInt++;
 				}
 			} else {
@@ -74,10 +74,10 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int borderingYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getY() + canvasSize.getHeight()) {
+			if (yCursor + getHeight() >= canvasSize.getHeight()) {
 				// Abort
 				return -1;
 			}
@@ -88,13 +88,13 @@ public abstract class ShapeAbstract implements Shape {
 
 	public int crossAlternatingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
-		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
+		if (xCursor >= canvasSize.getWidth()) {
 			if (alignedYIntegerInCanvas() != -1) {
 				if (crossAlternatingInt % 2 == 0) {
-					xCursor = (int) canvasSize.getX() + getWidth();
+					xCursor += getWidth();
 					crossAlternatingInt++;
 				} else {
-					xCursor = (int) canvasSize.getX() + getWidth() * 2;
+					xCursor += getWidth() * 2;
 					crossAlternatingInt++;
 				}
 			} else {
@@ -211,19 +211,19 @@ public abstract class ShapeAbstract implements Shape {
 		ShapeAbstract.crossAlternatingInt = crossAlternatingInt;
 	}
 
-	public int getDrawnAmount(){
+	public int getDrawnAmount() {
 		return drawnAmount;
 	}
 
-	public void setDrawnAmount(int i){
-		this.drawnAmount  = i;
+	public void setDrawnAmount(int i) {
+		this.drawnAmount = i;
 	}
 
-	public boolean getCanvasFilled(){
+	public boolean getCanvasFilled() {
 		return canvasFilled;
 	}
-	
+
 	public void setCanvasFilled(boolean b) {
-		canvasFilled = b;	
+		canvasFilled = b;
 	}
 }

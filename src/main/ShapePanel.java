@@ -103,15 +103,6 @@ public class ShapePanel extends JPanel {
 		createOptionsButtons();
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
-		if (clear) {
-			System.out.println("Clearing");
-			canvas.getGraphics().setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-			canvas.getGraphics().fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
-		}
-	}
-
 	private void defineButtons() {
 		JButton circle = setButtonDefaults("Circle");
 		JButton ellipse = setButtonDefaults("Ellipse");
@@ -321,11 +312,11 @@ public class ShapePanel extends JPanel {
 		clear.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				paintComponent(getGraphics());
+				canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Drawing Cleared");
 				textDisplay.repaint();
-
+				new PNGOutput(canvas, canvasSize);
 			}
 		});
 
@@ -379,8 +370,6 @@ public class ShapePanel extends JPanel {
 
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
-		ShapeAbstract.setXCursor(xLoc);
-		ShapeAbstract.setYCursor(yLoc);
 	}
 
 	public void changeBackgroundButtonResponse() {
@@ -593,11 +582,10 @@ public class ShapePanel extends JPanel {
 		clear = false;
 		for (Shape s : shapes) {
 			s.drawShape(canvas.getGraphics(), outlineColor);
-			ShapeAbstract.setXCursor(xLoc);
-			ShapeAbstract.setYCursor(yLoc);
+			ShapeAbstract.setXCursor(0);
+			ShapeAbstract.setYCursor(0);
 			ShapeAbstract.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(1);
-			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
 		}
 		// Finished drawing. Reset variables and save states
 		ShapeAbstract.setAlternatingInt(0);
