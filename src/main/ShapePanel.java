@@ -7,11 +7,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -70,9 +73,7 @@ public class ShapePanel extends JPanel {
 	private boolean changeHeight = false;
 
 	private int optionButtonHeight;
-	private boolean clear = true;
 	private JPanel canvas;
-	private PNGOutput bp;
 
 	// GUI display fields
 	private JTextArea changeBackgroundColour;
@@ -312,11 +313,12 @@ public class ShapePanel extends JPanel {
 		clear.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
+				Graphics g = canvas.getGraphics();
+				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Drawing Cleared");
 				textDisplay.repaint();
-				new PNGOutput(canvas, canvasSize);
 			}
 		});
 
@@ -510,7 +512,10 @@ public class ShapePanel extends JPanel {
 						textDisplay.repaint();
 					} else {
 						// End case
-						draw();
+						draw(canvas.getGraphics());
+						PNGOutput png = new PNGOutput(canvasSize);
+						createPNGFile(png);
+						shapes = new ArrayList<Shape>();
 						drawShapes = false;
 					}
 				} catch (NumberFormatException e) {
@@ -518,6 +523,16 @@ public class ShapePanel extends JPanel {
 					textDisplay.repaint();
 				}
 			}
+		}
+	}
+
+	private void createPNGFile(PNGOutput png) {
+		canvas.paint(png.getPng().getGraphics());
+		draw(png.getPng().getGraphics());
+		try {
+			ImageIO.write(png.getPng(), "PNG", new File("output.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -578,20 +593,20 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	public void draw() {
-		clear = false;
+	public void draw(Graphics g) {
 		for (Shape s : shapes) {
-			s.drawShape(canvas.getGraphics(), outlineColor);
+			s.drawShape(g, outlineColor);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 			ShapeAbstract.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(1);
 		}
-		// Finished drawing. Reset variables and save states
+		textDisplay.setText("And.... Draw!");
+		textDisplay.repaint();
+
+		// Finished drawing. Reset variables
 		ShapeAbstract.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);
-		shapes = new ArrayList<Shape>();
-		this.bp = new PNGOutput(canvas, canvas.getBounds());
 	}
 
 	public void chooseBackgroundColour() {

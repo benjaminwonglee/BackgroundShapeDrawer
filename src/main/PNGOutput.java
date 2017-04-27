@@ -10,15 +10,15 @@ import javax.swing.JPanel;
 
 public class PNGOutput {
 
-	public PNGOutput(JPanel canvas, Rectangle canvasSize) {
-		BufferedImage png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight(),
+	private BufferedImage png;
+
+	public BufferedImage getPng() {
+		return png;
+	}
+
+	public PNGOutput(Rectangle canvasSize) {
+		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
-		canvas.paint(png.getGraphics());
-		try {
-			ImageIO.write(png, "PNG", new File("output.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
