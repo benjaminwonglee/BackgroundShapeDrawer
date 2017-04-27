@@ -9,8 +9,6 @@ public class PseudoRandomBackgroundDrawer {
 		JFrame frame = new JFrame();
 		ShapePanel sp = new ShapePanel();
 		frame.add(sp);
-		sp.setFocusable(true);
-		
 		setFrameProperties(frame);
 	}
 

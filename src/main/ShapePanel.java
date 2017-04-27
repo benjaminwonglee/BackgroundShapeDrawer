@@ -90,6 +90,8 @@ public class ShapePanel extends JPanel {
 		shapes = new ArrayList<Shape>();
 		outlineColor = new Color(200, 0, 0);
 		createButtons();
+		createTextAreas();
+		defineCanvasBounds();
 	}
 
 	public void createButtons() {
@@ -99,15 +101,12 @@ public class ShapePanel extends JPanel {
 			arrangeLayout(j);
 		}
 		createOptionsButtons();
-		createTextAreas();
-		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
-				this.getPreferredSize().height - yLoc - 100);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 		if (clear) {
+			System.out.println("Clearing");
 			canvas.getGraphics().setColor(new Color(canvasRed, canvasGreen, canvasBlue));
 			canvas.getGraphics().fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 		}
@@ -167,10 +166,10 @@ public class ShapePanel extends JPanel {
 		// Add Change Background Button
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
 		optionButtonHeight = BUTTON_HT / 3;
-		JButton changeBackground = new JButton();
-		changeBackground.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		changeBackground.setBorder(new OptionBorder("Change Background", optColour));
-		changeBackground.addActionListener(new ActionListener() {
+		JButton changeBackgroundButton = new JButton();
+		changeBackgroundButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		changeBackgroundButton.setBorder(new OptionBorder("Change Background", optColour));
+		changeBackgroundButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeBackgroundButtonResponse();
@@ -185,10 +184,10 @@ public class ShapePanel extends JPanel {
 		yLoc -= optionButtonHeight;
 
 		// Add Choose Shape Colour Button
-		JButton shapeColour = new JButton();
-		shapeColour.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
-		shapeColour.setBorder(new OptionBorder("Shape Colour", optColour));
-		shapeColour.addActionListener(new ActionListener() {
+		JButton shapeColourButton = new JButton();
+		shapeColourButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
+		shapeColourButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				shapeColourButtonResponse();
@@ -205,10 +204,10 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 
 		// Add Choose Set width & height Button
-		JButton widthHeight = new JButton();
-		widthHeight.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
-		widthHeight.setBorder(new OptionBorder("Set Width & Height", optColour));
-		widthHeight.addActionListener(new ActionListener() {
+		JButton widthHeightButton = new JButton();
+		widthHeightButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
+		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
+		widthHeightButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				widthHeightButtonResponse();
@@ -228,10 +227,10 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 
 		// Add Draw Shapes Button
-		JButton draw = new JButton();
-		draw.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
-		draw.setBorder(new OptionBorder("Draw Shapes", optColour));
-		draw.addActionListener(new ActionListener() {
+		JButton drawShapesButton = new JButton();
+		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
+		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColour));
+		drawShapesButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				drawShapesButtonResponse();
@@ -239,23 +238,23 @@ public class ShapePanel extends JPanel {
 		});
 		xLoc += (optionButtonWidth + space);
 
-		this.add(changeBackground);
+		this.add(changeBackgroundButton);
 		this.add(changeBackgroundColour);
-		this.add(shapeColour);
+		this.add(shapeColourButton);
 		this.add(changeOutlineColour);
-		this.add(widthHeight);
+		this.add(widthHeightButton);
 		this.add(widthText);
 		this.add(heightText);
-		this.add(draw);
+		this.add(drawShapesButton);
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
 		yLoc += optionButtonHeight * 2 + space;
 
 		// Row 2
 		// Add Fill Button
-		JButton fill = new JButton();
-		fill.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		fill.setBorder(new OptionBorder("Fill", optColour));
+		JButton fillButton = new JButton();
+		fillButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		fillButton.setBorder(new OptionBorder("Fill", optColour));
 
 		yLoc += (optionButtonHeight);
 		JTextArea fillStatus = new JTextArea();
@@ -268,7 +267,7 @@ public class ShapePanel extends JPanel {
 			fillBorder.setText("No");
 		}
 		fillStatus.setBorder(fillBorder);
-		fill.addActionListener(new ActionListener() {
+		fillButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ShapeAbstract.setFill(!ShapeAbstract.getFill());
@@ -330,7 +329,7 @@ public class ShapePanel extends JPanel {
 			}
 		});
 
-		this.add(fill);
+		this.add(fillButton);
 		this.add(fillStatus);
 		this.add(patternSelect);
 		this.add(patternSelector);
@@ -338,14 +337,6 @@ public class ShapePanel extends JPanel {
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
-		defineCanvasBounds();
-	}
-
-	private void defineCanvasBounds() {
-		JPanel canvas = new JPanel();
-		canvas.setBounds(new Rectangle(0, 0, this.getWidth()- xLoc, this.getHeight() - yLoc));
-		this.canvas = canvas;
-		this.add(canvas);
 	}
 
 	private void createTextAreas() {
@@ -375,6 +366,21 @@ public class ShapePanel extends JPanel {
 		this.add(textDisplay);
 		this.add(userInput);
 		this.add(ok);
+	}
+
+	private void defineCanvasBounds() {
+		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
+				this.getPreferredSize().height - yLoc - 100);
+		JPanel canvas = new JPanel();
+		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
+		this.canvas = canvas;
+		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
+		this.add(canvas);
+
+		// Set the static ShapeAbstract variables
+		ShapeAbstract.setCanvasSize(canvasSize);
+		ShapeAbstract.setXCursor(xLoc);
+		ShapeAbstract.setYCursor(yLoc);
 	}
 
 	public void changeBackgroundButtonResponse() {
@@ -527,10 +533,6 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void createShape(String shapeName, int amount) {
-		// Set the static ShapeAbstract variables
-		ShapeAbstract.setCanvasSize(canvasSize);
-		ShapeAbstract.setXCursor((int) canvasSize.getX() + 1);
-		ShapeAbstract.setYCursor((int) canvasSize.getY() + 1);
 		switch (shapeName) {
 		case ("Circle"):
 			Circle c = new Circle();
@@ -589,11 +591,10 @@ public class ShapePanel extends JPanel {
 
 	public void draw() {
 		clear = false;
-		StringBuilder sb = new StringBuilder();
 		for (Shape s : shapes) {
 			s.drawShape(canvas.getGraphics(), outlineColor);
-			ShapeAbstract.setXCursor((int) canvasSize.getX());
-			ShapeAbstract.setYCursor((int) canvasSize.getY());
+			ShapeAbstract.setXCursor(xLoc);
+			ShapeAbstract.setYCursor(yLoc);
 			ShapeAbstract.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(1);
 			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
@@ -653,10 +654,7 @@ public class ShapePanel extends JPanel {
 			Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 			if (!localShapeColour) {
 				// Background colour change
-				Graphics g = canvas.getGraphics();
-				g.setColor(change);
-				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
-				canvas.repaint();
+				canvas.setBackground(change);
 				ColorBorder colorLabel = (ColorBorder) changeBackgroundColour.getBorder();
 				colorLabel.setColor(change);
 				changeBackgroundColour.repaint();
