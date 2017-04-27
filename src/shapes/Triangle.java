@@ -12,6 +12,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
+				setDrawnAmount(i);
 				return;
 			}
 			int[] xInts = new int[] { x, x + getWidth() / 2, x + getWidth(), x };
@@ -26,6 +27,6 @@ public class Triangle extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "Triangle";
+		return "triangle";
 	}
 }

@@ -12,6 +12,7 @@ public class Rectangle extends ShapeAbstract implements Shape {
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
+				setDrawnAmount(i);
 				return;
 			}
 			if (getFill()) {
@@ -24,7 +25,7 @@ public class Rectangle extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "Rectangle";
+		return "rectangle";
 	}
 
 }

@@ -305,7 +305,7 @@ public class ShapePanel extends JPanel {
 				} else if (patternSelector.getSelectedItem().equals("Aligned")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
 				} else if (patternSelector.getSelectedItem().equals("Alternating")) {
-					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.BORDERING);
 				} else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSSALTERNATING);
 				}

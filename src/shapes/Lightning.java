@@ -12,6 +12,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
+				setDrawnAmount(i);
 				return;
 			}
 			int[] xInts = new int[] { x + getWidth() / 5 * 2, x + getWidth(), x + getWidth() / 5 * 3, x + getWidth(),
@@ -27,9 +28,10 @@ public class Lightning extends ShapeAbstract implements Shape {
 			}
 		}
 	}
-
+	
 	@Override
 	public String name() {
-		return "Lightning";
+		return "lightning";
 	}
+
 }

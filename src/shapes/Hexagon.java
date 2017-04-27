@@ -12,6 +12,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
+				setDrawnAmount(i);
 				return;
 			}
 			int[] xInts = new int[] { x, x + getWidth() / 3, x + getWidth() / 3 * 2, x + getWidth(),
@@ -28,6 +29,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "Hexagon";
+		return "hexagon";
 	}
+
 }

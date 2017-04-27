@@ -1,7 +1,10 @@
 package shapes;
 
+import javax.swing.JTextArea;
+
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
+	private int drawnAmount = 0;
 	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static java.awt.Rectangle canvasSize;
 	private static int width = 80;
@@ -13,7 +16,7 @@ public abstract class ShapeAbstract implements Shape {
 	private static int crossAlternatingInt = 0;
 
 	public enum DrawPattern {
-		RANDOM, ALIGNED, ALTERNATING, CROSSALTERNATING
+		RANDOM, ALIGNED, BORDERING, CROSSALTERNATING
 	};
 
 	public int randomXIntegerInCanvas() {
@@ -51,7 +54,7 @@ public abstract class ShapeAbstract implements Shape {
 		return yCursor;
 	}
 
-	public int alternatingXIntegerInCanvas() {
+	public int borderingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
 			if (alignedYIntegerInCanvas() != -1) {
@@ -70,7 +73,7 @@ public abstract class ShapeAbstract implements Shape {
 		return xCursor - getWidth();
 	}
 
-	public int alternatingYIntegerInCanvas() {
+	public int borderingYIntegerInCanvas() {
 		if (xCursor >= canvasSize.getX() + canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
@@ -103,7 +106,7 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int crossAlternatingYIntegerInCanvas() {
-		return alternatingYIntegerInCanvas();
+		return borderingYIntegerInCanvas();
 	}
 
 	public int getAmount() {
@@ -151,8 +154,8 @@ public abstract class ShapeAbstract implements Shape {
 			return randomXIntegerInCanvas();
 		} else if (pattern == DrawPattern.ALIGNED) {
 			return alignedXIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingXIntegerInCanvas();
+		} else if (pattern == DrawPattern.BORDERING) {
+			return borderingXIntegerInCanvas();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
 			return crossAlternatingXIntegerInCanvas();
 		}
@@ -164,8 +167,8 @@ public abstract class ShapeAbstract implements Shape {
 			return randomYIntegerInCanvas();
 		} else if (pattern == DrawPattern.ALIGNED) {
 			return alignedYIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingYIntegerInCanvas();
+		} else if (pattern == DrawPattern.BORDERING) {
+			return borderingYIntegerInCanvas();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
 			return crossAlternatingYIntegerInCanvas();
 		}
@@ -206,6 +209,14 @@ public abstract class ShapeAbstract implements Shape {
 
 	public static void setCrossAlternatingInt(int crossAlternatingInt) {
 		ShapeAbstract.crossAlternatingInt = crossAlternatingInt;
+	}
+
+	public int getDrawnAmount(){
+		return drawnAmount;
+	}
+
+	public void setDrawnAmount(int i){
+		this.drawnAmount  = i;
 	}
 
 }

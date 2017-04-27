@@ -12,6 +12,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
+				setDrawnAmount(i);
 				return;
 			}
 			double span = getWidth() / 6;
@@ -28,9 +29,9 @@ public class Star5 extends ShapeAbstract implements Shape {
 			}
 		}
 	}
-
+	
 	@Override
 	public String name() {
-		return "5 Point Star";
+		return "5-pointed star";
 	}
 }
