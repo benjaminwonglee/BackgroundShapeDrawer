@@ -71,6 +71,7 @@ public class ShapePanel extends JPanel {
 
 	private int optionButtonHeight;
 	private boolean clear = true;
+	private JPanel canvas;
 	private PNGOutput bp;
 
 	// GUI display fields
@@ -107,8 +108,8 @@ public class ShapePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (clear) {
-			g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-			g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
+			canvas.getGraphics().setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+			canvas.getGraphics().fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
 		}
 	}
 
@@ -337,6 +338,10 @@ public class ShapePanel extends JPanel {
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
+		JPanel canvas = new JPanel();
+		canvas.setBounds(new Rectangle(0, 0, 2600, 2600));
+		this.canvas = canvas;
+		this.add(canvas);
 
 	}
 
@@ -584,7 +589,7 @@ public class ShapePanel extends JPanel {
 		StringBuilder sb = new StringBuilder();
 		int x = 0;
 		for (Shape s : shapes) {
-			s.drawShape(getGraphics(), outlineColor);
+			s.drawShape(canvas.getGraphics(), outlineColor);
 			sb.append(s.name() + "s: " + s.getDrawnAmount() + ". ");
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
 			ShapeAbstract.setYCursor((int) canvasSize.getY());
@@ -650,18 +655,19 @@ public class ShapePanel extends JPanel {
 			Color change = new Color(canvasRed, canvasGreen, canvasBlue);
 			if (!localShapeColour) {
 				// Background colour change
-				Graphics g = this.getGraphics();
+				Graphics g = canvas.getGraphics();
 				g.setColor(change);
 				g.fillRect(canvasSize.x, canvasSize.y, canvasSize.width, canvasSize.height);
-				ColorBorder bord = (ColorBorder) changeBackgroundColour.getBorder();
-				bord.setColor(change);
+				canvas.repaint();
+				ColorBorder colorLabel = (ColorBorder) changeBackgroundColour.getBorder();
+				colorLabel.setColor(change);
 				changeBackgroundColour.repaint();
 				t.setText("Background colour changed successfully");
 				textDisplay.repaint();
 			} else {
 				outlineColor = change;
-				ColorBorder bord = (ColorBorder) changeOutlineColour.getBorder();
-				bord.setColor(change);
+				ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
+				colorLabel.setColor(change);
 				resetPrevColors();
 				changeOutlineColour.repaint();
 				t.setText("Outline colour changed successfully");
@@ -681,5 +687,9 @@ public class ShapePanel extends JPanel {
 		canvasRed = prevCanvasRed;
 		canvasGreen = prevCanvasGreen;
 		canvasBlue = prevCanvasBlue;
+	}
+
+	public JPanel getCanvas() {
+		return canvas;
 	}
 }
