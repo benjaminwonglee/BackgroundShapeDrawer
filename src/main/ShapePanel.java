@@ -28,11 +28,11 @@ import shapes.Ellipse;
 import shapes.Hexagon;
 import shapes.Lightning;
 import shapes.Octagon;
-import shapes.Star6;
 import shapes.Shape;
 import shapes.ShapeAbstract;
 import shapes.Square;
 import shapes.Star5;
+import shapes.Star6;
 import shapes.Triangle;
 
 public class ShapePanel extends JPanel {
@@ -56,7 +56,7 @@ public class ShapePanel extends JPanel {
 	private int prevCanvasGreen = 0;
 	private int prevCanvasBlue = 0;
 
-	private ArrayList<String> activated;
+	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
 
 	private Color outlineColor;
@@ -86,7 +86,7 @@ public class ShapePanel extends JPanel {
 		this.setLayout(null); // Important for specifying own layout preferences
 		textDisplay = new JTextArea();
 		userInput = new JTextField();
-		activated = new ArrayList<String>();
+		toDraw = new ArrayList<String>();
 		shapes = new ArrayList<Shape>();
 		outlineColor = new Color(200, 0, 0);
 		createButtons();
@@ -338,11 +338,14 @@ public class ShapePanel extends JPanel {
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
+		defineCanvasBounds();
+	}
+
+	private void defineCanvasBounds() {
 		JPanel canvas = new JPanel();
-		canvas.setBounds(new Rectangle(0, 0, 2600, 2600));
+		canvas.setBounds(new Rectangle(0, 0, this.getWidth()- xLoc, this.getHeight() - yLoc));
 		this.canvas = canvas;
 		this.add(canvas);
-
 	}
 
 	private void createTextAreas() {
@@ -405,12 +408,12 @@ public class ShapePanel extends JPanel {
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
 		// Add activated shapes
-		this.activated = new ArrayList<String>();
+		this.toDraw = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
 			ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
 			if (border.getActivated()) {
 				String name = border.getLabel();
-				activated.add(name);
+				toDraw.add(name);
 			}
 		}
 		userInput.setText("");
@@ -491,8 +494,8 @@ public class ShapePanel extends JPanel {
 
 	public void drawShapes() {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
-		if (activated.size() > 0) {
-			t.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+		if (toDraw.size() > 0) {
+			t.setText("How many " + toDraw.get(0).toLowerCase() + "s? ");
 			userInput.requestFocus();
 			textDisplay.repaint();
 			if (!userInput.getText().equals("")) {
@@ -504,11 +507,11 @@ public class ShapePanel extends JPanel {
 						return;
 					}
 					// Success
-					createShape(activated.get(0), input);
-					activated.remove(activated.get(0));
-					if (!activated.isEmpty()) {
+					createShape(toDraw.get(0), input);
+					toDraw.remove(toDraw.get(0));
+					if (!toDraw.isEmpty()) {
 						// Continue. Pressing the ok button restarts this method
-						t.setText("How many " + activated.get(0).toLowerCase() + "s? ");
+						t.setText("How many " + toDraw.get(0).toLowerCase() + "s? ");
 						textDisplay.repaint();
 					} else {
 						// End case
@@ -587,24 +590,19 @@ public class ShapePanel extends JPanel {
 	public void draw() {
 		clear = false;
 		StringBuilder sb = new StringBuilder();
-		int x = 0;
 		for (Shape s : shapes) {
 			s.drawShape(canvas.getGraphics(), outlineColor);
-			sb.append(s.name() + "s: " + s.getDrawnAmount() + ". ");
 			ShapeAbstract.setXCursor((int) canvasSize.getX());
 			ShapeAbstract.setYCursor((int) canvasSize.getY());
 			ShapeAbstract.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(1);
 			ShapeAbstract.setXCursor((int) canvasSize.getX() - ShapeAbstract.getWidth());
 		}
-		textDisplay.setText("Canvas was filled. Drew: " + sb.toString());
-		textDisplay.repaint();
-
 		// Finished drawing. Reset variables and save states
 		ShapeAbstract.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);
 		shapes = new ArrayList<Shape>();
-		this.bp = new PNGOutput(this, canvasSize);
+		this.bp = new PNGOutput(canvas, canvas.getBounds());
 	}
 
 	public void chooseBackgroundColour() {
@@ -620,18 +618,18 @@ public class ShapePanel extends JPanel {
 			int x = 0;
 			while (sc.hasNext() && x < 3) {
 				x++;
-				String currentColor = "red";
+				String newColor = "red";
 				if (x == 2) {
-					currentColor = "green";
+					newColor = "green";
 				} else if (x == 3) {
-					currentColor = "blue";
+					newColor = "blue";
 				}
 				int color = Integer.parseInt(sc.next());
 				// Error scenario 1
 				if (color < 0 || color > 255) {
 					sc.close();
 					resetPrevColors();
-					t.setText("The chosen " + currentColor + " value was out of range, please try again");
+					t.setText("The chosen " + newColor + " value was out of range, please try again");
 					textDisplay.repaint();
 					return;
 				}
