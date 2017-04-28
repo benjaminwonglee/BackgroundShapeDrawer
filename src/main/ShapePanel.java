@@ -112,8 +112,8 @@ public class ShapePanel extends JPanel {
 		JButton octagon = setButtonDefaults("Octagon");
 		JButton rectangle = setButtonDefaults("Rectangle");
 		JButton square = setButtonDefaults("Square");
-		JButton star5 = setButtonDefaults("5 Point Star");
-		JButton star6 = setButtonDefaults("6 Point Star");
+		JButton star5 = setButtonDefaults("5-Pointed Star");
+		JButton star6 = setButtonDefaults("6-Pointed Star");
 		JButton triangle = setButtonDefaults("Triangle");
 		buttonList.add(circle);
 		buttonList.add(ellipse);
@@ -297,7 +297,7 @@ public class ShapePanel extends JPanel {
 				} else if (patternSelector.getSelectedItem().equals("Aligned")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
 				} else if (patternSelector.getSelectedItem().equals("Alternating")) {
-					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.BORDERING);
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
 				} else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSSALTERNATING);
 				}
@@ -573,12 +573,12 @@ public class ShapePanel extends JPanel {
 			s.setAmount(amount);
 			shapes.add(s);
 			break;
-		case ("5 Point Star"):
+		case ("5-Pointed Star"):
 			Star5 star = new Star5();
 			star.setAmount(amount);
 			shapes.add(star);
 			break;
-		case ("6 Point Star"):
+		case ("6-Pointed Star"):
 			Star6 st = new Star6();
 			st.setAmount(amount);
 			shapes.add(st);
@@ -599,7 +599,7 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 			ShapeAbstract.setAlternatingInt(0);
-			ShapeAbstract.setCrossAlternatingInt(1);
+			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		textDisplay.setText("And.... Draw!");
 		textDisplay.repaint();
