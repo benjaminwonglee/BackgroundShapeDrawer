@@ -368,8 +368,14 @@ public class ShapePanel extends JPanel {
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
 		// Set the width and height to more exact values
-		ShapeAbstract.setWidth((int) canvasSize.getWidth() / 10);
-		ShapeAbstract.setHeight((int) canvasSize.getHeight() / 10);
+		int w = (int) canvasSize.getWidth() / 10 - 1;
+		int h = (int) canvasSize.getHeight() / 10 - 1;
+		ShapeAbstract.setWidth(w);
+		ShapeAbstract.setHeight(h * 2);
+		TextBorder text = (TextBorder) widthText.getBorder();
+		text.setText("" + w);
+		text = (TextBorder) heightText.getBorder();
+		text.setText("" + h * 2);
 		widthText.repaint();
 		heightText.repaint();
 
