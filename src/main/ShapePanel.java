@@ -288,6 +288,7 @@ public class ShapePanel extends JPanel {
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
 		patternSelector.addItem("Alternating");
+		patternSelector.addItem("Bordering");
 		patternSelector.addItem("Cross Alternating");
 		patternSelector.addActionListener(new ActionListener() {
 			@Override
@@ -298,6 +299,8 @@ public class ShapePanel extends JPanel {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
 				} else if (patternSelector.getSelectedItem().equals("Alternating")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
+				} else if (patternSelector.getSelectedItem().equals("Bordering")) {
+					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.BORDERING);
 				} else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
 					ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSSALTERNATING);
 				}
@@ -599,6 +602,7 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 			ShapeAbstract.setAlternatingInt(0);
+			ShapeAbstract.setBorderingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		textDisplay.setText("And.... Draw!");

@@ -1,5 +1,7 @@
 package shapes;
 
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
+
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private int drawnAmount = 0;
@@ -13,10 +15,11 @@ public abstract class ShapeAbstract implements Shape {
 	private static int xCursor = 0;
 	private static int yCursor = 0;
 	private static int alternatingInt = 0;
+	private static int borderingInt = 0;
 	private static int crossAlternatingInt = 0;
 
 	public enum DrawPattern {
-		RANDOM, ALIGNED, ALTERNATING, CROSSALTERNATING
+		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
 
 	public int randomXIntegerInCanvas() {
@@ -35,7 +38,7 @@ public abstract class ShapeAbstract implements Shape {
 			if (alignedYIntegerInCanvas() != -1) {
 				xCursor = getWidth();
 			} else {
-				// Abort
+				// Stop
 				return -1;
 			}
 		}
@@ -46,7 +49,7 @@ public abstract class ShapeAbstract implements Shape {
 		if (xCursor >= canvasSize.getWidth()) {
 			yCursor += getHeight();
 			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Abort
+				// Stop
 				return -1;
 			}
 			return yCursor - getHeight();
@@ -66,7 +69,7 @@ public abstract class ShapeAbstract implements Shape {
 					alternatingInt++;
 				}
 			} else {
-				// Abort
+				// Stop
 				return -1;
 			}
 		}
@@ -78,10 +81,43 @@ public abstract class ShapeAbstract implements Shape {
 			// new line
 			yCursor += getHeight();
 			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Abort
+				// Stop
 				return -1;
 			}
 			return yCursor - getHeight();
+		}
+		return yCursor;
+	}
+
+	public int borderingXIntegerInCanvas() {
+		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
+			if (xCursor < canvasSize.getWidth()) {
+				xCursor += getWidth();
+			} else {
+				borderingInt = 1;
+			}
+		} else if (borderingInt == 1) {
+			// Left border
+			xCursor = getWidth();
+			borderingInt = 2;
+		} else if (borderingInt == 2) {
+			// Right border
+			while (xCursor < canvasSize.getWidth() - getWidth()) {
+				xCursor += getWidth();
+			}
+			borderingInt = 1;
+		}
+		return xCursor - getWidth();
+	}
+
+	public int borderingYIntegerInCanvas() {
+		if (borderingInt == 1) {
+			yCursor += getHeight();
+			xCursor = 0;
+		}
+		if (yCursor + getHeight() >= canvasSize.getHeight()) {
+			// Stop
+			return -1;
 		}
 		return yCursor;
 	}
@@ -107,6 +143,42 @@ public abstract class ShapeAbstract implements Shape {
 
 	public int crossAlternatingYIntegerInCanvas() {
 		return alternatingYIntegerInCanvas();
+	}
+
+	public int xSelection() {
+		if (pattern == DrawPattern.RANDOM) {
+			return randomXIntegerInCanvas();
+		} else if (pattern == DrawPattern.ALIGNED) {
+			return alignedXIntegerInCanvas();
+		} else if (pattern == DrawPattern.ALTERNATING) {
+			return alternatingXIntegerInCanvas();
+		} else if (pattern == DrawPattern.BORDERING) {
+			return borderingXIntegerInCanvas();
+		} else if (pattern == DrawPattern.CROSSALTERNATING) {
+			// The 2nd shape for cross alternating
+			if (crossAlternatingInt == -1) {
+				xCursor = getWidth();
+				crossAlternatingInt = 1;
+				return 0;
+			}
+			return crossAlternatingXIntegerInCanvas();
+		}
+		return 0;
+	}
+
+	public int ySelection() {
+		if (pattern == DrawPattern.RANDOM) {
+			return randomYIntegerInCanvas();
+		} else if (pattern == DrawPattern.ALIGNED) {
+			return alignedYIntegerInCanvas();
+		} else if (pattern == DrawPattern.ALTERNATING) {
+			return alternatingYIntegerInCanvas();
+		} else if (pattern == DrawPattern.BORDERING) {
+			return borderingYIntegerInCanvas();
+		} else if (pattern == DrawPattern.CROSSALTERNATING) {
+			return crossAlternatingYIntegerInCanvas();
+		}
+		return 0;
 	}
 
 	public int getAmount() {
@@ -149,38 +221,6 @@ public abstract class ShapeAbstract implements Shape {
 		ShapeAbstract.fill = fill;
 	}
 
-	public int xSelection() {
-		if (pattern == DrawPattern.RANDOM) {
-			return randomXIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALIGNED) {
-			return alignedXIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingXIntegerInCanvas();
-		} else if (pattern == DrawPattern.CROSSALTERNATING) {
-			// The 2nd shape for cross alternating  
-			if (crossAlternatingInt == -1) {
-				xCursor = getWidth();
-				crossAlternatingInt = 1;
-				return 0;
-			}
-			return crossAlternatingXIntegerInCanvas();
-		}
-		return 0;
-	}
-
-	public int ySelection() {
-		if (pattern == DrawPattern.RANDOM) {
-			return randomYIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALIGNED) {
-			return alignedYIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingYIntegerInCanvas();
-		} else if (pattern == DrawPattern.CROSSALTERNATING) {
-			return crossAlternatingYIntegerInCanvas();
-		}
-		return 0;
-	}
-
 	public static void setPattern(DrawPattern p) {
 		ShapeAbstract.pattern = p;
 	}
@@ -207,6 +247,14 @@ public abstract class ShapeAbstract implements Shape {
 
 	public static void setAlternatingInt(int alternatingInt) {
 		ShapeAbstract.alternatingInt = alternatingInt;
+	}
+
+	public static int getBorderingInt() {
+		return borderingInt;
+	}
+
+	public static void setBorderingInt(int borderingInt) {
+		ShapeAbstract.borderingInt = borderingInt;
 	}
 
 	public static int getCrossAlternatingInt() {
