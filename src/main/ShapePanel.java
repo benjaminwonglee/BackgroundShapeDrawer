@@ -26,6 +26,7 @@ import borders.ColorBorder;
 import borders.OptionBorder;
 import borders.SimpleBorder;
 import borders.TextBorder;
+import javafx.scene.layout.Background;
 import shapes.Circle;
 import shapes.Ellipse;
 import shapes.Hexagon;
@@ -52,9 +53,11 @@ public class ShapePanel extends JPanel {
 	private Rectangle canvasSize;
 	private int optionButtonWidth;
 
+	// Three color values that represent the background color
 	private int canvasRed = 0;
 	private int canvasBlue = 0;
 	private int canvasGreen = 0;
+	// Three color values that represent the previous background color
 	private int prevCanvasRed = 0;
 	private int prevCanvasGreen = 0;
 	private int prevCanvasBlue = 0;
@@ -81,6 +84,8 @@ public class ShapePanel extends JPanel {
 	private JTextArea widthText;
 	private JTextArea heightText;
 	private JComboBox<String> patternSelector;
+
+	private PNGOutput png;
 
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
@@ -367,6 +372,15 @@ public class ShapePanel extends JPanel {
 	private void defineCanvasBounds() {
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
+		JPanel canvas = new JPanel();
+		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
+		this.canvas = canvas;
+		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
+		this.add(canvas);
+		setCanvasSizeVariables();
+	}
+
+	public void setCanvasSizeVariables() {
 		// Set the width and height to more exact values
 		int w = (int) canvasSize.getWidth() / 10 - 1;
 		int h = (int) canvasSize.getHeight() / 10 - 1;
@@ -378,13 +392,7 @@ public class ShapePanel extends JPanel {
 		text.setText("" + h * 2);
 		widthText.repaint();
 		heightText.repaint();
-
-		JPanel canvas = new JPanel();
-		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
-		this.canvas = canvas;
-		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
-		this.add(canvas);
-
+		this.png = new PNGOutput(canvasSize);
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
 	}
@@ -528,7 +536,6 @@ public class ShapePanel extends JPanel {
 					} else {
 						// End case
 						draw(canvas.getGraphics());
-						PNGOutput png = new PNGOutput(canvasSize);
 						createPNGFile(png);
 						shapes = new ArrayList<Shape>();
 						drawShapes = false;
@@ -542,13 +549,13 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createPNGFile(PNGOutput png) {
-		canvas.paint(png.getPng().getGraphics());
 		draw(png.getPng().getGraphics());
 		try {
 			ImageIO.write(png.getPng(), "PNG", new File("output.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		png.outputToFile(canvasRed, canvasGreen, canvasBlue);
 	}
 
 	public void createShape(String shapeName, int amount) {
