@@ -90,8 +90,10 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int borderingXIntegerInCanvas() {
+
 		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
-			if (xCursor < canvasSize.getWidth()) {
+			borderingInt = 0;
+			if (xCursor + getWidth() < canvasSize.getWidth()) {
 				xCursor += getWidth();
 			} else {
 				borderingInt = 1;
