@@ -555,7 +555,9 @@ public class ShapePanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		png.outputToFile(canvasRed, canvasGreen, canvasBlue);
+		// For storing RGB values to a file
+		// png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
+		// png.pngFromFile("output.txt", "output.png");
 	}
 
 	public void createShape(String shapeName, int amount) {
