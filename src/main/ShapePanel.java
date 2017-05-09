@@ -160,12 +160,14 @@ public class ShapePanel extends JPanel {
 		int space = 18;
 		Color optColour = new Color(100, 200, 100);
 
-		//xLoc -= (BUTTON_WD + 20) * 2;
-		//yLoc = (int) ((this.getPreferredSize().getHeight() / 2) + 20);
+		xLoc -= (BUTTON_WD + 20) * 2;
+		yLoc = (int) ((this.getPreferredSize().getHeight() / 2) + 20);
+
+		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
+		optionButtonHeight = BUTTON_HT / 2 + 20;
 
 		// Add pattern selector to left side
 		JTextArea patternSelect = addPatternSelector();
-		this.add(patternSelect);
 
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
 		optionButtonHeight = BUTTON_HT / 2 + 20;
@@ -243,6 +245,7 @@ public class ShapePanel extends JPanel {
 		});
 		xLoc += (optionButtonWidth + space);
 
+		this.add(patternSelect);
 		this.add(changeBackgroundButton);
 		this.add(changeBackgroundColour);
 		this.add(shapeColourButton);
