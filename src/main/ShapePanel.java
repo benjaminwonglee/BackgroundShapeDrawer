@@ -43,7 +43,7 @@ public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
 
 	private final static int BUTTON_WD = 180;
-	private final static int BUTTON_HT = 160;
+	private final static int BUTTON_HT = 80;
 
 	private List<JButton> buttonList;
 	private int xLoc = 20;
@@ -103,8 +103,8 @@ public class ShapePanel extends JPanel {
 	public void createButtons() {
 		buttonList = new ArrayList<JButton>();
 		defineButtons();
-		for (JButton j : buttonList) {
-			arrangeLayout(j);
+		for (int i = 0; i < buttonList.size(); i++) {
+			arrangeLayout(buttonList.get(i));
 		}
 		createOptionsButtons();
 	}
@@ -149,7 +149,7 @@ public class ShapePanel extends JPanel {
 	private void arrangeLayout(JButton j) {
 		j.setBounds(new Rectangle(xLoc, yLoc, BUTTON_WD, BUTTON_HT));
 		yLoc += (BUTTON_HT + 20);
-		if (yLoc > 770) {
+		if (yLoc > this.getPreferredSize().getHeight() / 2) {
 			xLoc += (BUTTON_WD + 20);
 			yLoc = 20;
 		}
@@ -160,9 +160,17 @@ public class ShapePanel extends JPanel {
 		int space = 18;
 		Color optColour = new Color(100, 200, 100);
 
-		// Add Change Background Button
+		//xLoc -= (BUTTON_WD + 20) * 2;
+		//yLoc = (int) ((this.getPreferredSize().getHeight() / 2) + 20);
+
+		// Add pattern selector to left side
+		JTextArea patternSelect = addPatternSelector();
+		this.add(patternSelect);
+
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
-		optionButtonHeight = BUTTON_HT / 3;
+		optionButtonHeight = BUTTON_HT / 2 + 20;
+
+		// Add Change Background Button
 		JButton changeBackgroundButton = new JButton();
 		changeBackgroundButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		changeBackgroundButton.setBorder(new OptionBorder("Change Background", optColour));
@@ -280,6 +288,34 @@ public class ShapePanel extends JPanel {
 		xLoc += (optionButtonWidth + space);
 		yLoc -= optionButtonHeight;
 
+		xLoc += (optionButtonWidth + space);
+
+		// Add clear drawing button
+		JButton clear = new JButton();
+		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
+		clear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Graphics g = canvas.getGraphics();
+				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("Drawing Cleared");
+				textDisplay.repaint();
+			}
+		});
+
+		this.add(fillButton);
+		this.add(fillStatus);
+		this.add(patternSelector);
+		this.add(clear);
+
+		xLoc -= (optionButtonWidth * 2) + (space * 2);
+		yLoc += optionButtonHeight * 2 + space;
+	}
+
+	private JTextArea addPatternSelector() {
 		JTextArea patternSelect = new JTextArea();
 		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		TextBorder patternBorder = new TextBorder("Select Pattern");
@@ -311,33 +347,7 @@ public class ShapePanel extends JPanel {
 				}
 			}
 		});
-
-		xLoc += (optionButtonWidth + space);
-		yLoc -= optionButtonHeight;
-
-		JButton clear = new JButton();
-		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
-		clear.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Graphics g = canvas.getGraphics();
-				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				TextBorder t = (TextBorder) textDisplay.getBorder();
-				t.setText("Drawing Cleared");
-				textDisplay.repaint();
-			}
-		});
-
-		this.add(fillButton);
-		this.add(fillStatus);
-		this.add(patternSelect);
-		this.add(patternSelector);
-		this.add(clear);
-
-		xLoc -= (optionButtonWidth * 2) + (space * 2);
-		yLoc += optionButtonHeight * 2 + space;
+		return patternSelect;
 	}
 
 	private void createTextAreas() {
