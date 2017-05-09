@@ -160,14 +160,17 @@ public class ShapePanel extends JPanel {
 		int space = 18;
 		Color optColour = new Color(100, 200, 100);
 
-		xLoc -= (BUTTON_WD + 20) * 2;
-		yLoc = (int) ((this.getPreferredSize().getHeight() / 2) + 20);
+		optionButtonWidth = BUTTON_WD * 2 + 20;
+		optionButtonHeight = BUTTON_HT / 2 + 10;
 
-		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
-		optionButtonHeight = BUTTON_HT / 2 + 20;
+		xLoc -= (BUTTON_WD + 20) * 2;
+		yLoc = (int) ((this.getPreferredSize().getHeight() / 2)) + 20;
 
 		// Add pattern selector to left side
 		JTextArea patternSelect = addPatternSelector();
+
+		xLoc += (optionButtonWidth + space);
+		yLoc = 20;
 
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
 		optionButtonHeight = BUTTON_HT / 2 + 20;
@@ -322,13 +325,13 @@ public class ShapePanel extends JPanel {
 		JTextArea patternSelect = new JTextArea();
 		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		TextBorder patternBorder = new TextBorder("Select Pattern");
-		patternBorder.setFont(new Font("Arial", 1, 32));
+		patternBorder.setFont(new Font("Arial", 1, 18));
 		patternSelect.setBorder(patternBorder);
 
 		yLoc += optionButtonHeight;
 		this.patternSelector = new JComboBox<String>();
 		patternSelector.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		patternSelector.setFont(new Font("Arial", 1, 24));
+		patternSelector.setFont(new Font("Arial", 1, 20));
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
 		patternSelector.addItem("Alternating");
