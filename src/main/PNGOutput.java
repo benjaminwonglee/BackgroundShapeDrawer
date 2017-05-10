@@ -15,6 +15,7 @@ public class PNGOutput {
 
 	private BufferedImage png;
 	private int[][] colorPixelArray;
+	private int rgbBgc = 0;
 
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight(),
@@ -23,6 +24,7 @@ public class PNGOutput {
 	}
 
 	public void outputToFile(String filename, int canvasRed, int canvasGreen, int canvasBlue) {
+		// Create file and PrintWriter.
 		PrintWriter pw = null;
 		File f = null;
 		try {
@@ -32,13 +34,14 @@ public class PNGOutput {
 			e.printStackTrace();
 		}
 
-		Color bgc = new Color(canvasRed, canvasGreen, canvasBlue);
 		// Get the RGB value of background colour
-		int bgColor = bgc.getRGB();
+		Color bgc = new Color(canvasRed, canvasGreen, canvasBlue);
+		rgbBgc = bgc.getRGB();
+
 		for (int row = 0; row < png.getWidth(); row++) {
 			for (int col = 0; col < png.getHeight(); col++) {
 				// Ensure that the background colours stay in the background
-				if (colorPixelArray[row][col] != bgColor) {
+				if (colorPixelArray[row][col] != rgbBgc) {
 					colorPixelArray[row][col] = png.getRGB(row, col);
 				}
 				pw.print(png.getRGB(row, col) + " ");
@@ -53,12 +56,17 @@ public class PNGOutput {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		BufferedImage output = new BufferedImage(png.getWidth(), png.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage output = png;
 		for (int row = 0; row < output.getWidth(); row++) {
 			for (int col = 0; col < output.getHeight(); col++) {
 				if (sc.hasNext()) {
 					int nextrgb = sc.nextInt();
-					System.out.println(nextrgb);
+					if (nextrgb == 0) {
+						nextrgb = rgbBgc;
+					}
+					if (col > output.getHeight() - 100) {
+						System.out.println(nextrgb);
+					}
 					output.setRGB(row, col, nextrgb);
 				} else {
 					try {
@@ -66,7 +74,6 @@ public class PNGOutput {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					System.out.println("DONE");
 					sc.close();
 					return;
 				}

@@ -565,14 +565,14 @@ public class ShapePanel extends JPanel {
 
 	private void createPNGFile(PNGOutput png) {
 		draw(png.getPng().getGraphics());
-		 try {
-		 ImageIO.write(png.getPng(), "PNG", new File("output.png"));
-		 } catch (IOException e) {
-		 e.printStackTrace();
-		 }
+		try {
+			ImageIO.write(png.getPng(), "PNG", new File("output.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// For storing RGB values to a file
-		// png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
-		// png.pngFromFile("output.txt", "output.png");
+		png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
+		png.pngFromFile("output.txt", "output.png");
 	}
 
 	public void createShape(String shapeName, int amount) {

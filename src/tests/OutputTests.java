@@ -1,5 +1,7 @@
 package tests;
 
+import static org.junit.Assert.*;
+
 import java.awt.Rectangle;
 
 import org.junit.Test;
@@ -9,10 +11,20 @@ import main.PNGOutput;
 public class OutputTests {
 
 	@Test
-	public void testPNGOutput1() {
+	public void testPNGOutputToFile1() {
+		PNGOutput png = createPNGOutput();
+		png.outputToFile("test.txt", 0, 0, 0);
+
+		fail();
+		// png.getColorPixelArray()
+	}
+
+	@Test
+	public void testPNGOutputToPng1() {
 		PNGOutput png = createPNGOutput();
 		png.outputToFile("test.txt", 0, 0, 0);
 		png.pngFromFile("test.txt", "test.png");
+		fail();
 		// png.getColorPixelArray()
 	}
 
