@@ -47,6 +47,7 @@ public class ActivateBorder implements Border {
 				g.drawRect(x + j, y + j, width - (j * 2), height - (j * 2));
 			}
 			g.setFont(new Font("Arial", Font.BOLD, 22));
+			g.setColor(new Color(160, 150, 60));
 			g.drawString(label, width / 2 - (g.getFontMetrics().stringWidth(label) / 2), height / 2 + 8);
 		}
 	}

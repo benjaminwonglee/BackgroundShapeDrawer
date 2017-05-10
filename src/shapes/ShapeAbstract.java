@@ -1,7 +1,5 @@
 package shapes;
 
-import com.sun.org.apache.bcel.internal.generic.GETFIELD;
-
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private int drawnAmount = 0;

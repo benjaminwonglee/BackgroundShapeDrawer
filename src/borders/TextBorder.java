@@ -41,6 +41,7 @@ public class TextBorder implements Border {
 					ht / 3 + 2);
 			g.drawString(textTwo, wd / 2 - (g.getFontMetrics().stringWidth(textTwo) / 2),
 					((ht / 3) * 2) + (this.font.getSize() / 2));
+			sc.close();
 		}
 	}
 
