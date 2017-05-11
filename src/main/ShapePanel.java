@@ -168,7 +168,7 @@ public class ShapePanel extends JPanel {
 		yLoc = (int) ((this.getPreferredSize().getHeight() / 2)) + 20;
 
 		// Add pattern selector to left side
-		JTextArea patternSelect = addPatternSelector();
+		addPatternSelector();
 		moveXY();
 
 		// Set cursor for row 1
@@ -178,19 +178,19 @@ public class ShapePanel extends JPanel {
 
 		// Row 1
 		// Add Change Background Button
-		JButton changeBgButton = addChangeBgButton(optColour);
+		addChangeBgButton(optColour);
 		moveXY();
 
 		// Add Choose Shape Colour Button
-		JButton shapeColourButton = addShapeColourButton(optColour);
+		addShapeColourButton(optColour);
 		moveXY();
 
 		// Add Choose Set width & height Button
-		JButton widthHeightButton = addWidthHeightButton(optColour);
+		addWidthHeightButton(optColour);
 		moveXY();
 
 		// Add Draw Shapes Button
-		JButton drawShapesButton = addDrawShapesButton(optColour);
+		addDrawShapesButton(optColour);
 
 		// Set cursor for row 2
 		xLoc += (optionButtonWidth + space);
@@ -199,67 +199,14 @@ public class ShapePanel extends JPanel {
 
 		// Row 2
 		// Add Fill Button
-		JButton fillButton = new JButton();
-		fillButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		fillButton.setBorder(new OptionBorder("Fill", optColour));
-
-		yLoc += (optionButtonHeight);
-		JTextArea fillStatus = new JTextArea();
-		fillStatus.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		TextBorder fillBorder = new TextBorder("");
-		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
-		if (ShapeAbstract.getFill()) {
-			fillBorder.setText("Yes");
-		} else {
-			fillBorder.setText("No");
-		}
-		fillStatus.setBorder(fillBorder);
-		fillButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ShapeAbstract.setFill(!ShapeAbstract.getFill());
-				if (ShapeAbstract.getFill()) {
-					fillBorder.setText("Yes");
-				} else {
-					fillBorder.setText("No");
-				}
-				fillStatus.repaint();
-			}
-		});
+		addFillButton(optColour);
 		moveXY();
 
 		// TODO: Need another function here
 		xLoc += (optionButtonWidth + space);
 
 		// Add clear drawing button
-		JButton clear = new JButton();
-		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
-		clear.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Graphics g = canvas.getGraphics();
-				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
-				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				TextBorder t = (TextBorder) textDisplay.getBorder();
-				t.setText("Drawing Cleared");
-				textDisplay.repaint();
-			}
-		});
-
-		this.add(patternSelect);
-		this.add(changeBgButton);
-		this.add(changeBackgroundColour);
-		this.add(shapeColourButton);
-		this.add(changeOutlineColour);
-		this.add(widthHeightButton);
-		this.add(widthText);
-		this.add(heightText);
-		this.add(drawShapesButton);
-		this.add(fillButton);
-		this.add(fillStatus);
-		this.add(patternSelector);
-		this.add(clear);
+		addClearButton(optColour);
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
@@ -282,7 +229,7 @@ public class ShapePanel extends JPanel {
 		return textA;
 	}
 
-	private JButton addChangeBgButton(Color optColour) {
+	private void addChangeBgButton(Color optColour) {
 		JButton changeBackgroundButton = newButtonBounds();
 		changeBackgroundButton.setBorder(new OptionBorder("Change Background", optColour));
 		changeBackgroundButton.addActionListener(new ActionListener() {
@@ -294,10 +241,11 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight;
 		this.changeBackgroundColour = newTextAreaBounds();
 		changeBackgroundColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
-		return changeBackgroundButton;
+		this.add(changeBackgroundButton);
+		this.add(changeBackgroundColour);
 	}
 
-	private JButton addShapeColourButton(Color optColour) {
+	private void addShapeColourButton(Color optColour) {
 		JButton shapeColourButton = newButtonBounds();
 		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
 		shapeColourButton.addActionListener(new ActionListener() {
@@ -310,10 +258,11 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight;
 		this.changeOutlineColour = newTextAreaBounds();
 		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
-		return shapeColourButton;
+		this.add(shapeColourButton);
+		this.add(changeOutlineColour);
 	}
 
-	private JButton addWidthHeightButton(Color optColour) {
+	private void addWidthHeightButton(Color optColour) {
 		JButton widthHeightButton = newButtonBounds();
 		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
 		widthHeightButton.addActionListener(new ActionListener() {
@@ -330,10 +279,12 @@ public class ShapePanel extends JPanel {
 		heightText.setBounds(
 				new Rectangle(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight));
 		heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
-		return widthHeightButton;
+		this.add(widthHeightButton);
+		this.add(widthText);
+		this.add(heightText);
 	}
 
-	private JButton addDrawShapesButton(Color optColour) {
+	private void addDrawShapesButton(Color optColour) {
 		JButton drawShapesButton = new JButton();
 		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
 		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColour));
@@ -343,10 +294,65 @@ public class ShapePanel extends JPanel {
 				drawShapesButtonResponse();
 			}
 		});
-		return drawShapesButton;
+		this.add(drawShapesButton);
 	}
 
-	private JTextArea addPatternSelector() {
+	private void addFillButton(Color optColour) {
+		JButton fillButton = newButtonBounds();
+		fillButton.setBorder(new OptionBorder("Fill", optColour));
+
+		yLoc += (optionButtonHeight);
+
+		JTextArea fillStatus = newTextAreaBounds();
+		TextBorder fillBorder = new TextBorder("");
+		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
+		if (ShapeAbstract.getFill()) {
+			fillBorder.setText("Yes");
+		} else {
+			fillBorder.setText("No");
+		}
+		fillStatus.setBorder(fillBorder);
+
+		fillButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ShapeAbstract.setFill(!ShapeAbstract.getFill());
+				if (ShapeAbstract.getFill()) {
+					fillBorder.setText("Yes");
+				} else {
+					fillBorder.setText("No");
+				}
+				fillStatus.repaint();
+			}
+		});
+		this.add(fillButton);
+		this.add(fillStatus);
+
+	}
+
+	private void addClearButton(Color optColour) {
+		JButton clear = new JButton();
+		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
+		clear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Graphics g = canvas.getGraphics();
+				Graphics gr = png.getPng().getGraphics();
+				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				gr.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				gr.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("Drawing Cleared");
+				textDisplay.repaint();
+			}
+		});
+
+		this.add(clear);
+	}
+
+	private void addPatternSelector() {
 		JTextArea patternSelect = new JTextArea();
 		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
 		TextBorder patternBorder = new TextBorder("Select Pattern");
@@ -378,7 +384,8 @@ public class ShapePanel extends JPanel {
 				}
 			}
 		});
-		return patternSelect;
+		this.add(patternSelect);
+		this.add(patternSelector);
 	}
 
 	private void createTextAreas() {
