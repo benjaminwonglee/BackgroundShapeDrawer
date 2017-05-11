@@ -1,5 +1,7 @@
 package shapes;
 
+import java.util.ArrayList;
+
 public abstract class ShapeAbstract implements Shape {
 	private int amount = 0;
 	private int drawnAmount = 0;

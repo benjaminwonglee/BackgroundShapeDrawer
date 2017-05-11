@@ -6,9 +6,10 @@ import java.awt.Graphics;
 public class Circle extends ShapeAbstract implements Shape {
 
 	@Override
-	public void drawShape(Graphics g, Color c) {
+	public void drawShape(Graphics g, Graphics gr, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
+			gr.setColor(c);
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
@@ -18,8 +19,10 @@ public class Circle extends ShapeAbstract implements Shape {
 			}
 			if (getFill()) {
 				g.fillOval(x, y, getWidth(), getWidth());
+				gr.fillOval(x, y, getWidth(), getWidth());
 			} else {
 				g.drawOval(x, y, getWidth(), getWidth());
+				gr.drawOval(x, y, getWidth(), getWidth());
 			}
 		}
 	}

@@ -6,9 +6,10 @@ import java.awt.Graphics;
 public class Star5 extends ShapeAbstract implements Shape {
 
 	@Override
-	public void drawShape(Graphics g, Color c) {
+	public void drawShape(Graphics g, Graphics gr, Color c) {
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
+			gr.setColor(c);
 			int x = xSelection();
 			int y = ySelection();
 			if (x == -1 || y == -1) {
@@ -26,8 +27,10 @@ public class Star5 extends ShapeAbstract implements Shape {
 					y + getHeight(), y + (getHeight() / 8) * 5, y + (getHeight() / 3) };
 			if (getFill()) {
 				g.fillPolygon(xInts, yInts, 11);
+				gr.fillPolygon(xInts, yInts, 11);
 			} else {
 				g.drawPolygon(xInts, yInts, 11);
+				gr.drawPolygon(xInts, yInts, 11);
 			}
 		}
 	}
@@ -36,7 +39,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 	public String name() {
 		return "5-pointed star";
 	}
-	
+
 	@Override
 	public boolean getCanvasFilled() {
 		return canvasFilled;

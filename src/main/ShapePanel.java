@@ -90,6 +90,7 @@ public class ShapePanel extends JPanel {
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
+		System.setProperty("sun.awt.noerasebackground", "true");
 		textDisplay = new JTextArea();
 		userInput = new JTextField();
 		toDraw = new ArrayList<String>();
@@ -170,10 +171,12 @@ public class ShapePanel extends JPanel {
 		JTextArea patternSelect = addPatternSelector();
 		moveXY();
 
+		// Set cursor for row 1
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
 		optionButtonHeight = BUTTON_HT / 2 + 20;
 		yLoc = 20;
 
+		// Row 1
 		// Add Change Background Button
 		JButton changeBgButton = addChangeBgButton(optColour);
 		moveXY();
@@ -188,8 +191,9 @@ public class ShapePanel extends JPanel {
 
 		// Add Draw Shapes Button
 		JButton drawShapesButton = addDrawShapesButton(optColour);
-		xLoc += (optionButtonWidth + space);
 
+		// Set cursor for row 2
+		xLoc += (optionButtonWidth + space);
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
 		yLoc += optionButtonHeight * 2 + space;
 
@@ -224,7 +228,7 @@ public class ShapePanel extends JPanel {
 		});
 		moveXY();
 
-		//TODO: Need another function here
+		// TODO: Need another function here
 		xLoc += (optionButtonWidth + space);
 
 		// Add clear drawing button
@@ -572,7 +576,7 @@ public class ShapePanel extends JPanel {
 						textDisplay.repaint();
 					} else {
 						// End case
-						draw(canvas.getGraphics());
+						draw(canvas.getGraphics(), png.getPng().getGraphics());
 						createPNGFile(png);
 						shapes = new ArrayList<Shape>();
 						drawShapes = false;
@@ -586,7 +590,6 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createPNGFile(PNGOutput png) {
-		draw(png.getPng().getGraphics());
 		try {
 			ImageIO.write(png.getPng(), "PNG", new File("output.png"));
 		} catch (IOException e) {
@@ -654,9 +657,9 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, Graphics pngGraphics) {
 		for (Shape s : shapes) {
-			s.drawShape(g, outlineColor);
+			s.drawShape(g, pngGraphics, outlineColor);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 			ShapeAbstract.setAlternatingInt(0);
