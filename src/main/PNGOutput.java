@@ -64,9 +64,6 @@ public class PNGOutput {
 					if (nextrgb == 0) {
 						nextrgb = rgbBgc;
 					}
-					if (col > output.getHeight() - 100) {
-						System.out.println(nextrgb);
-					}
 					output.setRGB(row, col, nextrgb);
 				} else {
 					try {

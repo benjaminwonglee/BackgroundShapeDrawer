@@ -76,6 +76,7 @@ public class ShapePanel extends JPanel {
 
 	private int optionButtonHeight;
 	private JPanel canvas;
+	private int space;
 
 	// GUI display fields
 	private JTextArea changeBackgroundColour;
@@ -156,7 +157,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createOptionsButtons() {
-		int space = 18;
+		space = 18;
 		Color optColour = new Color(100, 200, 100);
 
 		optionButtonWidth = BUTTON_WD * 2 + 20;
@@ -167,95 +168,27 @@ public class ShapePanel extends JPanel {
 
 		// Add pattern selector to left side
 		JTextArea patternSelect = addPatternSelector();
-
-		xLoc += (optionButtonWidth + space);
-		yLoc = 20;
+		moveXY();
 
 		optionButtonWidth = ((this.getPreferredSize().width - xLoc - 70) / 4);
 		optionButtonHeight = BUTTON_HT / 2 + 20;
+		yLoc = 20;
 
 		// Add Change Background Button
-		JButton changeBackgroundButton = new JButton();
-		changeBackgroundButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		changeBackgroundButton.setBorder(new OptionBorder("Change Background", optColour));
-		changeBackgroundButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				changeBackgroundButtonResponse();
-			}
-		});
-		yLoc += optionButtonHeight;
-		this.changeBackgroundColour = new JTextArea();
-		changeBackgroundColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		changeBackgroundColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
-
-		xLoc += (optionButtonWidth + space);
-		yLoc -= optionButtonHeight;
+		JButton changeBgButton = addChangeBgButton(optColour);
+		moveXY();
 
 		// Add Choose Shape Colour Button
-		JButton shapeColourButton = new JButton();
-		shapeColourButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
-		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
-		shapeColourButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				shapeColourButtonResponse();
-			}
-
-		});
-
-		yLoc += optionButtonHeight;
-		this.changeOutlineColour = new JTextArea();
-		changeOutlineColour.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
-		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
-
-		yLoc -= optionButtonHeight;
-		xLoc += (optionButtonWidth + space);
+		JButton shapeColourButton = addShapeColourButton(optColour);
+		moveXY();
 
 		// Add Choose Set width & height Button
-		JButton widthHeightButton = new JButton();
-		widthHeightButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight));
-		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
-		widthHeightButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				widthHeightButtonResponse();
-			}
-		});
-
-		yLoc += optionButtonHeight;
-		this.widthText = new JTextArea();
-		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
-		widthText.setBorder(new TextBorder("" + ShapeAbstract.getWidth()));
-		this.heightText = new JTextArea();
-		heightText.setBounds(
-				new Rectangle(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight));
-		heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
-
-		yLoc -= optionButtonHeight;
-		xLoc += (optionButtonWidth + space);
+		JButton widthHeightButton = addWidthHeightButton(optColour);
+		moveXY();
 
 		// Add Draw Shapes Button
-		JButton drawShapesButton = new JButton();
-		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
-		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColour));
-		drawShapesButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				drawShapesButtonResponse();
-			}
-		});
+		JButton drawShapesButton = addDrawShapesButton(optColour);
 		xLoc += (optionButtonWidth + space);
-
-		this.add(patternSelect);
-		this.add(changeBackgroundButton);
-		this.add(changeBackgroundColour);
-		this.add(shapeColourButton);
-		this.add(changeOutlineColour);
-		this.add(widthHeightButton);
-		this.add(widthText);
-		this.add(heightText);
-		this.add(drawShapesButton);
 
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
 		yLoc += optionButtonHeight * 2 + space;
@@ -289,10 +222,9 @@ public class ShapePanel extends JPanel {
 				fillStatus.repaint();
 			}
 		});
+		moveXY();
 
-		xLoc += (optionButtonWidth + space);
-		yLoc -= optionButtonHeight;
-
+		//TODO: Need another function here
 		xLoc += (optionButtonWidth + space);
 
 		// Add clear drawing button
@@ -311,6 +243,15 @@ public class ShapePanel extends JPanel {
 			}
 		});
 
+		this.add(patternSelect);
+		this.add(changeBgButton);
+		this.add(changeBackgroundColour);
+		this.add(shapeColourButton);
+		this.add(changeOutlineColour);
+		this.add(widthHeightButton);
+		this.add(widthText);
+		this.add(heightText);
+		this.add(drawShapesButton);
 		this.add(fillButton);
 		this.add(fillStatus);
 		this.add(patternSelector);
@@ -318,6 +259,87 @@ public class ShapePanel extends JPanel {
 
 		xLoc -= (optionButtonWidth * 2) + (space * 2);
 		yLoc += optionButtonHeight * 2 + space;
+	}
+
+	private void moveXY() {
+		xLoc += (optionButtonWidth + space);
+		yLoc -= optionButtonHeight;
+	}
+
+	private JButton newButtonBounds() {
+		JButton button = new JButton();
+		button.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		return button;
+	}
+
+	private JTextArea newTextAreaBounds() {
+		JTextArea textA = new JTextArea();
+		textA.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		return textA;
+	}
+
+	private JButton addChangeBgButton(Color optColour) {
+		JButton changeBackgroundButton = newButtonBounds();
+		changeBackgroundButton.setBorder(new OptionBorder("Change Background", optColour));
+		changeBackgroundButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changeBackgroundButtonResponse();
+			}
+		});
+		yLoc += optionButtonHeight;
+		this.changeBackgroundColour = newTextAreaBounds();
+		changeBackgroundColour.setBorder(new ColorBorder(new Color(canvasRed, canvasBlue, canvasGreen)));
+		return changeBackgroundButton;
+	}
+
+	private JButton addShapeColourButton(Color optColour) {
+		JButton shapeColourButton = newButtonBounds();
+		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
+		shapeColourButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				shapeColourButtonResponse();
+			}
+
+		});
+		yLoc += optionButtonHeight;
+		this.changeOutlineColour = newTextAreaBounds();
+		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
+		return shapeColourButton;
+	}
+
+	private JButton addWidthHeightButton(Color optColour) {
+		JButton widthHeightButton = newButtonBounds();
+		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
+		widthHeightButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				widthHeightButtonResponse();
+			}
+		});
+		yLoc += optionButtonHeight;
+		this.widthText = new JTextArea();
+		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
+		widthText.setBorder(new TextBorder("" + ShapeAbstract.getWidth()));
+		this.heightText = new JTextArea();
+		heightText.setBounds(
+				new Rectangle(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight));
+		heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
+		return widthHeightButton;
+	}
+
+	private JButton addDrawShapesButton(Color optColour) {
+		JButton drawShapesButton = new JButton();
+		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
+		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColour));
+		drawShapesButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				drawShapesButtonResponse();
+			}
+		});
+		return drawShapesButton;
 	}
 
 	private JTextArea addPatternSelector() {
