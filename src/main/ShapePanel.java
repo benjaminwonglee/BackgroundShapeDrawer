@@ -198,11 +198,9 @@ public class ShapePanel extends JPanel {
 		// Row 2
 		// Add Fill Button
 
-		yLoc += (optionButtonHeight);
-		JTextArea fillStatus = new FillStatus();
+		this.add(new FillButton(this));
 		yLoc -= (optionButtonHeight);
-		this.add(new FillButton(fillStatus));
-		this.add(fillStatus);
+		
 		moveXY();
 
 		// TODO: Need another function here
@@ -718,7 +716,7 @@ public class ShapePanel extends JPanel {
 		return yLoc;
 	}
 
-	public static void setyLoc(int yLoc) {
+	public static void setYLoc(int yLoc) {
 		ShapePanel.yLoc = yLoc;
 	}
 
