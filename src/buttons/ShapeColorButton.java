@@ -3,8 +3,6 @@ package buttons;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
 import borders.OptionBorder;
 import main.ShapePanel;
 
@@ -18,7 +16,7 @@ public class ShapeColorButton extends OptionButton {
 	}
 
 	public void create() {
-		OptionButton.newButtonBounds(this);
+		newButtonBounds(this);
 		setBorder(new OptionBorder("Shape Colour", getOptColor()));
 		addActionListener(new ActionListener() {
 			@Override

@@ -683,7 +683,7 @@ public class ShapePanel extends JPanel {
 		return xLoc;
 	}
 
-	public static void setxLoc(int xLoc) {
+	public static void setXLoc(int xLoc) {
 		ShapePanel.xLoc = xLoc;
 	}
 
