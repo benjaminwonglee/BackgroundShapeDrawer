@@ -16,7 +16,7 @@ public class ChangeBackgroundButton extends OptionButton {
 	}
 
 	public void create() {
-		newButtonBounds();
+		newButtonBounds(this);
 		setBorder(new OptionBorder("Change Background", getOptColor()));
 		addActionListener(new ActionListener() {
 			@Override

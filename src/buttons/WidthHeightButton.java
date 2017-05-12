@@ -18,9 +18,9 @@ public class WidthHeightButton extends OptionButton {
 	}
 
 	public void create() {
-		JButton widthHeightButton = OptionButton.newButtonBounds();
-		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", getOptColor()));
-		widthHeightButton.addActionListener(new ActionListener() {
+		newButtonBounds(this);
+		setBorder(new OptionBorder("Set Width & Height", getOptColor()));
+		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sp.widthHeightButtonResponse();

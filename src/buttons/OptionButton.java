@@ -13,11 +13,9 @@ public abstract class OptionButton extends JButton {
 	private static int optionButtonWidth;
 	private static int optionButtonHeight;
 
-	public static JButton newButtonBounds() {
-		JButton button = new JButton();
+	public static void newButtonBounds(JButton button) {
 		button.setBounds(
 				new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
-		return button;
 	}
 
 	public static void setOptColor(Color optColor) {

@@ -18,9 +18,9 @@ public class ShapeColorButton extends OptionButton {
 	}
 
 	public void create() {
-		JButton shapeColourButton = OptionButton.newButtonBounds();
-		shapeColourButton.setBorder(new OptionBorder("Shape Colour", getOptColor()));
-		shapeColourButton.addActionListener(new ActionListener() {
+		OptionButton.newButtonBounds(this);
+		setBorder(new OptionBorder("Shape Colour", getOptColor()));
+		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sp.shapeColourButtonResponse();

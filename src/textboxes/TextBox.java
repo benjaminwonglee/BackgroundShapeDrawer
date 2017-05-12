@@ -11,11 +11,9 @@ public abstract class TextBox extends JTextArea {
 	private static int optionButtonWidth;
 	private static int optionButtonHeight;
 
-	public static JTextArea newTextAreaBounds() {
-		JTextArea textA = new JTextArea();
-		textA.setBounds(
+	public static void newTextAreaBounds(JTextArea t) {
+		t.setBounds(
 				new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
-		return textA;
 	}
 
 	public static int getOptionButtonWidth() {

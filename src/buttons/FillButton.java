@@ -22,11 +22,12 @@ public class FillButton extends OptionButton {
 	}
 
 	public void create() {
-		newButtonBounds();
+		newButtonBounds(this);
 		setBorder(new OptionBorder("Fill", getOptColor()));
 
 		ShapePanel.setYLoc(ShapePanel.getYLoc() + getOptionButtonHeight());
-		JTextArea fillStatus = TextBox.newTextAreaBounds();
+		JTextArea fillStatus = new JTextArea();
+		TextBox.newTextAreaBounds(fillStatus);
 		TextBorder fillBorder = new TextBorder("");
 		if (ShapeAbstract.getFill()) {
 			fillBorder.setText("Yes");

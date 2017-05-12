@@ -14,7 +14,7 @@ public class ChangeOutlineColor extends TextBox {
 	}
 
 	public void create() {
-		newTextAreaBounds();
+		newTextAreaBounds(this);
 		setBorder(new ColorBorder(outlineColor));
 	}
 }

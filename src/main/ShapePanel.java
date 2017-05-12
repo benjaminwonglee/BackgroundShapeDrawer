@@ -191,7 +191,7 @@ public class ShapePanel extends JPanel {
 
 		// Add Draw Shapes Button
 		addDrawShapesButton(optColor);
-
+		
 		// Set cursor for row 2
 		xLoc += (optionButtonWidth + space);
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
@@ -201,8 +201,6 @@ public class ShapePanel extends JPanel {
 		// Add Fill Button
 
 		this.add(new FillButton(this));
-		yLoc -= (optionButtonHeight);
-
 		moveXY();
 
 		// TODO: Need another function here
@@ -221,7 +219,6 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void addWidthHeightText() {
-		yLoc += optionButtonHeight;
 		this.widthText = new JTextArea();
 		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
 		widthText.setBorder(new TextBorder("" + ShapeAbstract.getWidth()));

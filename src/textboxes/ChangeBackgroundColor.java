@@ -14,7 +14,7 @@ public class ChangeBackgroundColor extends TextBox {
 	}
 
 	public void create() {
-		newTextAreaBounds();
+		newTextAreaBounds(this);
 		setBorder(new ColorBorder(backgroundColor));
 	}
 }
