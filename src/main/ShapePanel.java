@@ -79,7 +79,6 @@ public class ShapePanel extends JPanel {
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
-		System.setProperty("sun.awt.noerasebackground", "true");
 		textDisplay = new JTextArea();
 		userInput = new JTextField();
 		toDraw = new ArrayList<String>();
@@ -176,18 +175,18 @@ public class ShapePanel extends JPanel {
 		this.add(new ChangeBackgroundButton(this));
 		yLoc += optionButtonHeight;
 		this.add(new ChangeBackgroundColor(new Color(canvasRed, canvasGreen, canvasBlue)));
-		yLoc -= optionButtonHeight;
 		moveXY();
 
 		// Add Choose Shape Colour Button
 		this.add(new ShapeColorButton(this));
 		yLoc += optionButtonHeight;
 		this.add(new ChangeOutlineColor(outlineColor));
-		yLoc -= optionButtonHeight;
 		moveXY();
 
 		// Add Choose Set width & height Button
-		addWidthHeightButton(optColor);
+		this.add(new WidthHeightButton(this));
+		yLoc += optionButtonHeight;
+		addWidthHeightText();
 		moveXY();
 
 		// Add Draw Shapes Button
@@ -221,15 +220,7 @@ public class ShapePanel extends JPanel {
 		yLoc -= optionButtonHeight;
 	}
 
-	private void addWidthHeightButton(Color optColour) {
-		JButton widthHeightButton = OptionButton.newButtonBounds();
-		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
-		widthHeightButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				widthHeightButtonResponse();
-			}
-		});
+	private void addWidthHeightText() {
 		yLoc += optionButtonHeight;
 		this.widthText = new JTextArea();
 		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
@@ -238,15 +229,14 @@ public class ShapePanel extends JPanel {
 		heightText.setBounds(
 				new Rectangle(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight));
 		heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
-		this.add(widthHeightButton);
 		this.add(widthText);
 		this.add(heightText);
 	}
 
-	private void addDrawShapesButton(Color optColour) {
+	private void addDrawShapesButton(Color optColor) {
 		JButton drawShapesButton = new JButton();
 		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
-		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColour));
+		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColor));
 		drawShapesButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -699,12 +689,10 @@ public class ShapePanel extends JPanel {
 	}
 
 	public static int getYLoc() {
-		System.out.println(yLoc);
 		return yLoc;
 	}
 
 	public static void setYLoc(int yLoc) {
 		ShapePanel.yLoc = yLoc;
 	}
-
 }
