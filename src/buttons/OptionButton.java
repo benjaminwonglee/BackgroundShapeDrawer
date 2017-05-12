@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import main.ShapePanel;
 
 public abstract class OptionButton extends JButton {
-
+	private static final long serialVersionUID = -616184886607585138L;
 	private static Color optColor;
 	private static int optionButtonWidth;
 	private static int optionButtonHeight;

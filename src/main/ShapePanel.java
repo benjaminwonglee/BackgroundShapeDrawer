@@ -21,26 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import borders.ActivateBorder;
-import borders.ColorBorder;
-import borders.OptionBorder;
-import borders.SimpleBorder;
-import borders.TextBorder;
-import buttons.ChangeBackgroundButton;
-import buttons.OptionButton;
-import shapes.Circle;
-import shapes.Ellipse;
-import shapes.Hexagon;
-import shapes.Lightning;
-import shapes.Octagon;
-import shapes.Shape;
-import shapes.ShapeAbstract;
-import shapes.Square;
-import shapes.Star5;
-import shapes.Star6;
-import shapes.Triangle;
-import textboxes.ChangeBackgroundColor;
-import textboxes.FillStatus;
+import borders.*;
+import buttons.*;
+import shapes.*;
+import textboxes.*;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -56,7 +40,7 @@ public class ShapePanel extends JPanel {
 
 	public static int xLoc = 20;
 	public static int yLoc = 20;
-	
+
 	// Three color values that represent the background color
 	private int canvasRed = 0;
 	private int canvasBlue = 0;
@@ -163,8 +147,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createOptionsButtons() {
+		Color optColor = new Color(100, 200, 100);
 		space = 18;
-		OptionButton.setOptColor(new Color(100, 200, 100));
 
 		optionButtonWidth = BUTTON_WD * 2 + 20;
 		optionButtonHeight = BUTTON_HT / 2 + 10;
@@ -181,11 +165,17 @@ public class ShapePanel extends JPanel {
 		optionButtonHeight = BUTTON_HT / 2 + 20;
 		yLoc = 20;
 
+		OptionButton.setOptionButtonWidth(optionButtonWidth);
+		OptionButton.setOptionButtonHeight(optionButtonHeight);
+		OptionButton.setOptColor(optColor);
+		TextBox.setOptionButtonWidth(optionButtonWidth);
+		TextBox.setOptionButtonHeight(optionButtonHeight);
+
 		// Row 1
 		// Add Change Background Button
-		new ChangeBackgroundButton(this, xLoc, yLoc, optionButtonWidth, optionButtonHeight);
+		this.add(new ChangeBackgroundButton(this));
 		yLoc += optionButtonHeight;
-		new ChangeBackgroundColor(this, new Color(canvasRed, canvasGreen, canvasBlue), xLoc, yLoc);
+		this.add(new ChangeBackgroundColor(new Color(canvasRed, canvasGreen, canvasBlue)));
 		yLoc -= optionButtonHeight;
 		moveXY();
 
@@ -207,13 +197,12 @@ public class ShapePanel extends JPanel {
 
 		// Row 2
 		// Add Fill Button
-		
-		addFillButton(optColor);
-		new FillButton();
-		yLoc += (optionButtonHeight);
-		new FillStatus(this, xLoc, yLoc);
-		yLoc -= (optionButtonHeight);
 
+		yLoc += (optionButtonHeight);
+		JTextArea fillStatus = new FillStatus();
+		yLoc -= (optionButtonHeight);
+		this.add(new FillButton(fillStatus));
+		this.add(fillStatus);
 		moveXY();
 
 		// TODO: Need another function here
@@ -232,7 +221,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void addShapeColourButton(Color optColour) {
-		JButton shapeColourButton = OptionButton.newButtonBounds(xLoc, yLoc, optionButtonWidth, optionButtonHeight);
+		JButton shapeColourButton = OptionButton.newButtonBounds();
 		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
 		shapeColourButton.addActionListener(new ActionListener() {
 			@Override
@@ -242,14 +231,14 @@ public class ShapePanel extends JPanel {
 
 		});
 		yLoc += optionButtonHeight;
-		this.changeOutlineColour = newTextAreaBounds();
+		this.changeOutlineColour = TextBox.newTextAreaBounds();
 		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
 		this.add(shapeColourButton);
 		this.add(changeOutlineColour);
 	}
 
 	private void addWidthHeightButton(Color optColour) {
-		JButton widthHeightButton = OptionButton.newButtonBounds(xLoc, yLoc, optionButtonWidth, optionButtonHeight);
+		JButton widthHeightButton = OptionButton.newButtonBounds();
 		widthHeightButton.setBorder(new OptionBorder("Set Width & Height", optColour));
 		widthHeightButton.addActionListener(new ActionListener() {
 			@Override
@@ -281,27 +270,6 @@ public class ShapePanel extends JPanel {
 			}
 		});
 		this.add(drawShapesButton);
-	}
-
-	private void addFillButton(Color optColour) {
-		JButton fillButton = OptionButton.newButtonBounds(xLoc, yLoc, optionButtonWidth, optionButtonHeight);
-		fillButton.setBorder(new OptionBorder("Fill", optColour));
-
-
-		fillButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ShapeAbstract.setFill(!ShapeAbstract.getFill());
-				if (ShapeAbstract.getFill()) {
-					fillBorder.setText("Yes");
-				} else {
-					fillBorder.setText("No");
-				}
-				fillStatus.repaint();
-			}
-		});
-		this.add(fillButton);
-
 	}
 
 	private void addClearButton(Color optColour) {
@@ -737,7 +705,7 @@ public class ShapePanel extends JPanel {
 	public JPanel getCanvas() {
 		return canvas;
 	}
-	
+
 	public static int getXLoc() {
 		return xLoc;
 	}

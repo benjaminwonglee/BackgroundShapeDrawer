@@ -1,22 +1,19 @@
 package textboxes;
 
-import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JTextArea;
-
-import borders.ColorBorder;
 import borders.TextBorder;
-import main.ShapePanel;
 import shapes.ShapeAbstract;
 
-public class FillStatus extends TextBox{
+public class FillStatus extends TextBox {
+	private static final long serialVersionUID = -6639018859031014296L;
+
 	public FillStatus() {
 		create();
 	}
 
 	public void create() {
-		newTextAreaBounds(ShapePanel.xLoc, ShapePanel.yLoc, getOptionButtonWidth(), getOptionButtonHeight());
+		newTextAreaBounds();
 		TextBorder fillBorder = new TextBorder("");
 		if (ShapeAbstract.getFill()) {
 			fillBorder.setText("Yes");

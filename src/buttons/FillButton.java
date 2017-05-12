@@ -3,25 +3,37 @@ package buttons;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 import borders.OptionBorder;
-import main.ShapePanel;
+import borders.TextBorder;
+import shapes.ShapeAbstract;
 
 public class FillButton extends OptionButton {
-	public FillButton() {
+	private static final long serialVersionUID = 3633526333963162280L;
+	private JTextArea fillStatus;
+
+	public FillButton(JTextArea fillStatus) {
+		this.fillStatus = fillStatus;
 		create();
 	}
 
 	public void create() {
-		JButton changeBackgroundButton = newButtonBounds(ShapePanel.getXLoc(), ShapePanel.getYLoc(), getOptionButtonWidth, optionButtonHeight);
-		changeBackgroundButton.setBorder(new OptionBorder("Change Background", getOptColor()));
-		changeBackgroundButton.addActionListener(new ActionListener() {
+		newButtonBounds();
+		setBorder(new OptionBorder("Fill", getOptColor()));
+
+		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sp.changeBackgroundButtonResponse();
+				ShapeAbstract.setFill(!ShapeAbstract.getFill());
+				TextBorder fillBorder = (TextBorder) fillStatus.getBorder();
+				if (ShapeAbstract.getFill()) {
+					fillBorder.setText("Yes");
+				} else {
+					fillBorder.setText("No");
+				}
+				fillStatus.repaint();
 			}
 		});
-		sp.add(changeBackgroundButton);
 	}
 }
