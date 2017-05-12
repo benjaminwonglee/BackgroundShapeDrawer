@@ -180,7 +180,10 @@ public class ShapePanel extends JPanel {
 		moveXY();
 
 		// Add Choose Shape Colour Button
-		addShapeColourButton(optColor);
+		this.add(new ShapeColorButton(this));
+		yLoc += optionButtonHeight;
+		this.add(new ChangeOutlineColor(outlineColor));
+		yLoc -= optionButtonHeight;
 		moveXY();
 
 		// Add Choose Set width & height Button
@@ -200,7 +203,7 @@ public class ShapePanel extends JPanel {
 
 		this.add(new FillButton(this));
 		yLoc -= (optionButtonHeight);
-		
+
 		moveXY();
 
 		// TODO: Need another function here
@@ -216,23 +219,6 @@ public class ShapePanel extends JPanel {
 	private void moveXY() {
 		xLoc += (optionButtonWidth + space);
 		yLoc -= optionButtonHeight;
-	}
-
-	private void addShapeColourButton(Color optColour) {
-		JButton shapeColourButton = OptionButton.newButtonBounds();
-		shapeColourButton.setBorder(new OptionBorder("Shape Colour", optColour));
-		shapeColourButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				shapeColourButtonResponse();
-			}
-
-		});
-		yLoc += optionButtonHeight;
-		this.changeOutlineColour = TextBox.newTextAreaBounds();
-		changeOutlineColour.setBorder(new ColorBorder(outlineColor));
-		this.add(shapeColourButton);
-		this.add(changeOutlineColour);
 	}
 
 	private void addWidthHeightButton(Color optColour) {
@@ -713,6 +699,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	public static int getYLoc() {
+		System.out.println(yLoc);
 		return yLoc;
 	}
 
