@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import borders.OptionBorder;
 import main.ShapePanel;
 
-public class ChangeBackground extends OptionButton {
+public class ChangeBackgroundButton extends OptionButton {
 
 	private ShapePanel sp;
 	private int xLoc;
@@ -16,7 +16,7 @@ public class ChangeBackground extends OptionButton {
 	private int optionButtonWidth;
 	private int optionButtonHeight;
 
-	public ChangeBackground(ShapePanel sp, int xLoc, int yLoc, int optionButtonWidth, int optionButtonHeight) {
+	public ChangeBackgroundButton(ShapePanel sp, int xLoc, int yLoc, int optionButtonWidth, int optionButtonHeight) {
 		this.sp = sp;
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;

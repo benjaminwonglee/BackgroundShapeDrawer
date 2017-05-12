@@ -5,13 +5,18 @@ import java.awt.Rectangle;
 
 import javax.swing.JButton;
 
+import main.ShapePanel;
+
 public abstract class OptionButton extends JButton {
 
 	private static Color optColor;
+	private static int optionButtonWidth;
+	private static int optionButtonHeight;
 
-	public static JButton newButtonBounds(int xLoc, int yLoc, int optionButtonWidth, int optionButtonHeight) {
+	public static JButton newButtonBounds() {
 		JButton button = new JButton();
-		button.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		button.setBounds(
+				new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
 		return button;
 	}
 
@@ -21,6 +26,22 @@ public abstract class OptionButton extends JButton {
 
 	public static Color getOptColor() {
 		return optColor;
+	}
+
+	public static int getOptionButtonWidth() {
+		return optionButtonWidth;
+	}
+
+	public static void setOptionButtonWidth(int optionButtonWidth) {
+		OptionButton.optionButtonWidth = optionButtonWidth;
+	}
+
+	public static int getOptionButtonHeight() {
+		return optionButtonHeight;
+	}
+
+	public static void setOptionButtonHeight(int optionButtonHeight) {
+		OptionButton.optionButtonHeight = optionButtonHeight;
 	}
 
 }
