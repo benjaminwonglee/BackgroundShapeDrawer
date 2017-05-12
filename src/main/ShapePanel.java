@@ -174,13 +174,15 @@ public class ShapePanel extends JPanel {
 		// Add Change Background Button
 		this.add(new ChangeBackgroundButton(this));
 		yLoc += optionButtonHeight;
-		this.add(new ChangeBackgroundColor(new Color(canvasRed, canvasGreen, canvasBlue)));
+		changeBackgroundColour = new ChangeBackgroundColor(new Color(canvasRed, canvasGreen, canvasBlue));
+		this.add(changeBackgroundColour);
 		moveXY();
 
 		// Add Choose Shape Colour Button
 		this.add(new ShapeColorButton(this));
 		yLoc += optionButtonHeight;
-		this.add(new ChangeOutlineColor(outlineColor));
+		changeOutlineColour = new ChangeOutlineColor(outlineColor);
+		this.add(changeOutlineColour);
 		moveXY();
 
 		// Add Choose Set width & height Button
