@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rectangle extends ShapeAbstract implements Shape {
+	public static ArrayList<int[]> xy = new ArrayList<int[]>();
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c) {
+		int[] xys = new int[2];
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
 			gr.setColor(c);
