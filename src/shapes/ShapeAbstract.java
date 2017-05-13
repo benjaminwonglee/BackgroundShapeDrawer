@@ -1,20 +1,26 @@
 package shapes;
 
+import java.util.HashMap;
+
 public abstract class ShapeAbstract implements Shape {
+	// Amount variables
 	private int amount = 0;
 	private int drawnAmount = 0;
-
+	// Canvas variables
 	protected boolean canvasFilled = false;
-	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static java.awt.Rectangle canvasSize;
+	// Shape size variables
 	private static int width = 90;
 	private static int height = 90;
 	private static boolean fill = false;
+	// Cursor variables
 	private static int xCursor = 0;
 	private static int yCursor = 0;
+	// Pattern variables
+	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static int alternatingInt = 0;
 	private static int borderingInt = 0;
-	private static int crossAlternatingInt = 0;
+	private static int crossAlternatingInt = 0;	
 
 	public enum DrawPattern {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING

@@ -12,6 +12,9 @@ public class Triangle extends ShapeAbstract implements Shape {
 			gr.setColor(c);
 			int x = xSelection();
 			int y = ySelection();
+			xys[0] = x;
+			xys[1] = y;
+			xy.add(xys);
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
 				setCanvasFilled(true);

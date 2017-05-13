@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 import org.junit.Test;
 
-import main.PNGOutput;
+import png.PNGOutput;
 
 public class OutputTests {
 

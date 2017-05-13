@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import borders.*;
 import buttons.*;
+import png.PNGOutput;
 import shapes.*;
 import textboxes.*;
 
@@ -193,7 +194,7 @@ public class ShapePanel extends JPanel {
 
 		// Add Draw Shapes Button
 		addDrawShapesButton(optColor);
-		
+
 		// Set cursor for row 2
 		xLoc += (optionButtonWidth + space);
 		xLoc -= (optionButtonWidth * 4) + (space * 4);
@@ -344,11 +345,20 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void setCanvasSizeVariables() {
+		/*
+		 * The following is to set appropriate width and height of a single
+		 * shape. Since height is shorter than width, it is multiplied by 2.
+		 */
 		// Set the width and height to more exact values
 		int w = (int) canvasSize.getWidth() / 10 - 1;
 		int h = (int) canvasSize.getHeight() / 10 - 1;
+
+		// Set the static ShapeAbstract variables
+		ShapeAbstract.setCanvasSize(canvasSize);
 		ShapeAbstract.setWidth(w);
 		ShapeAbstract.setHeight(h * 2);
+
+		// Update the width height text boxes
 		TextBorder text = (TextBorder) widthText.getBorder();
 		text.setText("" + w);
 		text = (TextBorder) heightText.getBorder();
@@ -356,10 +366,13 @@ public class ShapePanel extends JPanel {
 		widthText.repaint();
 		heightText.repaint();
 		this.png = new PNGOutput(canvasSize);
-		// Set the static ShapeAbstract variables
-		ShapeAbstract.setCanvasSize(canvasSize);
 	}
 
+	/**
+	 * This method responds to when the Change Background Button is clicked. It
+	 * updates the user notification box appropriately, and puts focus on the
+	 * user input text box underneath.
+	 */
 	public void changeBackgroundButtonResponse() {
 		this.changeBackground = true;
 		TextBorder t = (TextBorder) textDisplay.getBorder();
@@ -369,6 +382,11 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	/**
+	 * This method responds to when the Shape Colour button is clicked. It
+	 * updates the user notification box appropriately, and puts focus on the
+	 * user input text box underneath.
+	 */
 	public void shapeColourButtonResponse() {
 		this.shapeColour = true;
 		TextBorder t = (TextBorder) textDisplay.getBorder();
@@ -497,7 +515,13 @@ public class ShapePanel extends JPanel {
 						t.setText("How many " + toDraw.get(0).toLowerCase() + "s? ");
 						textDisplay.repaint();
 					} else {
-						// End case
+						/* End case */
+						// Set the background of the png before drawing
+						Graphics g = png.getPng().getGraphics();
+						g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
+						g.fillRect(0, 0, png.getPng().getWidth(), png.getPng().getHeight());
+						
+						// Draw the shapes
 						draw(canvas.getGraphics(), png.getPng().getGraphics());
 						createPNGFile(png);
 						shapes = new ArrayList<Shape>();
@@ -512,11 +536,6 @@ public class ShapePanel extends JPanel {
 	}
 
 	private void createPNGFile(PNGOutput png) {
-		try {
-			ImageIO.write(png.getPng(), "PNG", new File("output.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
 		png.pngFromFile("output.txt", "output.png");
