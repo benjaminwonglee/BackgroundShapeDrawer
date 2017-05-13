@@ -45,4 +45,11 @@ public class Ellipse extends ShapeAbstract implements Shape {
 		return canvasFilled;
 	}
 
+	@Override
+	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

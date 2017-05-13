@@ -11,4 +11,6 @@ public interface Shape {
 	public boolean getCanvasFilled();
 
 	public int getDrawnAmount();
+
+	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height);
 }

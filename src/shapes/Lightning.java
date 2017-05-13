@@ -50,4 +50,12 @@ public class Lightning extends ShapeAbstract implements Shape {
 	public boolean getCanvasFilled() {
 		return canvasFilled;
 	}
+
+	@Override
+	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

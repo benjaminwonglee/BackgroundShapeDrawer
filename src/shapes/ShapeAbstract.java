@@ -1,7 +1,5 @@
 package shapes;
 
-import java.util.HashMap;
-
 public abstract class ShapeAbstract implements Shape {
 	// Amount variables
 	private int amount = 0;
