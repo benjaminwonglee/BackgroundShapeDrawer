@@ -9,7 +9,7 @@ public class Square extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c) {
-		int[] xys = new int[4];
+		int[] xys = new int[5];
 		for (int i = 0; i < getAmount(); i++) {
 			g.setColor(c);
 			gr.setColor(c);
@@ -19,6 +19,11 @@ public class Square extends ShapeAbstract implements Shape {
 			xys[1] = y;
 			xys[2] = ShapeAbstract.getWidth();
 			xys[3] = ShapeAbstract.getHeight();
+			if (getFill()) {
+				xys[4] = 1;
+			} else {
+				xys[4] = 0;
+			}
 			xy.add(xys);
 			if (x == -1 || y == -1) {
 				setDrawnAmount(i);
