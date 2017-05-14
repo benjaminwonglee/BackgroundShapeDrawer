@@ -4,8 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class PseudoRandomBackgroundDrawer {
-	public PseudoRandomBackgroundDrawer() {
+public class BackgroundShapeDrawer {
+	public BackgroundShapeDrawer() {
 		JFrame frame = new JFrame();
 		ShapePanel sp = new ShapePanel();
 		frame.add(sp);
@@ -13,7 +13,7 @@ public class PseudoRandomBackgroundDrawer {
 	}
 
 	private void setFrameProperties(JFrame frame) {
-		frame.setTitle("PseudoRandomBackgroundDrawer");
+		frame.setTitle("BackgroundShapeDrawer");
 		frame.setPreferredSize(new Dimension(1500, 1000));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -24,6 +24,6 @@ public class PseudoRandomBackgroundDrawer {
 	}
 
 	public static void main(String args[]) {
-		new PseudoRandomBackgroundDrawer();
+		new BackgroundShapeDrawer();
 	}
 }

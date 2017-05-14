@@ -111,7 +111,6 @@ public abstract class ShapeAbstract implements Shape {
 	}
 
 	public int borderingXIntegerInCanvas() {
-
 		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
 			borderingInt = 0;
 			if (xCursor + getWidth() < canvasSize.getWidth()) {
@@ -157,7 +156,7 @@ public abstract class ShapeAbstract implements Shape {
 					crossAlternatingInt++;
 				}
 			} else {
-				// Abort
+				// Stop
 				return -1;
 			}
 		}

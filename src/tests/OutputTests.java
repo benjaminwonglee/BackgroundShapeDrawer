@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 import org.junit.Test;
 
-import png.PNGOutput;
+import output.PNGOutput;
 
 public class OutputTests {
 
@@ -23,7 +23,7 @@ public class OutputTests {
 	public void testPNGOutputToPng1() {
 		PNGOutput png = createPNGOutput();
 		png.outputToFile("test.txt", 0, 0, 0);
-		png.pngFromFile("test.txt", "test.png");
+		png.pngFromFile(null, "test.txt", "test.png");
 		fail();
 		// png.getColorPixelArray()
 	}

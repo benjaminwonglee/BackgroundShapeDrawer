@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 
 import borders.*;
 import buttons.*;
-import png.PNGOutput;
+import output.PNGOutput;
 import shapes.*;
 import textboxes.*;
 
@@ -538,7 +538,7 @@ public class ShapePanel extends JPanel {
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
-		png.pngFromFile("output.txt", "output.png");
+		png.pngFromFile(this, "output.txt", "output.png");
 	}
 
 	public void createShape(String shapeName, int amount) {
