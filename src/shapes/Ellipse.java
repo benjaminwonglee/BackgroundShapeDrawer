@@ -9,33 +9,22 @@ public class Ellipse extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c) {
-		int[] xys = new int[5];
+		g.setColor(c);
+		gr.setColor(c);
 		for (int i = 0; i < getAmount(); i++) {
-			g.setColor(c);
-			gr.setColor(c);
-			int x = xSelection();
-			int y = ySelection();
-			xys[0] = x;
-			xys[1] = y;
-			xys[2] = ShapeAbstract.getWidth();
-			xys[3] = ShapeAbstract.getHeight();
-			if (getFill()) {
-				xys[4] = 1;
-			} else {
-				xys[4] = 0;
-			}
+			int[] xys = setDrawVariables();
 			xy.add(xys);
-			if (x == -1 || y == -1) {
+			if (xys[0] == -1 || xys[1] == -1) {
 				setDrawnAmount(i);
 				setCanvasFilled(true);
 				return;
 			}
 			if (getFill()) {
-				g.fillOval(x, y, getWidth(), getHeight());
-				gr.fillOval(x, y, getWidth(), getHeight());
+				g.fillOval(xys[0], xys[1], getWidth(), getHeight());
+				gr.fillOval(xys[0], xys[1], getWidth(), getHeight());
 			} else {
-				g.drawOval(x, y, getWidth(), getHeight());
-				gr.drawOval(x, y, getWidth(), getHeight());
+				g.drawOval(xys[0], xys[1], getWidth(), getHeight());
+				gr.drawOval(xys[0], xys[1], getWidth(), getHeight());
 			}
 		}
 	}
@@ -53,8 +42,7 @@ public class Ellipse extends ShapeAbstract implements Shape {
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

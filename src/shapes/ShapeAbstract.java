@@ -18,11 +18,30 @@ public abstract class ShapeAbstract implements Shape {
 	private static DrawPattern pattern = DrawPattern.RANDOM;
 	private static int alternatingInt = 0;
 	private static int borderingInt = 0;
-	private static int crossAlternatingInt = 0;	
+	private static int crossAlternatingInt = 0;
 
 	public enum DrawPattern {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
+
+	public int[] setDrawVariables() {
+		// xys = [x, y, width, height, fill]
+		int[] xys = new int[5];
+		for (int i = 0; i < getAmount(); i++) {
+			int x = xSelection();
+			int y = ySelection();
+			xys[0] = x;
+			xys[1] = y;
+			xys[2] = ShapeAbstract.getWidth();
+			xys[3] = ShapeAbstract.getHeight();
+			if (getFill()) {
+				xys[4] = 1;
+			} else {
+				xys[4] = 0;
+			}
+		}
+		return xys;
+	}
 
 	public int randomXIntegerInCanvas() {
 		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
