@@ -7,25 +7,42 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import borders.*;
-import buttons.*;
+import borders.ActivateBorder;
+import borders.ColorBorder;
+import borders.OptionBorder;
+import borders.SimpleBorder;
+import borders.TextBorder;
+import buttons.ChangeBackgroundButton;
+import buttons.FillButton;
+import buttons.OptionButton;
+import buttons.ShapeColorButton;
+import buttons.WidthHeightButton;
 import output.PNGOutput;
-import shapes.*;
-import textboxes.*;
+import shapes.Circle;
+import shapes.Ellipse;
+import shapes.Hexagon;
+import shapes.Lightning;
+import shapes.Octagon;
+import shapes.Shape;
+import shapes.ShapeAbstract;
+import shapes.Square;
+import shapes.Star5;
+import shapes.Star6;
+import shapes.Triangle;
+import textboxes.ChangeBackgroundColor;
+import textboxes.ChangeOutlineColor;
+import textboxes.TextBox;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -134,7 +151,7 @@ public class ShapePanel extends JPanel {
 	/**
 	 * Sets the defaults for the shape buttons. This includes the size, the
 	 * borders and the design.
-	 * 
+	 *
 	 * @param shape
 	 *            The name of the shape to be put on the button
 	 * @return
@@ -156,7 +173,7 @@ public class ShapePanel extends JPanel {
 	/**
 	 * Automatically adjusts the layout for the shape buttons. Should be called
 	 * on all shape buttons in the buttonList.
-	 * 
+	 *
 	 * @param j
 	 *            The shape button to be arranged.
 	 */
@@ -271,7 +288,7 @@ public class ShapePanel extends JPanel {
 
 	/**
 	 * Adds the draw shapes button to the GUI.
-	 * 
+	 *
 	 * @param optColor
 	 *            The colour of the button.
 	 */
@@ -290,7 +307,7 @@ public class ShapePanel extends JPanel {
 
 	/**
 	 * Adds the clear button to the GUI.
-	 * 
+	 *
 	 * @param optColour
 	 *            The colour of the button.
 	 */

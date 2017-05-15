@@ -42,10 +42,11 @@ public class PNGOutput {
 		Color bgc = new Color(canvasRed, canvasGreen, canvasBlue);
 		rgbBgc = bgc.getRGB();
 
+		//s.getXY() returns: [x, y, width, height, fill]
 		for (Shape s : shapes) {
 			for (int[] vars : s.getXY()) {
-				for (int i = 0; i < vars.length - 1; i++) {
-					System.out.println("Printing to file");
+				for (int i = 0; i < vars.length; i++) {
+					System.out.println("Printing to file: " + s.name() + " " + vars[i] + " ");
 					pw.print(s.name() + " " + vars[i] + " ");
 				}
 				pw.println();
