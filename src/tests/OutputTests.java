@@ -13,7 +13,7 @@ public class OutputTests {
 	@Test
 	public void testPNGOutputToFile1() {
 		PNGOutput png = createPNGOutput();
-		png.outputToFile("test.txt", 0, 0, 0);
+		png.outputToFile("test.txt", null, 0, 0, 0);
 
 		fail();
 		// png.getColorPixelArray()
@@ -22,7 +22,7 @@ public class OutputTests {
 	@Test
 	public void testPNGOutputToPng1() {
 		PNGOutput png = createPNGOutput();
-		png.outputToFile("test.txt", 0, 0, 0);
+		png.outputToFile("test.txt", null, 0, 0, 0);
 		png.pngFromFile(null, "test.txt", "test.png");
 		fail();
 		// png.getColorPixelArray()

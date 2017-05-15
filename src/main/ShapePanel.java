@@ -53,7 +53,6 @@ public class ShapePanel extends JPanel {
 
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
-
 	private Color outlineColor;
 
 	// Button response booleans
@@ -77,6 +76,9 @@ public class ShapePanel extends JPanel {
 
 	private PNGOutput png;
 
+	/**
+	 * General constructor for the ShapePanel.
+	 */
 	public ShapePanel() {
 		this.setPreferredSize(new Dimension(1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
@@ -90,6 +92,10 @@ public class ShapePanel extends JPanel {
 		defineCanvasBounds();
 	}
 
+	/**
+	 * Calls all button creator methods to create the shape buttons and option
+	 * buttons.
+	 */
 	public void createButtons() {
 		buttonList = new ArrayList<JButton>();
 		defineButtons();
@@ -99,6 +105,9 @@ public class ShapePanel extends JPanel {
 		createOptionsButtons();
 	}
 
+	/**
+	 * Creates all the shape buttons.
+	 */
 	private void defineButtons() {
 		JButton circle = setButtonDefaults("Circle");
 		JButton ellipse = setButtonDefaults("Ellipse");
@@ -122,6 +131,14 @@ public class ShapePanel extends JPanel {
 		buttonList.add(triangle);
 	}
 
+	/**
+	 * Sets the defaults for the shape buttons. This includes the size, the
+	 * borders and the design.
+	 * 
+	 * @param shape
+	 *            The name of the shape to be put on the button
+	 * @return
+	 */
 	public JButton setButtonDefaults(String shape) {
 		JButton button = new JButton();
 		button.setPreferredSize(new Dimension(BUTTON_WD, BUTTON_HT));
@@ -136,6 +153,13 @@ public class ShapePanel extends JPanel {
 		return button;
 	}
 
+	/**
+	 * Automatically adjusts the layout for the shape buttons. Should be called
+	 * on all shape buttons in the buttonList.
+	 * 
+	 * @param j
+	 *            The shape button to be arranged.
+	 */
 	private void arrangeLayout(JButton j) {
 		j.setBounds(new Rectangle(xLoc, yLoc, BUTTON_WD, BUTTON_HT));
 		yLoc += (BUTTON_HT + 20);
@@ -146,6 +170,10 @@ public class ShapePanel extends JPanel {
 		this.add(j);
 	}
 
+	/**
+	 * Creates all the buttons that give options for drawing the shpes. This
+	 * includes the pattern selector.
+	 */
 	private void createOptionsButtons() {
 		Color optColor = new Color(100, 200, 100);
 		space = 18;
@@ -206,7 +234,7 @@ public class ShapePanel extends JPanel {
 		this.add(new FillButton(this));
 		moveXY();
 
-		// TODO: Need another function here
+		// TODO: Need another function here: Load from file
 		xLoc += (optionButtonWidth + space);
 
 		// Add clear drawing button
@@ -216,11 +244,19 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight * 2 + space;
 	}
 
+	/**
+	 * Moves the cursor of x and y along by a designated amount. This is used
+	 * for adding option buttons.
+	 */
 	private void moveXY() {
 		xLoc += (optionButtonWidth + space);
 		yLoc -= optionButtonHeight;
 	}
 
+	/**
+	 * Adds the text areas displaying the current width and height settings of
+	 * the shapes.
+	 */
 	private void addWidthHeightText() {
 		this.widthText = new JTextArea();
 		widthText.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight));
@@ -233,6 +269,12 @@ public class ShapePanel extends JPanel {
 		this.add(heightText);
 	}
 
+	/**
+	 * Adds the draw shapes button to the GUI.
+	 * 
+	 * @param optColor
+	 *            The colour of the button.
+	 */
 	private void addDrawShapesButton(Color optColor) {
 		JButton drawShapesButton = new JButton();
 		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
@@ -246,6 +288,12 @@ public class ShapePanel extends JPanel {
 		this.add(drawShapesButton);
 	}
 
+	/**
+	 * Adds the clear button to the GUI.
+	 * 
+	 * @param optColour
+	 *            The colour of the button.
+	 */
 	private void addClearButton(Color optColour) {
 		JButton clear = new JButton();
 		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
@@ -268,6 +316,10 @@ public class ShapePanel extends JPanel {
 		this.add(clear);
 	}
 
+	/**
+	 * Adds the pattern selector combo box. This is the fold down menu which has
+	 * the pattern names on it.
+	 */
 	private void addPatternSelector() {
 		JTextArea patternSelect = new JTextArea();
 		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
@@ -304,6 +356,9 @@ public class ShapePanel extends JPanel {
 		this.add(patternSelector);
 	}
 
+	/**
+	 * Creates the text areas for user notification and user input.
+	 */
 	private void createTextAreas() {
 		int textBoxWidth = this.getPreferredSize().width - xLoc - 20;
 		textDisplay.setBounds(new Rectangle(xLoc, yLoc - 5, textBoxWidth, 50));
@@ -333,6 +388,9 @@ public class ShapePanel extends JPanel {
 		this.add(ok);
 	}
 
+	/**
+	 * Define the canvas bounds based on the current cursor x and y positions.
+	 */
 	private void defineCanvasBounds() {
 		canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
 				this.getPreferredSize().height - yLoc - 100);
@@ -344,6 +402,10 @@ public class ShapePanel extends JPanel {
 		setCanvasSizeVariables();
 	}
 
+	/**
+	 * Sets up all variables related to the canvas size once the final canvas
+	 * size has been set.
+	 */
 	public void setCanvasSizeVariables() {
 		/*
 		 * The following is to set appropriate width and height of a single
@@ -371,7 +433,7 @@ public class ShapePanel extends JPanel {
 	/**
 	 * This method responds to when the Change Background Button is clicked. It
 	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath.
+	 * user input text box underneath. Sets booleans for userInputResponse.
 	 */
 	public void changeBackgroundButtonResponse() {
 		this.changeBackground = true;
@@ -385,7 +447,7 @@ public class ShapePanel extends JPanel {
 	/**
 	 * This method responds to when the Shape Colour button is clicked. It
 	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath.
+	 * user input text box underneath. Sets booleans for userInputResponse.
 	 */
 	public void shapeColourButtonResponse() {
 		this.shapeColour = true;
@@ -396,6 +458,11 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	/**
+	 * This method responds to when the Set Width & height button is clicked. It
+	 * updates the user notification box appropriately, and puts focus on the
+	 * user input text box underneath. Sets booleans for userInputResponse.
+	 */
 	public void widthHeightButtonResponse() {
 		this.widthHeight = true;
 		this.changeWidth = true;
@@ -406,6 +473,11 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	/**
+	 * This method responds to when the Set Width & height button is clicked. It
+	 * updates the user notification box appropriately, and puts focus on the
+	 * user input text box underneath. Sets booleans for userInputResponse.
+	 */
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
 		// Add activated shapes
@@ -520,7 +592,7 @@ public class ShapePanel extends JPanel {
 						Graphics g = png.getPng().getGraphics();
 						g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
 						g.fillRect(0, 0, png.getPng().getWidth(), png.getPng().getHeight());
-						
+
 						// Draw the shapes
 						draw(canvas.getGraphics(), png.getPng().getGraphics());
 						createPNGFile(png);
@@ -537,7 +609,7 @@ public class ShapePanel extends JPanel {
 
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
-		png.outputToFile("output.txt", canvasRed, canvasGreen, canvasBlue);
+		png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
 		png.pngFromFile(this, "output.txt", "output.png");
 	}
 
@@ -712,5 +784,9 @@ public class ShapePanel extends JPanel {
 
 	public static void setYLoc(int yLoc) {
 		ShapePanel.yLoc = yLoc;
+	}
+
+	public ArrayList<Shape> getShapes() {
+		return shapes;
 	}
 }

@@ -51,4 +51,9 @@ public class Octagon extends ShapeAbstract implements Shape {
 
 	}
 
+	@Override
+	public ArrayList<int[]> getXY() {
+		return xy;
+	}
+
 }

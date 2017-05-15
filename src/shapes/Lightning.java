@@ -53,4 +53,9 @@ public class Lightning extends ShapeAbstract implements Shape {
 
 	}
 
+	@Override
+	public ArrayList<int[]> getXY() {
+		return xy;
+	}
+
 }

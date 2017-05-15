@@ -52,4 +52,9 @@ public class Star6 extends ShapeAbstract implements Shape {
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
 
 	}
+
+	@Override
+	public ArrayList<int[]> getXY() {
+		return xy;
+	}
 }

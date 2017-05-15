@@ -45,4 +45,9 @@ public class Ellipse extends ShapeAbstract implements Shape {
 
 	}
 
+	@Override
+	public ArrayList<int[]> getXY() {
+		return xy;
+	}
+
 }
