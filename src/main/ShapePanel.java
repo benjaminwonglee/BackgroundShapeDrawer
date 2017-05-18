@@ -592,7 +592,7 @@ public class ShapePanel extends JPanel {
 				try {
 					int input = Integer.parseInt(userInput.getText());
 					if (input > 100 || input < 0) {
-						t.setText("Please enter a number that is 100 or less and 0 or greater");
+						t.setText("Please enter a number that is between 0 and 100 inclusive");
 						textDisplay.repaint();
 						return;
 					}
@@ -627,9 +627,16 @@ public class ShapePanel extends JPanel {
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
-		png.pngFromFile(this, "output.txt", "output.png");
+		//png.pngFromFile(this, "output.txt", "output.png");
 	}
 
+	/**
+	 * shapeName is the name on each button in the program. Format: First letter
+	 * always capitalised. Amount is the amount to draw.
+	 *
+	 * @param shapeName
+	 * @param amount
+	 */
 	public void createShape(String shapeName, int amount) {
 		switch (shapeName) {
 		case ("Circle"):
@@ -805,9 +812,5 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
-	}
-
-	public void setCanvas(JPanel canvas) {
-		this.canvas = canvas;
 	}
 }
