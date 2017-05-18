@@ -12,7 +12,7 @@ public class Ellipse extends ShapeAbstract implements Shape {
 		g.setColor(c);
 		gr.setColor(c);
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables();
+			int[] xys = setDrawVariables(c);
 			xy.add(xys);
 			if (xys[0] == -1 || xys[1] == -1) {
 				setDrawnAmount(i);

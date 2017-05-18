@@ -12,7 +12,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
 		g.setColor(c);
 		gr.setColor(c);
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables();
+			int[] xys = setDrawVariables(c);
 			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];
@@ -44,11 +44,11 @@ public class Hexagon extends ShapeAbstract implements Shape {
 	public boolean getCanvasFilled() {
 		return canvasFilled;
 	}
-	
+
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

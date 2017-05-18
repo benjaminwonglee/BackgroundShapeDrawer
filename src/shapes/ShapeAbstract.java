@@ -1,5 +1,7 @@
 package shapes;
 
+import java.awt.Color;
+
 public abstract class ShapeAbstract implements Shape {
 	// Amount variables
 	private int amount = 0;
@@ -24,9 +26,9 @@ public abstract class ShapeAbstract implements Shape {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
 
-	public int[] setDrawVariables() {
-		// xys = [x, y, width, height, fill]
-		int[] xys = new int[5];
+	public int[] setDrawVariables(Color c) {
+		// xys = [x, y, width, height, fill, rgbColor]
+		int[] xys = new int[6];
 		int x = xSelection();
 		int y = ySelection();
 		xys[0] = x;
@@ -38,6 +40,7 @@ public abstract class ShapeAbstract implements Shape {
 		} else {
 			xys[4] = 0;
 		}
+		xys[5] = c.getRGB();
 		return xys;
 	}
 

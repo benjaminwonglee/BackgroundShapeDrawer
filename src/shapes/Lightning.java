@@ -12,7 +12,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 		g.setColor(c);
 		gr.setColor(c);
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables();
+			int[] xys = setDrawVariables(c);
 			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];

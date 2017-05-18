@@ -9,13 +9,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import main.ShapePanel;
+import shapes.Circle;
+import shapes.Ellipse;
+import shapes.Hexagon;
+import shapes.Lightning;
+import shapes.Octagon;
 import shapes.Shape;
+import shapes.ShapeAbstract;
+import shapes.Square;
+import shapes.Star5;
+import shapes.Star6;
+import shapes.Triangle;
 
 public class PNGOutput {
 
@@ -72,6 +83,14 @@ public class PNGOutput {
 			int wd = sc.nextInt();
 			int ht = sc.nextInt();
 			int fill = sc.nextInt();
+			int rgb = sc.nextInt();
+			Shape s = determineShape(nm);
+			if (fill == 1) {
+				ShapeAbstract.setFill(true);
+			} else {
+				ShapeAbstract.setFill(false);
+			}
+			s.drawFromXY(g, new Color(rgb), x, y, wd, ht);
 		}
 		try {
 			ImageIO.write(png, "PNG", new File(newImageName));
@@ -81,6 +100,35 @@ public class PNGOutput {
 		sc.close();
 		return;
 
+	}
+
+	private Shape determineShape(String name) {
+		switch (name) {
+		case ("Circle"):
+			Circle c = new Circle();
+			return c;
+		case ("Ellipse"):
+			Ellipse e = new Ellipse();
+			return e;
+		case ("Hexagon"):
+			return new Hexagon();
+		case ("Lightning"):
+			return new Lightning();
+		case ("Octagon"):
+			return new Octagon();
+		case ("Rectangle"):
+			return new shapes.Rectangle();
+		case ("Square"):
+			return new Square();
+		case ("5-Pointed Star"):
+			return new Star5();
+		case ("6-Pointed Star"):
+			return new Star6();
+		case ("Triangle"):
+			return new Triangle();
+		default:
+			throw new NoSuchElementException();
+		}
 	}
 
 	public BufferedImage getPng() {

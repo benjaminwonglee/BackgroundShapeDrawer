@@ -12,7 +12,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 		g.setColor(c);
 		gr.setColor(c);
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables();
+			int[] xys = setDrawVariables(c);
 			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];
@@ -52,7 +52,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -60,5 +60,5 @@ public class Star5 extends ShapeAbstract implements Shape {
 		return xy;
 	}
 
-	
+
 }
