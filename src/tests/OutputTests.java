@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -16,6 +17,9 @@ import org.junit.Test;
 import main.ShapePanel;
 import output.PNGOutput;
 import shapes.Shape;
+import shapes.ShapeAbstract;
+import shapes.ShapeAbstract.DrawPattern;
+import shapes.Triangle;
 
 public class OutputTests {
 	/**
@@ -48,28 +52,62 @@ public class OutputTests {
 			fail("File 'test.txt' wasn't created.");
 		}
 		int count = 0;
+
+		String nm = null;
+		int x = 0;
+		int y = 0;
+		int wd = 0;
+		int ht = 0;
+		int fill = 0;
+		int rgb = 0;
 		try {
 			while (sc.hasNext()) {
 				count++;
-				String nm = sc.next();
-				int x = sc.nextInt();
-				int y = sc.nextInt();
-				int wd = sc.nextInt();
-				int ht = sc.nextInt();
-				int fill = sc.nextInt();
+				nm = sc.next();
+				x = sc.nextInt();
+				y = sc.nextInt();
+				wd = sc.nextInt();
+				ht = sc.nextInt();
+				fill = sc.nextInt();
+				rgb = sc.nextInt();
 			}
-			if (count != testNum*2) {
+			if (count != testNum * 2) {
 				fail("Outputted wrong number of shapes, should be: " + testNum + " but was: " + count);
 			}
-		} catch (NumberFormatException e) {
-			fail("Formatting of txt file was incorrect.");
+		} catch (InputMismatchException e) {
+			fail("Formatting of txt file was incorrect. nm: " + nm + " x: " + x + " y: " + y + " wd: " + wd + " ht: "
+					+ ht + " fill: " + fill + " rgb: " + rgb);
+
 		}
 		sc.close();
 	}
 
 	@Test
-	public void testPNGOutputToPng1() {
-		// TODO: Complete this
+	public void drawCorrectWidth() {
+		PNGOutput png = createPNGOutput();
+		ShapePanel sp = new ShapePanel();
+		int testNum = 2;
+
+		// Adds to ShapePanel shapes arraylist.
+		sp.createShape("Triangle", testNum);
+		ArrayList<Shape> shapes = sp.getShapes();
+
+		// Before drawing, set the abstract variables
+		ShapeAbstract.setPattern(DrawPattern.ALIGNED);
+		ShapeAbstract.setWidth(2);
+		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
+		Triangle t = (Triangle) shapes.get(0); 
+		ArrayList<int[]> vars = t.getXY();
+		int[] first = vars.get(0);
+		int[] second = vars.get(1);
+		if (first[0] != 0) {
+			fail();
+		}
+		if(second[0] != 2){
+			fail();
+		}
+
+		Scanner sc = null;
 	}
 
 	public PNGOutput createPNGOutput() {
