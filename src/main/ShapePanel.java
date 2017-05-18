@@ -498,7 +498,7 @@ public class ShapePanel extends JPanel {
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
 		// Add activated shapes
-		this.toDraw = new ArrayList<String>();
+		toDraw = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
 			ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
 			if (border.getActivated()) {
@@ -805,5 +805,9 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
+	}
+
+	public void setCanvas(JPanel canvas) {
+		this.canvas = canvas;
 	}
 }

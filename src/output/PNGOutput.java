@@ -42,16 +42,20 @@ public class PNGOutput {
 		Color bgc = new Color(canvasRed, canvasGreen, canvasBlue);
 		rgbBgc = bgc.getRGB();
 
-		//s.getXY() returns: [x, y, width, height, fill]
+		// s.getXY() returns: [x, y, width, height, fill]
 		for (Shape s : shapes) {
 			for (int[] vars : s.getXY()) {
+				System.out.print(s.name() + " ");
+				pw.print(s.name() + " ");
 				for (int i = 0; i < vars.length; i++) {
-					System.out.println("Printing to file: " + s.name() + " " + vars[i] + " ");
-					pw.print(s.name() + " " + vars[i] + " ");
+					System.out.print(vars[i] + " ");
+					pw.print(vars[i] + " ");
 				}
+				System.out.println();
 				pw.println();
 			}
 		}
+		pw.close();
 	}
 
 	public void pngFromFile(ShapePanel sp, String filename, String newImageName) {
