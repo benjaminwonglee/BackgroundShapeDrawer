@@ -627,7 +627,7 @@ public class ShapePanel extends JPanel {
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
-		//png.pngFromFile(this, "output.txt", "output.png");
+		// png.pngFromFile(this, "output.txt", "output.png");
 	}
 
 	/**

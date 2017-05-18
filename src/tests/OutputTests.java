@@ -39,8 +39,7 @@ public class OutputTests {
 
 		// Before drawing, set the abstract variables
 		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-
-		//png.outputToFile("test.txt", shapes, 0, 0, 0);
+		png.outputToFile("test.txt", shapes, 0, 0, 0);
 
 		Scanner sc = null;
 		try {
@@ -48,8 +47,8 @@ public class OutputTests {
 		} catch (FileNotFoundException e) {
 			fail("File 'test.txt' wasn't created.");
 		}
+		int count = 0;
 		try {
-			int count = 0;
 			while (sc.hasNext()) {
 				count++;
 				String nm = sc.next();
@@ -59,8 +58,8 @@ public class OutputTests {
 				int ht = sc.nextInt();
 				int fill = sc.nextInt();
 			}
-			if(count > testNum){
-				fail("outputted too many shapes");
+			if (count != testNum*2) {
+				fail("Outputted wrong number of shapes, should be: " + testNum + " but was: " + count);
 			}
 		} catch (NumberFormatException e) {
 			fail("Formatting of txt file was incorrect.");
@@ -70,17 +69,7 @@ public class OutputTests {
 
 	@Test
 	public void testPNGOutputToPng1() {
-		ShapePanel sp = new ShapePanel();
-		PNGOutput png = createPNGOutput();
-
-		// Adds to ShapePanel shapes arraylist.
-		sp.createShape("Circle", 5);
-		ArrayList<Shape> shapes = sp.getShapes();
-
-		// Before drawing, set the abstract variables
-		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-
-		png.outputToFile("test.txt", shapes, 0, 0, 0);
+		// TODO: Complete this
 	}
 
 	public PNGOutput createPNGOutput() {
