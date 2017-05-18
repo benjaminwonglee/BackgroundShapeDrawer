@@ -23,7 +23,7 @@ public class PNGOutput {
 	private int rgbBgc = 0;
 
 	public PNGOutput(Rectangle canvasSize) {
-		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight(),
+		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
 				BufferedImage.TYPE_INT_ARGB);
 	}
 
@@ -45,13 +45,10 @@ public class PNGOutput {
 		// s.getXY() returns: [x, y, width, height, fill]
 		for (Shape s : shapes) {
 			for (int[] vars : s.getXY()) {
-				System.out.print(s.name() + " ");
 				pw.print(s.name() + " ");
 				for (int i = 0; i < vars.length; i++) {
-					System.out.print(vars[i] + " ");
 					pw.print(vars[i] + " ");
 				}
-				System.out.println();
 				pw.println();
 			}
 		}

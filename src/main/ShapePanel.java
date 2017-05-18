@@ -431,17 +431,18 @@ public class ShapePanel extends JPanel {
 		// Set the width and height to more exact values
 		int w = (int) canvasSize.getWidth() / 10 - 1;
 		int h = (int) canvasSize.getHeight() / 10 - 1;
-
+		if (w > h * 2) {
+			w = h * 2;
+		}
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
 		ShapeAbstract.setWidth(w);
 		ShapeAbstract.setHeight(h * 2);
-
 		// Update the width height text boxes
 		TextBorder text = (TextBorder) widthText.getBorder();
-		text.setText("" + w);
+		text.setText("" + ShapeAbstract.getWidth());
 		text = (TextBorder) heightText.getBorder();
-		text.setText("" + h * 2);
+		text.setText("" + ShapeAbstract.getHeight());
 		widthText.repaint();
 		heightText.repaint();
 		this.png = new PNGOutput(canvasSize);
@@ -627,7 +628,7 @@ public class ShapePanel extends JPanel {
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
-		// png.pngFromFile(this, "output.txt", "output.png");
+		png.pngFromFile(this, "output.txt", "output.png");
 	}
 
 	/**
