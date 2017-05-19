@@ -104,27 +104,25 @@ public class PNGOutput {
 
 	private Shape determineShape(String name) {
 		switch (name) {
-		case ("Circle"):
-			Circle c = new Circle();
-			return c;
-		case ("Ellipse"):
-			Ellipse e = new Ellipse();
-			return e;
-		case ("Hexagon"):
+		case ("circle"):
+			return new Circle();
+		case ("ellipse"):
+			return new Ellipse();
+		case ("hexagon"):
 			return new Hexagon();
-		case ("Lightning"):
+		case ("lightning"):
 			return new Lightning();
-		case ("Octagon"):
+		case ("octagon"):
 			return new Octagon();
-		case ("Rectangle"):
+		case ("rectangle"):
 			return new shapes.Rectangle();
-		case ("Square"):
+		case ("square"):
 			return new Square();
-		case ("5-Pointed Star"):
+		case ("5-pointed star"):
 			return new Star5();
-		case ("6-Pointed Star"):
+		case ("6-pointed star"):
 			return new Star6();
-		case ("Triangle"):
+		case ("triangle"):
 			return new Triangle();
 		default:
 			throw new NoSuchElementException();
