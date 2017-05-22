@@ -109,6 +109,20 @@ public class ShapePanel extends JPanel {
 		defineCanvasBounds();
 	}
 
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int incr = 20;
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 155),
+						(int) (Math.random() * 55)));
+				g.fillOval(row, col, 10, 10);
+			}
+		}
+
+	}
+
 	/**
 	 * Calls all button creator methods to create the shape buttons and option
 	 * buttons.

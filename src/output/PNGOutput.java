@@ -74,7 +74,9 @@ public class PNGOutput {
 			e.printStackTrace();
 		}
 		JPanel canvas = sp.getCanvas();
+		canvas.setBackground(new Color(rgbBgc));
 		Graphics g = canvas.getGraphics();
+
 		while (sc.hasNext()) {
 			String nm = sc.next();
 			int x = sc.nextInt();

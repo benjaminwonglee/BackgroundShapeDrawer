@@ -36,7 +36,7 @@ public class OutputTests {
 		PNGOutput png = createPNGOutput();
 		int testNum = 5;
 
-		// Adds to ShapePanel shapes arraylist.
+		// Adds to ShapePanel shapes ArrayList.
 		sp.createShape("Circle", testNum);
 		sp.createShape("Square", testNum);
 		ArrayList<Shape> shapes = sp.getShapes();
@@ -77,7 +77,6 @@ public class OutputTests {
 		} catch (InputMismatchException e) {
 			fail("Formatting of txt file was incorrect. nm: " + nm + " x: " + x + " y: " + y + " wd: " + wd + " ht: "
 					+ ht + " fill: " + fill + " rgb: " + rgb);
-
 		}
 		sc.close();
 	}
@@ -94,20 +93,29 @@ public class OutputTests {
 
 		// Before drawing, set the abstract variables
 		ShapeAbstract.setPattern(DrawPattern.ALIGNED);
-		ShapeAbstract.setWidth(2);
+		ShapeAbstract.setWidth(4);
 		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-		Triangle t = (Triangle) shapes.get(0); 
+		Triangle t = (Triangle) shapes.get(0);
 		ArrayList<int[]> vars = t.getXY();
 		int[] first = vars.get(0);
 		int[] second = vars.get(1);
 		if (first[0] != 0) {
 			fail();
 		}
-		if(second[0] != 2){
+		if (second[0] != 4) {
 			fail();
 		}
-
+		png.outputToFile("test.txt", shapes, 0, 0, 0);
 		Scanner sc = null;
+		try {
+			sc = new Scanner(new File("test.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		// TODO: test the file output
+		while (sc.hasNext()) {
+			System.out.println(sc.next());
+		}
 	}
 
 	public PNGOutput createPNGOutput() {
@@ -116,6 +124,8 @@ public class OutputTests {
 	}
 
 	private class TestCanvas extends JPanel {
+		private static final long serialVersionUID = -1863297224513004580L;
+
 		public TestCanvas() {
 			JFrame frame = new JFrame();
 			frame.setBounds(testCanvasSize);
