@@ -41,8 +41,11 @@ public class Circle extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
-
+		if (getFill()) {
+			g.fillOval(x, y, width, width);
+		} else {
+			g.drawOval(x, y, width, width);
+		}
 	}
 
 	@Override

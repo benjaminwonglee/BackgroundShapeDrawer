@@ -73,7 +73,6 @@ public class PNGOutput {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		// TODO: Complete this method
 		JPanel canvas = sp.getCanvas();
 		Graphics g = canvas.getGraphics();
 		while (sc.hasNext()) {
