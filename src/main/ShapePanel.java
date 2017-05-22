@@ -25,6 +25,7 @@ import borders.SimpleBorder;
 import borders.TextBorder;
 import buttons.ChangeBackgroundButton;
 import buttons.FillButton;
+import buttons.LoadFromFileButton;
 import buttons.OptionButton;
 import buttons.ShapeColorButton;
 import buttons.WidthHeightButton;
@@ -266,6 +267,7 @@ public class ShapePanel extends JPanel {
 		moveXY();
 
 		// TODO: Need another function here: Load from file
+		this.add(new LoadFromFileButton(this));
 		xLoc += (optionButtonWidth + space);
 
 		// Add clear drawing button
@@ -327,7 +329,7 @@ public class ShapePanel extends JPanel {
 	 */
 	private void addClearButton(Color optColour) {
 		JButton clear = new JButton();
-		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		clear.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight * 2));
 		clear.setBorder(new OptionBorder("Clear Drawing", optColour));
 		clear.addActionListener(new ActionListener() {
 			@Override
@@ -827,5 +829,9 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
+	}
+
+	public void loadFileButtonResponse() {
+
 	}
 }
