@@ -49,8 +49,18 @@ public class Lightning extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
-
+		int[] xInts = new int[] { x + width / 5 * 2, x + width, x + width / 5 * 3, x + width,
+				x + width / 5 * 3, x + width, x + width / 5, x + width / 5 * 2, x,
+				x + width / 5 * 2, x, x + width / 5 * 2 };
+		int[] yInts = new int[] { y, y, y + height / 7 * 2, y + height / 7 * 2, y + height / 7 * 4,
+				y + height / 7 * 4, y + height, y + height / 7 * 5, y + height / 7 * 5,
+				y + height / 7 * 3, y + height / 7 * 3, y };
+		if (getFill()) {
+			g.fillPolygon(xInts, yInts, 7);
+		} else {
+			g.drawPolygon(xInts, yInts, 7);
+		}
+	
 	}
 
 	@Override

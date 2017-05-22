@@ -50,7 +50,18 @@ public class Star6 extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
-
+		int[] xInts = new int[] { x, x + width / 3, x + width / 4, x + width / 2,
+				x + width - width / 4, x + width - width / 3, x + width,
+				x + width - width / 3, x + width - width / 4, x + width / 2,
+				x + width / 4, x + width / 3, x };
+		int[] yInts = new int[] { y + height / 2, y + height / 3, y, y + height / 4, y,
+				y + height / 3, y + height / 2, y + height / 3 * 2, y + height,
+				y + height / 4 * 3, y + height, y + height / 3 * 2, y + height / 2 };
+		if (getFill()) {
+			g.fillPolygon(xInts, yInts, 13);
+		} else {
+			g.drawPolygon(xInts, yInts, 13);
+		}
 	}
 
 	@Override

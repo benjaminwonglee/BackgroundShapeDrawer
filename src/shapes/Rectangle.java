@@ -43,8 +43,11 @@ public class Rectangle extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
-
+		if (getFill()) {
+			g.fillRect(x, y, width, height);
+		} else {
+			g.drawRect(x, y, width, height);
+		}
 	}
 
 	@Override
