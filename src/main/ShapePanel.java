@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,6 +15,8 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -118,7 +121,7 @@ public class ShapePanel extends JPanel {
 			for (int col = 0; col < this.getBounds().height; col += incr) {
 				g.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 155),
 						(int) (Math.random() * 55)));
-				g.fillOval(row, col, 10, 10);
+				g.fillOval(row, col, incr, incr);
 			}
 		}
 
@@ -253,7 +256,7 @@ public class ShapePanel extends JPanel {
 		moveXY();
 
 		// Add Draw Shapes Button
-		addDrawShapesButton(optColor);
+		addDrawShapesButton(optColor, space);
 
 		// Set cursor for row 2
 		xLoc += (optionButtonWidth + space);
@@ -262,7 +265,6 @@ public class ShapePanel extends JPanel {
 
 		// Row 2
 		// Add Fill Button
-
 		this.add(new FillButton(this));
 		moveXY();
 
@@ -308,9 +310,9 @@ public class ShapePanel extends JPanel {
 	 * @param optColor
 	 *            The colour of the button.
 	 */
-	private void addDrawShapesButton(Color optColor) {
+	private void addDrawShapesButton(Color optColor, int space) {
 		JButton drawShapesButton = new JButton();
-		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4));
+		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4 + space));
 		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColor));
 		drawShapesButton.addActionListener(new ActionListener() {
 			@Override
@@ -526,6 +528,16 @@ public class ShapePanel extends JPanel {
 		userInput.setText("");
 		userInput.update(userInput.getGraphics());
 		userInputResponse();
+	}
+
+	public void loadFileButtonResponse() {
+		JFileChooser chooser = new JFileChooser();
+		int option = chooser.showOpenDialog(new JDialog());
+		if (option == JFileChooser.CANCEL_OPTION) {
+			return;
+		} else if (option == JFileChooser.APPROVE_OPTION) {
+
+		}
 	}
 
 	public void userInputResponse() {
@@ -829,9 +841,5 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
-	}
-
-	public void loadFileButtonResponse() {
-
 	}
 }
