@@ -47,6 +47,7 @@ public class Octagon extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 4, x + width / 4 * 3, x + width, x + width,
 				x + width / 4 * 3, x + width / 4, x, x };
 		int[] yInts = new int[] { y + (height / 4), y, y, y + (height / 4), y + height / 4 * 3,

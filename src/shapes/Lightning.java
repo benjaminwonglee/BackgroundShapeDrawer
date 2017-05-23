@@ -49,6 +49,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		int[] xInts = new int[] { x + width / 5 * 2, x + width, x + width / 5 * 3, x + width,
 				x + width / 5 * 3, x + width, x + width / 5, x + width / 5 * 2, x,
 				x + width / 5 * 2, x, x + width / 5 * 2 };
@@ -60,7 +61,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 		} else {
 			g.drawPolygon(xInts, yInts, 7);
 		}
-	
+
 	}
 
 	@Override

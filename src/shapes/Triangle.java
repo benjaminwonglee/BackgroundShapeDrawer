@@ -45,6 +45,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 2, x + width, x };
 		int[] yInts = new int[] { y + height, y, y + height, y + height };
 		if (getFill()) {

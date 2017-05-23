@@ -51,6 +51,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		double span = width / 6;
 		int sp = (int) span;
 		int[] xInts = new int[] { x, x + width / 3, x + width / 2, x + width - (width / 3),

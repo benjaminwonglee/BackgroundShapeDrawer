@@ -43,6 +43,7 @@ public class Square extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		if (getFill()) {
 			g.fillRect(x, y, width, width);
 		} else {

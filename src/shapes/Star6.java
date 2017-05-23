@@ -50,6 +50,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 3, x + width / 4, x + width / 2,
 				x + width - width / 4, x + width - width / 3, x + width,
 				x + width - width / 3, x + width - width / 4, x + width / 2,

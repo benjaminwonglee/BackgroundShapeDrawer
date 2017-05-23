@@ -41,6 +41,7 @@ public class Ellipse extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+		g.setColor(c);
 		if (getFill()) {
 			g.fillOval(x, y, width, height);
 		} else {
