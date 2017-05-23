@@ -116,12 +116,13 @@ public class ShapePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		this.setBackground(new Color(20, 20, 20));
 		int incr = 20;
 		for (int row = 0; row < this.getBounds().width; row += incr) {
 			for (int col = 0; col < this.getBounds().height; col += incr) {
 				g.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 155),
 						(int) (Math.random() * 55)));
-				g.fillOval(row, col, incr, incr);
+				g.fillOval(row, col, incr / 2, incr / 2);
 			}
 		}
 
@@ -210,7 +211,7 @@ public class ShapePanel extends JPanel {
 	 * includes the pattern selector.
 	 */
 	private void createOptionsButtons() {
-		Color optColor = new Color(100, 200, 100);
+		Color optColor = new Color(150, 0, 100);
 		space = 18;
 
 		optionButtonWidth = BUTTON_WD * 2 + 20;
