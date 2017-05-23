@@ -52,7 +52,7 @@ public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
 
 	private final static int BUTTON_WD = 180;
-	private final static int BUTTON_HT = 80;
+	private final static int BUTTON_HT = 60;
 
 	private List<JButton> buttonList;
 	private JTextArea textDisplay;
@@ -117,6 +117,14 @@ public class ShapePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
+		Color cOne = new Color(50, 10, 100);
+		int incr = 20;
+		/* Set color theme: */
+		// setRandomColorTheme(g);
+		setGradientColorTheme(g);
+	}
+
+	private void setRandomColorTheme(Graphics g) {
 		int incr = 20;
 		for (int row = 0; row < this.getBounds().width; row += incr) {
 			for (int col = 0; col < this.getBounds().height; col += incr) {
@@ -125,7 +133,18 @@ public class ShapePanel extends JPanel {
 				g.fillOval(row, col, incr / 2, incr / 2);
 			}
 		}
+	}
 
+	private void setGradientColorTheme(Graphics g) {
+		Color cOne = new Color(30, 20, 40);
+		int incr = 20;
+		g.setColor(cOne);
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.fillRect(row, col, incr, incr);
+			}
+			g.setColor(new Color(cOne.getRed() + (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
+		}
 	}
 
 	/**
@@ -199,7 +218,7 @@ public class ShapePanel extends JPanel {
 	private void arrangeLayout(JButton j) {
 		j.setBounds(new Rectangle(xLoc, yLoc, BUTTON_WD, BUTTON_HT));
 		yLoc += (BUTTON_HT + 20);
-		if (yLoc > this.getPreferredSize().getHeight() / 2) {
+		if (yLoc > BUTTON_HT * 6) {
 			xLoc += (BUTTON_WD + 20);
 			yLoc = 20;
 		}
@@ -358,14 +377,16 @@ public class ShapePanel extends JPanel {
 	 */
 	private void addPatternSelector() {
 		JTextArea patternSelect = new JTextArea();
-		patternSelect.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		patternSelect
+				.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
 		TextBorder patternBorder = new TextBorder("Select Pattern");
 		patternBorder.setFont(new Font("Arial", 1, 18));
 		patternSelect.setBorder(patternBorder);
 
 		yLoc += optionButtonHeight;
 		this.patternSelector = new JComboBox<String>();
-		patternSelector.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight));
+		patternSelector
+				.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
 		patternSelector.setFont(new Font("Arial", 1, 20));
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
