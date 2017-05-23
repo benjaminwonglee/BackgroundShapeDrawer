@@ -66,17 +66,16 @@ public class PNGOutput {
 		pw.close();
 	}
 
-	public void pngFromFile(ShapePanel sp, String filename, String newImageName) {
+	public void pngFromFile(ShapePanel sp, File file, String newImageName) {
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new File(filename));
+			sc = new Scanner(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		JPanel canvas = sp.getCanvas();
 		canvas.setBackground(new Color(rgbBgc));
 		Graphics g = canvas.getGraphics();
-
 		while (sc.hasNext()) {
 			String nm = sc.next();
 			int x = sc.nextInt();

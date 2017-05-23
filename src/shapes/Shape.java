@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public interface Shape {
-	
+
 	public void drawShape(Graphics g, Graphics pngGraphics, Color c);
 
 	public String name();

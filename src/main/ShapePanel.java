@@ -83,6 +83,7 @@ public class ShapePanel extends JPanel {
 	private boolean widthHeight = false;
 	private boolean changeWidth = false;
 	private boolean changeHeight = false;
+	private boolean saveFile = false;
 
 	private int optionButtonHeight;
 	private JPanel canvas;
@@ -470,14 +471,10 @@ public class ShapePanel extends JPanel {
 		 */
 		// Set the width and height to more exact values
 		int w = (int) canvasSize.getWidth() / 10 - 1;
-		int h = (int) canvasSize.getHeight() / 10 - 1;
-		if (w > h * 2) {
-			w = h * 2;
-		}
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
 		ShapeAbstract.setWidth(w);
-		ShapeAbstract.setHeight(h * 2);
+		ShapeAbstract.setHeight(w);
 		// Update the width height text boxes
 		TextBorder text = (TextBorder) widthText.getBorder();
 		text.setText("" + ShapeAbstract.getWidth());
@@ -552,13 +549,29 @@ public class ShapePanel extends JPanel {
 		userInputResponse();
 	}
 
+	public void saveFileButtonResponse() {
+		JFileChooser chooser = new JFileChooser();
+		int option = chooser.showOpenDialog(new JDialog());
+		if (option == JFileChooser.CANCEL_OPTION) {
+			return;
+		} else if (option == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+			png.pngFromFile(this, file, "output.png");
+		}
+		textDisplay.setText("Please choose a filename");
+		userInput.setText("");
+		userInput.update(userInput.getGraphics());
+		userInputResponse();
+	}
+
 	public void loadFileButtonResponse() {
 		JFileChooser chooser = new JFileChooser();
 		int option = chooser.showOpenDialog(new JDialog());
 		if (option == JFileChooser.CANCEL_OPTION) {
 			return;
 		} else if (option == JFileChooser.APPROVE_OPTION) {
-
+			File file = chooser.getSelectedFile();
+			png.pngFromFile(this, file, "output.png");
 		}
 	}
 
@@ -576,7 +589,14 @@ public class ShapePanel extends JPanel {
 		} else if (drawShapes) {
 			changeBackground = false;
 			drawShapes();
+		} else if (saveFile){
+			saveFile = false;
+			saveFile();
 		}
+	}
+
+	private void saveFile() {
+
 	}
 
 	public void setWidthHeight() {
@@ -678,7 +698,6 @@ public class ShapePanel extends JPanel {
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
 		png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
-		png.pngFromFile(this, "output.txt", "output.png");
 	}
 
 	/**
