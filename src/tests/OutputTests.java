@@ -43,7 +43,8 @@ public class OutputTests {
 
 		// Before drawing, set the abstract variables
 		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-		png.outputToFile("test.txt", shapes, 0, 0, 0);
+		png.createAndSetFile("test.txt");
+		png.outputToFile(shapes, 0, 0, 0);
 
 		Scanner sc = null;
 		try {
@@ -105,7 +106,8 @@ public class OutputTests {
 		if (second[0] != 4) {
 			fail();
 		}
-		png.outputToFile("test.txt", shapes, 0, 0, 0);
+		png.createAndSetFile("test.txt");
+		png.outputToFile(shapes, 0, 0, 0);
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File("test.txt"));

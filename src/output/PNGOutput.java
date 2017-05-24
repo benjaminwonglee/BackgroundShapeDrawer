@@ -33,19 +33,26 @@ public class PNGOutput {
 
 	private BufferedImage png;
 	private int rgbBgc = 0;
+	private File file = null;
 
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
 				BufferedImage.TYPE_INT_ARGB);
 	}
 
-	public void outputToFile(String filename, ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue) {
+	public void createAndSetFile(String filename) {
+		this.file = new File(filename);
+	}
+
+	public void setFile(File f) {
+		this.file = f;
+	}
+
+	public void outputToFile(ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
-		File f = null;
 		try {
-			f = new File(filename);
-			pw = new PrintWriter(f);
+			pw = new PrintWriter(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -67,15 +74,9 @@ public class PNGOutput {
 		pw.close();
 	}
 
-	public void pngFromFile(ShapePanel sp, File file, String newImageName) {
+	public void pngFromFile(ShapePanel sp, File file, String newImageName) throws FileNotFoundException {
 		Scanner sc = null;
-		try {
-			sc = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			sp.getTextDisplay().setText("Please choose an existing .txt file.");
-			sp.getTextDisplay().repaint();
-			return;
-		}
+		sc = new Scanner(file);
 		JPanel canvas = sp.getCanvas();
 		canvas.setBackground(new Color(rgbBgc));
 		Graphics g = canvas.getGraphics();
