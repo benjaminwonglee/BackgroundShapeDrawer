@@ -564,14 +564,16 @@ public class ShapePanel extends JPanel {
 			return;
 		} else if (option == JFileChooser.APPROVE_OPTION) {
 			File temp = chooser.getSelectedFile();
-			File file = new File(temp.getAbsolutePath() + ".png");
+			File file = temp;
+			if (!temp.exists()) {
+				file = new File(temp.getAbsolutePath() + ".txt");
+			}
 			// Save a file to the path
 			png.setFile(file);
 			png.outputToFile(shapes, canvasRed, canvasGreen, canvasBlue);
 		}
 	}
 
-	// TODO: Complete this method
 	public void loadFileButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 		int option = chooser.showOpenDialog(new JDialog());
@@ -585,6 +587,8 @@ public class ShapePanel extends JPanel {
 				textDisplay.repaint();
 				return;
 			}
+			// Clears the canvas and png
+			clearButton.doClick();
 			try {
 				png.pngFromFile(this, file, "output.png");
 			} catch (FileNotFoundException e) {
