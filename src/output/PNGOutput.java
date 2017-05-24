@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import main.ShapePanel;
 import shapes.Circle;
@@ -71,7 +72,9 @@ public class PNGOutput {
 		try {
 			sc = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			sp.getTextDisplay().setText("Please choose an existing .txt file.");
+			sp.getTextDisplay().repaint();
+			return;
 		}
 		JPanel canvas = sp.getCanvas();
 		canvas.setBackground(new Color(rgbBgc));

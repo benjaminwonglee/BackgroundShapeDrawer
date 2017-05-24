@@ -6,11 +6,11 @@ import java.awt.event.ActionListener;
 import borders.OptionBorder;
 import main.ShapePanel;
 
-public class LoadFromFileButton extends OptionButton {
+public class SaveToFileButton extends OptionButton {
 	private static final long serialVersionUID = -845385195405722236L;
 	private ShapePanel sp;
 
-	public LoadFromFileButton(ShapePanel sp) {
+	public SaveToFileButton(ShapePanel sp) {
 		this.sp = sp;
 		create();
 	}
@@ -18,11 +18,11 @@ public class LoadFromFileButton extends OptionButton {
 	public void create() {
 		newButtonBounds(this);
 		this.setBounds(new java.awt.Rectangle(getBounds().x, getBounds().y, getBounds().width, getBounds().height));
-		setBorder(new OptionBorder("Load From Text File", getOptColor()));
+		setBorder(new OptionBorder("Save To PNG File", getOptColor()));
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sp.loadFileButtonResponse();
+				sp.saveFileButtonResponse();
 			}
 		});
 	}
