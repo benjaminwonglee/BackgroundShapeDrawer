@@ -134,7 +134,7 @@ public class ShapePanel extends JPanel {
 		// setGradientBlueRedColorTheme(g);
 		// setTrafficLightColorTheme(g);
 		// setMetalTheme(g);
-		setColorMetalTheme(g);
+		setYellowDiamondsTheme(g);
 
 	}
 
@@ -217,16 +217,17 @@ public class ShapePanel extends JPanel {
 
 	}
 
-	private void setColorMetalTheme(Graphics g) {
-		int incr = 22;
-		int add = 3;
-		g.setColor(new Color(240, 100, 200));
+	private void setYellowDiamondsTheme(Graphics g) {
+		int incr = 24;
+		int add = 1;
+		this.setBackground(new Color(230, 230, 0));
+		g.setColor(new Color(0, 100, 100));
 		for (int row = 0; row < this.getBounds().width; row += incr) {
 			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillRect(row, col, incr, incr);
+				g.fillOval(row - 2, col - 2, incr + 4, incr + 4);
 			}
 			if (row < this.getBounds().width / 2) {
-				g.setColor(new Color(g.getColor().getRed() - add, g.getColor().getGreen() + add,
+				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() + add,
 						g.getColor().getBlue() - add));
 			} else {
 				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() - add,
