@@ -24,7 +24,6 @@ public class MetalTheme implements ColorTheme {
 						g.getColor().getBlue() - add));
 			}
 		}
-
 	}
 
 	@Override

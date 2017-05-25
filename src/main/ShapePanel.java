@@ -113,8 +113,9 @@ public class ShapePanel extends JPanel {
 	private JComboBox<String> patternSelector;
 
 	// Theme Variables
-	private String theme = "yellow diamonds";
-	private ColorTheme ct;
+	private String theme = "gradient red blue";
+	private JTextArea themeText;
+	private ColorTheme ct = new GradientRedBlue();
 
 	private PNGOutput png;
 
@@ -138,7 +139,6 @@ public class ShapePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
-		/* Set color theme: */
 		setColorTheme(g);
 	}
 
@@ -267,7 +267,7 @@ public class ShapePanel extends JPanel {
 
 		// Add pattern selector to left side
 		addPatternSelector();
-		yLoc += 100;
+		yLoc += 360;
 		addThemeButton(optColor);
 		moveXY();
 
@@ -445,23 +445,62 @@ public class ShapePanel extends JPanel {
 	// TODO: Complete this method. Add action to perform. Make it a button. Add
 	// it to panel.
 	private void addThemeButton(Color optColour) {
-		JButton tm = new JButton();
-		tm.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
-		tm.setBorder(new OptionBorder("Change Theme", optColour));
+		JButton themeButton = new JButton();
+		themeButton.setBounds(
+				new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
+		themeButton.setBorder(new OptionBorder("Change Theme", optColour));
 		yLoc += optionButtonHeight;
 
-		JTextArea themeT = new JTextArea(theme);
-		themeT.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
-		TextBorder themeText = new TextBorder(this.theme.substring(0, 1).toUpperCase() + this.theme.substring(1));
-		themeText.setFont(new Font("Arial", 1, 18));
+		themeText = new JTextArea(theme);
+		themeText.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
+		TextBorder themeBord = new TextBorder(this.theme.substring(0, 1).toUpperCase() + this.theme.substring(1));
+		themeBord.setFont(new Font("Arial", 1, 18));
+		themeText.setBorder(themeBord);
 
-		tm.addActionListener(new ActionListener() {
+		themeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				switch (ct.name()) {
+				case ("gradient blue red"):
+					theme = "gradient red blue";
+					setColorTheme(getGraphics());
+					break;
+				case ("gradient red blue"):
+					theme = "metal theme";
+					setColorTheme(getGraphics());
+					break;
+				case ("metal theme"):
+					theme = "random dot";
+					setColorTheme(getGraphics());
+					break;
+				case ("random dot"):
+					theme = "semi random dot";
+					setColorTheme(getGraphics());
+					break;
+				case ("semi random dot"):
+					theme = "traffic light theme";
+					setColorTheme(getGraphics());
+					break;
+				case ("traffic light theme"):
+					theme = "yellow diamonds";
+					setColorTheme(getGraphics());
+					break;
+				case ("yellow diamonds"):
+					theme = "gradient blue red";
+					setColorTheme(getGraphics());
+					break;
+				default:
+					theme = "gradient blue red";
+					setColorTheme(getGraphics());
+					break;
+				}
+				repaint();
+				TextBorder t = (TextBorder) themeText.getBorder();
+				t.setText(theme.substring(0, 1).toUpperCase() + theme.substring(1));
 			}
 		});
-		// this.add(themeText);
+		this.add(themeButton);
+		this.add(themeText);
 
 	}
 
