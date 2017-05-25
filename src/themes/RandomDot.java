@@ -19,4 +19,8 @@ public class RandomDot implements ColorTheme {
 		}
 	}
 
+	@Override
+	public String name() {
+		return "random dot";
+	}
 }

@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -113,9 +112,11 @@ public class ShapePanel extends JPanel {
 	private JTextArea heightText;
 	private JComboBox<String> patternSelector;
 
-	private PNGOutput png;
+	// Theme Variables
+	private String theme = "yellow diamonds";
+	private ColorTheme ct;
 
-	private String theme = "random dot";
+	private PNGOutput png;
 
 	/**
 	 * General constructor for the ShapePanel.
@@ -141,9 +142,8 @@ public class ShapePanel extends JPanel {
 		setColorTheme(g);
 	}
 
-	// TODO: Add these themes
 	private void setColorTheme(Graphics g) {
-		ColorTheme ct = null;
+		this.ct = null;
 		switch (theme) {
 		case ("random dot"):
 			ct = new RandomDot();
@@ -157,10 +157,10 @@ public class ShapePanel extends JPanel {
 		case ("gradient blue red"):
 			ct = new GradientBlueRed();
 			break;
-		case ("traffic light"):
+		case ("traffic light theme"):
 			ct = new TrafficLightTheme();
 			break;
-		case ("metal"):
+		case ("metal theme"):
 			ct = new MetalTheme();
 			break;
 		case ("yellow diamonds"):
@@ -170,7 +170,7 @@ public class ShapePanel extends JPanel {
 			ct = new RandomDot();
 			break;
 		}
-		ct.setTheme(g, this);
+		this.ct.setTheme(g, this);
 	}
 
 	/**
@@ -267,6 +267,8 @@ public class ShapePanel extends JPanel {
 
 		// Add pattern selector to left side
 		addPatternSelector();
+		yLoc += 100;
+		addThemeButton(optColor);
 		moveXY();
 
 		// Set cursor for row 1
@@ -438,6 +440,29 @@ public class ShapePanel extends JPanel {
 		});
 		this.add(patternSelect);
 		this.add(patternSelector);
+	}
+
+	// TODO: Complete this method. Add action to perform. Make it a button. Add
+	// it to panel.
+	private void addThemeButton(Color optColour) {
+		JButton tm = new JButton();
+		tm.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
+		tm.setBorder(new OptionBorder("Change Theme", optColour));
+		yLoc += optionButtonHeight;
+
+		JTextArea themeT = new JTextArea(theme);
+		themeT.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
+		TextBorder themeText = new TextBorder(this.theme.substring(0, 1).toUpperCase() + this.theme.substring(1));
+		themeText.setFont(new Font("Arial", 1, 18));
+
+		tm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		// this.add(themeText);
+
 	}
 
 	/**

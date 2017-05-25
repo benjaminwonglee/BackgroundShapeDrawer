@@ -21,4 +21,8 @@ public class TrafficLightTheme implements ColorTheme {
 		}
 	}
 
+	@Override
+	public String name() {
+		return "traffic light theme";
+	}
 }

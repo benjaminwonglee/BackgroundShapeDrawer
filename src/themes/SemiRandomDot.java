@@ -21,4 +21,8 @@ public class SemiRandomDot implements ColorTheme {
 		}
 	}
 
+	@Override
+	public String name() {
+		return "semi random dot";
+	}
 }

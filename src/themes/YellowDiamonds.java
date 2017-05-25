@@ -27,4 +27,9 @@ public class YellowDiamonds implements ColorTheme {
 		}
 	}
 
+	@Override
+	public String name() {
+		return "yellow diamonds";
+	}
+
 }

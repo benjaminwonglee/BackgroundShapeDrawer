@@ -27,4 +27,8 @@ public class MetalTheme implements ColorTheme {
 
 	}
 
+	@Override
+	public String name() {
+		return "metal theme";
+	}
 }

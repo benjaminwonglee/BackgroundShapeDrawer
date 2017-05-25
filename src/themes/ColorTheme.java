@@ -6,4 +6,6 @@ import main.ShapePanel;
 
 public interface ColorTheme {
 	public void setTheme(Graphics g, ShapePanel sp);
+
+	public String name();
 }

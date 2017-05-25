@@ -20,4 +20,9 @@ public class GradientBlueRed implements ColorTheme {
 		}
 	}
 
+	@Override
+	public String name() {
+		return "gradient blue red";
+	}
+
 }
