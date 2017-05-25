@@ -50,6 +50,9 @@ import shapes.Triangle;
 import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
+import themes.ColorTheme;
+import themes.RandomDot;
+import themes.SemiRandomDot;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -107,6 +110,8 @@ public class ShapePanel extends JPanel {
 
 	private PNGOutput png;
 
+	private String theme = "random dot";
+
 	/**
 	 * General constructor for the ShapePanel.
 	 */
@@ -128,40 +133,34 @@ public class ShapePanel extends JPanel {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
 		/* Set color theme: */
-		// setRandomDotColorTheme(g);
+		setColorTheme(g);
+	}
+
+	// TODO: Add these themes
+	private void setColorTheme(Graphics g) {
+		ColorTheme ct = null;
+		switch (theme) {
+		case ("random dot"):
+			ct = new RandomDot();
+			break;
+		case ("semi random dot"):
+			ct = new SemiRandomDot();
+			break;
+		default:
+			ct = new RandomDot();
+			break;
+		}
+		ct.setTheme(g, this);
 		// setSemiRandomDotColorTheme(g);
-		// setGradientRedBlueColorTheme(g);
 		// setGradientBlueRedColorTheme(g);
+		// setGradientRedBlueColorTheme(g);
 		// setTrafficLightColorTheme(g);
 		// setMetalTheme(g);
-		setYellowDiamondsTheme(g);
-
+		// setYellowDiamondsTheme(g);
 	}
 
-	private void setRandomDotColorTheme(Graphics g) {
-		int incr = 32;
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.setColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 155),
-						(int) (Math.random() * 55)));
-				g.fillOval(row, col, incr / 2, incr / 2);
-			}
-		}
-	}
 
-	private void setSemiRandomDotColorTheme(Graphics g) {
-		int incr = 22;
-		Random r = new Random(11);
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.setColor(new Color(r.nextInt(200) + 55, r.nextInt(155), r.nextInt(55)));
-				g.fillOval(row, col, incr / 2, incr / 2);
-			}
-			r = new Random(11);
-		}
-	}
-
-	private void setGradientRedBlueColorTheme(Graphics g) {
+	private void setGradientBlueRedColorTheme(Graphics g) {
 		Color cOne = new Color(30, 20, 40);
 		int incr = 20;
 		g.setColor(cOne);
@@ -173,7 +172,7 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	private void setGradientBlueRedColorTheme(Graphics g) {
+	private void setGradientRedBlueColorTheme(Graphics g) {
 		Color cOne = new Color(180, 20, 40);
 		int incr = 20;
 		g.setColor(cOne);
