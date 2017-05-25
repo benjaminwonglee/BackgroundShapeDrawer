@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import main.ShapePanel;
 
-public class GradientRedBlue implements ColorTheme {
+public class TrafficLightTheme implements ColorTheme {
 
 	@Override
 	public void setTheme(Graphics g, ShapePanel sp) {
@@ -16,7 +16,8 @@ public class GradientRedBlue implements ColorTheme {
 			for (int col = 0; col < sp.getBounds().height; col += incr) {
 				g.fillRect(row, col, incr, incr);
 			}
-			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
+			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen() + (row / incr) * 2 - 2,
+					cOne.getBlue()));
 		}
 	}
 

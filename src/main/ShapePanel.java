@@ -51,8 +51,13 @@ import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
 import themes.ColorTheme;
+import themes.GradientBlueRed;
+import themes.GradientRedBlue;
+import themes.MetalTheme;
 import themes.RandomDot;
 import themes.SemiRandomDot;
+import themes.TrafficLightTheme;
+import themes.YellowDiamonds;
 
 public class ShapePanel extends JPanel {
 	private static final long serialVersionUID = -2760824343231275996L;
@@ -146,94 +151,26 @@ public class ShapePanel extends JPanel {
 		case ("semi random dot"):
 			ct = new SemiRandomDot();
 			break;
+		case ("gradient red blue"):
+			ct = new GradientRedBlue();
+			break;
+		case ("gradient blue red"):
+			ct = new GradientBlueRed();
+			break;
+		case ("traffic light"):
+			ct = new TrafficLightTheme();
+			break;
+		case ("metal"):
+			ct = new MetalTheme();
+			break;
+		case ("yellow diamonds"):
+			ct = new YellowDiamonds();
+			break;
 		default:
 			ct = new RandomDot();
 			break;
 		}
 		ct.setTheme(g, this);
-		// setSemiRandomDotColorTheme(g);
-		// setGradientBlueRedColorTheme(g);
-		// setGradientRedBlueColorTheme(g);
-		// setTrafficLightColorTheme(g);
-		// setMetalTheme(g);
-		// setYellowDiamondsTheme(g);
-	}
-
-
-	private void setGradientBlueRedColorTheme(Graphics g) {
-		Color cOne = new Color(30, 20, 40);
-		int incr = 20;
-		g.setColor(cOne);
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillRect(row, col, incr, incr);
-			}
-			g.setColor(new Color(cOne.getRed() + (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
-		}
-	}
-
-	private void setGradientRedBlueColorTheme(Graphics g) {
-		Color cOne = new Color(180, 20, 40);
-		int incr = 20;
-		g.setColor(cOne);
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillRect(row, col, incr, incr);
-			}
-			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
-		}
-	}
-
-	private void setTrafficLightColorTheme(Graphics g) {
-		Color cOne = new Color(180, 20, 40);
-		int incr = 20;
-		g.setColor(cOne);
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillRect(row, col, incr, incr);
-			}
-			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen() + (row / incr) * 2 - 2,
-					cOne.getBlue()));
-		}
-	}
-
-	private void setMetalTheme(Graphics g) {
-		int incr = 22;
-		int add = 3;
-		g.setColor(new Color(100, 100, 100));
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillRect(row, col, incr, incr);
-			}
-			if (row < this.getBounds().width / 2) {
-				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() + add,
-						g.getColor().getBlue() + add));
-			} else {
-				g.setColor(new Color(g.getColor().getRed() - add, g.getColor().getGreen() - add,
-						g.getColor().getBlue() - add));
-			}
-		}
-
-	}
-
-	private void setYellowDiamondsTheme(Graphics g) {
-		int incr = 24;
-		int add = 1;
-		this.setBackground(new Color(230, 230, 0));
-		g.setColor(new Color(0, 100, 100));
-		for (int row = 0; row < this.getBounds().width; row += incr) {
-			for (int col = 0; col < this.getBounds().height; col += incr) {
-				g.fillOval(row - 2, col - 2, incr + 4, incr + 4);
-			}
-			if (row < this.getBounds().width / 2) {
-				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() + add,
-						g.getColor().getBlue() - add));
-			} else {
-				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() - add,
-						g.getColor().getBlue() + add));
-			}
-		}
-
 	}
 
 	/**
