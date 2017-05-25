@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import main.ShapePanel;
 import shapes.Circle;

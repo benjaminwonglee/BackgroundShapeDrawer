@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -127,11 +128,17 @@ public class ShapePanel extends JPanel {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
 		/* Set color theme: */
-		setRandomColorTheme(g);
-		// setGradientColorTheme(g);
+		// setRandomDotColorTheme(g);
+		// setSemiRandomDotColorTheme(g);
+		// setGradientRedBlueColorTheme(g);
+		// setGradientBlueRedColorTheme(g);
+		// setTrafficLightColorTheme(g);
+		// setMetalTheme(g);
+		setColorMetalTheme(g);
+
 	}
 
-	private void setRandomColorTheme(Graphics g) {
+	private void setRandomDotColorTheme(Graphics g) {
 		int incr = 32;
 		for (int row = 0; row < this.getBounds().width; row += incr) {
 			for (int col = 0; col < this.getBounds().height; col += incr) {
@@ -142,7 +149,19 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	private void setGradientColorTheme(Graphics g) {
+	private void setSemiRandomDotColorTheme(Graphics g) {
+		int incr = 22;
+		Random r = new Random(11);
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.setColor(new Color(r.nextInt(200) + 55, r.nextInt(155), r.nextInt(55)));
+				g.fillOval(row, col, incr / 2, incr / 2);
+			}
+			r = new Random(11);
+		}
+	}
+
+	private void setGradientRedBlueColorTheme(Graphics g) {
 		Color cOne = new Color(30, 20, 40);
 		int incr = 20;
 		g.setColor(cOne);
@@ -152,6 +171,69 @@ public class ShapePanel extends JPanel {
 			}
 			g.setColor(new Color(cOne.getRed() + (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
 		}
+	}
+
+	private void setGradientBlueRedColorTheme(Graphics g) {
+		Color cOne = new Color(180, 20, 40);
+		int incr = 20;
+		g.setColor(cOne);
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.fillRect(row, col, incr, incr);
+			}
+			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen(), cOne.getBlue()));
+		}
+	}
+
+	private void setTrafficLightColorTheme(Graphics g) {
+		Color cOne = new Color(180, 20, 40);
+		int incr = 20;
+		g.setColor(cOne);
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.fillRect(row, col, incr, incr);
+			}
+			g.setColor(new Color(cOne.getRed() - (row / incr) * 2, cOne.getGreen() + (row / incr) * 2 - 2,
+					cOne.getBlue()));
+		}
+	}
+
+	private void setMetalTheme(Graphics g) {
+		int incr = 22;
+		int add = 3;
+		g.setColor(new Color(100, 100, 100));
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.fillRect(row, col, incr, incr);
+			}
+			if (row < this.getBounds().width / 2) {
+				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() + add,
+						g.getColor().getBlue() + add));
+			} else {
+				g.setColor(new Color(g.getColor().getRed() - add, g.getColor().getGreen() - add,
+						g.getColor().getBlue() - add));
+			}
+		}
+
+	}
+
+	private void setColorMetalTheme(Graphics g) {
+		int incr = 22;
+		int add = 3;
+		g.setColor(new Color(240, 100, 200));
+		for (int row = 0; row < this.getBounds().width; row += incr) {
+			for (int col = 0; col < this.getBounds().height; col += incr) {
+				g.fillRect(row, col, incr, incr);
+			}
+			if (row < this.getBounds().width / 2) {
+				g.setColor(new Color(g.getColor().getRed() - add, g.getColor().getGreen() + add,
+						g.getColor().getBlue() - add));
+			} else {
+				g.setColor(new Color(g.getColor().getRed() + add, g.getColor().getGreen() - add,
+						g.getColor().getBlue() + add));
+			}
+		}
+
 	}
 
 	/**
