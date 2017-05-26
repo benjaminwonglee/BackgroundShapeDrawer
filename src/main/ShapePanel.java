@@ -30,7 +30,6 @@ import borders.TextBorder;
 import buttons.AutoColorChooseButton;
 import buttons.ChangeBackgroundButton;
 import buttons.FillButton;
-import buttons.LoadFromFileButton;
 import buttons.OptionButton;
 import buttons.ShapeColorButton;
 import buttons.WidthHeightButton;
@@ -117,6 +116,7 @@ public class ShapePanel extends JPanel {
 	private int optionButtonHeight;
 	private JPanel canvas;
 	private int space;
+	private int colorInt = 0;
 	private PNGOutput png;
 
 	/**
@@ -322,7 +322,7 @@ public class ShapePanel extends JPanel {
 		this.add(new FillButton(this));
 		moveXY();
 
-		this.add(new AutoColorChooseButton(this););
+		this.add(new AutoColorChooseButton(this));
 		yLoc += optionButtonHeight;
 		// this.add(new SaveToFileButton(this));
 		moveXY();
@@ -635,6 +635,53 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	public void AutoChooseColorButtonResponse() {
+		colorInt++;
+		Color color = null;
+		switch (colorInt) {
+		case (1):
+			color = new Color(20, 20, 200);
+			break;
+		case (2):
+			color = new Color(200, 200, 0);
+			break;
+		case (3):
+			color = new Color(20, 200, 0);
+			break;
+		case (4):
+			color = new Color(100, 200, 200);
+			break;
+		case (5):
+			color = new Color(200, 100, 100);
+			break;
+		case (6):
+			color = new Color(200, 100, 200);
+			break;
+		case (7):
+			color = new Color(145, 100, 155);
+			break;
+		case (8):
+			color = new Color(145, 155, 100);
+			break;
+		case (9):
+			color = new Color(120, 0, 0);
+			break;
+		default:
+			color = new Color(200, 0, 0);
+			colorInt = 0;
+			break;
+		}
+
+		outlineColor = color;
+		ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
+		colorLabel.setColor(color);
+		resetPrevColors();
+		changeOutlineColour.repaint();
+		TextBorder t = (TextBorder) textDisplay.getBorder();
+		t.setText("Outline colour changed successfully");
+		textDisplay.repaint();
+	}
+
 	/**
 	 * This method responds to when the Set Width & height button is clicked. It
 	 * updates the user notification box appropriately, and puts focus on the
@@ -836,8 +883,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * shapeName is the name on each button in the program. Format: First letter
-	 * always capitalised. Amount is the amount to draw.
+	 * "shapeName" is the name on each button in the program. Format: First
+	 * letter always capitalised. Amount is the amount to draw.
 	 *
 	 * @param shapeName
 	 * @param amount
