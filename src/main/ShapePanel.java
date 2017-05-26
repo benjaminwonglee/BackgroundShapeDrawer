@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -90,6 +91,7 @@ public class ShapePanel extends JPanel {
 
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
+	private ArrayList<Shape> allShapes;
 	private Color outlineColor;
 
 	// Button response booleans
@@ -123,12 +125,13 @@ public class ShapePanel extends JPanel {
 	 * General constructor for the ShapePanel.
 	 */
 	public ShapePanel() {
-		this.setPreferredSize(new Dimension(1500, 1000));
+		this.setBounds(new Rectangle(0, 0, 1500, 1000));
 		this.setLayout(null); // Important for specifying own layout preferences
 		textDisplay = new JTextArea();
 		userInput = new JTextField();
 		toDraw = new ArrayList<String>();
 		shapes = new ArrayList<Shape>();
+		allShapes = new ArrayList<Shape>();
 		outlineColor = new Color(200, 0, 0);
 		createButtons();
 		createTextAreas();
@@ -136,10 +139,16 @@ public class ShapePanel extends JPanel {
 	}
 
 	@Override
+	public boolean isOptimizedDrawingEnabled() {
+		return false;
+	}
+
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
 		setColorTheme(g);
+		this.draw(getGraphics(), png.getPng().getGraphics());
 	}
 
 	private void setColorTheme(Graphics g) {
@@ -269,11 +278,10 @@ public class ShapePanel extends JPanel {
 		addPatternSelector();
 		yLoc += 240;
 		addLoadFromFileButton(optColor);
-		yLoc += optionButtonHeight;
+		yLoc += optionButtonHeight + 10;
 		addSaveToFileButton(optColor);
-		yLoc += optionButtonHeight;
 
-		yLoc += 120 - 2 * optionButtonHeight;
+		yLoc += (120 - optionButtonHeight - 10);
 		addThemeButton(optColor);
 		moveXY();
 
@@ -402,7 +410,6 @@ public class ShapePanel extends JPanel {
 				textDisplay.repaint();
 			}
 		});
-
 		this.add(clearButton);
 	}
 
@@ -578,7 +585,7 @@ public class ShapePanel extends JPanel {
 		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
 		this.canvas = canvas;
 		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
-		this.add(canvas);
+		((JComponent) this.getComponents()[this.getComponentCount() - 1]).setOpaque(true);
 		setCanvasSizeVariables();
 	}
 
@@ -731,8 +738,7 @@ public class ShapePanel extends JPanel {
 				file = new File(temp.getAbsolutePath() + ".txt");
 			}
 			// Save a file to the path
-			png.setFile(file);
-			png.outputToFile(shapes, canvasRed, canvasGreen, canvasBlue);
+			png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, file.getName());
 		}
 	}
 
@@ -752,7 +758,7 @@ public class ShapePanel extends JPanel {
 			// Clears the canvas and png
 			clearButton.doClick();
 			try {
-				png.pngFromFile(this, file, "output.png");
+				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
 			} catch (FileNotFoundException e) {
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Please choose an existing .txt file.");
@@ -841,8 +847,8 @@ public class ShapePanel extends JPanel {
 			if (!userInput.getText().equals("")) {
 				try {
 					int input = Integer.parseInt(userInput.getText());
-					if (input > 100 || input < 0) {
-						t.setText("Please enter a number that is between 0 and 100 inclusive");
+					if (input > 1000 || input < 0) {
+						t.setText("Please enter a number that is between 0 and 1000 inclusive");
 						textDisplay.repaint();
 						return;
 					}
@@ -865,7 +871,7 @@ public class ShapePanel extends JPanel {
 						createPNGFile(png);
 						shapes = new ArrayList<Shape>();
 						drawShapes = false;
-						t.setText("And... Draw!");
+						t.setText("Drawn successfully!");
 						textDisplay.repaint();
 					}
 				} catch (NumberFormatException e) {
@@ -878,8 +884,12 @@ public class ShapePanel extends JPanel {
 
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
-		png.createAndSetFile("output.txt");
-		png.outputToFile(getShapes(), canvasRed, canvasGreen, canvasBlue);
+		png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, "output.txt");
+		try {
+			png.pngFromFile(this, "output.txt", "output.png");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -960,7 +970,13 @@ public class ShapePanel extends JPanel {
 
 		// Finished drawing. Reset variables
 		ShapeAbstract.setAlternatingInt(0);
-		ShapeAbstract.setCrossAlternatingInt(0);
+		if (ShapeAbstract.getCrossAlternatingInt() == 1) {
+			ShapeAbstract.setCrossAlternatingInt(0);
+		} else {
+			ShapeAbstract.setCrossAlternatingInt(1);
+		}
+		allShapes.addAll(shapes);
+		shapes = new ArrayList<Shape>();
 	}
 
 	public void chooseBackgroundColour() {
@@ -1064,5 +1080,9 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getShapes() {
 		return shapes;
+	}
+	
+	public ArrayList<Shape> getAllShapes() {
+		return allShapes;
 	}
 }

@@ -32,26 +32,17 @@ public class PNGOutput {
 
 	private BufferedImage png;
 	private int rgbBgc = 0;
-	private File file = null;
-
+	
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
 				BufferedImage.TYPE_INT_ARGB);
 	}
 
-	public void createAndSetFile(String filename) {
-		this.file = new File(filename);
-	}
-
-	public void setFile(File f) {
-		this.file = f;
-	}
-
-	public void outputToFile(ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue) {
+	public void outputToFile(ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue, String filename) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(file);
+			pw = new PrintWriter(new File(filename));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -73,9 +64,9 @@ public class PNGOutput {
 		pw.close();
 	}
 
-	public void pngFromFile(ShapePanel sp, File file, String newImageName) throws FileNotFoundException {
+	public void pngFromFile(ShapePanel sp, String filename, String newImageName) throws FileNotFoundException {
 		Scanner sc = null;
-		sc = new Scanner(file);
+		sc = new Scanner(new File(filename));
 		JPanel canvas = sp.getCanvas();
 		canvas.setBackground(new Color(rgbBgc));
 		Graphics g = canvas.getGraphics();
@@ -93,7 +84,7 @@ public class PNGOutput {
 			} else {
 				ShapeAbstract.setFill(false);
 			}
-			s.drawFromXY(g, new Color(rgb), x, y, wd, ht);
+			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht);
 		}
 		try {
 			ImageIO.write(png, "PNG", new File(newImageName));
@@ -121,9 +112,9 @@ public class PNGOutput {
 			return new shapes.Rectangle();
 		case ("square"):
 			return new Square();
-		case ("5-pointed star"):
+		case ("5-pointed_star"):
 			return new Star5();
-		case ("6-pointed star"):
+		case ("6-pointed_star"):
 			return new Star6();
 		case ("triangle"):
 			return new Triangle();

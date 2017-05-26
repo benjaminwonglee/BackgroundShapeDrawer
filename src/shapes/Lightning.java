@@ -26,7 +26,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 					x + getWidth() / 5 * 2, x, x + getWidth() / 5 * 2 };
 			int[] yInts = new int[] { y, y, y + getHeight() / 7 * 2, y + getHeight() / 7 * 2, y + getHeight() / 7 * 4,
 					y + getHeight() / 7 * 4, y + getHeight(), y + getHeight() / 7 * 5, y + getHeight() / 7 * 5,
-					y + getHeight() / 7 * 3, y + getHeight() / 7 * 3, y };
+					y + getHeight() / 7 * 3, y + getHeight() / 7 * 3, y + getHeight() / 7 * 3};
 			if (getFill()) {
 				g.fillPolygon(xInts, yInts, 11);
 				gr.fillPolygon(xInts, yInts, 11);
@@ -50,16 +50,16 @@ public class Lightning extends ShapeAbstract implements Shape {
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
 		g.setColor(c);
-		int[] xInts = new int[] { x + width / 5 * 2, x + width, x + width / 5 * 3, x + width,
-				x + width / 5 * 3, x + width, x + width / 5, x + width / 5 * 2, x,
-				x + width / 5 * 2, x, x + width / 5 * 2 };
-		int[] yInts = new int[] { y, y, y + height / 7 * 2, y + height / 7 * 2, y + height / 7 * 4,
-				y + height / 7 * 4, y + height, y + height / 7 * 5, y + height / 7 * 5,
-				y + height / 7 * 3, y + height / 7 * 3, y };
+		int[] xInts = new int[] { x + getWidth() / 5 * 2, x + getWidth(), x + getWidth() / 5 * 3, x + getWidth(),
+				x + getWidth() / 5 * 3, x + getWidth(), x + getWidth() / 5, x + getWidth() / 5 * 2, x,
+				x + getWidth() / 5 * 2, x, x + getWidth() / 5 * 2 };
+		int[] yInts = new int[] { y, y, y + getHeight() / 7 * 2, y + getHeight() / 7 * 2, y + getHeight() / 7 * 4,
+				y + getHeight() / 7 * 4, y + getHeight(), y + getHeight() / 7 * 5, y + getHeight() / 7 * 5,
+				y + getHeight() / 7 * 3, y + getHeight() / 7 * 3, y + getHeight() / 7 * 3};
 		if (getFill()) {
-			g.fillPolygon(xInts, yInts, 7);
+			g.fillPolygon(xInts, yInts, 11);
 		} else {
-			g.drawPolygon(xInts, yInts, 7);
+			g.drawPolygon(xInts, yInts, 11);
 		}
 
 	}

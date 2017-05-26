@@ -2,11 +2,13 @@ package main;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 
 public class BackgroundShapeDrawer {
 	public BackgroundShapeDrawer() {
 		JFrame frame = new JFrame();
 		ShapePanel sp = new ShapePanel();
+		frame.add(sp.getCanvas());
 		frame.add(sp);
 		setFrameProperties(frame);
 	}

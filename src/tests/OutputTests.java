@@ -39,12 +39,11 @@ public class OutputTests {
 		// Adds to ShapePanel shapes ArrayList.
 		sp.createShape("Circle", testNum);
 		sp.createShape("Square", testNum);
-		ArrayList<Shape> shapes = sp.getShapes();
+		ArrayList<Shape> shapes = sp.getAllShapes();
 
 		// Before drawing, set the abstract variables
 		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-		png.createAndSetFile("test.txt");
-		png.outputToFile(shapes, 0, 0, 0);
+		png.outputToFile(shapes, 0, 0, 0, "test.txt");
 
 		Scanner sc = null;
 		try {
@@ -90,7 +89,7 @@ public class OutputTests {
 
 		// Adds to ShapePanel shapes arraylist.
 		sp.createShape("Triangle", testNum);
-		ArrayList<Shape> shapes = sp.getShapes();
+		ArrayList<Shape> shapes = sp.getAllShapes();
 
 		// Before drawing, set the abstract variables
 		ShapeAbstract.setPattern(DrawPattern.ALIGNED);
@@ -106,8 +105,7 @@ public class OutputTests {
 		if (second[0] != 4) {
 			fail();
 		}
-		png.createAndSetFile("test.txt");
-		png.outputToFile(shapes, 0, 0, 0);
+		png.outputToFile(shapes, 0, 0, 0, "test.txt");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File("test.txt"));

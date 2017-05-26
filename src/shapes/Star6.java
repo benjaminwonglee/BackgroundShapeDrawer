@@ -40,7 +40,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 
 	@Override
 	public String name() {
-		return "6-pointed star";
+		return "6-pointed_star";
 	}
 
 	@Override
