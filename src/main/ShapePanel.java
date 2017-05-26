@@ -27,11 +27,11 @@ import borders.ColorBorder;
 import borders.OptionBorder;
 import borders.SimpleBorder;
 import borders.TextBorder;
+import buttons.AutoColorChooseButton;
 import buttons.ChangeBackgroundButton;
 import buttons.FillButton;
 import buttons.LoadFromFileButton;
 import buttons.OptionButton;
-import buttons.SaveToFileButton;
 import buttons.ShapeColorButton;
 import buttons.WidthHeightButton;
 import output.PNGOutput;
@@ -101,10 +101,6 @@ public class ShapePanel extends JPanel {
 	private boolean changeWidth = false;
 	private boolean changeHeight = false;
 
-	private int optionButtonHeight;
-	private JPanel canvas;
-	private int space;
-
 	// GUI display fields
 	private JTextArea changeBackgroundColour;
 	private JTextArea changeOutlineColour;
@@ -117,6 +113,10 @@ public class ShapePanel extends JPanel {
 	private JTextArea themeText;
 	private ColorTheme ct = new GradientRedBlue();
 
+	// Canvas variables
+	private int optionButtonHeight;
+	private JPanel canvas;
+	private int space;
 	private PNGOutput png;
 
 	/**
@@ -267,7 +267,13 @@ public class ShapePanel extends JPanel {
 
 		// Add pattern selector to left side
 		addPatternSelector();
-		yLoc += 360;
+		yLoc += 240;
+		addLoadFromFileButton(optColor);
+		yLoc += optionButtonHeight;
+		addSaveToFileButton(optColor);
+		yLoc += optionButtonHeight;
+
+		yLoc += 120 - 2 * optionButtonHeight;
 		addThemeButton(optColor);
 		moveXY();
 
@@ -316,9 +322,9 @@ public class ShapePanel extends JPanel {
 		this.add(new FillButton(this));
 		moveXY();
 
-		this.add(new LoadFromFileButton(this));
+		this.add(new AutoColorChooseButton(this););
 		yLoc += optionButtonHeight;
-		this.add(new SaveToFileButton(this));
+		// this.add(new SaveToFileButton(this));
 		moveXY();
 
 		// Add clear drawing button
@@ -442,8 +448,34 @@ public class ShapePanel extends JPanel {
 		this.add(patternSelector);
 	}
 
-	// TODO: Complete this method. Add action to perform. Make it a button. Add
-	// it to panel.
+	private void addLoadFromFileButton(Color optColor) {
+		JButton load = new JButton();
+		load.setBounds(
+				new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
+		load.setBorder(new OptionBorder("Load From Text File", optColor));
+		load.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadFileButtonResponse();
+			}
+		});
+		this.add(load);
+	}
+
+	private void addSaveToFileButton(Color optColor) {
+		JButton save = new JButton();
+		save.setBounds(
+				new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
+		save.setBorder(new OptionBorder("Save To PNG File", optColor));
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveFileButtonResponse();
+			}
+		});
+		this.add(save);
+	}
+
 	private void addThemeButton(Color optColour) {
 		JButton themeButton = new JButton();
 		themeButton.setBounds(
