@@ -685,7 +685,6 @@ public class ShapePanel extends JPanel {
 		outlineColor = color;
 		ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
 		colorLabel.setColor(color);
-		resetPrevColors();
 		changeOutlineColour.repaint();
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		t.setText("Outline colour changed successfully");
