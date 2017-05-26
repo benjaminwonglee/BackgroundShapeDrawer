@@ -11,7 +11,8 @@ public class YellowDiamonds implements ColorTheme {
 	public void setTheme(Graphics g, ShapePanel sp) {
 		int incr = 24;
 		int add = 1;
-		sp.setBackground(new Color(230, 230, 0));
+		g.setColor(new Color(230, 230, 0));
+		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
 		g.setColor(new Color(0, 100, 100));
 		for (int row = 0; row < sp.getBounds().width; row += incr) {
 			for (int col = 0; col < sp.getBounds().height; col += incr) {

@@ -407,6 +407,8 @@ public class ShapePanel extends JPanel {
 				gr.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Drawing Cleared");
+				shapes = new ArrayList<Shape>();
+				allShapes = new ArrayList<Shape>();
 				textDisplay.repaint();
 			}
 		});
@@ -584,6 +586,7 @@ public class ShapePanel extends JPanel {
 		JPanel canvas = new JPanel();
 		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
 		this.canvas = canvas;
+		this.add(this.canvas);
 		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
 		((JComponent) this.getComponents()[this.getComponentCount() - 1]).setOpaque(true);
 		setCanvasSizeVariables();
@@ -970,11 +973,7 @@ public class ShapePanel extends JPanel {
 
 		// Finished drawing. Reset variables
 		ShapeAbstract.setAlternatingInt(0);
-		if (ShapeAbstract.getCrossAlternatingInt() == 1) {
-			ShapeAbstract.setCrossAlternatingInt(0);
-		} else {
-			ShapeAbstract.setCrossAlternatingInt(1);
-		}
+		ShapeAbstract.setCrossAlternatingInt(0);
 		allShapes.addAll(shapes);
 		shapes = new ArrayList<Shape>();
 	}
@@ -1081,7 +1080,7 @@ public class ShapePanel extends JPanel {
 	public ArrayList<Shape> getShapes() {
 		return shapes;
 	}
-	
+
 	public ArrayList<Shape> getAllShapes() {
 		return allShapes;
 	}
