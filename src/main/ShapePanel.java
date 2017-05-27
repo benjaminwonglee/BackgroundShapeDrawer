@@ -331,14 +331,15 @@ public class ShapePanel extends JPanel {
 
 		// Row 2
 		// Add Fill Button
-		
+
 		this.add(new AutoBackgroundColorButton(this));
+		yLoc += optionButtonHeight;
 		this.add(new FillButton(this));
 		moveXY();
-
+		
 		this.add(new AutoShapeColorButton(this));
 		yLoc += optionButtonHeight;
-		// this.add(new SaveToFileButton(this));
+		//this.add(new AButton(this));
 		moveXY();
 
 		// Add clear drawing button
