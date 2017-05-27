@@ -6,11 +6,7 @@ public class ColorChooser {
 	private Color color;
 	private int colorInt = 0;
 
-	public ColorChooser(){
-		chooseColor();
-	}
-	
-	private void chooseColor() {
+	public void chooseColor() {
 		colorInt++;
 		color = null;
 		switch (colorInt) {

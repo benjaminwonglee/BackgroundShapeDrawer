@@ -20,8 +20,13 @@ public class OptionBorder implements Border {
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
 		g.setColor(color);
-		g.setFont(new Font("Georgia", 1, 22));
+		if (label.length() > 20) {
+			g.setFont(new Font("Georgia", 1, 19));
+		} else {
+			g.setFont(new Font("Georgia", 1, 22));
+		}
 		g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
+
 		for (int i = 0; i < 5; i++) {
 			g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
 		}

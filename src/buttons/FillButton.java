@@ -42,7 +42,6 @@ public class FillButton extends OptionButton {
 		}
 		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
 		fillStatus.setBorder(fillBorder);
-		ShapePanel.setYLoc(ShapePanel.getYLoc() + this.getBounds().height);
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

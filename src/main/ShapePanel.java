@@ -28,7 +28,8 @@ import borders.ColorBorder;
 import borders.OptionBorder;
 import borders.SimpleBorder;
 import borders.TextBorder;
-import buttons.AutoColorChooseButton;
+import buttons.AutoBackgroundColorButton;
+import buttons.AutoShapeColorButton;
 import buttons.ChangeBackgroundButton;
 import buttons.FillButton;
 import buttons.OptionButton;
@@ -330,10 +331,12 @@ public class ShapePanel extends JPanel {
 
 		// Row 2
 		// Add Fill Button
+		
+		this.add(new AutoBackgroundColorButton(this));
 		this.add(new FillButton(this));
 		moveXY();
 
-		this.add(new AutoColorChooseButton(this));
+		this.add(new AutoShapeColorButton(this));
 		yLoc += optionButtonHeight;
 		// this.add(new SaveToFileButton(this));
 		moveXY();
@@ -648,11 +651,13 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
-	public void autoChooseBackgroundColorButtonResponse() {
+	public void autoBackgroundColorButtonResponse() {
+		backgroundColorChooser.chooseColor();
 		Color color = backgroundColorChooser.getColor();
 		canvasRed = color.getRed();
 		canvasGreen = color.getGreen();
 		canvasBlue = color.getBlue();
+		canvas.setBackground(color);
 		ColorBorder colorLabel = (ColorBorder) changeBackgroundColour.getBorder();
 		colorLabel.setColor(color);
 		changeBackgroundColour.repaint();
@@ -661,7 +666,8 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
-	public void autoChooseShapeColorButtonResponse() {
+	public void autoShapeColorButtonResponse() {
+		shapeColorChooser.chooseColor();
 		Color color = shapeColorChooser.getColor();
 		outlineColor = color;
 		ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
