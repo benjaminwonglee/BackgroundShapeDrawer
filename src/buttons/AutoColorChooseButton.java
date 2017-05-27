@@ -21,7 +21,7 @@ public class AutoColorChooseButton extends OptionButton {
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sp.AutoChooseColorButtonResponse();
+				sp.autoChooseShapeColorButtonResponse();
 			}
 		});
 	}

@@ -118,8 +118,9 @@ public class ShapePanel extends JPanel {
 	private int optionButtonHeight;
 	private JPanel canvas;
 	private int space;
-	private int colorInt = 0;
 	private PNGOutput png;
+	private ColorChooser shapeColorChooser;
+	private ColorChooser backgroundColorChooser;
 
 	/**
 	 * General constructor for the ShapePanel.
@@ -133,6 +134,8 @@ public class ShapePanel extends JPanel {
 		shapes = new ArrayList<Shape>();
 		allShapes = new ArrayList<Shape>();
 		outlineColor = new Color(200, 0, 0);
+		shapeColorChooser = new ColorChooser();
+		backgroundColorChooser = new ColorChooser();
 		createButtons();
 		createTextAreas();
 		defineCanvasBounds();
@@ -645,43 +648,21 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
-	public void AutoChooseColorButtonResponse() {
-		colorInt++;
-		Color color = null;
-		switch (colorInt) {
-		case (1):
-			color = new Color(20, 20, 200);
-			break;
-		case (2):
-			color = new Color(200, 200, 0);
-			break;
-		case (3):
-			color = new Color(20, 200, 0);
-			break;
-		case (4):
-			color = new Color(100, 200, 200);
-			break;
-		case (5):
-			color = new Color(200, 100, 100);
-			break;
-		case (6):
-			color = new Color(200, 100, 200);
-			break;
-		case (7):
-			color = new Color(145, 100, 155);
-			break;
-		case (8):
-			color = new Color(145, 155, 100);
-			break;
-		case (9):
-			color = new Color(120, 0, 0);
-			break;
-		default:
-			color = new Color(200, 0, 0);
-			colorInt = 0;
-			break;
-		}
+	public void autoChooseBackgroundColorButtonResponse() {
+		Color color = backgroundColorChooser.getColor();
+		canvasRed = color.getRed();
+		canvasGreen = color.getGreen();
+		canvasBlue = color.getBlue();
+		ColorBorder colorLabel = (ColorBorder) changeBackgroundColour.getBorder();
+		colorLabel.setColor(color);
+		changeBackgroundColour.repaint();
+		TextBorder t = (TextBorder) textDisplay.getBorder();
+		t.setText("Background colour changed successfully");
+		textDisplay.repaint();
+	}
 
+	public void autoChooseShapeColorButtonResponse() {
+		Color color = shapeColorChooser.getColor();
 		outlineColor = color;
 		ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
 		colorLabel.setColor(color);

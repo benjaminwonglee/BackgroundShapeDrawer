@@ -1,6 +1,7 @@
 package buttons;
 
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,12 +23,17 @@ public class FillButton extends OptionButton {
 	}
 
 	public void create() {
+		int textBoxSize = 100;
 		newButtonBounds(this);
+		this.setBounds(new Rectangle(this.getBounds().x, this.getBounds().y, this.getBounds().width - textBoxSize,
+				this.getBounds().height));
+
 		setBorder(new OptionBorder("Fill", getOptColor()));
 
-		ShapePanel.setYLoc(ShapePanel.getYLoc() + getOptionButtonHeight());
+		// ShapePanel.setYLoc(ShapePanel.getYLoc() + getOptionButtonHeight());
 		JTextArea fillStatus = new JTextArea();
-		TextBox.newTextAreaBounds(fillStatus);
+		fillStatus.setBounds(new Rectangle(this.getBounds().x + this.getBounds().width, this.getBounds().y, textBoxSize,
+				this.getBounds().height));
 		TextBorder fillBorder = new TextBorder("");
 		if (ShapeAbstract.getFill()) {
 			fillBorder.setText("Yes");
@@ -36,7 +42,7 @@ public class FillButton extends OptionButton {
 		}
 		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
 		fillStatus.setBorder(fillBorder);
-
+		ShapePanel.setYLoc(ShapePanel.getYLoc() + this.getBounds().height);
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
