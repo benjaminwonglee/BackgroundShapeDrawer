@@ -336,10 +336,10 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight;
 		this.add(new FillButton(this));
 		moveXY();
-		
+
 		this.add(new AutoShapeColorButton(this));
 		yLoc += optionButtonHeight;
-		//this.add(new AButton(this));
+		// this.add(new AButton(this));
 		moveXY();
 
 		// Add clear drawing button
@@ -1070,5 +1070,16 @@ public class ShapePanel extends JPanel {
 
 	public ArrayList<Shape> getAllShapes() {
 		return allShapes;
+	}
+
+	public void setBackgroundColor(int rgbBgc) {
+		Color c = new Color(rgbBgc);
+		canvasRed = c.getRed();
+		canvasGreen = c.getGreen();
+		canvasBlue = c.getBlue();
+		canvas.setBackground(c);
+		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
+		border.setColor(c);
+		changeBackgroundColour.repaint();
 	}
 }

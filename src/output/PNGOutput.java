@@ -68,7 +68,7 @@ public class PNGOutput {
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
 		JPanel canvas = sp.getCanvas();
-		canvas.setBackground(new Color(rgbBgc));
+		sp.setBackgroundColor(rgbBgc);
 		while (sc.hasNext()) {
 			String nm = sc.next();
 			int x = sc.nextInt();
