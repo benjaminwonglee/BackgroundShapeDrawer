@@ -639,9 +639,9 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * This method responds to when the Shape Colour button is clicked. It
-	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath. Sets booleans for userInputResponse.
+	 * Responds to when the Shape Colour button is clicked. It updates the user
+	 * notification box appropriately, and puts focus on the user input text box
+	 * underneath. Sets booleans for userInputResponse.
 	 */
 	public void shapeColourButtonResponse() {
 		this.shapeColour = true;
@@ -652,6 +652,10 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	/**
+	 * Responds to when the auto background color button is pressed. Changes the
+	 * color of the background.
+	 */
 	public void autoBackgroundColorButtonResponse() {
 		backgroundColorChooser.chooseColor();
 		Color color = backgroundColorChooser.getColor();
@@ -667,6 +671,10 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
+	/**
+	 * Responds to when the auto shape color button is pressed. Changes the
+	 * color of the shape outline.
+	 */
 	public void autoShapeColorButtonResponse() {
 		shapeColorChooser.chooseColor();
 		Color color = shapeColorChooser.getColor();
@@ -680,9 +688,9 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * This method responds to when the Set Width & height button is clicked. It
-	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath. Sets booleans for userInputResponse.
+	 * Responds to when the Set Width & height button is clicked. It updates the
+	 * user notification box appropriately, and puts focus on the user input
+	 * text box underneath. Sets booleans for userInputResponse.
 	 */
 	public void widthHeightButtonResponse() {
 		this.widthHeight = true;
@@ -695,9 +703,9 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * This method responds to when the Set Width & height button is clicked. It
-	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath. Sets booleans for userInputResponse.
+	 * Responds to when the Set Width & height button is clicked. It updates the
+	 * user notification box appropriately, and puts focus on the user input
+	 * text box underneath. Sets booleans for userInputResponse.
 	 */
 	public void drawShapesButtonResponse() {
 		this.drawShapes = true;
@@ -732,6 +740,10 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Responds to when the load from text file button is pressed. First clears the
+	 * canvas then draws the shapes from the text file onto the canvas.
+	 */
 	public void loadFileButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 		int option = chooser.showOpenDialog(new JDialog());
@@ -754,9 +766,16 @@ public class ShapePanel extends JPanel {
 				t.setText("Please choose an existing .txt file.");
 				textDisplay.repaint();
 			}
+			TextBorder t = (TextBorder) textDisplay.getBorder();
+			t.setText("Loaded successfully.");
+			textDisplay.repaint();
 		}
 	}
 
+	/**
+	 * Controls the booleans to flag when to handle user response and delegates
+	 * the work to other methods.
+	 */
 	public void userInputResponse() {
 		if (changeBackground) {
 			drawShapes = false;
@@ -861,7 +880,7 @@ public class ShapePanel extends JPanel {
 						createPNGFile(png);
 						shapes = new ArrayList<Shape>();
 						drawShapes = false;
-						t.setText("Drawn successfully!");
+						t.setText("Drawn successfully");
 						textDisplay.repaint();
 					}
 				} catch (NumberFormatException e) {
@@ -946,6 +965,13 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Draws the shapes in the shapes ArrayList onto the canvas and on the
+	 * PNGOutput BufferedImage Object.
+	 * 
+	 * @param g
+	 * @param pngGraphics
+	 */
 	public void draw(Graphics g, Graphics pngGraphics) {
 		for (Shape s : shapes) {
 			s.drawShape(g, pngGraphics, outlineColor);
@@ -955,9 +981,6 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setBorderingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
-		textDisplay.setText("And.... Draw!");
-		textDisplay.repaint();
-
 		// Finished drawing. Reset variables
 		ShapeAbstract.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);

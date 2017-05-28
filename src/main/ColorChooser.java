@@ -6,6 +6,10 @@ public class ColorChooser {
 	private Color color;
 	private int colorInt = 0;
 
+	/**
+	 * Call this to change ColorChooser color automatically. Iterates through
+	 * automatically defined colors.
+	 */
 	public void chooseColor() {
 		colorInt++;
 		color = null;
@@ -91,7 +95,7 @@ public class ColorChooser {
 			color = new Color(120, 0, 0);
 			break;
 		case (21):
-			// Violet (Red)
+			// Violet
 			color = new Color(200, 100, 100);
 			break;
 		case (22):
@@ -106,6 +110,11 @@ public class ColorChooser {
 		}
 	}
 
+	/**
+	 * Gets the current color of the ColorChooser
+	 * 
+	 * @return The current color of the ColorChooser
+	 */
 	public Color getColor() {
 		return color;
 	}

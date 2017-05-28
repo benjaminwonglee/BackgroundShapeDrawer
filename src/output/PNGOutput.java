@@ -32,12 +32,26 @@ public class PNGOutput {
 
 	private BufferedImage png;
 	private int rgbBgc = 0;
-	
+
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
 				BufferedImage.TYPE_INT_ARGB);
 	}
 
+	/**
+	 * Outputs the current drawing to a txt format.
+	 * 
+	 * @param shapes
+	 *            The ArrayList of shapes drawn.
+	 * @param canvasRed
+	 *            Red integer for the canvas background colour
+	 * @param canvasGreen
+	 *            Green integer for the canvas background colour
+	 * @param canvasBlue
+	 *            Blue integer for the canvas background colour
+	 * @param filename
+	 *            The name of the txt file
+	 */
 	public void outputToFile(ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue, String filename) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
@@ -64,10 +78,21 @@ public class PNGOutput {
 		pw.close();
 	}
 
+	/**
+	 * Makes a png file from from a given txt file and assigns the png file
+	 * newImageName.
+	 * 
+	 * @param sp
+	 *            The current ShapePanel
+	 * @param filename
+	 *            The file to read from that is created by this program.
+	 * @param newImageName
+	 *            The name of the new png file
+	 * @throws FileNotFoundException
+	 */
 	public void pngFromFile(ShapePanel sp, String filename, String newImageName) throws FileNotFoundException {
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
-		JPanel canvas = sp.getCanvas();
 		sp.setBackgroundColor(rgbBgc);
 		while (sc.hasNext()) {
 			String nm = sc.next();
@@ -95,8 +120,14 @@ public class PNGOutput {
 
 	}
 
-	private Shape determineShape(String name) {
-		switch (name) {
+	/**
+	 * Helper method for pngFromFile method. Returns a shape from a name.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static Shape determineShape(String name) {
+		switch (name.toLowerCase()) {
 		case ("circle"):
 			return new Circle();
 		case ("ellipse"):
