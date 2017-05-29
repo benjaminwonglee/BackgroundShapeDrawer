@@ -9,7 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+import java.nio.file.WatchEvent.Kind;
+import java.nio.file.WatchEvent.Modifier;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -486,7 +497,7 @@ public class ShapePanel extends JPanel {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveFileButtonResponse();
+				savePNGButtonResponse();
 			}
 		});
 		this.add(save);
@@ -724,7 +735,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	// TODO: Complete this method
-	public void saveFileButtonResponse() {
+	public void savePNGButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 		int option = chooser.showSaveDialog(new JDialog());
 		if (option == JFileChooser.CANCEL_OPTION) {
@@ -733,16 +744,25 @@ public class ShapePanel extends JPanel {
 			File temp = chooser.getSelectedFile();
 			File file = temp;
 			if (!temp.exists()) {
-				file = new File(temp.getAbsolutePath() + ".txt");
+				file = new File(temp.getAbsolutePath() + ".png");
 			}
 			// Save a file to the path
-			png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, file.getName());
+			png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, file.getName() + ".txt");
+			try {
+				png.pngFromFile(this, file.getName() + ".txt", file.getName() + ".png");
+			} catch (FileNotFoundException e) {
+			}
+			// Delete the .txt file created to generate the image
+			File f = new File(file.getName() + ".txt");
+			if (f.exists()) {
+				f.delete();
+			}
 		}
 	}
 
 	/**
-	 * Responds to when the load from text file button is pressed. First clears the
-	 * canvas then draws the shapes from the text file onto the canvas.
+	 * Responds to when the load from text file button is pressed. First clears
+	 * the canvas then draws the shapes from the text file onto the canvas.
 	 */
 	public void loadFileButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -968,7 +988,7 @@ public class ShapePanel extends JPanel {
 	/**
 	 * Draws the shapes in the shapes ArrayList onto the canvas and on the
 	 * PNGOutput BufferedImage Object.
-	 * 
+	 *
 	 * @param g
 	 * @param pngGraphics
 	 */

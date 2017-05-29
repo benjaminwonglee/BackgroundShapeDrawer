@@ -11,7 +11,6 @@ import borders.OptionBorder;
 import borders.TextBorder;
 import main.ShapePanel;
 import shapes.ShapeAbstract;
-import textboxes.TextBox;
 
 public class FillButton extends OptionButton {
 	private static final long serialVersionUID = 3633526333963162280L;

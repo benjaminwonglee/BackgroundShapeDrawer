@@ -1,7 +1,6 @@
 package output;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,26 +12,21 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 import main.ShapePanel;
-import shapes.Circle;
-import shapes.Ellipse;
-import shapes.Hexagon;
-import shapes.Lightning;
-import shapes.Octagon;
-import shapes.Shape;
-import shapes.ShapeAbstract;
-import shapes.Square;
-import shapes.Star5;
-import shapes.Star6;
-import shapes.Triangle;
+import shapes.*;
 
 public class PNGOutput {
 
 	private BufferedImage png;
 	private int rgbBgc = 0;
 
+	/**
+	 * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an argument for
+	 * the size of the new PNG file it will output.
+	 *
+	 * @param canvasSize
+	 */
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
 				BufferedImage.TYPE_INT_ARGB);
@@ -40,7 +34,7 @@ public class PNGOutput {
 
 	/**
 	 * Outputs the current drawing to a txt format.
-	 * 
+	 *
 	 * @param shapes
 	 *            The ArrayList of shapes drawn.
 	 * @param canvasRed
@@ -81,7 +75,7 @@ public class PNGOutput {
 	/**
 	 * Makes a png file from from a given txt file and assigns the png file
 	 * newImageName.
-	 * 
+	 *
 	 * @param sp
 	 *            The current ShapePanel
 	 * @param filename
@@ -122,7 +116,7 @@ public class PNGOutput {
 
 	/**
 	 * Helper method for pngFromFile method. Returns a shape from a name.
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
