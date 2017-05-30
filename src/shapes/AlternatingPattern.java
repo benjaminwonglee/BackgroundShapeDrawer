@@ -1,40 +1,21 @@
-package patterns;
+package shapes;
 
 import java.awt.Rectangle;
 
-public class AlignedPattern implements Pattern {
+import patterns.Pattern;
 
-	private int width;
-	private int height;
-	private int xCursor;
-	private int yCursor;
-	private Rectangle canvasSize;
+public class AlternatingPattern implements Pattern {
 
 	@Override
 	public int xInCanvas() {
-		xCursor += width;
-		if (xCursor >= canvasSize.getWidth()) {
-			if (yInCanvas() != -1) {
-				xCursor = getWidth();
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int yInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			yCursor += height;
-			if (yCursor + height >= canvasSize.height) {
-				// Stop
-				return -1;
-			}
-			return yCursor - height;
-		}
-		return yCursor;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
@@ -44,18 +25,21 @@ public class AlignedPattern implements Pattern {
 	}
 
 	@Override
+	public void setHeight(int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public int getHeight() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setWidth(int width) {
-		this.width = width;
-	}
+		// TODO Auto-generated method stub
 
-	@Override
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 	@Override
@@ -93,4 +77,5 @@ public class AlignedPattern implements Pattern {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

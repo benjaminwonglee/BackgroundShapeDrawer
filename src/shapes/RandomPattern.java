@@ -1,8 +1,16 @@
 package shapes;
 
+import java.awt.Rectangle;
+
 import patterns.Pattern;
 
 public class RandomPattern implements Pattern {
+
+	private int width;
+	private int height;
+	private int xCursor;
+	private int yCursor;
+	private Rectangle canvasSize;
 
 	@Override
 	public int xInCanvas() {
@@ -38,6 +46,42 @@ public class RandomPattern implements Pattern {
 	public void setWidth(int width) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getXCursor() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setXCursor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getYCursor() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setYCursor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Rectangle getCanvasSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCanvasSize() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

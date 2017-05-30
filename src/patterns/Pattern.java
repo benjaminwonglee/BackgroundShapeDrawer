@@ -16,4 +16,15 @@ public interface Pattern {
 
 	public void setWidth(int width);
 
+	public int getXCursor();
+
+	public void setXCursor();
+
+	public int getYCursor();
+
+	public void setYCursor();
+
+	public Rectangle getCanvasSize();
+
+	public void setCanvasSize();
 }

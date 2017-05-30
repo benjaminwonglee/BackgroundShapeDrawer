@@ -33,8 +33,8 @@ public abstract class ShapeAbstract implements Shape {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
 		Pattern p = selectPattern();
-		int x = xSelection();
-		int y = ySelection();
+		int x = p.xInCanvas();
+		int y = p.yInCanvas();
 		xys[0] = x;
 		xys[1] = y;
 		xys[2] = ShapeAbstract.getWidth();
@@ -55,9 +55,9 @@ public abstract class ShapeAbstract implements Shape {
 		} else if (pattern == DrawPattern.ALIGNED) {
 			p = new AlignedPattern();
 		} else if (pattern == DrawPattern.ALTERNATING) {
-			// return alternatingXIntegerInCanvas();
+			p = new AlternatingPattern();
 		} else if (pattern == DrawPattern.BORDERING) {
-			// return borderingXIntegerInCanvas();
+			p = new BorderingPattern();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
 			// The 2nd shape for cross alternating
 			if (crossAlternatingInt == -1) {
