@@ -61,35 +61,19 @@ public abstract class ShapeAbstract implements Shape {
 		} else if (pattern == DrawPattern.BORDERING) {
 			p = new BorderingPattern();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
-			p = new CrossAlternatingPattern();
 			// The 2nd shape for cross alternating
-			// if (crossAlternatingInt == -1) {
-			// xCursor = getWidth();
-			// crossAlternatingInt = 1;
-			// // return 0;
-			// }
+			if (crossAlternatingInt == -1) {
+				xCursor = getWidth();
+				crossAlternatingInt = 1;
+				// return 0;
+			}
+			p = new CrossAlternatingPattern();
 		}
 		p.setWidth(width);
 		p.setHeight(height);
-		p.setXCursor(xCursor);
-		p.setYCursor(yCursor);
-
+		p.setCanvasSize(canvasSize);
 		return p;
 	}
-
-	// } else if (pattern == DrawPattern.CROSSALTERNATING) {
-	// // The 2nd shape for cross alternating
-	// if (crossAlternatingInt == -1) {
-	// xCursor = getWidth();
-	// crossAlternatingInt = 1;
-	// return 0;
-	// }
-	// return crossAlternatingXIntegerInCanvas();
-	// }
-
-	// } else if (pattern == DrawPattern.CROSSALTERNATING) {
-	// return crossAlternatingYIntegerInCanvas();
-	// }
 
 	public int getAmount() {
 		return amount;

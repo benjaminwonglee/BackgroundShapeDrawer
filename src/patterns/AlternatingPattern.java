@@ -6,8 +6,8 @@ public class AlternatingPattern implements Pattern {
 
 	private int width;
 	private int height;
-	private int xCursor;
-	private int yCursor;
+	private static int xCursor = 0;
+	private static int yCursor = 0;
 	private Rectangle canvasSize;
 	private static int alternatingInt = 0;
 	
