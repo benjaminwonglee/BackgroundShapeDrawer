@@ -18,13 +18,13 @@ public interface Pattern {
 
 	public int getXCursor();
 
-	public void setXCursor();
+	public void setXCursor(int xCursor);
 
 	public int getYCursor();
 
-	public void setYCursor();
+	public void setYCursor(int yCursor);
 
 	public Rectangle getCanvasSize();
 
-	public void setCanvasSize();
+	public void setCanvasSize(Rectangle canvasSize);
 }

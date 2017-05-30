@@ -3,7 +3,10 @@ package shapes;
 import java.awt.Color;
 
 import patterns.AlignedPattern;
+import patterns.AlternatingPattern;
+import patterns.BorderingPattern;
 import patterns.Pattern;
+import patterns.RandomPattern;
 
 public abstract class ShapeAbstract implements Shape {
 	// Amount variables
@@ -68,7 +71,10 @@ public abstract class ShapeAbstract implements Shape {
 			// return crossAlternatingXIntegerInCanvas();
 		}
 		p.setWidth(width);
-		p.setHeight(width);
+		p.setHeight(height);
+		p.setXCursor(xCursor);
+		p.setYCursor(yCursor);
+		
 		return p;
 
 	}

@@ -2,7 +2,7 @@ package patterns;
 
 import java.awt.Rectangle;
 
-public class AlignedPattern implements Pattern {
+public class AlternatingPattern implements Pattern {
 
 	private int width;
 	private int height;
@@ -12,29 +12,14 @@ public class AlignedPattern implements Pattern {
 
 	@Override
 	public int xInCanvas() {
-		xCursor += width;
-		if (xCursor >= canvasSize.getWidth()) {
-			if (yInCanvas() != -1) {
-				xCursor = getWidth();
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int yInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			yCursor += height;
-			if (yCursor + height >= canvasSize.height) {
-				// Stop
-				return -1;
-			}
-			return yCursor - height;
-		}
-		return yCursor;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
