@@ -1,8 +1,12 @@
 package patterns;
 
-public class AlignedPattern extends Pattern{
-	
-	public int alignedXIntegerInCanvas() {
+public class AlignedPattern implements Pattern {
+
+	private int width;
+	private int height;
+
+	@Override
+	public int xInCanvas() {
 		xCursor += width;
 		if (xCursor >= canvasSize.getWidth()) {
 			if (alignedYIntegerInCanvas() != -1) {
@@ -15,16 +19,37 @@ public class AlignedPattern extends Pattern{
 		return xCursor - getWidth();
 	}
 
-	public int alignedYIntegerInCanvas() {
+	@Override
+	public int yInCanvas() {
 		if (xCursor >= canvasSize.getWidth()) {
-			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getHeight()) {
+			yCursor += height;
+			if (yCursor + height >= canvasSize.height) {
 				// Stop
 				return -1;
 			}
-			return yCursor - getHeight();
+			return yCursor - height;
 		}
 		return yCursor;
 	}
 
+	@Override
+	public int getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getHeight() {
+		return 0;
+	}
+
+	@Override
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	@Override
+	public void setHeight(int height) {
+		this.height = height;
+	}
 }

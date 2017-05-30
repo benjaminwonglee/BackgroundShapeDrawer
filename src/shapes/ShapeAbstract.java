@@ -2,6 +2,9 @@ package shapes;
 
 import java.awt.Color;
 
+import patterns.AlignedPattern;
+import patterns.Pattern;
+
 public abstract class ShapeAbstract implements Shape {
 	// Amount variables
 	private int amount = 0;
@@ -29,7 +32,7 @@ public abstract class ShapeAbstract implements Shape {
 	public int[] setDrawVariables(Color c) {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
-		
+		Pattern p = selectPattern();
 		int x = xSelection();
 		int y = ySelection();
 		xys[0] = x;
@@ -45,6 +48,31 @@ public abstract class ShapeAbstract implements Shape {
 		return xys;
 	}
 
+	private Pattern selectPattern() {
+		Pattern p = null;
+		if (pattern == DrawPattern.RANDOM) {
+			p = new RandomPattern();
+		} else if (pattern == DrawPattern.ALIGNED) {
+			p = new AlignedPattern();
+		} else if (pattern == DrawPattern.ALTERNATING) {
+			// return alternatingXIntegerInCanvas();
+		} else if (pattern == DrawPattern.BORDERING) {
+			// return borderingXIntegerInCanvas();
+		} else if (pattern == DrawPattern.CROSSALTERNATING) {
+			// The 2nd shape for cross alternating
+			if (crossAlternatingInt == -1) {
+				xCursor = getWidth();
+				crossAlternatingInt = 1;
+				// return 0;
+			}
+			// return crossAlternatingXIntegerInCanvas();
+		}
+		p.setWidth(width);
+		p.setHeight(width);
+		return p;
+
+	}
+
 	public int randomXIntegerInCanvas() {
 		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
 		return x;
@@ -55,7 +83,6 @@ public abstract class ShapeAbstract implements Shape {
 		return y;
 	}
 
-	
 	public int alternatingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
