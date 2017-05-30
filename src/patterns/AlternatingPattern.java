@@ -9,17 +9,40 @@ public class AlternatingPattern implements Pattern {
 	private int xCursor;
 	private int yCursor;
 	private Rectangle canvasSize;
-
+	private static int alternatingInt = 0;
+	
 	@Override
 	public int xInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		xCursor += getWidth() * 2;
+		if (xCursor >= canvasSize.getWidth()) {
+			if (yInCanvas() != -1) {
+				if (alternatingInt % 2 == 0) {
+					xCursor = getWidth();
+					alternatingInt++;
+				} else {
+					xCursor = getWidth() * 2;
+					alternatingInt++;
+				}
+			} else {
+				// Stop
+				return -1;
+			}
+		}
+		return xCursor - getWidth();
 	}
 
 	@Override
 	public int yInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (xCursor >= canvasSize.getWidth()) {
+			// new line
+			yCursor += getHeight();
+			if (yCursor + getHeight() >= canvasSize.getHeight()) {
+				// Stop
+				return -1;
+			}
+			return yCursor - getHeight();
+		}
+		return yCursor;
 	}
 
 	@Override

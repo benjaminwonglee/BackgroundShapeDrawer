@@ -12,14 +12,15 @@ public class RandomPattern implements Pattern {
 
 	@Override
 	public int xInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
+		return x;
+
 	}
 
 	@Override
 	public int yInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
+		return y;
 	}
 
 	@Override

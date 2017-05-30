@@ -5,6 +5,7 @@ import java.awt.Color;
 import patterns.AlignedPattern;
 import patterns.AlternatingPattern;
 import patterns.BorderingPattern;
+import patterns.CrossAlternatingPattern;
 import patterns.Pattern;
 import patterns.RandomPattern;
 
@@ -24,8 +25,6 @@ public abstract class ShapeAbstract implements Shape {
 	private static int yCursor = 0;
 	// Pattern variables
 	private static DrawPattern pattern = DrawPattern.RANDOM;
-	private static int alternatingInt = 0;
-	private static int borderingInt = 0;
 	private static int crossAlternatingInt = 0;
 
 	public enum DrawPattern {
@@ -62,13 +61,13 @@ public abstract class ShapeAbstract implements Shape {
 		} else if (pattern == DrawPattern.BORDERING) {
 			p = new BorderingPattern();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
+			p = new CrossAlternatingPattern();
 			// The 2nd shape for cross alternating
-			if (crossAlternatingInt == -1) {
-				xCursor = getWidth();
-				crossAlternatingInt = 1;
-				// return 0;
-			}
-			// return crossAlternatingXIntegerInCanvas();
+			// if (crossAlternatingInt == -1) {
+			// xCursor = getWidth();
+			// crossAlternatingInt = 1;
+			// // return 0;
+			// }
 		}
 		p.setWidth(width);
 		p.setHeight(height);
@@ -78,83 +77,7 @@ public abstract class ShapeAbstract implements Shape {
 		return p;
 
 	}
-
-	public int randomXIntegerInCanvas() {
-		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
-		return x;
-	}
-
-	public int randomYIntegerInCanvas() {
-		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
-		return y;
-	}
-
-	public int alternatingXIntegerInCanvas() {
-		xCursor += getWidth() * 2;
-		if (xCursor >= canvasSize.getWidth()) {
-			if (alignedYIntegerInCanvas() != -1) {
-				if (alternatingInt % 2 == 0) {
-					xCursor = getWidth();
-					alternatingInt++;
-				} else {
-					xCursor = getWidth() * 2;
-					alternatingInt++;
-				}
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
-	}
-
-	public int alternatingYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			// new line
-			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Stop
-				return -1;
-			}
-			return yCursor - getHeight();
-		}
-		return yCursor;
-	}
-
-	public int borderingXIntegerInCanvas() {
-		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
-			borderingInt = 0;
-			if (xCursor + getWidth() < canvasSize.getWidth()) {
-				xCursor += getWidth();
-			} else {
-				borderingInt = 1;
-			}
-		} else if (borderingInt == 1) {
-			// Left border
-			xCursor = getWidth();
-			borderingInt = 2;
-		} else if (borderingInt == 2) {
-			// Right border
-			while (xCursor < canvasSize.getWidth() - getWidth()) {
-				xCursor += getWidth();
-			}
-			borderingInt = 1;
-		}
-		return xCursor - getWidth();
-	}
-
-	public int borderingYIntegerInCanvas() {
-		if (borderingInt == 1) {
-			yCursor += getHeight();
-			xCursor = 0;
-		}
-		if (yCursor + getHeight() >= canvasSize.getHeight()) {
-			// Stop
-			return -1;
-		}
-		return yCursor;
-	}
-
+	
 	public int crossAlternatingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {

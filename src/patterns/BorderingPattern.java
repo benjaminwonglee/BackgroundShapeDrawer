@@ -9,17 +9,42 @@ public class BorderingPattern implements Pattern {
 	private int xCursor;
 	private int yCursor;
 	private Rectangle canvasSize;
-
+	private static int borderingInt = 0;
+	
 	@Override
 	public int xInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
+			borderingInt = 0;
+			if (xCursor + getWidth() < canvasSize.getWidth()) {
+				xCursor += getWidth();
+			} else {
+				borderingInt = 1;
+			}
+		} else if (borderingInt == 1) {
+			// Left border
+			xCursor = getWidth();
+			borderingInt = 2;
+		} else if (borderingInt == 2) {
+			// Right border
+			while (xCursor < canvasSize.getWidth() - getWidth()) {
+				xCursor += getWidth();
+			}
+			borderingInt = 1;
+		}
+		return xCursor - getWidth();
 	}
 
 	@Override
 	public int yInCanvas() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (borderingInt == 1) {
+			yCursor += getHeight();
+			xCursor = 0;
+		}
+		if (yCursor + getHeight() >= canvasSize.getHeight()) {
+			// Stop
+			return -1;
+		}
+		return yCursor;
 	}
 
 	@Override
