@@ -97,7 +97,6 @@ public class PNGOutput {
 			int fill = sc.nextInt();
 			int rgb = sc.nextInt();
 			Shape s = determineShape(nm);
-			System.out.println(s.name());
 			if (fill == 1) {
 				ShapeAbstract.setFill(true);
 			} else {

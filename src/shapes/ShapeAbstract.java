@@ -29,6 +29,7 @@ public abstract class ShapeAbstract implements Shape {
 	public int[] setDrawVariables(Color c) {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
+		
 		int x = xSelection();
 		int y = ySelection();
 		xys[0] = x;
@@ -54,31 +55,7 @@ public abstract class ShapeAbstract implements Shape {
 		return y;
 	}
 
-	public int alignedXIntegerInCanvas() {
-		xCursor += getWidth();
-		if (xCursor >= canvasSize.getWidth()) {
-			if (alignedYIntegerInCanvas() != -1) {
-				xCursor = getWidth();
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
-	}
-
-	public int alignedYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Stop
-				return -1;
-			}
-			return yCursor - getHeight();
-		}
-		return yCursor;
-	}
-
+	
 	public int alternatingXIntegerInCanvas() {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
@@ -172,6 +149,7 @@ public abstract class ShapeAbstract implements Shape {
 		if (pattern == DrawPattern.RANDOM) {
 			return randomXIntegerInCanvas();
 		} else if (pattern == DrawPattern.ALIGNED) {
+			
 			return alignedXIntegerInCanvas();
 		} else if (pattern == DrawPattern.ALTERNATING) {
 			return alternatingXIntegerInCanvas();
