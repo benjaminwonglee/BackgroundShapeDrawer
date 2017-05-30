@@ -493,11 +493,11 @@ public class ShapePanel extends JPanel {
 		JButton save = new JButton();
 		save.setBounds(
 				new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
-		save.setBorder(new OptionBorder("Save To PNG File", optColor));
+		save.setBorder(new OptionBorder("Save To PNG and Text File", optColor));
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				savePNGButtonResponse();
+				saveFileAndPNGButtonResponse();
 			}
 		});
 		this.add(save);
@@ -735,7 +735,10 @@ public class ShapePanel extends JPanel {
 	}
 
 	// TODO: Complete this method
-	public void savePNGButtonResponse() {
+	/**
+	 *
+	 */
+	public void saveFileAndPNGButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 		int option = chooser.showSaveDialog(new JDialog());
 		if (option == JFileChooser.CANCEL_OPTION) {
@@ -749,13 +752,8 @@ public class ShapePanel extends JPanel {
 			// Save a file to the path
 			png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, file.getName() + ".txt");
 			try {
-				png.pngFromFile(this, file.getName() + ".txt", file.getName() + ".png");
+				png.pngFromFile(this, file.getName() + ".txt", file.getName());
 			} catch (FileNotFoundException e) {
-			}
-			// Delete the .txt file created to generate the image
-			File f = new File(file.getName() + ".txt");
-			if (f.exists()) {
-				f.delete();
 			}
 		}
 	}
@@ -779,6 +777,7 @@ public class ShapePanel extends JPanel {
 			}
 			// Clears the canvas and png
 			clearButton.doClick();
+			System.out.println(chooser.getSelectedFile().getName());
 			try {
 				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
 			} catch (FileNotFoundException e) {

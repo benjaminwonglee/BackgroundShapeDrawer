@@ -22,8 +22,8 @@ public class PNGOutput {
 	private int rgbBgc = 0;
 
 	/**
-	 * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an argument for
-	 * the size of the new PNG file it will output.
+	 * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
+	 * argument for the size of the new PNG file it will output.
 	 *
 	 * @param canvasSize
 	 */
@@ -97,11 +97,13 @@ public class PNGOutput {
 			int fill = sc.nextInt();
 			int rgb = sc.nextInt();
 			Shape s = determineShape(nm);
+			System.out.println(s.name());
 			if (fill == 1) {
 				ShapeAbstract.setFill(true);
 			} else {
 				ShapeAbstract.setFill(false);
 			}
+			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht);
 			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht);
 		}
 		try {
@@ -111,7 +113,6 @@ public class PNGOutput {
 		}
 		sc.close();
 		return;
-
 	}
 
 	/**
