@@ -36,6 +36,8 @@ import buttons.OptionButton;
 import buttons.ShapeColorButton;
 import buttons.WidthHeightButton;
 import output.PNGOutput;
+import patterns.AlternatingPattern;
+import patterns.BorderingPattern;
 import shapes.Circle;
 import shapes.Ellipse;
 import shapes.Hexagon;
@@ -984,12 +986,12 @@ public class ShapePanel extends JPanel {
 			s.drawShape(g, pngGraphics, outlineColor);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
-			ShapeAbstract.setAlternatingInt(0);
-			ShapeAbstract.setBorderingInt(0);
+			AlternatingPattern.setAlternatingInt(0);
+			BorderingPattern.setBorderingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		// Finished drawing. Reset variables
-		ShapeAbstract.setAlternatingInt(0);
+		AlternatingPattern.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);
 		allShapes.addAll(shapes);
 		shapes = new ArrayList<Shape>();

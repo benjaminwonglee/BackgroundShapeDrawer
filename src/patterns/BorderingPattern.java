@@ -10,7 +10,7 @@ public class BorderingPattern implements Pattern {
 	private int yCursor;
 	private Rectangle canvasSize;
 	private static int borderingInt = 0;
-	
+
 	@Override
 	public int xInCanvas() {
 		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
@@ -95,6 +95,10 @@ public class BorderingPattern implements Pattern {
 	@Override
 	public void setCanvasSize(Rectangle canvasSize) {
 		this.canvasSize = canvasSize;
+	}
+
+	public static void setBorderingInt(int i) {
+		borderingInt = i;
 	}
 
 }

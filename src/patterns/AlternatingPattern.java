@@ -95,4 +95,8 @@ public class AlternatingPattern implements Pattern {
 		this.canvasSize = canvasSize;
 	}
 
+	public static void setAlternatingInt(int i) {
+		alternatingInt = i;
+	}
+
 }
