@@ -5,7 +5,6 @@ import java.awt.Color;
 import patterns.AlignedPattern;
 import patterns.AlternatingPattern;
 import patterns.BorderingPattern;
-import patterns.CrossAlternatingPattern;
 import patterns.Pattern;
 import patterns.RandomPattern;
 
@@ -70,7 +69,7 @@ public abstract class ShapeAbstract implements Shape {
 			} else {
 				crossAlternatingInt = 0;
 			}
-			p = new CrossAlternatingPattern();
+			p = new AlternatingPattern();
 		}
 		p.setWidth(width);
 		p.setHeight(height);

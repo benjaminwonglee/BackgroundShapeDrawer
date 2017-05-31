@@ -13,7 +13,7 @@ public class AlternatingPattern implements Pattern {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
 			if (yInCanvas(xCursor, yCursor) != -1) {
-				if (yInCanvas(xCursor, yCursor) / getHeight() % 2 == 0) {
+				if (xCursor - getWidth() * 2 >= canvasSize.getWidth() - (getWidth() / 4)) {
 					xCursor = getWidth();
 				} else {
 					xCursor = getWidth() * 2;
