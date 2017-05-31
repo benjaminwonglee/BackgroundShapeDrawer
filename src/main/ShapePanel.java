@@ -987,7 +987,6 @@ public class ShapePanel extends JPanel {
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 			AlternatingPattern.setAlternatingInt(0);
-			BorderingPattern.setBorderingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		// Finished drawing. Reset variables

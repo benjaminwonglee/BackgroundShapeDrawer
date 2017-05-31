@@ -19,9 +19,7 @@ public class Circle extends ShapeAbstract implements Shape {
 			int[] xys = setDrawVariables(c, p);
 			if (xys[0] == -1 || xys[1] == -1) {
 				setDrawnAmount(i);
-				System.out.println(Arrays.toString(xys));
 				setCanvasFilled(true);
-				System.out.println("Abort");
 				return;
 			}
 			xy.add(xys);

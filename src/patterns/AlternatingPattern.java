@@ -8,30 +8,30 @@ public class AlternatingPattern implements Pattern {
 	private int height;
 	private Rectangle canvasSize;
 	private static int alternatingInt = 0;
-	
+
 	@Override
 	public int xInCanvas(int xCursor, int yCursor) {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
-			if (yInCanvas(0, 0) != -1) {
+			if (yInCanvas(xCursor, yCursor) != -1) {
 				if (alternatingInt % 2 == 0) {
 					xCursor = getWidth();
 					alternatingInt++;
 				} else {
 					xCursor = getWidth() * 2;
-					alternatingInt--;
+					alternatingInt++;
 				}
 			} else {
 				// Stop
 				return -1;
 			}
 		}
-		return xCursor - getWidth();
+		return xCursor;
 	}
 
 	@Override
 	public int yInCanvas(int xCursor, int yCursor) {
-		if (xCursor >= canvasSize.getWidth()) {
+		if (xCursor + getWidth() >= canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
 			if (yCursor + getHeight() >= canvasSize.getHeight()) {

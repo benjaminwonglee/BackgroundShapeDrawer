@@ -49,7 +49,6 @@ public abstract class ShapeAbstract implements Shape {
 			xys[4] = 0;
 		}
 		xys[5] = c.getRGB();
-		System.out.println(Arrays.toString(xys));
 		return xys;
 	}
 

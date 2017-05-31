@@ -16,12 +16,12 @@ public class CrossAlternatingPattern implements Pattern {
 		crossAlternatingInt = ShapeAbstract.getCrossAlternatingInt();
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
-			if (yInCanvas(0, 0) != -1) {
-				if (crossAlternatingInt % 2 == 1) {
-					xCursor += getWidth();
+			if (yInCanvas(xCursor, yCursor) != -1) {
+				if (crossAlternatingInt % 2 == 0) {
+					xCursor = getWidth();
 					crossAlternatingInt++;
 				} else {
-					xCursor += getWidth() * 2;
+					xCursor = getWidth() * 2;
 					crossAlternatingInt--;
 				}
 			} else {
@@ -30,19 +30,17 @@ public class CrossAlternatingPattern implements Pattern {
 			}
 		}
 		return xCursor - getWidth() + 1;
-
 	}
 
 	@Override
 	public int yInCanvas(int xCursor, int yCursor) {
-		if (xCursor >= canvasSize.getWidth()) {
+		if (xCursor + getWidth() >= canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
 			if (yCursor + getHeight() >= canvasSize.getHeight()) {
 				// Stop
 				return -1;
 			}
-			return yCursor - getHeight();
 		}
 		return yCursor;
 	}

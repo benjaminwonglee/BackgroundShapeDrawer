@@ -7,34 +7,37 @@ public class BorderingPattern implements Pattern {
 	private int width;
 	private int height;
 	private Rectangle canvasSize;
-	private static int borderingInt = 0;
+	private static int endWidth;
 
 	@Override
 	public int xInCanvas(int xCursor, int yCursor) {
 		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
-			borderingInt = 0;
 			if (xCursor + getWidth() < canvasSize.getWidth()) {
 				xCursor += getWidth();
-			} else {
-				borderingInt = 1;
+
+				return xCursor - getWidth() + 1;
 			}
-		} else if (borderingInt == 1) {
+			endWidth = xCursor;
+			yCursor = yInCanvas(xCursor, yCursor);
 			// Left border
 			xCursor = getWidth();
-			borderingInt = 2;
-		} else if (borderingInt == 2) {
-			// Right border
-			while (xCursor < canvasSize.getWidth() - getWidth()) {
-				xCursor += getWidth();
+		} else {
+			if (xCursor <= getWidth() + 5) {
+				// Right border
+				xCursor = endWidth;
+			} else {
+				// Left border
+				xCursor = getWidth();
 			}
-			borderingInt = 1;
 		}
+
 		return xCursor - getWidth() + 1;
+
 	}
 
 	@Override
 	public int yInCanvas(int xCursor, int yCursor) {
-		if (borderingInt == 1) {
+		if (xCursor + getWidth() > canvasSize.getWidth()) {
 			yCursor += getHeight();
 			xCursor = 0;
 		}
@@ -74,9 +77,4 @@ public class BorderingPattern implements Pattern {
 	public void setCanvasSize(Rectangle canvasSize) {
 		this.canvasSize = canvasSize;
 	}
-
-	public static void setBorderingInt(int i) {
-		borderingInt = i;
-	}
-
 }
