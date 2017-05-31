@@ -2,6 +2,12 @@ package shapes;
 
 import java.awt.Color;
 
+import patterns.AlignedPattern;
+import patterns.AlternatingPattern;
+import patterns.BorderingPattern;
+import patterns.Pattern;
+import patterns.RandomPattern;
+
 public abstract class ShapeAbstract implements Shape {
 	// Amount variables
 	private int amount = 0;
@@ -18,19 +24,19 @@ public abstract class ShapeAbstract implements Shape {
 	private static int yCursor = 0;
 	// Pattern variables
 	private static DrawPattern pattern = DrawPattern.RANDOM;
-	private static int alternatingInt = 0;
-	private static int borderingInt = 0;
 	private static int crossAlternatingInt = 0;
 
 	public enum DrawPattern {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
 
-	public int[] setDrawVariables(Color c) {
+	public int[] setDrawVariables(Color c, Pattern p) {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
-		int x = xSelection();
-		int y = ySelection();
+		int x = p.xInCanvas(xCursor, yCursor);
+		int y = p.yInCanvas(xCursor, yCursor);
+		xCursor = x + width + 1;
+		yCursor = y;
 		xys[0] = x;
 		xys[1] = y;
 		xys[2] = ShapeAbstract.getWidth();
@@ -44,164 +50,31 @@ public abstract class ShapeAbstract implements Shape {
 		return xys;
 	}
 
-	public int randomXIntegerInCanvas() {
-		int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
-		return x;
-	}
-
-	public int randomYIntegerInCanvas() {
-		int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
-		return y;
-	}
-
-	public int alignedXIntegerInCanvas() {
-		xCursor += getWidth();
-		if (xCursor >= canvasSize.getWidth()) {
-			if (alignedYIntegerInCanvas() != -1) {
-				xCursor = getWidth();
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
-	}
-
-	public int alignedYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Stop
-				return -1;
-			}
-			return yCursor - getHeight();
-		}
-		return yCursor;
-	}
-
-	public int alternatingXIntegerInCanvas() {
-		xCursor += getWidth() * 2;
-		if (xCursor >= canvasSize.getWidth()) {
-			if (alignedYIntegerInCanvas() != -1) {
-				if (alternatingInt % 2 == 0) {
-					xCursor = getWidth();
-					alternatingInt++;
-				} else {
-					xCursor = getWidth() * 2;
-					alternatingInt++;
-				}
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
-	}
-
-	public int alternatingYIntegerInCanvas() {
-		if (xCursor >= canvasSize.getWidth()) {
-			// new line
-			yCursor += getHeight();
-			if (yCursor + getHeight() >= canvasSize.getHeight()) {
-				// Stop
-				return -1;
-			}
-			return yCursor - getHeight();
-		}
-		return yCursor;
-	}
-
-	public int borderingXIntegerInCanvas() {
-		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
-			borderingInt = 0;
-			if (xCursor + getWidth() < canvasSize.getWidth()) {
-				xCursor += getWidth();
-			} else {
-				borderingInt = 1;
-			}
-		} else if (borderingInt == 1) {
-			// Left border
-			xCursor = getWidth();
-			borderingInt = 2;
-		} else if (borderingInt == 2) {
-			// Right border
-			while (xCursor < canvasSize.getWidth() - getWidth()) {
-				xCursor += getWidth();
-			}
-			borderingInt = 1;
-		}
-		return xCursor - getWidth();
-	}
-
-	public int borderingYIntegerInCanvas() {
-		if (borderingInt == 1) {
-			yCursor += getHeight();
-			xCursor = 0;
-		}
-		if (yCursor + getHeight() >= canvasSize.getHeight()) {
-			// Stop
-			return -1;
-		}
-		return yCursor;
-	}
-
-	public int crossAlternatingXIntegerInCanvas() {
-		xCursor += getWidth() * 2;
-		if (xCursor >= canvasSize.getWidth()) {
-			if (crossAlternatingYIntegerInCanvas() != -1) {
-				if (crossAlternatingInt % 2 == 0) {
-					xCursor = getWidth();
-					crossAlternatingInt++;
-				} else {
-					xCursor = getWidth() * 2;
-					crossAlternatingInt++;
-				}
-			} else {
-				// Stop
-				return -1;
-			}
-		}
-		return xCursor - getWidth();
-	}
-
-	public int crossAlternatingYIntegerInCanvas() {
-		return alternatingYIntegerInCanvas();
-	}
-
-	public int xSelection() {
+	protected Pattern selectPattern() {
+		Pattern p = null;
 		if (pattern == DrawPattern.RANDOM) {
-			return randomXIntegerInCanvas();
+			p = new RandomPattern();
 		} else if (pattern == DrawPattern.ALIGNED) {
-			return alignedXIntegerInCanvas();
+			p = new AlignedPattern();
 		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingXIntegerInCanvas();
+			xCursor -= width;
+			p = new AlternatingPattern();
 		} else if (pattern == DrawPattern.BORDERING) {
-			return borderingXIntegerInCanvas();
+			p = new BorderingPattern();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
 			// The 2nd shape for cross alternating
-			if (crossAlternatingInt == -1) {
-				xCursor = getWidth();
+			if (crossAlternatingInt == 0) {
+				xCursor -= width;
 				crossAlternatingInt = 1;
-				return 0;
+			} else {
+				crossAlternatingInt = 0;
 			}
-			return crossAlternatingXIntegerInCanvas();
+			p = new AlternatingPattern();
 		}
-		return 0;
-	}
-
-	public int ySelection() {
-		if (pattern == DrawPattern.RANDOM) {
-			return randomYIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALIGNED) {
-			return alignedYIntegerInCanvas();
-		} else if (pattern == DrawPattern.ALTERNATING) {
-			return alternatingYIntegerInCanvas();
-		} else if (pattern == DrawPattern.BORDERING) {
-			return borderingYIntegerInCanvas();
-		} else if (pattern == DrawPattern.CROSSALTERNATING) {
-			return crossAlternatingYIntegerInCanvas();
-		}
-		return 0;
+		p.setWidth(width);
+		p.setHeight(height);
+		p.setCanvasSize(canvasSize);
+		return p;
 	}
 
 	public int getAmount() {
@@ -262,30 +135,6 @@ public abstract class ShapeAbstract implements Shape {
 
 	public static void setYCursor(int yCursor) {
 		ShapeAbstract.yCursor = yCursor;
-	}
-
-	public static int getAlternatingInt() {
-		return alternatingInt;
-	}
-
-	public static void setAlternatingInt(int alternatingInt) {
-		ShapeAbstract.alternatingInt = alternatingInt;
-	}
-
-	public static int getBorderingInt() {
-		return borderingInt;
-	}
-
-	public static void setBorderingInt(int borderingInt) {
-		ShapeAbstract.borderingInt = borderingInt;
-	}
-
-	public static int getCrossAlternatingInt() {
-		return crossAlternatingInt;
-	}
-
-	public static void setCrossAlternatingInt(int crossAlternatingInt) {
-		ShapeAbstract.crossAlternatingInt = crossAlternatingInt;
 	}
 
 	public int getDrawnAmount() {

@@ -9,18 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.nio.file.WatchEvent.Kind;
-import java.nio.file.WatchEvent.Modifier;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -620,7 +609,7 @@ public class ShapePanel extends JPanel {
 		 * shape. Since height is shorter than width, it is multiplied by 2.
 		 */
 		// Set the width and height to more exact values
-		int w = (int) canvasSize.getWidth() / 10 - 1;
+		int w = 104;
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
 		ShapeAbstract.setWidth(w);
@@ -769,7 +758,7 @@ public class ShapePanel extends JPanel {
 			return;
 		} else if (option == JFileChooser.APPROVE_OPTION) {
 			File file = chooser.getSelectedFile();
-			if (file == null) {
+			if (file == null || !chooser.getSelectedFile().getName().endsWith(".txt")) {
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Please select an appropriate .txt file to load from. Please try again.");
 				textDisplay.repaint();
@@ -777,7 +766,6 @@ public class ShapePanel extends JPanel {
 			}
 			// Clears the canvas and png
 			clearButton.doClick();
-			System.out.println(chooser.getSelectedFile().getName());
 			try {
 				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
 			} catch (FileNotFoundException e) {
@@ -996,13 +984,8 @@ public class ShapePanel extends JPanel {
 			s.drawShape(g, pngGraphics, outlineColor);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
-			ShapeAbstract.setAlternatingInt(0);
-			ShapeAbstract.setBorderingInt(0);
-			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		// Finished drawing. Reset variables
-		ShapeAbstract.setAlternatingInt(0);
-		ShapeAbstract.setCrossAlternatingInt(0);
 		allShapes.addAll(shapes);
 		shapes = new ArrayList<Shape>();
 	}
