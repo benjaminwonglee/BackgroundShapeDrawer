@@ -16,7 +16,6 @@ public class Hexagon extends ShapeAbstract implements Shape {
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
 			int[] xys = setDrawVariables(c, p);
-			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];
 			if (x == -1 || y == -1) {
@@ -24,6 +23,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
 				setCanvasFilled(true);
 				return;
 			}
+			xy.add(xys);
 			int[] xInts = new int[] { x, x + getWidth() / 3, x + getWidth() / 3 * 2, x + getWidth(),
 					x + getWidth() / 3 * 2, x + getWidth() / 3, x };
 			int[] yInts = new int[] { y + getHeight() / 2, y, y, y + getHeight() / 2, y + getHeight(), y + getHeight(),

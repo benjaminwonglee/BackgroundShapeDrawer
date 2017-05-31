@@ -611,7 +611,7 @@ public class ShapePanel extends JPanel {
 		 * shape. Since height is shorter than width, it is multiplied by 2.
 		 */
 		// Set the width and height to more exact values
-		int w = (int) canvasSize.getWidth() / 10 - 1;
+		int w = 104;
 		// Set the static ShapeAbstract variables
 		ShapeAbstract.setCanvasSize(canvasSize);
 		ShapeAbstract.setWidth(w);

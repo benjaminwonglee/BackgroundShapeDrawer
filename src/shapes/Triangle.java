@@ -16,7 +16,6 @@ public class Triangle extends ShapeAbstract implements Shape {
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
 			int[] xys = setDrawVariables(c, p);
-			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];
 			if (x == -1 || y == -1) {
@@ -24,6 +23,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 				setCanvasFilled(true);
 				return;
 			}
+			xy.add(xys);
 			int[] xInts = new int[] { x, x + getWidth() / 2, x + getWidth(), x };
 			int[] yInts = new int[] { y + getHeight(), y, y + getHeight(), y + getHeight() };
 			if (getFill()) {

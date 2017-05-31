@@ -24,8 +24,9 @@ public class AlignedPattern implements Pattern {
 
 	@Override
 	public int yInCanvas(int xCursor, int yCursor) {
-		if (xCursor >= canvasSize.getWidth()) {
-			if (yCursor + getHeight() * 2 >= canvasSize.height) {
+		if (xCursor + getWidth() >= canvasSize.getWidth()) {
+			yCursor += getHeight();
+			if (yCursor + getHeight() >= canvasSize.height) {
 				// Stop
 				return -1;
 			}

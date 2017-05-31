@@ -16,12 +16,12 @@ public class Ellipse extends ShapeAbstract implements Shape {
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
 			int[] xys = setDrawVariables(c, p);
-			xy.add(xys);
 			if (xys[0] == -1 || xys[1] == -1) {
 				setDrawnAmount(i);
 				setCanvasFilled(true);
 				return;
 			}
+			xy.add(xys);
 			if (getFill()) {
 				g.fillOval(xys[0], xys[1], getWidth(), getHeight());
 				gr.fillOval(xys[0], xys[1], getWidth(), getHeight());

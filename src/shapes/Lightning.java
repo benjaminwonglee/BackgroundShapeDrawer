@@ -16,7 +16,6 @@ public class Lightning extends ShapeAbstract implements Shape {
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
 			int[] xys = setDrawVariables(c, p);
-			xy.add(xys);
 			int x = xys[0];
 			int y = xys[1];
 			if (x == -1 || y == -1) {
@@ -24,6 +23,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 				setCanvasFilled(true);
 				return;
 			}
+			xy.add(xys);
 			int[] xInts = new int[] { x + getWidth() / 5 * 2, x + getWidth(), x + getWidth() / 5 * 3, x + getWidth(),
 					x + getWidth() / 5 * 3, x + getWidth(), x + getWidth() / 5, x + getWidth() / 5 * 2, x,
 					x + getWidth() / 5 * 2, x, x + getWidth() / 5 * 2 };

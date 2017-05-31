@@ -17,12 +17,12 @@ public class CrossAlternatingPattern implements Pattern {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
 			if (yInCanvas(0, 0) != -1) {
-				if (crossAlternatingInt % 2 == 0) {
-					xCursor = getWidth();
+				if (crossAlternatingInt % 2 == 1) {
+					xCursor += getWidth();
 					crossAlternatingInt++;
 				} else {
-					xCursor = getWidth() * 2;
-					crossAlternatingInt++;
+					xCursor += getWidth() * 2;
+					crossAlternatingInt--;
 				}
 			} else {
 				// Stop

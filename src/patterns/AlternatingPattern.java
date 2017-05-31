@@ -26,7 +26,7 @@ public class AlternatingPattern implements Pattern {
 				return -1;
 			}
 		}
-		return xCursor - getWidth() + 1;
+		return xCursor - getWidth();
 	}
 
 	@Override

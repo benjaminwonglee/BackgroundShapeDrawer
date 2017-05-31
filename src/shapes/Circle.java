@@ -3,6 +3,7 @@ package shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import patterns.Pattern;
 
@@ -16,12 +17,14 @@ public class Circle extends ShapeAbstract implements Shape {
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
 			int[] xys = setDrawVariables(c, p);
-			xy.add(xys);
 			if (xys[0] == -1 || xys[1] == -1) {
 				setDrawnAmount(i);
+				System.out.println(Arrays.toString(xys));
 				setCanvasFilled(true);
+				System.out.println("Abort");
 				return;
 			}
+			xy.add(xys);
 			if (getFill()) {
 				g.fillOval(xys[0], xys[1], getWidth(), getWidth());
 				gr.fillOval(xys[0], xys[1], getWidth(), getWidth());
