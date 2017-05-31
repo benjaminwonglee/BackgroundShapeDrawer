@@ -50,6 +50,7 @@ import shapes.Triangle;
 import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
+import themes.BlueLightning;
 import themes.ColorTheme;
 import themes.GradientBlueRed;
 import themes.GradientRedBlue;
@@ -178,6 +179,9 @@ public class ShapePanel extends JPanel {
 			break;
 		case ("yellow diamonds"):
 			ct = new YellowDiamonds();
+			break;
+		case ("blue lightning"):
+			ct = new BlueLightning();
 			break;
 		default:
 			ct = new RandomDot();
@@ -508,7 +512,12 @@ public class ShapePanel extends JPanel {
 		themeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//TODO: Delegate this to other method and only leave setColorTheme here
 				switch (ct.name()) {
+				case ("blue lightning"):
+					theme = "gradient red blue";
+					setColorTheme(getGraphics());
+					break;
 				case ("gradient blue red"):
 					theme = "gradient red blue";
 					setColorTheme(getGraphics());
