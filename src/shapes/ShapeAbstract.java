@@ -31,12 +31,13 @@ public abstract class ShapeAbstract implements Shape {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
 
-	public int[] setDrawVariables(Color c) {
+	public int[] setDrawVariables(Color c, Pattern p) {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
-		Pattern p = selectPattern();
-		int x = p.xInCanvas();
-		int y = p.yInCanvas();
+		int x = p.xInCanvas(xCursor, yCursor);
+		int y = p.yInCanvas(xCursor, yCursor);
+		xCursor = x + width + 1;
+		yCursor = y;
 		xys[0] = x;
 		xys[1] = y;
 		xys[2] = ShapeAbstract.getWidth();
@@ -50,7 +51,7 @@ public abstract class ShapeAbstract implements Shape {
 		return xys;
 	}
 
-	private Pattern selectPattern() {
+	protected Pattern selectPattern() {
 		Pattern p = null;
 		if (pattern == DrawPattern.RANDOM) {
 			p = new RandomPattern();
@@ -65,7 +66,6 @@ public abstract class ShapeAbstract implements Shape {
 			if (crossAlternatingInt == -1) {
 				xCursor = getWidth();
 				crossAlternatingInt = 1;
-				// return 0;
 			}
 			p = new CrossAlternatingPattern();
 		}

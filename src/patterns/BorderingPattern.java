@@ -6,13 +6,11 @@ public class BorderingPattern implements Pattern {
 
 	private int width;
 	private int height;
-	private static int xCursor = 0;
-	private static int yCursor = 0;
 	private Rectangle canvasSize;
 	private static int borderingInt = 0;
 
 	@Override
-	public int xInCanvas() {
+	public int xInCanvas(int xCursor, int yCursor) {
 		if (yCursor == 0 || yCursor >= (canvasSize.getHeight() - getHeight() * 2)) {
 			borderingInt = 0;
 			if (xCursor + getWidth() < canvasSize.getWidth()) {
@@ -31,11 +29,11 @@ public class BorderingPattern implements Pattern {
 			}
 			borderingInt = 1;
 		}
-		return xCursor - getWidth();
+		return xCursor - getWidth() + 1;
 	}
 
 	@Override
-	public int yInCanvas() {
+	public int yInCanvas(int xCursor, int yCursor) {
 		if (borderingInt == 1) {
 			yCursor += getHeight();
 			xCursor = 0;
@@ -65,26 +63,6 @@ public class BorderingPattern implements Pattern {
 	@Override
 	public int getHeight() {
 		return height;
-	}
-
-	@Override
-	public int getXCursor() {
-		return xCursor;
-	}
-
-	@Override
-	public void setXCursor(int xCursor) {
-		this.xCursor = xCursor;
-	}
-
-	@Override
-	public int getYCursor() {
-		return yCursor;
-	}
-
-	@Override
-	public void setYCursor(int yCursor) {
-		this.yCursor = yCursor;
 	}
 
 	@Override

@@ -6,33 +6,31 @@ public class AlternatingPattern implements Pattern {
 
 	private int width;
 	private int height;
-	private static int xCursor = 0;
-	private static int yCursor = 0;
 	private Rectangle canvasSize;
 	private static int alternatingInt = 0;
 	
 	@Override
-	public int xInCanvas() {
+	public int xInCanvas(int xCursor, int yCursor) {
 		xCursor += getWidth() * 2;
 		if (xCursor >= canvasSize.getWidth()) {
-			if (yInCanvas() != -1) {
+			if (yInCanvas(0, 0) != -1) {
 				if (alternatingInt % 2 == 0) {
 					xCursor = getWidth();
 					alternatingInt++;
 				} else {
 					xCursor = getWidth() * 2;
-					alternatingInt++;
+					alternatingInt--;
 				}
 			} else {
 				// Stop
 				return -1;
 			}
 		}
-		return xCursor - getWidth();
+		return xCursor - getWidth() + 1;
 	}
 
 	@Override
-	public int yInCanvas() {
+	public int yInCanvas(int xCursor, int yCursor) {
 		if (xCursor >= canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
@@ -63,26 +61,6 @@ public class AlternatingPattern implements Pattern {
 	@Override
 	public int getHeight() {
 		return height;
-	}
-
-	@Override
-	public int getXCursor() {
-		return xCursor;
-	}
-
-	@Override
-	public void setXCursor(int xCursor) {
-		this.xCursor = xCursor;
-	}
-
-	@Override
-	public int getYCursor() {
-		return yCursor;
-	}
-
-	@Override
-	public void setYCursor(int yCursor) {
-		this.yCursor = yCursor;
 	}
 
 	@Override
