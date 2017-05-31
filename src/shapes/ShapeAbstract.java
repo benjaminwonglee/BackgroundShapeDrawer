@@ -59,6 +59,7 @@ public abstract class ShapeAbstract implements Shape {
 		} else if (pattern == DrawPattern.ALIGNED) {
 			p = new AlignedPattern();
 		} else if (pattern == DrawPattern.ALTERNATING) {
+			xCursor -= width;
 			p = new AlternatingPattern();
 		} else if (pattern == DrawPattern.BORDERING) {
 			p = new BorderingPattern();

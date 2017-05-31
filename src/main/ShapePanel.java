@@ -986,11 +986,9 @@ public class ShapePanel extends JPanel {
 			s.drawShape(g, pngGraphics, outlineColor);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
-			AlternatingPattern.setAlternatingInt(0);
 			ShapeAbstract.setCrossAlternatingInt(-1);
 		}
 		// Finished drawing. Reset variables
-		AlternatingPattern.setAlternatingInt(0);
 		ShapeAbstract.setCrossAlternatingInt(0);
 		allShapes.addAll(shapes);
 		shapes = new ArrayList<Shape>();

@@ -7,38 +7,38 @@ public class AlternatingPattern implements Pattern {
 	private int width;
 	private int height;
 	private Rectangle canvasSize;
-	private static int alternatingInt = 0;
 
 	@Override
 	public int xInCanvas(int xCursor, int yCursor) {
 		xCursor += getWidth() * 2;
+		// if (yCursor == 0 && xCursor == getWidth() * 2) {
+		// xCursor = getWidth();
+		// }
 		if (xCursor >= canvasSize.getWidth()) {
 			if (yInCanvas(xCursor, yCursor) != -1) {
-				if (alternatingInt % 2 == 0) {
+				if (yInCanvas(xCursor, yCursor) / getHeight() % 2 == 0) {
 					xCursor = getWidth();
-					alternatingInt++;
 				} else {
 					xCursor = getWidth() * 2;
-					alternatingInt++;
 				}
 			} else {
 				// Stop
 				return -1;
 			}
 		}
-		return xCursor;
+		return xCursor - getWidth() + 1;
 	}
 
 	@Override
 	public int yInCanvas(int xCursor, int yCursor) {
-		if (xCursor + getWidth() >= canvasSize.getWidth()) {
+		if (xCursor + (getWidth() * 2) >= canvasSize.getWidth()) {
 			// new line
 			yCursor += getHeight();
 			if (yCursor + getHeight() >= canvasSize.getHeight()) {
 				// Stop
 				return -1;
 			}
-			return yCursor - getHeight();
+			return yCursor;
 		}
 		return yCursor;
 	}
@@ -71,10 +71,6 @@ public class AlternatingPattern implements Pattern {
 	@Override
 	public void setCanvasSize(Rectangle canvasSize) {
 		this.canvasSize = canvasSize;
-	}
-
-	public static void setAlternatingInt(int i) {
-		alternatingInt = i;
 	}
 
 }
