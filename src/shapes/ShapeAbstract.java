@@ -1,7 +1,6 @@
 package shapes;
 
 import java.awt.Color;
-import java.util.Arrays;
 
 import patterns.AlignedPattern;
 import patterns.AlternatingPattern;
@@ -65,9 +64,11 @@ public abstract class ShapeAbstract implements Shape {
 			p = new BorderingPattern();
 		} else if (pattern == DrawPattern.CROSSALTERNATING) {
 			// The 2nd shape for cross alternating
-			if (crossAlternatingInt == -1) {
-				xCursor = getWidth();
+			if (crossAlternatingInt == 0) {
+				xCursor -= width;
 				crossAlternatingInt = 1;
+			} else {
+				crossAlternatingInt = 0;
 			}
 			p = new CrossAlternatingPattern();
 		}
@@ -151,13 +152,5 @@ public abstract class ShapeAbstract implements Shape {
 
 	public void setCanvasFilled(boolean b) {
 		canvasFilled = b;
-	}
-
-	public static int getCrossAlternatingInt() {
-		return crossAlternatingInt;
-	}
-
-	public static void setCrossAlternatingInt(int crossAlternatingInt) {
-		ShapeAbstract.crossAlternatingInt = crossAlternatingInt;
 	}
 }

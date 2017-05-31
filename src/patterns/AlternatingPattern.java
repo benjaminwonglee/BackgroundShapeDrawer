@@ -11,9 +11,6 @@ public class AlternatingPattern implements Pattern {
 	@Override
 	public int xInCanvas(int xCursor, int yCursor) {
 		xCursor += getWidth() * 2;
-		// if (yCursor == 0 && xCursor == getWidth() * 2) {
-		// xCursor = getWidth();
-		// }
 		if (xCursor >= canvasSize.getWidth()) {
 			if (yInCanvas(xCursor, yCursor) != -1) {
 				if (yInCanvas(xCursor, yCursor) / getHeight() % 2 == 0) {
@@ -38,7 +35,6 @@ public class AlternatingPattern implements Pattern {
 				// Stop
 				return -1;
 			}
-			return yCursor;
 		}
 		return yCursor;
 	}

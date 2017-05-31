@@ -3,7 +3,6 @@ package shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import patterns.Pattern;
 
