@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -1149,6 +1150,15 @@ public class ShapePanel extends JPanel {
 		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
 		border.setColor(color);
 		changeBackgroundColour.repaint();
+		Graphics2D g2d= (Graphics2D) canvas.getGraphics().create();
+		g2d.setPaint(color);
+		g2d.fillRect(0,0,canvas.getBounds().width, canvas.getBounds().height);
+	}
+
+	public void setBackgroundColor(Color bgc) {
+		canvasRed = bgc.getRed();
+		canvasGreen = bgc.getGreen();
+		canvasBlue = bgc.getBlue();	
 	}
 
 }

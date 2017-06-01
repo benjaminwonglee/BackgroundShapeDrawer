@@ -2,6 +2,7 @@ package output;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -106,15 +107,18 @@ public class PNGOutput {
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
 		Color bgc = new Color(sc.nextInt());
-		String theme = sc.next();
+		// Skip over the next line character
+		sc.nextLine();
+		String theme = sc.nextLine();
 		if (theme.equals("none")) {
-			png.getGraphics().setColor(bgc);
-			png.getGraphics().fillRect(0, 0, png.getWidth(), png.getHeight());
+			Graphics2D g2d = png.createGraphics();
+			g2d.setPaint(bgc);
+			g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
 			sp.updateBackgroundColourTextArea(bgc);
-			sp.getCanvas().setBackground(bgc);
 		} else {
 			Theme th = setTheme(theme);
 			th.setTheme(png.getGraphics(), sp);
+			th.setTheme(sp.getCanvas().getGraphics(), sp);
 		}
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
@@ -132,6 +136,7 @@ public class PNGOutput {
 			Shape s = determineShape(nm);
 			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
 			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+			s.getXY().add(new int[] { x, y, wd, ht, fillInt, rgb });
 			sp.getShapes().add(s);
 		}
 		try {
