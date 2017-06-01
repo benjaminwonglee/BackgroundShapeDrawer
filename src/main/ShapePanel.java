@@ -530,7 +530,7 @@ public class ShapePanel extends JPanel {
 	 * Made for the paintComponent method. Minimises work done upon repaint.
 	 * Sets ct (Current Theme) to the theme specified by the theme field string.
 	 * Delegates to a theme class to draw.
-	 * 
+	 *
 	 * @param g
 	 */
 	private void setTheme(Graphics g) {
@@ -1145,7 +1145,7 @@ public class ShapePanel extends JPanel {
 	public String getTheme() {
 		return theme;
 	}
-	
+
 	public void updateBackgroundColourTextArea(Color color) {
 		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
 		border.setColor(color);
@@ -1158,7 +1158,7 @@ public class ShapePanel extends JPanel {
 	public void setBackgroundColor(Color bgc) {
 		canvasRed = bgc.getRed();
 		canvasGreen = bgc.getGreen();
-		canvasBlue = bgc.getBlue();	
+		canvasBlue = bgc.getBlue();
 	}
 
 }

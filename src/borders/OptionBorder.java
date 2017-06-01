@@ -25,11 +25,18 @@ public class OptionBorder implements Border {
 		} else {
 			g.setFont(new Font("Georgia", 1, 22));
 		}
-		g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 140; i++) {
+			Color curr = g.getColor();
 			g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
+			g.setColor(new Color(curr.getRed() - 1, curr.getGreen(), curr.getBlue()));
 		}
+		Color curr = g.getColor();
+		int maxCol = 255;
+		g.setColor(new Color(maxCol - curr.getRed(), maxCol - curr.getGreen(), maxCol - curr.getBlue()));
+		g.drawRect(x, y, wd - 1, ht - 1);
+		g.drawRect(x + 1, y + 1, wd - 3, ht - 3);
+		g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
 	}
 
 	@Override

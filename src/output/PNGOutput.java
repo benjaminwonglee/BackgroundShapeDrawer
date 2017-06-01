@@ -1,7 +1,6 @@
 package output;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -16,7 +15,16 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import main.ShapePanel;
-import shapes.*;
+import shapes.Circle;
+import shapes.Ellipse;
+import shapes.Hexagon;
+import shapes.Lightning;
+import shapes.Octagon;
+import shapes.Shape;
+import shapes.Square;
+import shapes.Star5;
+import shapes.Star6;
+import shapes.Triangle;
 import themes.BlueLightning;
 import themes.GoldPurpleStars;
 import themes.GradientBlueRed;
