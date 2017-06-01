@@ -1144,5 +1144,11 @@ public class ShapePanel extends JPanel {
 	public String getTheme() {
 		return theme;
 	}
+	
+	public void updateBackgroundColourTextArea(Color color) {
+		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
+		border.setColor(color);
+		changeBackgroundColour.repaint();
+	}
 
 }

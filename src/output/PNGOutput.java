@@ -110,10 +110,11 @@ public class PNGOutput {
 		if (theme.equals("none")) {
 			png.getGraphics().setColor(bgc);
 			png.getGraphics().fillRect(0, 0, png.getWidth(), png.getHeight());
+			sp.updateBackgroundColourTextArea(bgc);
+			sp.getCanvas().setBackground(bgc);
 		} else {
 			Theme th = setTheme(theme);
 			th.setTheme(png.getGraphics(), sp);
-			th.setTheme(sp.getCanvas().getGraphics(), sp);
 		}
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
@@ -131,6 +132,7 @@ public class PNGOutput {
 			Shape s = determineShape(nm);
 			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
 			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+			sp.getShapes().add(s);
 		}
 		try {
 			ImageIO.write(png, "PNG", new File(newImageName));

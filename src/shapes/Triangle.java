@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import patterns.Pattern;
 
 public class Triangle extends ShapeAbstract implements Shape {
-	public static ArrayList<int[]> xy = new ArrayList<int[]>();
+	private static ArrayList<int[]> xy = new ArrayList<int[]>();
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
