@@ -112,7 +112,7 @@ public class ShapePanel extends JPanel {
 	private JComboBox<String> patternSelector;
 
 	// Theme Variables
-	private String theme = "gradient red blue";
+	private String theme = "blue lightning";
 	private JTextArea themeText;
 	private ColorTheme ct = new GradientRedBlue();
 
@@ -152,42 +152,8 @@ public class ShapePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(new Color(20, 20, 20));
-		setColorTheme(g);
+		setTheme(g);
 		this.draw(getGraphics(), png.getPng().getGraphics());
-	}
-
-	private void setColorTheme(Graphics g) {
-		this.ct = null;
-		switch (theme) {
-		case ("random dot"):
-			ct = new RandomDot();
-			break;
-		case ("semi random dot"):
-			ct = new SemiRandomDot();
-			break;
-		case ("gradient red blue"):
-			ct = new GradientRedBlue();
-			break;
-		case ("gradient blue red"):
-			ct = new GradientBlueRed();
-			break;
-		case ("traffic light theme"):
-			ct = new TrafficLightTheme();
-			break;
-		case ("metal theme"):
-			ct = new MetalTheme();
-			break;
-		case ("yellow diamonds"):
-			ct = new YellowDiamonds();
-			break;
-		case ("blue lightning"):
-			ct = new BlueLightning();
-			break;
-		default:
-			ct = new RandomDot();
-			break;
-		}
-		this.ct.setTheme(g, this);
 	}
 
 	/**
@@ -512,43 +478,34 @@ public class ShapePanel extends JPanel {
 		themeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Delegate this to other method and only leave setColorTheme here
+				// Set theme to the NEXT one in the list
 				switch (ct.name()) {
 				case ("blue lightning"):
-					theme = "gradient red blue";
-					setColorTheme(getGraphics());
+					theme = "gradient blue red";
 					break;
 				case ("gradient blue red"):
 					theme = "gradient red blue";
-					setColorTheme(getGraphics());
 					break;
 				case ("gradient red blue"):
 					theme = "metal theme";
-					setColorTheme(getGraphics());
 					break;
 				case ("metal theme"):
 					theme = "random dot";
-					setColorTheme(getGraphics());
 					break;
 				case ("random dot"):
 					theme = "semi random dot";
-					setColorTheme(getGraphics());
 					break;
 				case ("semi random dot"):
 					theme = "traffic light theme";
-					setColorTheme(getGraphics());
 					break;
 				case ("traffic light theme"):
 					theme = "yellow diamonds";
-					setColorTheme(getGraphics());
 					break;
 				case ("yellow diamonds"):
-					theme = "gradient blue red";
-					setColorTheme(getGraphics());
+					theme = "blue lightning";
 					break;
 				default:
 					theme = "gradient blue red";
-					setColorTheme(getGraphics());
 					break;
 				}
 				repaint();
@@ -558,7 +515,47 @@ public class ShapePanel extends JPanel {
 		});
 		this.add(themeButton);
 		this.add(themeText);
+	}
 
+	/**
+	 * Made for the paintComponent method. Minimises work done upon repaint.
+	 * Sets ct (Current Theme) to the theme specified by the theme field string.
+	 * Delegates to a theme class to draw.
+	 * 
+	 * @param g
+	 */
+	private void setTheme(Graphics g) {
+		this.ct = null;
+		switch (theme) {
+		case ("blue lightning"):
+			ct = new BlueLightning();
+			break;
+		case ("gradient red blue"):
+			ct = new GradientRedBlue();
+			break;
+		case ("gradient blue red"):
+			ct = new GradientBlueRed();
+			break;
+		case ("metal theme"):
+			ct = new MetalTheme();
+			break;
+		case ("random dot"):
+			ct = new RandomDot();
+			break;
+		case ("semi random dot"):
+			ct = new SemiRandomDot();
+			break;
+		case ("traffic light theme"):
+			ct = new TrafficLightTheme();
+			break;
+		case ("yellow diamonds"):
+			ct = new YellowDiamonds();
+			break;
+		default:
+			ct = new RandomDot();
+			break;
+		}
+		this.ct.setTheme(g, this);
 	}
 
 	/**

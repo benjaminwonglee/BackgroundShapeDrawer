@@ -32,5 +32,4 @@ public class YellowDiamonds implements ColorTheme {
 	public String name() {
 		return "yellow diamonds";
 	}
-
 }

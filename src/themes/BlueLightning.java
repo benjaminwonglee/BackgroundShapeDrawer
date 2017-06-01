@@ -26,5 +26,4 @@ public class BlueLightning implements ColorTheme {
 	public String name() {
 		return "blue lightning";
 	}
-
 }

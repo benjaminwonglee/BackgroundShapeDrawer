@@ -24,5 +24,4 @@ public class GradientBlueRed implements ColorTheme {
 	public String name() {
 		return "gradient blue red";
 	}
-
 }
