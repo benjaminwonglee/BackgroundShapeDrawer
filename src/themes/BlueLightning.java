@@ -11,14 +11,22 @@ public class BlueLightning implements ColorTheme {
 	@Override
 	public void setTheme(Graphics g, ShapePanel sp) {
 		Lightning l = new Lightning();
-		Color blue = new Color(0, 20, 120);
-		int width = 40;
-		int height = 60;
+		g.setColor(new Color(20, 70, 200));
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
+		int width = 20;
+		int height = width * 2;
+		g.setColor(new Color(20, 20, 220));
 		boolean fill = true;
+		int incr = 0;
 		for (int row = 0; row < sp.getBounds().width; row += (width * 2)) {
-			for (int col = 0; col < sp.getBounds().height; col += (height * 2)) {
-				l.drawFromXY(g, blue, row, col, width, height, fill);
+			for (int col = 0; col < sp.getBounds().height; col += height + 5) {
+				incr++;
+				if (incr % 10 == 0) {
+					g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(),
+							g.getColor().getBlue() - width / 10));
+				}
+
+				l.drawFromXY(g, g.getColor(), row, col, width, height, fill);
 			}
 		}
 	}

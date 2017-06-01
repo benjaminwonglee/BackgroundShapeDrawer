@@ -52,8 +52,8 @@ public class Hexagon extends ShapeAbstract implements Shape {
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
 		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 3, x + width / 3 * 2, x + width, x + width / 3 * 2, x + width / 3, x };
-		int[] yInts = new int[] { y + getHeight() / 2, y, y, y + getHeight() / 2, y + getHeight(), y + getHeight(),
-				y + getHeight() / 2 };
+		int[] yInts = new int[] { y + height / 2, y, y, y + height / 2, y + height, y + height,
+				y + height / 2 };
 		if (fill) {
 			g.fillPolygon(xInts, yInts, 7);
 		} else {
