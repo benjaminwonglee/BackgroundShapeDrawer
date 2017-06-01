@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.fail;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +44,7 @@ public class OutputTests {
 
 		// Before drawing, set the abstract variables
 		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-		png.outputToFile(shapes, 0, 0, 0, "test.txt");
+		png.outputToFile(sp, shapes, new Color(0, 0, 0), "test.txt");
 
 		Scanner sc = null;
 		try {
@@ -105,7 +106,7 @@ public class OutputTests {
 		if (second[0] != 4) {
 			fail();
 		}
-		png.outputToFile(shapes, 0, 0, 0, "test.txt");
+		png.outputToFile(sp, shapes, new Color(0, 0, 0), "test.txt");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File("test.txt"));

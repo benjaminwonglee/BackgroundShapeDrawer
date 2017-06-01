@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class MetalTheme implements ColorTheme {
+public class MetalTheme implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

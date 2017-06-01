@@ -1,6 +1,7 @@
 package output;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,11 +16,20 @@ import javax.imageio.ImageIO;
 
 import main.ShapePanel;
 import shapes.*;
+import themes.BlueLightning;
+import themes.GoldPurpleStars;
+import themes.GradientBlueRed;
+import themes.GradientRedBlue;
+import themes.MetalTheme;
+import themes.RandomDot;
+import themes.SemiRandomDot;
+import themes.Theme;
+import themes.TrafficLightTheme;
+import themes.YellowDiamonds;
 
 public class PNGOutput {
 
 	private BufferedImage png;
-	private int rgbBgc = 0;
 
 	/**
 	 * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
@@ -35,6 +45,8 @@ public class PNGOutput {
 	/**
 	 * Outputs the current drawing to a txt format.
 	 *
+	 * @param sp
+	 *            The ShapePanel of the program.
 	 * @param shapes
 	 *            The ArrayList of shapes drawn.
 	 * @param canvasRed
@@ -46,7 +58,7 @@ public class PNGOutput {
 	 * @param filename
 	 *            The name of the txt file
 	 */
-	public void outputToFile(ArrayList<Shape> shapes, int canvasRed, int canvasGreen, int canvasBlue, String filename) {
+	public void outputToFile(ShapePanel sp, ArrayList<Shape> shapes, Color backgroundColor, String filename) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
 		try {
@@ -56,10 +68,16 @@ public class PNGOutput {
 		}
 
 		// Get the RGB value of background colour
-		Color bgc = new Color(canvasRed, canvasGreen, canvasBlue);
-		rgbBgc = bgc.getRGB();
+		Color bgc = backgroundColor;
+		int rgbBgc = bgc.getRGB();
+		pw.println(rgbBgc);
+		if (sp.isThemeDrawn()) {
+			pw.println(sp.getTheme());
+		} else {
+			pw.println("none");
+		}
 
-		// s.getXY() returns: [x, y, width, height, fill]
+		// s.getXY() returns: [x, y, width, height, fill, rgbColor]
 		for (Shape s : shapes) {
 			for (int[] vars : s.getXY()) {
 				pw.print(s.name() + " ");
@@ -87,10 +105,18 @@ public class PNGOutput {
 	public void pngFromFile(ShapePanel sp, String filename, String newImageName) throws FileNotFoundException {
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
-		sp.setBackgroundColor(rgbBgc);
-		png.getGraphics().setColor(new Color(rgbBgc));
-		png.getGraphics().fillRect(0, 0, png.getWidth(), png.getHeight());
+		Color bgc = new Color(sc.nextInt());
+		String theme = sc.next();
+		if (theme.equals("none")) {
+			png.getGraphics().setColor(bgc);
+			png.getGraphics().fillRect(0, 0, png.getWidth(), png.getHeight());
+		} else {
+			Theme th = setTheme(theme);
+			th.setTheme(png.getGraphics(), sp);
+			th.setTheme(sp.getCanvas().getGraphics(), sp);
+		}
 		while (sc.hasNext()) {
+			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
 			String nm = sc.next();
 			int x = sc.nextInt();
 			int y = sc.nextInt();
@@ -146,6 +172,43 @@ public class PNGOutput {
 		default:
 			throw new NoSuchElementException();
 		}
+	}
+
+	private Theme setTheme(String theme) {
+		Theme t = null;
+		switch (theme) {
+		case ("blue lightning"):
+			t = new BlueLightning();
+			break;
+		case ("gold purple stars"):
+			t = new GoldPurpleStars();
+			break;
+		case ("gradient red blue"):
+			t = new GradientRedBlue();
+			break;
+		case ("gradient blue red"):
+			t = new GradientBlueRed();
+			break;
+		case ("metal theme"):
+			t = new MetalTheme();
+			break;
+		case ("random dot"):
+			t = new RandomDot();
+			break;
+		case ("semi random dot"):
+			t = new SemiRandomDot();
+			break;
+		case ("traffic light theme"):
+			t = new TrafficLightTheme();
+			break;
+		case ("yellow diamonds"):
+			t = new YellowDiamonds();
+			break;
+		default:
+			t = new RandomDot();
+			break;
+		}
+		return t;
 	}
 
 	public BufferedImage getPng() {

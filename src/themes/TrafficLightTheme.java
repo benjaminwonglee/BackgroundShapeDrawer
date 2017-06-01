@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class TrafficLightTheme implements ColorTheme {
+public class TrafficLightTheme implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

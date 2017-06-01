@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class YellowDiamonds implements ColorTheme {
+public class YellowDiamonds implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import shapes.Star5;
 
-public class GoldPurpleStars implements ColorTheme {
+public class GoldPurpleStars implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

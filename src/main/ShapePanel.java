@@ -52,7 +52,7 @@ import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
 import themes.BlueLightning;
-import themes.ColorTheme;
+import themes.Theme;
 import themes.GoldPurpleStars;
 import themes.GradientBlueRed;
 import themes.GradientRedBlue;
@@ -118,7 +118,8 @@ public class ShapePanel extends JPanel {
 	// Theme Variables
 	private String theme = "gradient red blue";
 	private JTextArea themeText;
-	private ColorTheme ct = new GradientRedBlue();
+	private Theme thm = new GradientRedBlue();
+	private boolean themeDrawn = false;
 
 	// Canvas variables
 	private int optionButtonHeight;
@@ -387,6 +388,7 @@ public class ShapePanel extends JPanel {
 				gr.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Drawing Cleared");
+				themeDrawn = false;
 				shapes = new ArrayList<Shape>();
 				allShapes = new ArrayList<Shape>();
 				textDisplay.repaint();
@@ -482,7 +484,7 @@ public class ShapePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Set theme to the NEXT one in the list
-				switch (ct.name()) {
+				switch (thm.name()) {
 				case ("blue lightning"):
 					theme = "gold purple stars";
 					break;
@@ -531,40 +533,40 @@ public class ShapePanel extends JPanel {
 	 * @param g
 	 */
 	private void setTheme(Graphics g) {
-		this.ct = null;
+		this.thm = null;
 		switch (theme) {
 		case ("blue lightning"):
-			ct = new BlueLightning();
+			thm = new BlueLightning();
 			break;
 		case ("gold purple stars"):
-			ct = new GoldPurpleStars();
+			thm = new GoldPurpleStars();
 			break;
 		case ("gradient red blue"):
-			ct = new GradientRedBlue();
+			thm = new GradientRedBlue();
 			break;
 		case ("gradient blue red"):
-			ct = new GradientBlueRed();
+			thm = new GradientBlueRed();
 			break;
 		case ("metal theme"):
-			ct = new MetalTheme();
+			thm = new MetalTheme();
 			break;
 		case ("random dot"):
-			ct = new RandomDot();
+			thm = new RandomDot();
 			break;
 		case ("semi random dot"):
-			ct = new SemiRandomDot();
+			thm = new SemiRandomDot();
 			break;
 		case ("traffic light theme"):
-			ct = new TrafficLightTheme();
+			thm = new TrafficLightTheme();
 			break;
 		case ("yellow diamonds"):
-			ct = new YellowDiamonds();
+			thm = new YellowDiamonds();
 			break;
 		default:
-			ct = new RandomDot();
+			thm = new RandomDot();
 			break;
 		}
-		this.ct.setTheme(g, this);
+		this.thm.setTheme(g, this);
 	}
 
 	/**
@@ -750,13 +752,10 @@ public class ShapePanel extends JPanel {
 		} else if (option == JFileChooser.APPROVE_OPTION) {
 			File temp = chooser.getSelectedFile();
 			File file = temp;
-			if (!temp.exists()) {
-				file = new File(temp.getAbsolutePath() + ".png");
-			}
 			// Save a file to the path
-			png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, file.getName() + ".txt");
+			png.outputToFile(this, allShapes, new Color(canvasRed, canvasGreen, canvasBlue), file.getName() + ".txt");
 			try {
-				png.pngFromFile(this, file.getName() + ".txt", file.getName());
+				png.pngFromFile(this, file.getName() + ".txt", file.getName() + ".png");
 			} catch (FileNotFoundException e) {
 			}
 		}
@@ -795,9 +794,10 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawThemeToCanvasButtonResponse() {
-		this.ct.setTheme(canvas.getGraphics(), canvas);
+		this.thm.setTheme(canvas.getGraphics(), canvas);
 		canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
 		setTheme(png.getPng().getGraphics());
+		this.themeDrawn = true;
 	}
 
 	/**
@@ -921,7 +921,7 @@ public class ShapePanel extends JPanel {
 
 	private void createPNGFile(PNGOutput png) {
 		// For storing RGB values to a file
-		png.outputToFile(allShapes, canvasRed, canvasGreen, canvasBlue, "output.txt");
+		png.outputToFile(this, allShapes, new Color(canvasRed, canvasGreen, canvasBlue), "output.txt");
 		try {
 			png.pngFromFile(this, "output.txt", "output.png");
 		} catch (FileNotFoundException e) {
@@ -1136,4 +1136,13 @@ public class ShapePanel extends JPanel {
 	public boolean getFill() {
 		return fill;
 	}
+
+	public boolean isThemeDrawn() {
+		return themeDrawn;
+	}
+
+	public String getTheme() {
+		return theme;
+	}
+
 }

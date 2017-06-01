@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class RandomDot implements ColorTheme {
+public class RandomDot implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

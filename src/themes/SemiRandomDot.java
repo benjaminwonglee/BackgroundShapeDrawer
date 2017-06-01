@@ -6,7 +6,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-public class SemiRandomDot implements ColorTheme {
+public class SemiRandomDot implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

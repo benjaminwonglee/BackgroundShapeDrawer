@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class GradientBlueRed implements ColorTheme {
+public class GradientBlueRed implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {

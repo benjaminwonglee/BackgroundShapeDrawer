@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import shapes.Lightning;
 
-public class BlueLightning implements ColorTheme {
+public class BlueLightning implements Theme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {
