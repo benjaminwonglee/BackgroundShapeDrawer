@@ -52,6 +52,7 @@ import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
 import themes.BlueLightning;
 import themes.ColorTheme;
+import themes.GoldPurpleStars;
 import themes.GradientBlueRed;
 import themes.GradientRedBlue;
 import themes.MetalTheme;
@@ -114,7 +115,7 @@ public class ShapePanel extends JPanel {
 	private JComboBox<String> patternSelector;
 
 	// Theme Variables
-	private String theme = "blue lightning";
+	private String theme = "gradient red blue";
 	private JTextArea themeText;
 	private ColorTheme ct = new GradientRedBlue();
 
@@ -482,6 +483,9 @@ public class ShapePanel extends JPanel {
 				// Set theme to the NEXT one in the list
 				switch (ct.name()) {
 				case ("blue lightning"):
+					theme = "gold purple stars";
+					break;
+				case ("gold purple stars"):
 					theme = "gradient blue red";
 					break;
 				case ("gradient blue red"):
@@ -506,7 +510,7 @@ public class ShapePanel extends JPanel {
 					theme = "blue lightning";
 					break;
 				default:
-					theme = "gradient blue red";
+					theme = "gradient red blue";
 					break;
 				}
 				repaint();
@@ -530,6 +534,9 @@ public class ShapePanel extends JPanel {
 		switch (theme) {
 		case ("blue lightning"):
 			ct = new BlueLightning();
+			break;
+		case ("gold purple stars"):
+			ct = new GoldPurpleStars();
 			break;
 		case ("gradient red blue"):
 			ct = new GradientRedBlue();
