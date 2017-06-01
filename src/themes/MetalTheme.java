@@ -9,7 +9,7 @@ public class MetalTheme implements ColorTheme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {
-		int incr = 22;
+		int incr = sp.getBounds().width/80;
 		int add = 3;
 		g.setColor(new Color(100, 100, 100));
 		for (int row = 0; row < sp.getBounds().width; row += incr) {

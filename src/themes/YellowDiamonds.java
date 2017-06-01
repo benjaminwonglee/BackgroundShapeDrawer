@@ -9,7 +9,7 @@ public class YellowDiamonds implements ColorTheme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {
-		int incr = 24;
+		int incr = sp.getBounds().width/40;
 		int add = 1;
 		g.setColor(new Color(230, 230, 0));
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);

@@ -10,7 +10,7 @@ public class SemiRandomDot implements ColorTheme {
 
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {
-		int incr = 22;
+		int incr = sp.getBounds().width/60;
 		Random r = new Random(11);
 		for (int row = 0; row < sp.getBounds().width; row += incr) {
 			for (int col = 0; col < sp.getBounds().height; col += incr) {

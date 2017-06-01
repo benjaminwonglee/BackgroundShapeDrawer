@@ -14,7 +14,7 @@ public class BlueLightning implements ColorTheme {
 		Lightning l = new Lightning();
 		g.setColor(new Color(20, 70, 200));
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
-		int width = 20;
+		int width = sp.getBounds().width/80;
 		int height = width * 2;
 		g.setColor(new Color(20, 20, 220));
 		boolean fill = true;
