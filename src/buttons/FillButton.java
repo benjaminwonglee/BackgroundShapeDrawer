@@ -10,7 +10,6 @@ import javax.swing.JTextArea;
 import borders.OptionBorder;
 import borders.TextBorder;
 import main.ShapePanel;
-import shapes.ShapeAbstract;
 
 public class FillButton extends OptionButton {
 	private static final long serialVersionUID = 3633526333963162280L;
@@ -29,7 +28,6 @@ public class FillButton extends OptionButton {
 
 		setBorder(new OptionBorder("Fill", getOptColor()));
 
-		// ShapePanel.setYLoc(ShapePanel.getYLoc() + getOptionButtonHeight());
 		JTextArea fillStatus = new JTextArea();
 		fillStatus.setBounds(new Rectangle(this.getBounds().x + this.getBounds().width, this.getBounds().y, textBoxSize,
 				this.getBounds().height));

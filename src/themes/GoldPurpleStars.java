@@ -5,7 +5,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import shapes.Lightning;
 import shapes.Star5;
 
 public class GoldPurpleStars implements ColorTheme {
@@ -28,11 +27,10 @@ public class GoldPurpleStars implements ColorTheme {
 			height += 1;
 			width += 1;
 		}
-
 	}
 
 	@Override
 	public String name() {
-		return "blue lightning";
+		return "gold purple stars";
 	}
 }
