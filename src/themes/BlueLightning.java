@@ -15,9 +15,10 @@ public class BlueLightning implements ColorTheme {
 		int width = 40;
 		int height = 60;
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
+		boolean fill = true;
 		for (int row = 0; row < sp.getBounds().width; row += (width * 2)) {
 			for (int col = 0; col < sp.getBounds().height; col += (height * 2)) {
-				l.drawFromXY(g, blue, row, col, width, height);
+				l.drawFromXY(g, blue, row, col, width, height, fill);
 			}
 		}
 	}

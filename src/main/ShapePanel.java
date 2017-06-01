@@ -91,6 +91,8 @@ public class ShapePanel extends JPanel {
 	private int prevCanvasGreen = 0;
 	private int prevCanvasBlue = 0;
 
+	private boolean fill = false;
+
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
 	private ArrayList<Shape> allShapes;
@@ -300,10 +302,9 @@ public class ShapePanel extends JPanel {
 		yLoc += optionButtonHeight * 2 + space;
 
 		// Row 2
-		// Add Fill Button
-
 		this.add(new AutoBackgroundColorButton(this));
 		yLoc += optionButtonHeight;
+		// Add Fill Button
 		this.add(new FillButton(this));
 		moveXY();
 
@@ -987,7 +988,7 @@ public class ShapePanel extends JPanel {
 	 */
 	public void draw(Graphics g, Graphics pngGraphics) {
 		for (Shape s : shapes) {
-			s.drawShape(g, pngGraphics, outlineColor);
+			s.drawShape(g, pngGraphics, outlineColor, fill);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 		}
@@ -1113,4 +1114,13 @@ public class ShapePanel extends JPanel {
 		border.setColor(c);
 		changeBackgroundColour.repaint();
 	}
+
+	public void setFill(boolean fill) {
+		this.fill = fill;
+	}
+
+	public boolean getFill() {
+		return fill;
+	}
+
 }

@@ -94,16 +94,15 @@ public class PNGOutput {
 			int y = sc.nextInt();
 			int wd = sc.nextInt();
 			int ht = sc.nextInt();
-			int fill = sc.nextInt();
+			int fillInt = sc.nextInt();
+			boolean fill = false;
+			if (fillInt == 1) {
+				fill = true;
+			}
 			int rgb = sc.nextInt();
 			Shape s = determineShape(nm);
-			if (fill == 1) {
-				ShapeAbstract.setFill(true);
-			} else {
-				ShapeAbstract.setFill(false);
-			}
-			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht);
-			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht);
+			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
 		}
 		try {
 			ImageIO.write(png, "PNG", new File(newImageName));

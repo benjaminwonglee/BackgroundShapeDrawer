@@ -18,7 +18,6 @@ public abstract class ShapeAbstract implements Shape {
 	// Shape size variables
 	private static int width = 90;
 	private static int height = 90;
-	private static boolean fill = false;
 	// Cursor variables
 	private static int xCursor = 0;
 	private static int yCursor = 0;
@@ -30,7 +29,7 @@ public abstract class ShapeAbstract implements Shape {
 		RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
 	};
 
-	public int[] setDrawVariables(Color c, Pattern p) {
+	public int[] setDrawVariables(Color c, Pattern p, boolean fill) {
 		// xys = [x, y, width, height, fill, rgbColor]
 		int[] xys = new int[6];
 		int x = p.xInCanvas(xCursor, yCursor);
@@ -41,7 +40,7 @@ public abstract class ShapeAbstract implements Shape {
 		xys[1] = y;
 		xys[2] = ShapeAbstract.getWidth();
 		xys[3] = ShapeAbstract.getHeight();
-		if (getFill()) {
+		if (fill) {
 			xys[4] = 1;
 		} else {
 			xys[4] = 0;
@@ -107,14 +106,6 @@ public abstract class ShapeAbstract implements Shape {
 
 	public static void setHeight(int height) {
 		ShapeAbstract.height = height;
-	}
-
-	public static boolean getFill() {
-		return fill;
-	}
-
-	public static void setFill(boolean fill) {
-		ShapeAbstract.fill = fill;
 	}
 
 	public static void setPattern(DrawPattern p) {

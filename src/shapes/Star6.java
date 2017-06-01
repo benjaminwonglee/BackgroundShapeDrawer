@@ -10,12 +10,12 @@ public class Star6 extends ShapeAbstract implements Shape {
 	public static ArrayList<int[]> xy = new ArrayList<int[]>();
 
 	@Override
-	public void drawShape(Graphics g, Graphics gr, Color c) {
+	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
 		g.setColor(c);
 		gr.setColor(c);
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables(c, p);
+			int[] xys = setDrawVariables(c, p, fill);
 			int x = xys[0];
 			int y = xys[1];
 			if (x == -1 || y == -1) {
@@ -31,7 +31,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 			int[] yInts = new int[] { y + getHeight() / 2, y + getHeight() / 3, y, y + getHeight() / 4, y,
 					y + getHeight() / 3, y + getHeight() / 2, y + getHeight() / 3 * 2, y + getHeight(),
 					y + getHeight() / 4 * 3, y + getHeight(), y + getHeight() / 3 * 2, y + getHeight() / 2 };
-			if (getFill()) {
+			if (fill) {
 				g.fillPolygon(xInts, yInts, 13);
 				gr.fillPolygon(xInts, yInts, 13);
 			} else {
@@ -52,7 +52,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 	}
 
 	@Override
-	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
 		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 3, x + width / 4, x + width / 2,
 				x + width - width / 4, x + width - width / 3, x + width,
@@ -61,7 +61,7 @@ public class Star6 extends ShapeAbstract implements Shape {
 		int[] yInts = new int[] { y + height / 2, y + height / 3, y, y + height / 4, y,
 				y + height / 3, y + height / 2, y + height / 3 * 2, y + height,
 				y + height / 4 * 3, y + height, y + height / 3 * 2, y + height / 2 };
-		if (getFill()) {
+		if (fill) {
 			g.fillPolygon(xInts, yInts, 13);
 		} else {
 			g.drawPolygon(xInts, yInts, 13);

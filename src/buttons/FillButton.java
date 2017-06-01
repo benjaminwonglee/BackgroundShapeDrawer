@@ -34,7 +34,7 @@ public class FillButton extends OptionButton {
 		fillStatus.setBounds(new Rectangle(this.getBounds().x + this.getBounds().width, this.getBounds().y, textBoxSize,
 				this.getBounds().height));
 		TextBorder fillBorder = new TextBorder("");
-		if (ShapeAbstract.getFill()) {
+		if (sp.getFill()) {
 			fillBorder.setText("Yes");
 		} else {
 			fillBorder.setText("No");
@@ -44,8 +44,8 @@ public class FillButton extends OptionButton {
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ShapeAbstract.setFill(!ShapeAbstract.getFill());
-				if (ShapeAbstract.getFill()) {
+				sp.setFill(!sp.getFill());
+				if (sp.getFill()) {
 					fillBorder.setText("Yes");
 				} else {
 					fillBorder.setText("No");

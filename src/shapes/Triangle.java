@@ -10,12 +10,12 @@ public class Triangle extends ShapeAbstract implements Shape {
 	public static ArrayList<int[]> xy = new ArrayList<int[]>();
 
 	@Override
-	public void drawShape(Graphics g, Graphics gr, Color c) {
+	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
 		g.setColor(c);
 		gr.setColor(c);
 		Pattern p = selectPattern();
 		for (int i = 0; i < getAmount(); i++) {
-			int[] xys = setDrawVariables(c, p);
+			int[] xys = setDrawVariables(c, p, fill);
 			int x = xys[0];
 			int y = xys[1];
 			if (x == -1 || y == -1) {
@@ -26,7 +26,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 			xy.add(xys);
 			int[] xInts = new int[] { x, x + getWidth() / 2, x + getWidth(), x };
 			int[] yInts = new int[] { y + getHeight(), y, y + getHeight(), y + getHeight() };
-			if (getFill()) {
+			if (fill) {
 				g.fillPolygon(xInts, yInts, 4);
 				gr.fillPolygon(xInts, yInts, 4);
 			} else {
@@ -47,11 +47,11 @@ public class Triangle extends ShapeAbstract implements Shape {
 	}
 
 	@Override
-	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height) {
+	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
 		g.setColor(c);
 		int[] xInts = new int[] { x, x + width / 2, x + width, x };
 		int[] yInts = new int[] { y + height, y, y + height, y + height };
-		if (getFill()) {
+		if (fill) {
 			g.fillPolygon(xInts, yInts, 4);
 		} else {
 			g.drawPolygon(xInts, yInts, 4);
