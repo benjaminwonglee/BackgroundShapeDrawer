@@ -3,14 +3,14 @@ package themes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.ShapePanel;
+import javax.swing.JPanel;
 
 public class TrafficLightTheme implements ColorTheme {
 
 	@Override
-	public void setTheme(Graphics g, ShapePanel sp) {
+	public void setTheme(Graphics g, JPanel sp) {
 		Color cOne = new Color(180, 20, 40);
-		int incr = 20;
+		int incr = sp.getBounds().width/80;
 		g.setColor(cOne);
 		for (int row = 0; row < sp.getBounds().width; row += incr) {
 			for (int col = 0; col < sp.getBounds().height; col += incr) {

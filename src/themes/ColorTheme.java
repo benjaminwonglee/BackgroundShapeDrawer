@@ -2,10 +2,10 @@ package themes;
 
 import java.awt.Graphics;
 
-import main.ShapePanel;
+import javax.swing.JPanel;
 
 public interface ColorTheme {
-	public void setTheme(Graphics g, ShapePanel sp);
+	public void setTheme(Graphics g, JPanel sp);
 
 	public String name();
 }

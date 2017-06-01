@@ -3,13 +3,14 @@ package themes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.ShapePanel;
+import javax.swing.JPanel;
+
 import shapes.Lightning;
 
 public class BlueLightning implements ColorTheme {
 
 	@Override
-	public void setTheme(Graphics g, ShapePanel sp) {
+	public void setTheme(Graphics g, JPanel sp) {
 		Lightning l = new Lightning();
 		g.setColor(new Color(20, 70, 200));
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);

@@ -88,6 +88,8 @@ public class PNGOutput {
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
 		sp.setBackgroundColor(rgbBgc);
+		png.getGraphics().setColor(new Color(rgbBgc));
+		png.getGraphics().fillRect(0, 0, png.getWidth(), png.getHeight());
 		while (sc.hasNext()) {
 			String nm = sc.next();
 			int x = sc.nextInt();

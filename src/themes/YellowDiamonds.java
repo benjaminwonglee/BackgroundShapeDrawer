@@ -3,12 +3,12 @@ package themes;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.ShapePanel;
+import javax.swing.JPanel;
 
 public class YellowDiamonds implements ColorTheme {
 
 	@Override
-	public void setTheme(Graphics g, ShapePanel sp) {
+	public void setTheme(Graphics g, JPanel sp) {
 		int incr = 24;
 		int add = 1;
 		g.setColor(new Color(230, 230, 0));

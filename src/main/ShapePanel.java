@@ -31,6 +31,7 @@ import borders.TextBorder;
 import buttons.AutoBackgroundColorButton;
 import buttons.AutoShapeColorButton;
 import buttons.ChangeBackgroundButton;
+import buttons.DrawThemeToCanvasButton;
 import buttons.FillButton;
 import buttons.OptionButton;
 import buttons.ShapeColorButton;
@@ -311,7 +312,7 @@ public class ShapePanel extends JPanel {
 
 		this.add(new AutoShapeColorButton(this));
 		yLoc += optionButtonHeight;
-		// this.add(new AButton(this));
+		this.add(new DrawThemeToCanvasButton(this));
 		moveXY();
 
 		// Add clear drawing button
@@ -793,6 +794,12 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
+	public void drawThemeToCanvasButtonResponse() {
+		this.ct.setTheme(canvas.getGraphics(), canvas);
+		canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
+		setTheme(png.getPng().getGraphics());
+	}
+
 	/**
 	 * Controls the booleans to flag when to handle user response and delegates
 	 * the work to other methods.
@@ -1129,5 +1136,4 @@ public class ShapePanel extends JPanel {
 	public boolean getFill() {
 		return fill;
 	}
-
 }
