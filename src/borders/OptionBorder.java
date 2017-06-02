@@ -21,21 +21,28 @@ public class OptionBorder implements Border {
 	public void paintBorder(Component c, Graphics g, int x, int y, int wd, int ht) {
 		g.setColor(color);
 		if (label.length() > 18) {
-			g.setFont(new Font("Georgia", 1, 19));
+			g.setFont(new Font("Georgia", Font.ITALIC, 20));
 		} else {
-			g.setFont(new Font("Georgia", 1, 22));
+			g.setFont(new Font("Georgia", Font.ITALIC, 23));
 		}
-
-		for (int i = 0; i < 140; i++) {
+		int multiplier = 230 / ht;
+		for (int i = 0; i < ht; i++) {
 			Color curr = g.getColor();
-			g.drawRect(x + i, y + i, wd - (i * 2), ht - (i * 2));
-			g.setColor(new Color(curr.getRed() - 1, curr.getGreen(), curr.getBlue()));
+			g.setColor(new Color(curr.getRed() - multiplier, curr.getGreen(), curr.getBlue()));
+			g.drawLine(x, y + i, x + wd, y + i);
 		}
-		Color curr = g.getColor();
-		int maxCol = 255;
-		g.setColor(new Color(maxCol - curr.getRed(), maxCol - curr.getGreen(), maxCol - curr.getBlue()));
-		g.drawRect(x, y, wd - 1, ht - 1);
-		g.drawRect(x + 1, y + 1, wd - 3, ht - 3);
+		g.setColor(new Color(10, 10, 50));
+		for (int i = 0; i < 4; i++) {
+			g.drawRect(x + i, y + i, wd - 1, ht - 1);
+		}
+		int rgb = 150;
+
+		// Shadow
+		for (int i = 1; i < 2; i++) {
+			g.setColor(new Color(rgb - 80, rgb - 80, 0));
+			g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2) - i, ht / 2 + 14 - i);
+		}
+		g.setColor(new Color(rgb, rgb, 0));
 		g.drawString(label, wd / 2 - (g.getFontMetrics().stringWidth(label) / 2), ht / 2 + 14);
 	}
 

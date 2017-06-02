@@ -241,11 +241,11 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Creates all the buttons that give options for drawing the shpes. This
+	 * Creates all the buttons that give options for drawing the shapes. This
 	 * includes the pattern selector.
 	 */
 	private void createOptionsButtons() {
-		Color optColor = new Color(150, 0, 100);
+		Color optColor = new Color(230, 0, 0);
 		space = 18;
 
 		optionButtonWidth = BUTTON_WD * 2 + 20;
