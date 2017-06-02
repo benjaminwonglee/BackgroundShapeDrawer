@@ -12,11 +12,11 @@ public class GoldPurpleStars implements Theme {
 	@Override
 	public void setTheme(Graphics g, JPanel sp) {
 		Star5 s = new Star5();
-		g.setColor(new Color(140, 30, 140));
+		g.setColor(new Color(100, 30, 100));
 		g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
 		int width = sp.getBounds().width/50;
 		int height = width;
-		g.setColor(new Color(250, 250, 70));
+		g.setColor(new Color(230, 190, 50));
 		boolean fill = true;
 		for (int row = 0; row < sp.getBounds().width; row += width * 2) {
 			fill = false;
@@ -24,8 +24,8 @@ public class GoldPurpleStars implements Theme {
 				fill = !fill;
 				s.drawFromXY(g, g.getColor(), row, col, width, height, fill);
 			}
-			height += 1;
-			width += 1;
+			height += 3;
+			width += 3;
 		}
 	}
 

@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -23,6 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RepaintManager;
 
 import borders.ActivateBorder;
 import borders.ColorBorder;
@@ -53,13 +55,13 @@ import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
 import themes.BlueLightning;
-import themes.Theme;
 import themes.GoldPurpleStars;
 import themes.GradientBlueRed;
 import themes.GradientRedBlue;
 import themes.MetalTheme;
 import themes.RandomDot;
 import themes.SemiRandomDot;
+import themes.Theme;
 import themes.TrafficLightTheme;
 import themes.YellowDiamonds;
 
@@ -147,6 +149,8 @@ public class ShapePanel extends JPanel {
 		createButtons();
 		createTextAreas();
 		defineCanvasBounds();
+		//TODO: Extract Canvas into its on class
+		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
 	}
 
 	@Override
@@ -157,7 +161,6 @@ public class ShapePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.setBackground(new Color(20, 20, 20));
 		setTheme(g);
 		this.draw(getGraphics(), png.getPng().getGraphics());
 	}
@@ -568,6 +571,7 @@ public class ShapePanel extends JPanel {
 			break;
 		}
 		this.thm.setTheme(g, this);
+
 	}
 
 	/**
@@ -611,8 +615,9 @@ public class ShapePanel extends JPanel {
 		JPanel canvas = new JPanel();
 		canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
 		this.canvas = canvas;
+		canvas.setIgnoreRepaint(true);
+		RepaintManager.currentManager(this).markCompletelyClean(canvas);
 		this.add(this.canvas);
-		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
 		((JComponent) this.getComponents()[this.getComponentCount() - 1]).setOpaque(true);
 		setCanvasSizeVariables();
 	}
@@ -741,7 +746,6 @@ public class ShapePanel extends JPanel {
 		userInputResponse();
 	}
 
-	// TODO: Complete this method
 	/**
 	 *
 	 */
@@ -795,6 +799,14 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawThemeToCanvasButtonResponse() {
+		Graphics2D g2d = (Graphics2D) this.getGraphics().create();
+		g2d.setPaint(new Color(0, 0, 0));
+		g2d.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
+		for (Component c : this.getComponents()) {
+			if (!c.equals(canvas)) {
+				c.repaint();
+			}
+		}
 		this.thm.setTheme(canvas.getGraphics(), canvas);
 		canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
 		setTheme(png.getPng().getGraphics());
@@ -1150,9 +1162,9 @@ public class ShapePanel extends JPanel {
 		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
 		border.setColor(color);
 		changeBackgroundColour.repaint();
-		Graphics2D g2d= (Graphics2D) canvas.getGraphics().create();
+		Graphics2D g2d = (Graphics2D) canvas.getGraphics().create();
 		g2d.setPaint(color);
-		g2d.fillRect(0,0,canvas.getBounds().width, canvas.getBounds().height);
+		g2d.fillRect(0, 0, canvas.getBounds().width, canvas.getBounds().height);
 	}
 
 	public void setBackgroundColor(Color bgc) {
