@@ -9,8 +9,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,10 +26,12 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RepaintManager;
+import javax.swing.WindowConstants;
 
 import borders.ActivateBorder;
 import borders.ColorBorder;
@@ -131,6 +138,8 @@ public class ShapePanel extends JPanel {
 	private PNGOutput png;
 	private ColorChooser shapeColorChooser;
 	private ColorChooser backgroundColorChooser;
+	private JFrame canvasFrame;
+	private JPanel canvasIf;
 
 	/**
 	 * General constructor for the ShapePanel.
@@ -149,8 +158,11 @@ public class ShapePanel extends JPanel {
 		createButtons();
 		createTextAreas();
 		defineCanvasBounds();
-		//TODO: Extract Canvas into its on class
+		// TODO: Extract Canvas into its on class
 		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
+		canvasFrame = new JFrame();
+		canvasFrame.add(canvasIf);
+		updateCanvasIF();
 	}
 
 	@Override
@@ -259,9 +271,11 @@ public class ShapePanel extends JPanel {
 
 		// Add pattern selector to left side
 		addPatternSelector();
-		yLoc += 240;
+		yLoc += 170;
+		addCanvasToWindowButton(optColor);
+		yLoc += optionButtonHeight + 9;
 		addLoadFromFileButton(optColor);
-		yLoc += optionButtonHeight + 10;
+		yLoc += optionButtonHeight + 9;
 		addSaveToFileButton(optColor);
 
 		yLoc += (120 - optionButtonHeight - 10);
@@ -372,6 +386,27 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
+	 * Responds to when the Set Width & height button is clicked. It updates the
+	 * user notification box appropriately, and puts focus on the user input
+	 * text box underneath. Sets booleans for userInputResponse.
+	 */
+	public void drawShapesButtonResponse() {
+		this.drawShapes = true;
+		// Add activated shapes
+		toDraw = new ArrayList<String>();
+		for (int i = 0; i < buttonList.size(); i++) {
+			ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
+			if (border.getActivated()) {
+				String name = border.getLabel();
+				toDraw.add(name);
+			}
+		}
+		userInput.setText("");
+		userInput.update(userInput.getGraphics());
+		userInputResponse();
+	}
+
+	/**
 	 * Adds the clear button to the GUI.
 	 *
 	 * @param optColour
@@ -396,6 +431,7 @@ public class ShapePanel extends JPanel {
 				shapes = new ArrayList<Shape>();
 				allShapes = new ArrayList<Shape>();
 				textDisplay.repaint();
+				updateCanvasIF();
 			}
 		});
 		this.add(clearButton);
@@ -417,7 +453,7 @@ public class ShapePanel extends JPanel {
 		this.patternSelector = new JComboBox<String>();
 		patternSelector
 				.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
-		patternSelector.setFont(new Font("Arial", 1, 20));
+		patternSelector.setFont(new Font("Arial", 1, 16));
 		patternSelector.addItem("Random");
 		patternSelector.addItem("Aligned");
 		patternSelector.addItem("Alternating");
@@ -443,6 +479,33 @@ public class ShapePanel extends JPanel {
 		this.add(patternSelector);
 	}
 
+	private void addCanvasToWindowButton(Color optColor) {
+		JButton canvasToWindow = new JButton();
+		canvasToWindow.setBounds(
+				new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
+		canvasToWindow.setBorder(new OptionBorder("Canvas In New Window", optColor));
+		canvasToWindow.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canvasToWindowButtonResponse();
+			}
+		});
+		this.add(canvasToWindow);
+	}
+
+	private void canvasToWindowButtonResponse() {
+		JFrame canvasFrame = new JFrame("Canvas");
+		this.canvasIf = new JPanel();
+		canvasFrame.add(canvasIf);
+		canvasFrame.setPreferredSize(new Dimension((int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
+		canvasFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		canvasFrame.setResizable(false);
+		canvasFrame.pack();
+		canvasFrame.setLocationRelativeTo(null); // Center frame after pack
+		canvasFrame.setVisible(true);
+		this.canvasFrame = canvasFrame;
+	}
+
 	private void addLoadFromFileButton(Color optColor) {
 		JButton load = new JButton();
 		load.setBounds(
@@ -455,6 +518,38 @@ public class ShapePanel extends JPanel {
 			}
 		});
 		this.add(load);
+	}
+
+	/**
+	 * Responds to when the load from text file button is pressed. First clears
+	 * the canvas then draws the shapes from the text file onto the canvas.
+	 */
+	public void loadFileButtonResponse() {
+		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+		int option = chooser.showOpenDialog(new JDialog());
+		if (option == JFileChooser.CANCEL_OPTION) {
+			return;
+		} else if (option == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+			if (file == null || !chooser.getSelectedFile().getName().endsWith(".txt")) {
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("Please select an appropriate .txt file to load from. Please try again.");
+				textDisplay.repaint();
+				return;
+			}
+			// Clears the canvas and png
+			clearButton.doClick();
+			try {
+				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
+			} catch (FileNotFoundException e) {
+				TextBorder t = (TextBorder) textDisplay.getBorder();
+				t.setText("Please choose an existing .txt file.");
+				textDisplay.repaint();
+			}
+			TextBorder t = (TextBorder) textDisplay.getBorder();
+			t.setText("Loaded successfully.");
+			textDisplay.repaint();
+		}
 	}
 
 	private void addSaveToFileButton(Color optColor) {
@@ -523,6 +618,7 @@ public class ShapePanel extends JPanel {
 				repaint();
 				TextBorder t = (TextBorder) themeText.getBorder();
 				t.setText(theme.substring(0, 1).toUpperCase() + theme.substring(1));
+				themeDrawn = false;
 			}
 		});
 		this.add(themeButton);
@@ -571,7 +667,9 @@ public class ShapePanel extends JPanel {
 			break;
 		}
 		this.thm.setTheme(g, this);
-
+		TextBorder t = (TextBorder) this.textDisplay.getBorder();
+		t.setText("Select buttons, then either change the properties, or draw shapes");
+		this.textDisplay.repaint();
 	}
 
 	/**
@@ -645,6 +743,7 @@ public class ShapePanel extends JPanel {
 		widthText.repaint();
 		heightText.repaint();
 		this.png = new PNGOutput(canvasSize);
+		updateCanvasIF();
 	}
 
 	/**
@@ -692,6 +791,8 @@ public class ShapePanel extends JPanel {
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		t.setText("Background colour changed successfully");
 		textDisplay.repaint();
+		themeDrawn = false;
+		updateCanvasIF();
 	}
 
 	/**
@@ -726,27 +827,6 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Responds to when the Set Width & height button is clicked. It updates the
-	 * user notification box appropriately, and puts focus on the user input
-	 * text box underneath. Sets booleans for userInputResponse.
-	 */
-	public void drawShapesButtonResponse() {
-		this.drawShapes = true;
-		// Add activated shapes
-		toDraw = new ArrayList<String>();
-		for (int i = 0; i < buttonList.size(); i++) {
-			ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
-			if (border.getActivated()) {
-				String name = border.getLabel();
-				toDraw.add(name);
-			}
-		}
-		userInput.setText("");
-		userInput.update(userInput.getGraphics());
-		userInputResponse();
-	}
-
-	/**
 	 *
 	 */
 	public void saveFileAndPNGButtonResponse() {
@@ -766,38 +846,6 @@ public class ShapePanel extends JPanel {
 		}
 	}
 
-	/**
-	 * Responds to when the load from text file button is pressed. First clears
-	 * the canvas then draws the shapes from the text file onto the canvas.
-	 */
-	public void loadFileButtonResponse() {
-		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-		int option = chooser.showOpenDialog(new JDialog());
-		if (option == JFileChooser.CANCEL_OPTION) {
-			return;
-		} else if (option == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
-			if (file == null || !chooser.getSelectedFile().getName().endsWith(".txt")) {
-				TextBorder t = (TextBorder) textDisplay.getBorder();
-				t.setText("Please select an appropriate .txt file to load from. Please try again.");
-				textDisplay.repaint();
-				return;
-			}
-			// Clears the canvas and png
-			clearButton.doClick();
-			try {
-				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
-			} catch (FileNotFoundException e) {
-				TextBorder t = (TextBorder) textDisplay.getBorder();
-				t.setText("Please choose an existing .txt file.");
-				textDisplay.repaint();
-			}
-			TextBorder t = (TextBorder) textDisplay.getBorder();
-			t.setText("Loaded successfully.");
-			textDisplay.repaint();
-		}
-	}
-
 	public void drawThemeToCanvasButtonResponse() {
 		Graphics2D g2d = (Graphics2D) this.getGraphics().create();
 		g2d.setPaint(new Color(0, 0, 0));
@@ -811,6 +859,10 @@ public class ShapePanel extends JPanel {
 		canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
 		setTheme(png.getPng().getGraphics());
 		this.themeDrawn = true;
+		TextBorder t = (TextBorder) this.textDisplay.getBorder();
+		t.setText("Set background to black to avoid strain on eyes.");
+		this.textDisplay.repaint();
+		updateCanvasIF();
 	}
 
 	/**
@@ -923,6 +975,7 @@ public class ShapePanel extends JPanel {
 						drawShapes = false;
 						t.setText("Drawn successfully");
 						textDisplay.repaint();
+						updateCanvasIF();
 					}
 				} catch (NumberFormatException e) {
 					t.setText("You didn't enter an integer number!");
@@ -1078,6 +1131,8 @@ public class ShapePanel extends JPanel {
 				changeBackgroundColour.repaint();
 				t.setText("Background colour changed successfully");
 				textDisplay.repaint();
+				themeDrawn = false;
+				updateCanvasIF();
 			} else {
 				outlineColor = change;
 				ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
@@ -1140,6 +1195,51 @@ public class ShapePanel extends JPanel {
 		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
 		border.setColor(c);
 		changeBackgroundColour.repaint();
+		updateCanvasIF();
+	}
+
+	public void updateBackgroundColourTextArea(Color color) {
+		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
+		border.setColor(color);
+		changeBackgroundColour.repaint();
+		Graphics2D g2d = (Graphics2D) canvas.getGraphics().create();
+		g2d.setPaint(color);
+		g2d.fillRect(0, 0, canvas.getBounds().width, canvas.getBounds().height);
+		updateCanvasIF();
+	}
+
+	private void updateCanvasIF() {
+		canvasIf = serialiseCanvas();
+		canvasIf.repaint();
+		canvasFrame.remove(0);
+		canvasFrame.add(canvasIf);
+	}
+
+	public void setBackgroundColor(Color bgc) {
+		canvasRed = bgc.getRed();
+		canvasGreen = bgc.getGreen();
+		canvasBlue = bgc.getBlue();
+	}
+
+	public JPanel serialiseCanvas() {
+		// This creates a serialised form copy of a JPanel. All those parts
+		// should be Serialisable.
+		try {
+			// Stores the clone as bytes
+			ByteArrayOutputStream panelBytesOut = new ByteArrayOutputStream();
+			ObjectOutputStream panelO = new ObjectOutputStream(panelBytesOut);
+			// Convert the canvas into bytes
+			panelO.writeObject(canvas);
+			// Return the serialised clone as a new JPanel created from bytes
+			ByteArrayInputStream panelBytesIn = new ByteArrayInputStream(panelBytesOut.toByteArray());
+			ObjectInputStream panelIn = new ObjectInputStream(panelBytesIn);
+			return (JPanel) panelIn.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void setFill(boolean fill) {
@@ -1158,19 +1258,7 @@ public class ShapePanel extends JPanel {
 		return theme;
 	}
 
-	public void updateBackgroundColourTextArea(Color color) {
-		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
-		border.setColor(color);
-		changeBackgroundColour.repaint();
-		Graphics2D g2d = (Graphics2D) canvas.getGraphics().create();
-		g2d.setPaint(color);
-		g2d.fillRect(0, 0, canvas.getBounds().width, canvas.getBounds().height);
+	public JFrame getCanvasFrame() {
+		return canvasFrame;
 	}
-
-	public void setBackgroundColor(Color bgc) {
-		canvasRed = bgc.getRed();
-		canvasGreen = bgc.getGreen();
-		canvasBlue = bgc.getBlue();
-	}
-
 }

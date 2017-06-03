@@ -20,7 +20,6 @@ public class BackgroundShapeDrawer {
 		frame.pack();
 		frame.setLocationRelativeTo(null); // Center frame after pack
 		frame.setVisible(true);
-
 	}
 
 	public static void main(String args[]) {
