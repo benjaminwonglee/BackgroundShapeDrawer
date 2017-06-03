@@ -125,8 +125,8 @@ public class PNGOutput {
 			sp.updateBackgroundColourTextArea(bgc);
 		} else {
 			Theme th = setTheme(theme);
-			th.setTheme(png.getGraphics(), sp);
-			th.setTheme(sp.getCanvas().getGraphics(), sp);
+			th.setTheme(png.getGraphics(), sp.getCanvas());
+			th.setTheme(sp.getCanvas().getGraphics(), sp.getCanvas());
 		}
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]

@@ -155,14 +155,14 @@ public class ShapePanel extends JPanel {
 		outlineColor = new Color(200, 0, 0);
 		shapeColorChooser = new ColorChooser();
 		backgroundColorChooser = new ColorChooser();
+		canvasIf = new JPanel();
+		canvasFrame = new JFrame();
+		canvasFrame.add(canvasIf);
 		createButtons();
 		createTextAreas();
 		defineCanvasBounds();
 		// TODO: Extract Canvas into its on class
 		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
-		canvasFrame = new JFrame();
-		canvasFrame.add(canvasIf);
-		updateCanvasIF();
 	}
 
 	@Override
@@ -847,6 +847,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawThemeToCanvasButtonResponse() {
+		// Set the background of the ShapePanel to black
 		Graphics2D g2d = (Graphics2D) this.getGraphics().create();
 		g2d.setPaint(new Color(0, 0, 0));
 		g2d.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
@@ -1211,7 +1212,7 @@ public class ShapePanel extends JPanel {
 	private void updateCanvasIF() {
 		canvasIf = serialiseCanvas();
 		canvasIf.repaint();
-		canvasFrame.remove(0);
+		canvasFrame.remove(canvasIf);
 		canvasFrame.add(canvasIf);
 	}
 
