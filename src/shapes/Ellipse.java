@@ -11,6 +11,7 @@ public class Ellipse extends ShapeAbstract implements Shape {
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+		
 		g.setColor(c);
 		gr.setColor(c);
 		Pattern p = selectPattern();

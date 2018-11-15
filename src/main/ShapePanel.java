@@ -107,7 +107,7 @@ public class ShapePanel extends JPanel {
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
 	private HashSet<Shape> allShapes;
-
+	
 	private Color outlineColor;
 
 	// Button response booleans
@@ -1043,13 +1043,19 @@ public class ShapePanel extends JPanel {
 	 */
 	public void draw(Graphics g, Graphics pngGraphics) {
 
-		for (Shape s : shapes) {
-			s.drawShape(g, pngGraphics, outlineColor, fill);
+		for (int i = 0; i < shapes.size(); i++) {
+			
+			// Get the type of shape
+			Shape shapeType = shapes.get(i);
+			
+			// Draw a certain amount of the type of shape
+			shapeType.drawShape(g, pngGraphics, outlineColor, fill);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 		}
 
 		// Finished drawing. Reset variables
+		allShapes.clear();
 		allShapes.addAll(shapes);
 		shapes.clear();
 	}

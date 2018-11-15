@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -91,14 +90,11 @@ public class PNGOutput {
 		for (Shape s : allShapes) {
 			for (int[] vars : s.getXY()) {
 				
-				System.out.print(s.name() + " ");
 				pw.print(s.name() + " ");
 				for (int i = 0; i < vars.length; i++) {
 					pw.print(vars[i] + " ");
-					System.out.print(vars[i] + " ");
 				}
 				pw.println();
-				System.out.println();
 			}
 		}
 		pw.close();
@@ -132,7 +128,6 @@ public class PNGOutput {
 		} else {
 			Theme th = setTheme(theme);
 			th.setTheme(png.getGraphics(), sp.getCanvas());
-			th.setTheme(sp.getCanvas().getGraphics(), sp.getCanvas());
 		}
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
