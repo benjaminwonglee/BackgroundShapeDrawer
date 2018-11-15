@@ -2,12 +2,12 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import patterns.Pattern;
 
 public class Square extends ShapeAbstract implements Shape {
-	private static ArrayList<int[]> xy = new ArrayList<int[]>();
+	static HashSet<int[]> xy = new HashSet<>();
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
@@ -55,9 +55,8 @@ public class Square extends ShapeAbstract implements Shape {
 	}
 
 	@Override
-	public ArrayList<int[]> getXY() {
+	public HashSet<int[]> getXY() {
 		return xy;
 	}
-
 
 }

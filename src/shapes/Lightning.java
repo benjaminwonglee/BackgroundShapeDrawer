@@ -2,12 +2,12 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import patterns.Pattern;
 
 public class Lightning extends ShapeAbstract implements Shape {
-	private static ArrayList<int[]> xy = new ArrayList<int[]>();
+	static HashSet<int[]> xy = new HashSet<>();
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
@@ -53,12 +53,11 @@ public class Lightning extends ShapeAbstract implements Shape {
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
 		g.setColor(c);
-		int[] xInts = new int[] { x + width / 5 * 2, x + width, x + width / 5 * 3, x + width,
-				x + width / 5 * 3, x + width, x + width / 5, x + width / 5 * 2, x,
-				x + width / 5 * 2, x, x + width / 5 * 2 };
-		int[] yInts = new int[] { y, y, y + height / 7 * 2, y + height / 7 * 2, y + height / 7 * 4,
-				y + height / 7 * 4, y + height, y + height / 7 * 5, y + height / 7 * 5,
-				y + height / 7 * 3, y + height / 7 * 3, y + height / 7 * 3 };
+		int[] xInts = new int[] { x + width / 5 * 2, x + width, x + width / 5 * 3, x + width, x + width / 5 * 3,
+				x + width, x + width / 5, x + width / 5 * 2, x, x + width / 5 * 2, x, x + width / 5 * 2 };
+		int[] yInts = new int[] { y, y, y + height / 7 * 2, y + height / 7 * 2, y + height / 7 * 4, y + height / 7 * 4,
+				y + height, y + height / 7 * 5, y + height / 7 * 5, y + height / 7 * 3, y + height / 7 * 3,
+				y + height / 7 * 3 };
 		if (fill) {
 			g.fillPolygon(xInts, yInts, 11);
 		} else {
@@ -68,7 +67,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 	}
 
 	@Override
-	public ArrayList<int[]> getXY() {
+	public HashSet<int[]> getXY() {
 		return xy;
 	}
 

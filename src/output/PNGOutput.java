@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -56,7 +57,7 @@ public class PNGOutput {
 	 *
 	 * @param sp
 	 *            The ShapePanel of the program.
-	 * @param shapes
+	 * @param allShapes
 	 *            The ArrayList of shapes drawn.
 	 * @param canvasRed
 	 *            Red integer for the canvas background colour
@@ -67,7 +68,7 @@ public class PNGOutput {
 	 * @param filename
 	 *            The name of the txt file
 	 */
-	public void outputToFile(ShapePanel sp, ArrayList<Shape> shapes, Color backgroundColor, String filename) {
+	public void outputToFile(ShapePanel sp, HashSet<Shape> allShapes, Color backgroundColor, String filename) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
 		try {
@@ -87,13 +88,17 @@ public class PNGOutput {
 		}
 
 		// s.getXY() returns: [x, y, width, height, fill, rgbColor]
-		for (Shape s : shapes) {
+		for (Shape s : allShapes) {
 			for (int[] vars : s.getXY()) {
+				
+				System.out.print(s.name() + " ");
 				pw.print(s.name() + " ");
 				for (int i = 0; i < vars.length; i++) {
 					pw.print(vars[i] + " ");
+					System.out.print(vars[i] + " ");
 				}
 				pw.println();
+				System.out.println();
 			}
 		}
 		pw.close();
@@ -112,17 +117,18 @@ public class PNGOutput {
 	 * @throws FileNotFoundException
 	 */
 	public void pngFromFile(ShapePanel sp, String filename, String newImageName) throws FileNotFoundException {
+		
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
 		Color bgc = new Color(sc.nextInt());
 		// Skip over the next line character
 		sc.nextLine();
 		String theme = sc.nextLine();
+		
 		if (theme.equals("none")) {
 			Graphics2D g2d = png.createGraphics();
 			g2d.setPaint(bgc);
 			g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
-			sp.updateBackgroundColourTextArea(bgc);
 		} else {
 			Theme th = setTheme(theme);
 			th.setTheme(png.getGraphics(), sp.getCanvas());
@@ -142,10 +148,7 @@ public class PNGOutput {
 			}
 			int rgb = sc.nextInt();
 			Shape s = determineShape(nm);
-			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
 			s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
-			s.getXY().add(new int[] { x, y, wd, ht, fillInt, rgb });
-			sp.getShapes().add(s);
 		}
 		try {
 			ImageIO.write(png, "PNG", new File(newImageName));

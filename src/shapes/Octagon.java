@@ -2,12 +2,12 @@ package shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import patterns.Pattern;
 
 public class Octagon extends ShapeAbstract implements Shape {
-	private static ArrayList<int[]> xy = new ArrayList<int[]>();
+	static HashSet<int[]> xy = new HashSet<>();
 
 	@Override
 	public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
@@ -51,10 +51,10 @@ public class Octagon extends ShapeAbstract implements Shape {
 	@Override
 	public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
 		g.setColor(c);
-		int[] xInts = new int[] { x, x + width / 4, x + width / 4 * 3, x + width, x + width,
-				x + width / 4 * 3, x + width / 4, x, x };
-		int[] yInts = new int[] { y + (height / 4), y, y, y + (height / 4), y + height / 4 * 3,
-				y + height, y + height, y + (height / 4) * 3, y + (height / 4) };
+		int[] xInts = new int[] { x, x + width / 4, x + width / 4 * 3, x + width, x + width, x + width / 4 * 3,
+				x + width / 4, x, x };
+		int[] yInts = new int[] { y + (height / 4), y, y, y + (height / 4), y + height / 4 * 3, y + height, y + height,
+				y + (height / 4) * 3, y + (height / 4) };
 		if (fill) {
 			g.fillPolygon(xInts, yInts, 9);
 		} else {
@@ -63,7 +63,7 @@ public class Octagon extends ShapeAbstract implements Shape {
 	}
 
 	@Override
-	public ArrayList<int[]> getXY() {
+	public HashSet<int[]> getXY() {
 		return xy;
 	}
 

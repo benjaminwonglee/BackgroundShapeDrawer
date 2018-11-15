@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -26,12 +27,10 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RepaintManager;
-import javax.swing.WindowConstants;
 
 import borders.ActivateBorder;
 import borders.ColorBorder;
@@ -107,7 +106,8 @@ public class ShapePanel extends JPanel {
 
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
-	private ArrayList<Shape> allShapes;
+	private HashSet<Shape> allShapes;
+
 	private Color outlineColor;
 
 	// Button response booleans
@@ -149,14 +149,13 @@ public class ShapePanel extends JPanel {
 		userInput = new JTextField();
 		toDraw = new ArrayList<String>();
 		shapes = new ArrayList<Shape>();
-		allShapes = new ArrayList<Shape>();
+		allShapes = new HashSet<Shape>();
 		outlineColor = new Color(200, 0, 0);
 		shapeColorChooser = new ColorChooser();
 		backgroundColorChooser = new ColorChooser();
 		createButtons();
 		createTextAreas();
 		defineCanvasBounds();
-		// TODO: Extract Canvas into its on class
 		canvas.setBackground(new Color(canvasRed, canvasGreen, canvasBlue));
 	}
 
@@ -212,8 +211,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Sets the defaults for the shape buttons. This includes the size, the
-	 * borders and the design.
+	 * Sets the defaults for the shape buttons. This includes the size, the borders
+	 * and the design.
 	 *
 	 * @param shape
 	 *            The name of the shape to be put on the button
@@ -234,8 +233,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Automatically adjusts the layout for the shape buttons. Should be called
-	 * on all shape buttons in the buttonList.
+	 * Automatically adjusts the layout for the shape buttons. Should be called on
+	 * all shape buttons in the buttonList.
 	 *
 	 * @param j
 	 *            The shape button to be arranged.
@@ -336,8 +335,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Moves the cursor of x and y along by a designated amount. This is used
-	 * for adding option buttons.
+	 * Moves the cursor of x and y along by a designated amount. This is used for
+	 * adding option buttons.
 	 */
 	private void moveXY() {
 		xLoc += (optionButtonWidth + space);
@@ -345,8 +344,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Adds the text areas displaying the current width and height settings of
-	 * the shapes.
+	 * Adds the text areas displaying the current width and height settings of the
+	 * shapes.
 	 */
 	private void addWidthHeightText() {
 		this.widthText = new JTextArea();
@@ -367,6 +366,7 @@ public class ShapePanel extends JPanel {
 	 *            The colour of the button.
 	 */
 	private void addDrawShapesButton(Color optColor, int space) {
+
 		JButton drawShapesButton = new JButton();
 		drawShapesButton.setBounds(new Rectangle(xLoc, 20, optionButtonWidth, optionButtonHeight * 4 + space));
 		drawShapesButton.setBorder(new OptionBorder("Draw Shapes", optColor));
@@ -381,11 +381,13 @@ public class ShapePanel extends JPanel {
 
 	/**
 	 * Responds to when the Set Width & height button is clicked. It updates the
-	 * user notification box appropriately, and puts focus on the user input
-	 * text box underneath. Sets booleans for userInputResponse.
+	 * user notification box appropriately, and puts focus on the user input text
+	 * box underneath. Sets booleans for userInputResponse.
 	 */
 	public void drawShapesButtonResponse() {
+
 		this.drawShapes = true;
+
 		// Add activated shapes
 		toDraw = new ArrayList<String>();
 		for (int i = 0; i < buttonList.size(); i++) {
@@ -407,12 +409,15 @@ public class ShapePanel extends JPanel {
 	 *            The colour of the button.
 	 */
 	private void addClearButton(Color optColour) {
+
 		this.clearButton = new JButton();
 		clearButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight * 2));
 		clearButton.setBorder(new OptionBorder("Clear Drawing", optColour));
 		clearButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				Graphics g = canvas.getGraphics();
 				Graphics gr = png.getPng().getGraphics();
 				g.setColor(new Color(canvasRed, canvasGreen, canvasBlue));
@@ -422,18 +427,19 @@ public class ShapePanel extends JPanel {
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Drawing Cleared");
 				themeDrawn = false;
-				shapes = new ArrayList<Shape>();
-				allShapes = new ArrayList<Shape>();
-				textDisplay.repaint();
 
+				shapes.clear();
+				allShapes.clear();
+				Shape.clearAllShapes();
+				textDisplay.repaint();
 			}
 		});
 		this.add(clearButton);
 	}
 
 	/**
-	 * Adds the pattern selector combo box. This is the fold down menu which has
-	 * the pattern names on it.
+	 * Adds the pattern selector combo box. This is the fold down menu which has the
+	 * pattern names on it.
 	 */
 	private void addPatternSelector() {
 		JTextArea patternSelect = new JTextArea();
@@ -488,8 +494,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Responds to when the load from text file button is pressed. First clears
-	 * the canvas then draws the shapes from the text file onto the canvas.
+	 * Responds to when the load from text file button is pressed. First clears the
+	 * canvas then draws the shapes from the text file onto the canvas.
 	 */
 	public void loadFileButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
@@ -593,9 +599,9 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Made for the paintComponent method. Minimises work done upon repaint.
-	 * Sets ct (Current Theme) to the theme specified by the theme field string.
-	 * Delegates to a theme class to draw.
+	 * Made for the paintComponent method. Minimises work done upon repaint. Sets ct
+	 * (Current Theme) to the theme specified by the theme field string. Delegates
+	 * to a theme class to draw.
 	 *
 	 * @param g
 	 */
@@ -688,13 +694,13 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Sets up all variables related to the canvas size once the final canvas
-	 * size has been set.
+	 * Sets up all variables related to the canvas size once the final canvas size
+	 * has been set.
 	 */
 	public void setCanvasSizeVariables() {
 		/*
-		 * The following is to set appropriate width and height of a single
-		 * shape. Since height is shorter than width, it is multiplied by 2.
+		 * The following is to set appropriate width and height of a single shape. Since
+		 * height is shorter than width, it is multiplied by 2.
 		 */
 		// Set the width and height to more exact values
 		int w = 104;
@@ -715,8 +721,8 @@ public class ShapePanel extends JPanel {
 
 	/**
 	 * This method responds to when the Change Background Button is clicked. It
-	 * updates the user notification box appropriately, and puts focus on the
-	 * user input text box underneath. Sets booleans for userInputResponse.
+	 * updates the user notification box appropriately, and puts focus on the user
+	 * input text box underneath. Sets booleans for userInputResponse.
 	 */
 	public void changeBackgroundButtonResponse() {
 		this.changeBackground = true;
@@ -763,8 +769,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Responds to when the auto shape color button is pressed. Changes the
-	 * color of the shape outline.
+	 * Responds to when the auto shape color button is pressed. Changes the color of
+	 * the shape outline.
 	 */
 	public void autoShapeColorButtonResponse() {
 		shapeColorChooser.chooseColor();
@@ -780,8 +786,8 @@ public class ShapePanel extends JPanel {
 
 	/**
 	 * Responds to when the Set Width & height button is clicked. It updates the
-	 * user notification box appropriately, and puts focus on the user input
-	 * text box underneath. Sets booleans for userInputResponse.
+	 * user notification box appropriately, and puts focus on the user input text
+	 * box underneath. Sets booleans for userInputResponse.
 	 */
 	public void widthHeightButtonResponse() {
 		this.widthHeight = true;
@@ -834,8 +840,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Controls the booleans to flag when to handle user response and delegates
-	 * the work to other methods.
+	 * Controls the booleans to flag when to handle user response and delegates the
+	 * work to other methods.
 	 */
 	public void userInputResponse() {
 		if (changeBackground) {
@@ -909,6 +915,7 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawShapes() {
+
 		TextBorder t = (TextBorder) textDisplay.getBorder();
 		if (toDraw.size() > 0) {
 			t.setText("How many " + toDraw.get(0).toLowerCase() + "s? ");
@@ -922,6 +929,7 @@ public class ShapePanel extends JPanel {
 						textDisplay.repaint();
 						return;
 					}
+
 					// Success
 					createShape(toDraw.get(0), input);
 					toDraw.remove(toDraw.get(0));
@@ -943,7 +951,6 @@ public class ShapePanel extends JPanel {
 						drawShapes = false;
 						t.setText("Drawn successfully");
 						textDisplay.repaint();
-
 					}
 				} catch (NumberFormatException e) {
 					t.setText("You didn't enter an integer number!");
@@ -964,8 +971,8 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * "shapeName" is the name on each button in the program. Format: First
-	 * letter always capitalised. Amount is the amount to draw.
+	 * "shapeName" is the name on each button in the program. Format: First letter
+	 * always capitalised. Amount is the amount to draw.
 	 *
 	 * @param shapeName
 	 * @param amount
@@ -1028,21 +1035,23 @@ public class ShapePanel extends JPanel {
 	}
 
 	/**
-	 * Draws the shapes in the shapes ArrayList onto the canvas and on the
-	 * PNGOutput BufferedImage Object.
+	 * Draws the shapes in the shapes ArrayList onto the canvas and on the PNGOutput
+	 * BufferedImage Object.
 	 *
 	 * @param g
 	 * @param pngGraphics
 	 */
 	public void draw(Graphics g, Graphics pngGraphics) {
+
 		for (Shape s : shapes) {
 			s.drawShape(g, pngGraphics, outlineColor, fill);
 			ShapeAbstract.setXCursor(0);
 			ShapeAbstract.setYCursor(0);
 		}
+
 		// Finished drawing. Reset variables
 		allShapes.addAll(shapes);
-		shapes = new ArrayList<Shape>();
+		shapes.clear();
 	}
 
 	public void chooseBackgroundColour() {
@@ -1150,7 +1159,7 @@ public class ShapePanel extends JPanel {
 		return shapes;
 	}
 
-	public ArrayList<Shape> getAllShapes() {
+	public HashSet<Shape> getAllShapes() {
 		return allShapes;
 	}
 
@@ -1181,7 +1190,7 @@ public class ShapePanel extends JPanel {
 		canvasBlue = bgc.getBlue();
 	}
 
-	//NOT USED :/
+	// NOT USED :/
 	public JPanel serialiseCanvas() {
 		// This creates a serialised form copy of a JPanel. All those parts
 		// should be Serialisable.
