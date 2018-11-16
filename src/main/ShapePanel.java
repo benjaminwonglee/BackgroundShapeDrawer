@@ -510,10 +510,11 @@ public class ShapePanel extends JPanel {
 				textDisplay.repaint();
 				return;
 			}
-			// Clears the canvas and png
+			
+			// Clears the canvas
 			clearButton.doClick();
 			try {
-				png.pngFromFile(this, chooser.getSelectedFile().getName(), "output.png");
+				png.loadFromTextFile(this, chooser.getSelectedFile().getName());
 			} catch (FileNotFoundException e) {
 				TextBorder t = (TextBorder) textDisplay.getBorder();
 				t.setText("Please choose an existing .txt file.");
@@ -813,7 +814,7 @@ public class ShapePanel extends JPanel {
 			// Save a file to the path
 			png.outputToFile(this, allShapes, new Color(canvasRed, canvasGreen, canvasBlue), file.getName() + ".txt");
 			try {
-				png.pngFromFile(this, file.getName() + ".txt", file.getName() + ".png");
+				png.pngFromFile(file.getName() + ".txt", file.getName() + ".png");
 			} catch (FileNotFoundException e) {
 			}
 		}
@@ -964,7 +965,7 @@ public class ShapePanel extends JPanel {
 		// For storing RGB values to a file
 		png.outputToFile(this, allShapes, new Color(canvasRed, canvasGreen, canvasBlue), "output.txt");
 		try {
-			png.pngFromFile(this, "output.txt", "output.png");
+			png.pngFromFile("output.txt", "output.png");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1232,5 +1233,10 @@ public class ShapePanel extends JPanel {
 
 	public String getTheme() {
 		return theme;
+	}
+
+	public void setTheme(String theme) {
+
+		
 	}
 }

@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 import main.ShapePanel;
 import shapes.Circle;
@@ -89,7 +90,7 @@ public class PNGOutput {
 		// s.getXY() returns: [x, y, width, height, fill, rgbColor]
 		for (Shape s : allShapes) {
 			for (int[] vars : s.getXY()) {
-				
+
 				pw.print(s.name() + " ");
 				for (int i = 0; i < vars.length; i++) {
 					pw.print(vars[i] + " ");
@@ -101,33 +102,32 @@ public class PNGOutput {
 	}
 
 	/**
-	 * Makes a png file from from a given txt file and assigns the png file
-	 * newImageName.
+	 * Makes a png file from a given txt file and assigns the png file newImageName.
 	 *
-	 * @param sp
-	 *            The current ShapePanel
 	 * @param filename
 	 *            The file to read from that is created by this program.
 	 * @param newImageName
 	 *            The name of the new png file
 	 * @throws FileNotFoundException
 	 */
-	public void pngFromFile(ShapePanel sp, String filename, String newImageName) throws FileNotFoundException {
-		
+	public void pngFromFile(String filename, String newImageName) throws FileNotFoundException {
+
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
 		Color bgc = new Color(sc.nextInt());
 		// Skip over the next line character
 		sc.nextLine();
 		String theme = sc.nextLine();
-		
+
 		if (theme.equals("none")) {
 			Graphics2D g2d = png.createGraphics();
 			g2d.setPaint(bgc);
 			g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
 		} else {
 			Theme th = setTheme(theme);
-			th.setTheme(png.getGraphics(), sp.getCanvas());
+			JPanel pngSize = new JPanel();
+			pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
+			th.setTheme(png.getGraphics(), pngSize);
 		}
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
@@ -149,6 +149,54 @@ public class PNGOutput {
 			ImageIO.write(png, "PNG", new File(newImageName));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		sc.close();
+		return;
+	}
+
+	/**
+	 * Applies an image to the canvas from a given txt file
+	 *
+	 * @param sp
+	 *            The ShapePanel containing the canvas
+	 * @param filename
+	 *            The file to read from that is created by this program.
+	 * @throws FileNotFoundException
+	 */
+	public void loadFromTextFile(ShapePanel sp, String filename) throws FileNotFoundException {
+
+		Scanner sc = null;
+		sc = new Scanner(new File(filename));
+		Color bgc = new Color(sc.nextInt());
+		// Skip over the next line character
+		sc.nextLine();
+		String theme = sc.nextLine();
+
+		if (theme.equals("none")) {
+			Graphics2D g2d = (Graphics2D) sp.getCanvas().getGraphics();
+			g2d.setPaint(bgc);
+			g2d.fillRect(0, 0, sp.getWidth(), sp.getHeight());
+		} else {
+			Theme th = setTheme(theme);
+			th.setTheme(sp.getCanvas().getGraphics(), sp);
+		}
+		while (sc.hasNext()) {
+			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
+			String nm = sc.next();
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			int wd = sc.nextInt();
+			int ht = sc.nextInt();
+			int fillInt = sc.nextInt();
+			boolean fill = false;
+			if (fillInt == 1) {
+				fill = true;
+			}
+			int rgb = sc.nextInt();
+			Shape s = determineShape(nm);
+			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+			sp.getShapes().add(s);
+			sp.setTheme(theme);
 		}
 		sc.close();
 		return;
