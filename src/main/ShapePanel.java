@@ -9,13 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -107,7 +102,7 @@ public class ShapePanel extends JPanel {
 	private ArrayList<String> toDraw;
 	private ArrayList<Shape> shapes;
 	private HashSet<Shape> allShapes;
-	
+
 	private Color outlineColor;
 
 	// Button response booleans
@@ -167,6 +162,7 @@ public class ShapePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		setTheme(g);
 		this.draw(getGraphics(), png.getPng().getGraphics());
 	}
@@ -510,7 +506,7 @@ public class ShapePanel extends JPanel {
 				textDisplay.repaint();
 				return;
 			}
-			
+
 			// Clears the canvas
 			clearButton.doClick();
 			try {
@@ -608,6 +604,7 @@ public class ShapePanel extends JPanel {
 	 */
 	private void setTheme(Graphics g) {
 		this.thm = null;
+		allShapes.clear();
 		switch (theme) {
 		case ("blue lightning"):
 			thm = new BlueLightning();
@@ -800,9 +797,6 @@ public class ShapePanel extends JPanel {
 		textDisplay.repaint();
 	}
 
-	/**
-	 *
-	 */
 	public void saveFileAndPNGButtonResponse() {
 		JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 		int option = chooser.showSaveDialog(new JDialog());
@@ -821,19 +815,28 @@ public class ShapePanel extends JPanel {
 	}
 
 	public void drawThemeToCanvasButtonResponse() {
+
 		// Set the background of the ShapePanel to black
 		Graphics2D g2d = (Graphics2D) this.getGraphics().create();
 		g2d.setPaint(new Color(0, 0, 0));
 		g2d.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
+		allShapes.clear();
+		Shape.clearAllShapes();
+		
+		// Redraw all the buttons
 		for (Component c : this.getComponents()) {
 			if (!c.equals(canvas)) {
 				c.repaint();
 			}
 		}
+
+		// Draw theme to canvas
 		this.thm.setTheme(canvas.getGraphics(), canvas);
 		canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
 		setTheme(png.getPng().getGraphics());
 		this.themeDrawn = true;
+		
+		// Update the text
 		TextBorder t = (TextBorder) this.textDisplay.getBorder();
 		t.setText("Set background to black to avoid strain on eyes.");
 		this.textDisplay.repaint();
@@ -1045,10 +1048,10 @@ public class ShapePanel extends JPanel {
 	public void draw(Graphics g, Graphics pngGraphics) {
 
 		for (int i = 0; i < shapes.size(); i++) {
-			
+
 			// Get the type of shape
 			Shape shapeType = shapes.get(i);
-			
+
 			// Draw a certain amount of the type of shape
 			shapeType.drawShape(g, pngGraphics, outlineColor, fill);
 			ShapeAbstract.setXCursor(0);
@@ -1056,7 +1059,6 @@ public class ShapePanel extends JPanel {
 		}
 
 		// Finished drawing. Reset variables
-		allShapes.clear();
 		allShapes.addAll(shapes);
 		shapes.clear();
 	}
@@ -1070,6 +1072,7 @@ public class ShapePanel extends JPanel {
 		prevCanvasRed = canvasRed;
 		prevCanvasGreen = canvasGreen;
 		prevCanvasBlue = canvasBlue;
+		
 		try {
 			int x = 0;
 			while (sc.hasNext() && x < 3) {
@@ -1125,6 +1128,7 @@ public class ShapePanel extends JPanel {
 				changeOutlineColour.repaint();
 				t.setText("Outline colour changed successfully");
 				textDisplay.repaint();
+				
 			}
 		} catch (NumberFormatException e) {
 			// Error scenario 3
@@ -1140,6 +1144,43 @@ public class ShapePanel extends JPanel {
 		canvasRed = prevCanvasRed;
 		canvasGreen = prevCanvasGreen;
 		canvasBlue = prevCanvasBlue;
+	}
+
+	public void setBackgroundColor(int rgbBgc) {
+		Color c = new Color(rgbBgc);
+		canvasRed = c.getRed();
+		canvasGreen = c.getGreen();
+		canvasBlue = c.getBlue();
+		canvas.setBackground(c);
+		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
+		border.setColor(c);
+		changeBackgroundColour.repaint();
+	}
+
+	public void updateBackgroundColourTextArea(Color color) {
+		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
+		border.setColor(color);
+		changeBackgroundColour.repaint();
+		Graphics2D g2d = (Graphics2D) canvas.getGraphics().create();
+		g2d.setPaint(color);
+		g2d.fillRect(0, 0, canvas.getBounds().width, canvas.getBounds().height);
+	}
+
+	public void setBackgroundColor(Color bgc) {
+		canvasRed = bgc.getRed();
+		canvasGreen = bgc.getGreen();
+		canvasBlue = bgc.getBlue();
+	}
+
+	public void setTheme(String theme) {
+		if (theme.equals("none")) {
+			return;
+		}
+		this.theme = theme;		
+		TextBorder t = (TextBorder) themeText.getBorder();
+		t.setText(theme.substring(0, 1).toUpperCase() + theme.substring(1));
+		themeDrawn = true;
+		setTheme(this.getGraphics());
 	}
 
 	public JPanel getCanvas() {
@@ -1170,53 +1211,8 @@ public class ShapePanel extends JPanel {
 		return allShapes;
 	}
 
-	public void setBackgroundColor(int rgbBgc) {
-		Color c = new Color(rgbBgc);
-		canvasRed = c.getRed();
-		canvasGreen = c.getGreen();
-		canvasBlue = c.getBlue();
-		canvas.setBackground(c);
-		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
-		border.setColor(c);
-		changeBackgroundColour.repaint();
-
-	}
-
-	public void updateBackgroundColourTextArea(Color color) {
-		ColorBorder border = (ColorBorder) changeBackgroundColour.getBorder();
-		border.setColor(color);
-		changeBackgroundColour.repaint();
-		Graphics2D g2d = (Graphics2D) canvas.getGraphics().create();
-		g2d.setPaint(color);
-		g2d.fillRect(0, 0, canvas.getBounds().width, canvas.getBounds().height);
-	}
-
-	public void setBackgroundColor(Color bgc) {
-		canvasRed = bgc.getRed();
-		canvasGreen = bgc.getGreen();
-		canvasBlue = bgc.getBlue();
-	}
-
-	// NOT USED :/
-	public JPanel serialiseCanvas() {
-		// This creates a serialised form copy of a JPanel. All those parts
-		// should be Serialisable.
-		try {
-			// Stores the clone as bytes
-			ByteArrayOutputStream panelBytesOut = new ByteArrayOutputStream();
-			ObjectOutputStream panelO = new ObjectOutputStream(panelBytesOut);
-			// Convert the canvas into bytes
-			panelO.writeObject(canvas);
-			// Return the serialised clone as a new JPanel created from bytes
-			ByteArrayInputStream panelBytesIn = new ByteArrayInputStream(panelBytesOut.toByteArray());
-			ObjectInputStream panelIn = new ObjectInputStream(panelBytesIn);
-			return (JPanel) panelIn.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void setAllShapes(HashSet<Shape> allShapes) {
+		this.allShapes = allShapes;
 	}
 
 	public void setFill(boolean fill) {
@@ -1233,10 +1229,5 @@ public class ShapePanel extends JPanel {
 
 	public String getTheme() {
 		return theme;
-	}
-
-	public void setTheme(String theme) {
-
-		
 	}
 }

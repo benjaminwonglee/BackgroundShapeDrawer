@@ -178,8 +178,15 @@ public class PNGOutput {
 			g2d.fillRect(0, 0, sp.getWidth(), sp.getHeight());
 		} else {
 			Theme th = setTheme(theme);
+			sp.setTheme(theme);
+			sp.setOpaque(false);
+			sp.getCanvas().setOpaque(true);
+			sp.repaint();
 			th.setTheme(sp.getCanvas().getGraphics(), sp);
 		}
+		
+		HashSet<Shape> allShapes = new HashSet<>();
+		
 		while (sc.hasNext()) {
 			// s.getXY() returns: [x, y, width, height, fill, rgbColor]
 			String nm = sc.next();
@@ -195,9 +202,9 @@ public class PNGOutput {
 			int rgb = sc.nextInt();
 			Shape s = determineShape(nm);
 			s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
-			sp.getShapes().add(s);
-			sp.setTheme(theme);
+			allShapes.add(s);
 		}
+		sp.setAllShapes(allShapes);
 		sc.close();
 		return;
 	}
