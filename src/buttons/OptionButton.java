@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JButton;
 
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public abstract class OptionButton extends JButton {
 	private static final long serialVersionUID = -616184886607585138L;

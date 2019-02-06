@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JTextArea;
 
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public abstract class TextBox extends JTextArea {
 	private static final long serialVersionUID = 6594931150709990623L;

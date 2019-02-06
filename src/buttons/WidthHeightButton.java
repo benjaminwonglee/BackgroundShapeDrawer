@@ -1,10 +1,7 @@
 package buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import borders.OptionBorder;
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public class WidthHeightButton extends OptionButton {
 	private static final long serialVersionUID = 4554481865473454523L;
@@ -18,11 +15,6 @@ public class WidthHeightButton extends OptionButton {
 	public void create() {
 		newButtonBounds(this);
 		setBorder(new OptionBorder("Set Width & Height", getOptColor()));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sp.widthHeightButtonResponse();
-			}
-		});
+		addActionListener(event -> sp.widthHeightButtonResponse());
 	}
 }

@@ -15,7 +15,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import main.ShapePanel;
+import panels.ShapePanel;
 import shapes.Circle;
 import shapes.Ellipse;
 import shapes.Hexagon;

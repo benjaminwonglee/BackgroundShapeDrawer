@@ -1,10 +1,7 @@
 package buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import borders.OptionBorder;
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public class AutoShapeColorButton extends OptionButton {
 	private static final long serialVersionUID = -5866465567392229448L;
@@ -18,12 +15,7 @@ public class AutoShapeColorButton extends OptionButton {
 	public void create() {
 		newButtonBounds(this);
 		setBorder(new OptionBorder("Auto Shape Color", getOptColor()));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sp.autoShapeColorButtonResponse();
-			}
-		});
+		addActionListener(event -> sp.autoShapeColorButtonResponse());
 	}
 
 }

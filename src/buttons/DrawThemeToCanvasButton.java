@@ -1,10 +1,7 @@
 package buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import borders.OptionBorder;
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public class DrawThemeToCanvasButton extends OptionButton {
 	private static final long serialVersionUID = 8501655856512224984L;
@@ -18,11 +15,6 @@ public class DrawThemeToCanvasButton extends OptionButton {
 	public void create() {
 		newButtonBounds(this);
 		setBorder(new OptionBorder("Draw Theme To Canvas", getOptColor()));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sp.drawThemeToCanvasButtonResponse();
-			}
-		});
+		addActionListener(event -> sp.drawThemeToCanvasButtonResponse());
 	}
 }

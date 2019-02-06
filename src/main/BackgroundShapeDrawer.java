@@ -1,8 +1,9 @@
 package main;
 
-import java.awt.Dimension;
+import panels.ShapePanel;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public class BackgroundShapeDrawer {
 	public BackgroundShapeDrawer() {
@@ -14,8 +15,9 @@ public class BackgroundShapeDrawer {
 
 	private void setFrameProperties(JFrame frame) {
 		frame.setTitle("BackgroundShapeDrawer");
-		frame.setPreferredSize(new Dimension(1500, 1000));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frame.setPreferredSize(new Dimension(screenSize.width, screenSize.height));
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.pack();
 		frame.setLocationRelativeTo(null); // Center frame after pack

@@ -9,7 +9,7 @@ import javax.swing.JTextArea;
 
 import borders.OptionBorder;
 import borders.TextBorder;
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public class FillButton extends OptionButton {
 	private static final long serialVersionUID = 3633526333963162280L;
@@ -39,17 +39,14 @@ public class FillButton extends OptionButton {
 		}
 		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
 		fillStatus.setBorder(fillBorder);
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sp.setFill(!sp.getFill());
-				if (sp.getFill()) {
-					fillBorder.setText("Yes");
-				} else {
-					fillBorder.setText("No");
-				}
-				fillStatus.repaint();
+		addActionListener(event -> {
+			sp.setFill(!sp.getFill());
+			if (sp.getFill()) {
+				fillBorder.setText("Yes");
+			} else {
+				fillBorder.setText("No");
 			}
+			fillStatus.repaint();
 		});
 		sp.add(fillStatus);
 	}

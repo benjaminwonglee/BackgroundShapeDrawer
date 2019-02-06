@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import org.junit.Test;
 
-import main.ShapePanel;
+import panels.ShapePanel;
 import output.PNGOutput;
 import shapes.Shape;
 

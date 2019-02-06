@@ -1,3 +1,0 @@
--1
-gradient red blue
-triangle 485 44 104 104 1 -10172216 

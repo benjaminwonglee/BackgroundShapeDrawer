@@ -1,10 +1,7 @@
 package buttons;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import borders.OptionBorder;
-import main.ShapePanel;
+import panels.ShapePanel;
 
 public class AutoBackgroundColorButton extends OptionButton {
 	private static final long serialVersionUID = 516160300676491899L;
@@ -18,12 +15,7 @@ public class AutoBackgroundColorButton extends OptionButton {
 	public void create() {
 		newButtonBounds(this);
 		setBorder(new OptionBorder("Auto Background Color", getOptColor()));
-		addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sp.autoBackgroundColorButtonResponse();
-			}
-		});
+		addActionListener(event -> sp.autoBackgroundColorButtonResponse());
 	}
 
 }
