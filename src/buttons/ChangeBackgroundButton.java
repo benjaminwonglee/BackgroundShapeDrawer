@@ -1,20 +1,12 @@
 package buttons;
 
 import borders.OptionBorder;
+import output.PNGOutput;
 import panels.ShapePanel;
+import responses.ButtonResponse;
 
 public class ChangeBackgroundButton extends OptionButton {
-	private static final long serialVersionUID = -5980908112284503925L;
-	private ShapePanel sp;
-
-	public ChangeBackgroundButton(ShapePanel sp) {
-		this.sp = sp;
-		create();
-	}
-
-	public void create() {
-		newButtonBounds(this);
-		setBorder(new OptionBorder("Change Background", getOptColor()));
-		addActionListener(event -> sp.changeBackgroundButtonResponse());
-	}
+    public ChangeBackgroundButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
+        super(sp, png, response, label);
+    }
 }

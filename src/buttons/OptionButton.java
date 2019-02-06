@@ -1,45 +1,73 @@
 package buttons;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-
-import javax.swing.JButton;
-
+import borders.OptionBorder;
+import output.PNGOutput;
 import panels.ShapePanel;
+import responses.ButtonResponse;
+
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class OptionButton extends JButton {
-	private static final long serialVersionUID = -616184886607585138L;
-	private static Color optColor;
-	private static int optionButtonWidth;
-	private static int optionButtonHeight;
+    private static Color optColor;
+    private static int optionButtonWidth;
+    private static int optionButtonHeight;
 
-	public static void newButtonBounds(JButton button) {
-		button.setBounds(
-				new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
-	}
+    private final ShapePanel sp;
+    private final PNGOutput png;
+    private final ButtonResponse response;
 
-	public static void setOptColor(Color optColor) {
-		OptionButton.optColor = optColor;
-	}
+    public OptionButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
+        this.sp = sp;
+        this.png = png;
+        this.response = response;
+        create(label);
+    }
 
-	public static Color getOptColor() {
-		return optColor;
-	}
+    public static void newButtonBounds(JButton button) {
+        button.setBounds(
+                new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
+    }
 
-	public static int getOptionButtonWidth() {
-		return optionButtonWidth;
-	}
+    public void create(String label) {
+        newButtonBounds(this);
+        setBorder(new OptionBorder(label, getOptColor()));
+        addActionListener(event -> getResponse().respond(sp));
+    }
 
-	public static void setOptionButtonWidth(int optionButtonWidth) {
-		OptionButton.optionButtonWidth = optionButtonWidth;
-	}
+    public static void setOptColor(Color optColor) {
+        OptionButton.optColor = optColor;
+    }
 
-	public static int getOptionButtonHeight() {
-		return optionButtonHeight;
-	}
+    public static Color getOptColor() {
+        return optColor;
+    }
 
-	public static void setOptionButtonHeight(int optionButtonHeight) {
-		OptionButton.optionButtonHeight = optionButtonHeight;
-	}
+    public static int getOptionButtonWidth() {
+        return optionButtonWidth;
+    }
 
+    public static void setOptionButtonWidth(int optionButtonWidth) {
+        OptionButton.optionButtonWidth = optionButtonWidth;
+    }
+
+    public static int getOptionButtonHeight() {
+        return optionButtonHeight;
+    }
+
+    public static void setOptionButtonHeight(int optionButtonHeight) {
+        OptionButton.optionButtonHeight = optionButtonHeight;
+    }
+
+    public ShapePanel getShapePanel() {
+        return sp;
+    }
+
+    public PNGOutput getPng() {
+        return png;
+    }
+
+    public ButtonResponse getResponse() {
+        return response;
+    }
 }

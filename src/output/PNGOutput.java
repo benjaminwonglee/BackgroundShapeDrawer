@@ -1,8 +1,14 @@
 package output;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import panels.ShapePanel;
+import shapes.Shape;
+import shapes.*;
+import themes.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,31 +18,6 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
-import panels.ShapePanel;
-import shapes.Circle;
-import shapes.Ellipse;
-import shapes.Hexagon;
-import shapes.Lightning;
-import shapes.Octagon;
-import shapes.Shape;
-import shapes.Square;
-import shapes.Star5;
-import shapes.Star6;
-import shapes.Triangle;
-import themes.BlueLightning;
-import themes.GoldPurpleStars;
-import themes.GradientBlueRed;
-import themes.GradientRedBlue;
-import themes.MetalTheme;
-import themes.RandomDot;
-import themes.SemiRandomDot;
-import themes.Theme;
-import themes.TrafficLightTheme;
-import themes.YellowDiamonds;
-
 public class PNGOutput {
 
 	private BufferedImage png;
@@ -45,7 +26,7 @@ public class PNGOutput {
 	 * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
 	 * argument for the size of the new PNG file it will output.
 	 *
-	 * @param canvasSize
+	 * @param canvasSize The size of the expected PNGOutput
 	 */
 	public PNGOutput(Rectangle canvasSize) {
 		this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
@@ -59,16 +40,10 @@ public class PNGOutput {
 	 *            The ShapePanel of the program.
 	 * @param allShapes
 	 *            The ArrayList of shapes drawn.
-	 * @param canvasRed
-	 *            Red integer for the canvas background colour
-	 * @param canvasGreen
-	 *            Green integer for the canvas background colour
-	 * @param canvasBlue
-	 *            Blue integer for the canvas background colour
 	 * @param filename
 	 *            The name of the txt file
 	 */
-	public void outputToFile(ShapePanel sp, HashSet<Shape> allShapes, Color backgroundColor, String filename) {
+	public static void outputToFile(ShapePanel sp, HashSet<Shape> allShapes, Color backgroundColor, String filename) {
 		// Create file and PrintWriter.
 		PrintWriter pw = null;
 		try {
@@ -82,7 +57,7 @@ public class PNGOutput {
 		int rgbBgc = bgc.getRGB();
 		pw.println(rgbBgc);
 		if (sp.isThemeDrawn()) {
-			pw.println(sp.getTheme());
+			pw.println(sp.getThemeName());
 		} else {
 			pw.println("none");
 		}
@@ -163,7 +138,7 @@ public class PNGOutput {
 	 *            The file to read from that is created by this program.
 	 * @throws FileNotFoundException
 	 */
-	public void loadFromTextFile(ShapePanel sp, String filename) throws FileNotFoundException {
+	public static void loadFromTextFile(ShapePanel sp, String filename) throws FileNotFoundException {
 
 		Scanner sc = null;
 		sc = new Scanner(new File(filename));
@@ -242,8 +217,8 @@ public class PNGOutput {
 		}
 	}
 
-	private Theme setTheme(String theme) {
-		Theme t = null;
+	private static Theme setTheme(String theme) {
+		Theme t;
 		switch (theme) {
 		case ("blue lightning"):
 			t = new BlueLightning();

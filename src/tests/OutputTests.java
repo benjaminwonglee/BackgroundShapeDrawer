@@ -20,64 +20,64 @@ import output.PNGOutput;
 import shapes.Shape;
 
 public class OutputTests {
-	/**
-	 * Testing should be in the similar format to:
-	 * png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen,
-	 * canvasBlue); png.pngFromFile(this, "output.txt", "output.png");
-	 */
+    /**
+     * Testing should be in the similar format to:
+     * png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen,
+     * canvasBlue); png.pngFromFile(this, "output.txt", "output.png");
+     */
 
-	private Rectangle testCanvasSize = new Rectangle(0, 0, 100, 100);
+    private Rectangle testCanvasSize = new Rectangle(0, 0, 100, 100);
 
-	@Test
-	public void testPNGOutputToFile1() {
-		ShapePanel sp = new ShapePanel();
-		PNGOutput png = createPNGOutput();
-		int testNum = 5;
+    @Test
+    public void testPNGOutputToFile1() {
+        ShapePanel sp = new ShapePanel();
+        PNGOutput png = createPNGOutput();
+        int testNum = 5;
 
-		// Adds to ShapePanel shapes ArrayList.
-		sp.createShape("Circle", testNum);
-		sp.createShape("Square", testNum);
-		HashSet<Shape> shapes = sp.getAllShapes();
+        // Adds to ShapePanel shapes ArrayList.
+        sp.createShape("Circle", testNum);
+        sp.createShape("Square", testNum);
+        HashSet<Shape> shapes = sp.getAllShapes();
 
-		// Before drawing, set the abstract variables
-		sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-		png.outputToFile(sp, shapes, new Color(0, 0, 0), "test.txt");
+        // Before drawing, set the abstract variables
+        sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
+        PNGOutput.outputToFile(sp, shapes, new Color(0, 0, 0), "test.txt");
 
-		Scanner sc = null;
-		try {
-			sc = new Scanner(new File("test.txt"));
-		} catch (FileNotFoundException e) {
-			fail("File 'test.txt' wasn't created.");
-		}
-		int count = 0;
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new File("test.txt"));
+        } catch (FileNotFoundException e) {
+            fail("File 'test.txt' wasn't created.");
+        }
+        int count = 0;
 
-		String nm = null;
-		int x = 0;
-		int y = 0;
-		int wd = 0;
-		int ht = 0;
-		int fill = 0;
-		int rgb = 0;
-		try {
-			while (sc.hasNext()) {
-				count++;
-				nm = sc.next();
-				x = sc.nextInt();
-				y = sc.nextInt();
-				wd = sc.nextInt();
-				ht = sc.nextInt();
-				fill = sc.nextInt();
-				rgb = sc.nextInt();
-			}
-			if (count != testNum * 2) {
-				fail("Outputted wrong number of shapes, should be: " + testNum + " but was: " + count);
-			}
-		} catch (InputMismatchException e) {
-			fail("Formatting of txt file was incorrect. nm: " + nm + " x: " + x + " y: " + y + " wd: " + wd + " ht: "
-					+ ht + " fill: " + fill + " rgb: " + rgb);
-		}
-		sc.close();
-	}
+        String nm = null;
+        int x = 0;
+        int y = 0;
+        int wd = 0;
+        int ht = 0;
+        int fill = 0;
+        int rgb = 0;
+        try {
+            while (sc.hasNext()) {
+                count++;
+                nm = sc.next();
+                x = sc.nextInt();
+                y = sc.nextInt();
+                wd = sc.nextInt();
+                ht = sc.nextInt();
+                fill = sc.nextInt();
+                rgb = sc.nextInt();
+            }
+            if (count != testNum * 2) {
+                fail("Outputted wrong number of shapes, should be: " + testNum + " but was: " + count);
+            }
+        } catch (InputMismatchException e) {
+            fail("Formatting of txt file was incorrect. nm: " + nm + " x: " + x + " y: " + y + " wd: " + wd + " ht: "
+                    + ht + " fill: " + fill + " rgb: " + rgb);
+        }
+        sc.close();
+    }
 
 //	@Test
 //	public void drawCorrectWidth() {
@@ -123,19 +123,19 @@ public class OutputTests {
 //		}
 //	}
 
-	public PNGOutput createPNGOutput() {
-		PNGOutput png = new PNGOutput(testCanvasSize);
-		return png;
-	}
+    public PNGOutput createPNGOutput() {
+        PNGOutput png = new PNGOutput(testCanvasSize);
+        return png;
+    }
 
-	private class TestCanvas extends JPanel {
-		private static final long serialVersionUID = -1863297224513004580L;
+    private class TestCanvas extends JPanel {
+        private static final long serialVersionUID = -1863297224513004580L;
 
-		public TestCanvas() {
-			JFrame frame = new JFrame();
-			frame.setBounds(testCanvasSize);
-			frame.add(this);
-			frame.setVisible(true);
-		}
-	}
+        public TestCanvas() {
+            JFrame frame = new JFrame();
+            frame.setBounds(testCanvasSize);
+            frame.add(this);
+            frame.setVisible(true);
+        }
+    }
 }

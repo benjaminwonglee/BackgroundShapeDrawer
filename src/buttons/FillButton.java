@@ -1,53 +1,52 @@
 package buttons;
 
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JTextArea;
-
 import borders.OptionBorder;
 import borders.TextBorder;
+import output.PNGOutput;
 import panels.ShapePanel;
+import responses.ButtonResponse;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class FillButton extends OptionButton {
-	private static final long serialVersionUID = 3633526333963162280L;
-	private ShapePanel sp;
 
-	public FillButton(ShapePanel sp) {
-		this.sp = sp;
-		create();
-	}
+    public FillButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
+        super(sp, png, response, label);
+    }
 
-	public void create() {
-		int textBoxSize = 100;
-		newButtonBounds(this);
-		this.setBounds(new Rectangle(this.getBounds().x, this.getBounds().y, this.getBounds().width - textBoxSize,
-				this.getBounds().height));
+    @Override
+    public void create(String label) {
+        int textBoxSize = 100;
+        ShapePanel sp = getShapePanel();
 
-		setBorder(new OptionBorder("Fill", getOptColor()));
+        newButtonBounds(this);
+        Rectangle buttonSize = this.getBounds();
+        this.setBounds(new Rectangle(buttonSize.x, buttonSize.y, buttonSize.width - textBoxSize,
+                buttonSize.height));
 
-		JTextArea fillStatus = new JTextArea();
-		fillStatus.setBounds(new Rectangle(this.getBounds().x + this.getBounds().width, this.getBounds().y, textBoxSize,
-				this.getBounds().height));
-		TextBorder fillBorder = new TextBorder("");
-		if (sp.getFill()) {
-			fillBorder.setText("Yes");
-		} else {
-			fillBorder.setText("No");
-		}
-		fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
-		fillStatus.setBorder(fillBorder);
-		addActionListener(event -> {
-			sp.setFill(!sp.getFill());
-			if (sp.getFill()) {
-				fillBorder.setText("Yes");
-			} else {
-				fillBorder.setText("No");
-			}
-			fillStatus.repaint();
-		});
-		sp.add(fillStatus);
-	}
+        setBorder(new OptionBorder("Fill", getOptColor()));
+
+        JTextArea fillStatus = new JTextArea();
+        fillStatus.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
+                textBoxSize, buttonSize.height));
+        TextBorder fillBorder = new TextBorder("");
+        if (sp.getFill()) {
+            fillBorder.setText("Yes");
+        } else {
+            fillBorder.setText("No");
+        }
+        fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
+        fillStatus.setBorder(fillBorder);
+        addActionListener(event -> {
+            sp.setFill(!sp.getFill());
+            if (sp.getFill()) {
+                fillBorder.setText("Yes");
+            } else {
+                fillBorder.setText("No");
+            }
+            fillStatus.repaint();
+        });
+        sp.add(fillStatus);
+    }
 }
