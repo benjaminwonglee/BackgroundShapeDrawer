@@ -18,6 +18,7 @@ import org.junit.Test;
 import panels.ShapePanel;
 import output.PNGOutput;
 import shapes.Shape;
+import shapes.ShapeName;
 
 public class OutputTests {
     /**
@@ -35,8 +36,8 @@ public class OutputTests {
         int testNum = 5;
 
         // Adds to ShapePanel shapes ArrayList.
-        sp.createShape("Circle", testNum);
-        sp.createShape("Square", testNum);
+        sp.createShape(ShapeName.CIRCLE, testNum);
+        sp.createShape(ShapeName.SQUARE, testNum);
         HashSet<Shape> shapes = sp.getAllShapes();
 
         // Before drawing, set the abstract variables
@@ -123,9 +124,8 @@ public class OutputTests {
 //		}
 //	}
 
-    public PNGOutput createPNGOutput() {
-        PNGOutput png = new PNGOutput(testCanvasSize);
-        return png;
+    private PNGOutput createPNGOutput() {
+        return new PNGOutput(testCanvasSize);
     }
 
     private class TestCanvas extends JPanel {

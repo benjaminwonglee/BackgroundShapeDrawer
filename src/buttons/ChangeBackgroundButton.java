@@ -1,6 +1,5 @@
 package buttons;
 
-import borders.OptionBorder;
 import output.PNGOutput;
 import panels.ShapePanel;
 import responses.ButtonResponse;

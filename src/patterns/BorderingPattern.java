@@ -18,7 +18,6 @@ public class BorderingPattern implements Pattern {
                 return xCursor - getWidth() + 1;
             }
             endWidth = xCursor;
-            yCursor = yInCanvas(xCursor, yCursor);
             // Left border
             xCursor = getWidth();
         } else {
@@ -39,7 +38,6 @@ public class BorderingPattern implements Pattern {
     public int yInCanvas(int xCursor, int yCursor) {
         if (xCursor + getWidth() > canvasSize.getWidth()) {
             yCursor += getHeight();
-            xCursor = 0;
         }
         if (yCursor + getHeight() >= canvasSize.getHeight()) {
             // Stop

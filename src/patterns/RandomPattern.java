@@ -10,15 +10,13 @@ public class RandomPattern implements Pattern {
 
     @Override
     public int xInCanvas(int xCursor, int yCursor) {
-        int x = (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
-        return x;
+        return (int) (Math.random() * (getCanvasSize().getWidth() - getWidth()));
 
     }
 
     @Override
     public int yInCanvas(int xCursor, int yCursor) {
-        int y = (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
-        return y;
+        return (int) (Math.random() * (getCanvasSize().getHeight() - getHeight()));
     }
 
     @Override

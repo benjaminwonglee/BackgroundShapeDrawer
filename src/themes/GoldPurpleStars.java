@@ -15,11 +15,10 @@ public class GoldPurpleStars implements Theme {
         g.setColor(new Color(100, 30, 100));
         g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
         int width = sp.getBounds().width / 50;
-        int height = width;
+        int height = width - 3;
         g.setColor(new Color(230, 190, 50));
-        boolean fill = true;
         for (int row = 0; row < sp.getBounds().width; row += width * 2) {
-            fill = false;
+            boolean fill = false;
             for (int col = 0; col < sp.getBounds().height; col += height) {
                 fill = !fill;
                 s.drawFromXY(g, g.getColor(), row, col, width, height, fill);

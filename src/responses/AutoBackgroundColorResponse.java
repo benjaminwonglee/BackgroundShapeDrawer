@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class AutoBackgroundColorResponse implements ButtonResponse {
 
-    ColorChooser backgroundColorChooser;
+    private ColorChooser backgroundColorChooser;
 
     public AutoBackgroundColorResponse() {
         backgroundColorChooser = new ColorChooser();
@@ -24,11 +24,11 @@ public class AutoBackgroundColorResponse implements ButtonResponse {
     public void respond(ShapePanel sp) {
         backgroundColorChooser.chooseColor();
         Color color = backgroundColorChooser.getColor();
-        sp.setCanvasRed(color.getRed());
-        sp.setCanvasGreen(color.getGreen());
-        sp.setCanvasBlue(color.getBlue());
+        sp.setCanvasRedRGB(color.getRed());
+        sp.setCanvasGreenRGB(color.getGreen());
+        sp.setCanvasBlueRGB(color.getBlue());
         sp.getCanvas().setBackground(color);
-        JTextArea changeBackgroundColor = sp.getChangeBackgroundColor();
+        JTextArea changeBackgroundColor = sp.getChangeBackgroundPanelWrapper();
         ColorBorder colorLabel = (ColorBorder) changeBackgroundColor.getBorder();
         colorLabel.setColor(color);
         changeBackgroundColor.repaint();

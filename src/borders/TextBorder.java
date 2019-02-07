@@ -15,7 +15,7 @@ public class TextBorder implements Border {
 
     public TextBorder(String text) {
         this.text = text;
-        font = new Font("Arial", 1, 18);
+        font = new Font("Arial", Font.BOLD, 18);
     }
 
     @Override
@@ -29,17 +29,17 @@ public class TextBorder implements Border {
             g.drawString(text, wd / 2 - (g.getFontMetrics().stringWidth(text) / 2), ht / 2 + (this.font.getSize() / 2));
         } else {
             Scanner sc = new Scanner(text);
-            String textOne = "";
+            StringBuilder textOne = new StringBuilder();
             for (int i = 0; i < 15; i++) {
-                textOne += sc.next() + " ";
+                textOne.append(sc.next()).append(" ");
             }
-            String textTwo = "";
+            StringBuilder textTwo = new StringBuilder();
             while (sc.hasNext()) {
-                textTwo += sc.next() + " ";
+                textTwo.append(sc.next()).append(" ");
             }
-            g.drawString(textOne, wd / 2 - (g.getFontMetrics().stringWidth(textOne) / 2),
+            g.drawString(textOne.toString(), wd / 2 - (g.getFontMetrics().stringWidth(textOne.toString()) / 2),
                     ht / 3 + 2);
-            g.drawString(textTwo, wd / 2 - (g.getFontMetrics().stringWidth(textTwo) / 2),
+            g.drawString(textTwo.toString(), wd / 2 - (g.getFontMetrics().stringWidth(textTwo.toString()) / 2),
                     ((ht / 3) * 2) + (this.font.getSize() / 2));
             sc.close();
         }

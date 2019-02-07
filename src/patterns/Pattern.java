@@ -4,20 +4,20 @@ import java.awt.Rectangle;
 
 public interface Pattern {
 
-    public int xInCanvas(int xCursor, int yCursor);
+    int xInCanvas(int xCursor, int yCursor);
 
-    public int yInCanvas(int xCursor, int yCursor);
+    int yInCanvas(int xCursor, int yCursor);
 
-    public int getWidth();
+    int getWidth();
 
-    public void setHeight(int height);
+    void setHeight(int height);
 
-    public int getHeight();
+    int getHeight();
 
-    public void setWidth(int width);
+    void setWidth(int width);
 
-    public Rectangle getCanvasSize();
+    Rectangle getCanvasSize();
 
-    public void setCanvasSize(Rectangle canvasSize);
+    void setCanvasSize(Rectangle canvasSize);
 
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import borders.ColorBorder;
 
 public class ChangeOutlineColor extends TextBox {
+
     private Color outlineColor;
 
     public ChangeOutlineColor(Color outlineColor) {

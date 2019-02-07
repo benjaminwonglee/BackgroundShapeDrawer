@@ -18,7 +18,7 @@ public class DrawThemeToCanvasResponse implements ButtonResponse {
         Graphics2D g2d = (Graphics2D) sp.getGraphics().create();
         g2d.setPaint(new Color(0, 0, 0));
         g2d.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
-        sp.setAllShapes(null);
+        sp.getAllShapes().clear();
         Shape.clearAllShapes();
 
         // Redraw all the buttons

@@ -1,11 +1,9 @@
 package shapes;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import patterns.Pattern;
+
+import java.awt.*;
+import java.util.HashSet;
 
 public class Star6 extends ShapeAbstract implements Shape {
     static HashSet<int[]> xy = new HashSet<>();

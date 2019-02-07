@@ -6,19 +6,19 @@ import java.util.HashSet;
 
 public interface Shape {
 
-    public void drawShape(Graphics g, Graphics pngGraphics, Color c, boolean fill);
+    void drawShape(Graphics g, Graphics pngGraphics, Color c, boolean fill);
 
-    public String name();
+    String name();
 
-    public boolean getCanvasFilled();
+    boolean getCanvasFilled();
 
-    public int getDrawnAmount();
+    int getDrawnAmount();
 
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill);
+    void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill);
 
-    public HashSet<int[]> getXY();
+    HashSet<int[]> getXY();
 
-    public static void clearAllShapes() {
+    static void clearAllShapes() {
         Circle.xy.clear();
         Ellipse.xy.clear();
         Hexagon.xy.clear();

@@ -31,7 +31,7 @@ public class FillButton extends OptionButton {
         fillStatus.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
                 textBoxSize, buttonSize.height));
         TextBorder fillBorder = new TextBorder("");
-        if (sp.getFill()) {
+        if (sp.isToFill()) {
             fillBorder.setText("Yes");
         } else {
             fillBorder.setText("No");
@@ -39,8 +39,8 @@ public class FillButton extends OptionButton {
         fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
         fillStatus.setBorder(fillBorder);
         addActionListener(event -> {
-            sp.setFill(!sp.getFill());
-            if (sp.getFill()) {
+            sp.setToFill(!sp.isToFill());
+            if (sp.isToFill()) {
                 fillBorder.setText("Yes");
             } else {
                 fillBorder.setText("No");

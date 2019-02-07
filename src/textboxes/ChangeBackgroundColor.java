@@ -5,6 +5,7 @@ import java.awt.Color;
 import borders.ColorBorder;
 
 public class ChangeBackgroundColor extends TextBox {
+
     private Color backgroundColor;
 
     public ChangeBackgroundColor(Color backgroundColor) {

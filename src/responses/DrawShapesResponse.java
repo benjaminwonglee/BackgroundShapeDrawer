@@ -2,6 +2,8 @@ package responses;
 
 import borders.ActivateBorder;
 import panels.ShapePanel;
+import shapes.ShapeName;
+import util.Utils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,17 +19,17 @@ public class DrawShapesResponse implements ButtonResponse {
     @Override
     public void respond(ShapePanel sp) {
 
-        sp.setDrawShapes(true);
+        sp.setToDrawShapes(true);
 
         // Add activated shapes
-        List<String> shapesToDraw = new ArrayList<>();
+        List<ShapeName> shapesToDraw = new ArrayList<>();
 
         List<JButton> buttonList = sp.getButtonList();
-        for (int i = 0; i < buttonList.size(); i++) {
-            ActivateBorder border = (ActivateBorder) buttonList.get(i).getBorder();
+        for (JButton button : buttonList) {
+            ActivateBorder border = (ActivateBorder) button.getBorder();
             if (border.getActivated()) {
-                String name = border.getLabel();
-                shapesToDraw.add(name);
+                String shapeName = border.getLabel();
+                shapesToDraw.add(Utils.determineShapeNameFromString(shapeName));
             }
         }
         JTextField userInput = sp.getUserInput();

@@ -50,10 +50,9 @@ public abstract class ShapeAbstract implements Shape {
     }
 
     protected Pattern selectPattern() {
-        Pattern p = null;
-        if (pattern == DrawPattern.RANDOM) {
-            p = new RandomPattern();
-        } else if (pattern == DrawPattern.ALIGNED) {
+        // Default to random pattern
+        Pattern p = new RandomPattern();
+        if (pattern == DrawPattern.ALIGNED) {
             p = new AlignedPattern();
         } else if (pattern == DrawPattern.ALTERNATING) {
             xCursor -= width;

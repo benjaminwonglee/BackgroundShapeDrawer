@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class AutoShapeColor implements ButtonResponse {
 
-    final ColorChooser shapeColorChooser;
+    private final ColorChooser shapeColorChooser;
 
     public AutoShapeColor() {
         shapeColorChooser = new ColorChooser();
@@ -26,7 +26,7 @@ public class AutoShapeColor implements ButtonResponse {
         Color color = shapeColorChooser.getColor();
         sp.setOutlineColor(color);
 
-        JTextArea changeOutlineColour = sp.getChangeOutlineColor();
+        JTextArea changeOutlineColour = sp.getChangeOutlinePanelWrapper();
         ColorBorder colorLabel = (ColorBorder) changeOutlineColour.getBorder();
         colorLabel.setColor(color);
         changeOutlineColour.repaint();
