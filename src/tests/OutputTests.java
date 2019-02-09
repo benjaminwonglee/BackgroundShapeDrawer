@@ -27,7 +27,7 @@ public class OutputTests {
      * canvasBlue); png.pngFromFile(this, "output.txt", "output.png");
      */
 
-    private Rectangle testCanvasSize = new Rectangle(0, 0, 100, 100);
+    private final Rectangle testCanvasSize = new Rectangle(0, 0, 100, 100);
 
     @Test
     public void testPNGOutputToFile1() {

@@ -5,7 +5,12 @@ import panels.ShapePanel;
 import responses.ButtonResponse;
 
 public class SaveButton extends OptionButton {
-    public SaveButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
-        super(sp, png, response, label);
+    public SaveButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
+        super(sp, png, response);
+    }
+
+    @Override
+    public String getButtonName() {
+        return "Save To PNG and Text File";
     }
 }

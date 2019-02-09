@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 public class UserInputKeyListener implements KeyListener {
 
-    private ShapePanel shapePanel;
+    private final ShapePanel shapePanel;
 
     public UserInputKeyListener(ShapePanel sp) {
         this.shapePanel = sp;

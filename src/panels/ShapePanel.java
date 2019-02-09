@@ -134,39 +134,23 @@ public class ShapePanel extends JPanel {
      * Creates all the shape buttons.
      */
     private void defineButtons() {
-        JButton circle = setButtonDefaults("Circle");
-        JButton ellipse = setButtonDefaults("Ellipse");
-        JButton hexagon = setButtonDefaults("Hexagon");
-        JButton lightning = setButtonDefaults("Lightning");
-        JButton octagon = setButtonDefaults("Octagon");
-        JButton rectangle = setButtonDefaults("Rectangle");
-        JButton square = setButtonDefaults("Square");
-        JButton star5 = setButtonDefaults("5-Pointed Star");
-        JButton star6 = setButtonDefaults("6-Pointed Star");
-        JButton triangle = setButtonDefaults("Triangle");
-        buttonList.add(circle);
-        buttonList.add(ellipse);
-        buttonList.add(hexagon);
-        buttonList.add(lightning);
-        buttonList.add(octagon);
-        buttonList.add(rectangle);
-        buttonList.add(square);
-        buttonList.add(star5);
-        buttonList.add(star6);
-        buttonList.add(triangle);
+        for (ShapeName shapeName: ShapeName.values()) {
+            JButton shapeButton = setButtonDefaults(shapeName.getShapeName());
+            buttonList.add(shapeButton);
+        }
     }
 
     /**
      * Sets the defaults for the shape buttons. This includes the size, the borders
      * and the design.
      *
-     * @param shape The name of the shape to be put on the button
+     * @param shapeName The name of the shape to be put on the button
      * @return The button with the default button settings set
      */
-    private JButton setButtonDefaults(String shape) {
+    private JButton setButtonDefaults(String shapeName) {
         JButton button = new JButton();
         button.setPreferredSize(new Dimension(BUTTON_WD, BUTTON_HT));
-        ActivateBorder onOffBorder = new ActivateBorder(shape);
+        ActivateBorder onOffBorder = new ActivateBorder(shapeName);
         button.setBorder(onOffBorder);
         button.addActionListener(event -> onOffBorder.setActivated(!onOffBorder.getActivated()));
         return button;
@@ -226,21 +210,21 @@ public class ShapePanel extends JPanel {
 
         // Row 1
         // Add Change Background Button
-        this.add(new ChangeBackgroundButton(this, png, new ChangeBackgroundResponse(), "Change Background"));
+        this.add(new ChangeBackgroundButton(this, png, new ChangeBackgroundResponse()));
         yLoc += optionButtonHeight;
         changeBackgroundPanelWrapper = new ChangeBackgroundColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
         this.add(changeBackgroundPanelWrapper);
         moveXY();
 
         // Add Choose Shape Colour Button
-        this.add(new ShapeColorButton(this, png, new ChangeShapeColorResponse(), "Shape Colour"));
+        this.add(new ShapeColorButton(this, png, new ChangeShapeColorResponse()));
         yLoc += optionButtonHeight;
         changeOutlinePanelWrapper = new ChangeOutlineColor(outlineColor);
         this.add(changeOutlinePanelWrapper);
         moveXY();
 
         // Add Choose Set width & height Button
-        this.add(new WidthHeightButton(this, png, new WidthHeightResponse(), "Set Width & Height"));
+        this.add(new WidthHeightButton(this, png, new WidthHeightResponse()));
         yLoc += optionButtonHeight;
         addWidthHeightText();
         moveXY();
@@ -254,16 +238,16 @@ public class ShapePanel extends JPanel {
         yLoc += optionButtonHeight * 2 + space;
 
         // Row 2
-        this.add(new AutoBackgroundColorButton(this, png, new AutoBackgroundColorResponse(), "Auto Background Color"));
+        this.add(new AutoBackgroundColorButton(this, png, new AutoBackgroundColorResponse()));
         yLoc += optionButtonHeight;
 
         // Add Fill Button
-        this.add(new FillButton(this, png, null, null));
+        this.add(new FillButton(this, png, null));
         moveXY();
 
-        this.add(new AutoShapeColorButton(this, png, new AutoShapeColor(), "Auto Shape Color"));
+        this.add(new AutoShapeColorButton(this, png, new AutoShapeColor()));
         yLoc += optionButtonHeight;
-        this.add(new DrawThemeToCanvasButton(this, png, new DrawThemeToCanvasResponse(), "Draw Theme To Canvas"));
+        this.add(new DrawThemeToCanvasButton(this, png, new DrawThemeToCanvasResponse()));
         moveXY();
 
         // Add clear drawing button
@@ -383,14 +367,14 @@ public class ShapePanel extends JPanel {
     }
 
     private void addLoadFromFileButton() {
-        JButton load = new LoadButton(this, png, new LoadFileResponse(), "Load From Text File");
+        JButton load = new LoadButton(this, png, new LoadFileResponse());
         load.setBounds(
                 new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
         this.add(load);
     }
 
     private void addSaveToFileButton() {
-        JButton save = new SaveButton(this, png, new SaveFileAndPNGResponse(), "Save To PNG and Text File");
+        JButton save = new SaveButton(this, png, new SaveFileAndPNGResponse());
         save.setBounds(
                 new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
         this.add(save);

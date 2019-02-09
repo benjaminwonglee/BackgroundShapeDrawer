@@ -6,7 +6,7 @@ import borders.ColorBorder;
 
 public class ChangeBackgroundColor extends TextBox {
 
-    private Color backgroundColor;
+    private final Color backgroundColor;
 
     public ChangeBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;

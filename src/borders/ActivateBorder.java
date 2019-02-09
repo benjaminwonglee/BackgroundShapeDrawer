@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 public class ActivateBorder implements Border {
 
     private boolean activated = false;
-    private String label;
+    private final String label;
 
     public ActivateBorder(String label) {
         this.label = label;

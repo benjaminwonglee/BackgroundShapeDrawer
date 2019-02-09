@@ -9,8 +9,8 @@ import java.awt.Insets;
 import javax.swing.border.Border;
 
 public class OptionBorder implements Border {
-    private String label;
-    private Color color;
+    private final String label;
+    private final Color color;
 
     public OptionBorder(String label, Color c) {
         this.label = label;

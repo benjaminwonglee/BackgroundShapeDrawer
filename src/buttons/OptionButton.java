@@ -17,11 +17,11 @@ public abstract class OptionButton extends JButton {
     private final PNGOutput png;
     private final ButtonResponse response;
 
-    public OptionButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
+    public OptionButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
         this.sp = sp;
         this.png = png;
         this.response = response;
-        create(label);
+        create(getButtonName());
     }
 
     public static void newButtonBounds(JButton button) {
@@ -70,4 +70,6 @@ public abstract class OptionButton extends JButton {
     public ButtonResponse getResponse() {
         return response;
     }
+
+    public abstract String getButtonName();
 }

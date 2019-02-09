@@ -20,7 +20,7 @@ import static util.Utils.retrieveThemeFromName;
 
 public class PNGOutput {
 
-    private BufferedImage png;
+    private final BufferedImage png;
 
     /**
      * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an

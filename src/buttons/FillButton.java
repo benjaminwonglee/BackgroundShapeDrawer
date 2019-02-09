@@ -11,8 +11,8 @@ import java.awt.*;
 
 public class FillButton extends OptionButton {
 
-    public FillButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
-        super(sp, png, response, label);
+    public FillButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
+        super(sp, png, response);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class FillButton extends OptionButton {
         this.setBounds(new Rectangle(buttonSize.x, buttonSize.y, buttonSize.width - textBoxSize,
                 buttonSize.height));
 
-        setBorder(new OptionBorder("Fill", getOptColor()));
+        setBorder(new OptionBorder(getButtonName(), getOptColor()));
 
         JTextArea fillStatus = new JTextArea();
         fillStatus.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
@@ -48,5 +48,10 @@ public class FillButton extends OptionButton {
             fillStatus.repaint();
         });
         sp.add(fillStatus);
+    }
+
+    @Override
+    public String getButtonName() {
+        return "Fill";
     }
 }

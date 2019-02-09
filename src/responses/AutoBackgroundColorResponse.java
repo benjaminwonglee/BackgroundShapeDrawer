@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class AutoBackgroundColorResponse implements ButtonResponse {
 
-    private ColorChooser backgroundColorChooser;
+    private final ColorChooser backgroundColorChooser;
 
     public AutoBackgroundColorResponse() {
         backgroundColorChooser = new ColorChooser();

@@ -5,7 +5,12 @@ import panels.ShapePanel;
 import responses.ButtonResponse;
 
 public class AutoBackgroundColorButton extends OptionButton {
-    public AutoBackgroundColorButton(ShapePanel sp, PNGOutput png, ButtonResponse response, String label) {
-        super(sp, png, response, label);
+    public AutoBackgroundColorButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
+        super(sp, png, response);
+    }
+
+    @Override
+    public String getButtonName() {
+        return "Auto Background Color";
     }
 }

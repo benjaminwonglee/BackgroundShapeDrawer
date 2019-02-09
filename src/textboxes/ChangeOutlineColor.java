@@ -6,7 +6,7 @@ import borders.ColorBorder;
 
 public class ChangeOutlineColor extends TextBox {
 
-    private Color outlineColor;
+    private final Color outlineColor;
 
     public ChangeOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
