@@ -11,7 +11,6 @@ import textboxes.ChangeBackgroundColor;
 import textboxes.ChangeOutlineColor;
 import textboxes.TextBox;
 import themes.*;
-import util.Utils;
 
 import javax.swing.*;
 import java.awt.Rectangle;
@@ -20,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+
+import static util.Utils.getScreenSize;
 
 public class ShapePanel extends JPanel {
     private final static int BUTTON_WD = 180;
@@ -89,7 +90,7 @@ public class ShapePanel extends JPanel {
      * General constructor for the ShapePanel.
      */
     public ShapePanel() {
-        Dimension screenSize = Utils.getScreenSize();
+        Dimension screenSize = getScreenSize();
         this.setBounds(new Rectangle(0, 0, screenSize.width, screenSize.height));
         this.setLayout(null); // Important for specifying own layout preferences
         textDisplay = new JTextArea();
@@ -396,7 +397,7 @@ public class ShapePanel extends JPanel {
 
         themeButton.addActionListener(event -> {
             // Set theme to the NEXT one in the list
-            switch (theme.name()) {
+            switch (theme.getThemeName()) {
                 case ("blue lightning"):
                     themeName = "gold purple stars";
                     break;
@@ -470,7 +471,7 @@ public class ShapePanel extends JPanel {
                 theme = new SemiRandomDot();
                 break;
             case ("traffic light theme"):
-                theme = new TrafficLightTheme();
+                theme = new TrafficLight();
                 break;
             case ("yellow diamonds"):
                 theme = new YellowDiamonds();
@@ -514,11 +515,17 @@ public class ShapePanel extends JPanel {
      * Define the canvas bounds based on the current cursor x and y positions.
      */
     private void defineCanvasBounds() {
-        canvasSize = new Rectangle(xLoc, yLoc, this.getPreferredSize().width - xLoc - 20,
-                this.getPreferredSize().height - yLoc - 100);
-        JPanel canvas = new JPanel();
-        canvas.setBounds(new Rectangle(xLoc, yLoc, (int) canvasSize.getWidth(), (int) canvasSize.getHeight()));
-        this.canvas = canvas;
+        // Define the size of the canvas
+        Dimension screenSize = getScreenSize();
+        int canvasWidth = screenSize.width / 2;
+        int canvasHeight = screenSize.height / 2;
+        int spaceWidth = ((screenSize.width - xLoc) - canvasWidth) / 2;
+        int spaceHeight = ((screenSize.height - yLoc) - canvasHeight) / 2;
+        canvasSize = new Rectangle(xLoc + spaceWidth, yLoc + spaceHeight, canvasWidth, canvasHeight);
+
+        // Set the canvas properties
+        this.canvas = new JPanel();
+        canvas.setBounds(canvasSize);
         canvas.setIgnoreRepaint(true);
         RepaintManager.currentManager(this).markCompletelyClean(canvas);
         this.add(this.canvas);
@@ -531,27 +538,20 @@ public class ShapePanel extends JPanel {
      * has been set.
      */
     public void setCanvasSizeVariables() {
-        /*
-         * The following is to set appropriate width and height of a single shape. Since
-         * height is shorter than width, it is multiplied by 2.
-         */
-        // Set the width and height to more exact values
-
-        Dimension screenSize = Utils.getScreenSize();
-        int w = screenSize.width / 14;
+        int divisor = 14;
+        int w = canvasSize.width / divisor - (divisor / 2);
         // Set the static ShapeAbstract variables
         ShapeAbstract.setCanvasSize(canvasSize);
         ShapeAbstract.setWidth(w);
         ShapeAbstract.setHeight(w);
         // Update the width height text boxes
         TextBorder text = (TextBorder) widthText.getBorder();
-        text.setText("" + ShapeAbstract.getWidth());
+        text.setText(String.valueOf(ShapeAbstract.getWidth()));
         text = (TextBorder) heightText.getBorder();
-        text.setText("" + ShapeAbstract.getHeight());
+        text.setText(String.valueOf(ShapeAbstract.getHeight()));
         widthText.repaint();
         heightText.repaint();
         this.png = new PNGOutput(canvasSize);
-
     }
 
     /**

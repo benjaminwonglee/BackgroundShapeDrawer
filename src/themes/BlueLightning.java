@@ -32,7 +32,7 @@ public class BlueLightning implements Theme {
     }
 
     @Override
-    public String name() {
-        return "blue lightning";
+    public String getThemeName() {
+        return ThemeName.BLUE_LIGHTNING.getThemeName();
     }
 }

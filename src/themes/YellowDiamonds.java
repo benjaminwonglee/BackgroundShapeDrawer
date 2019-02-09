@@ -29,7 +29,7 @@ public class YellowDiamonds implements Theme {
     }
 
     @Override
-    public String name() {
-        return "yellow diamonds";
+    public String getThemeName() {
+        return ThemeName.YELLOW_DIAMONDS.getThemeName();
     }
 }

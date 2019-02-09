@@ -24,7 +24,7 @@ public class SemiRandomDot implements Theme {
     }
 
     @Override
-    public String name() {
-        return "semi random dot";
+    public String getThemeName() {
+        return ThemeName.SEMI_RANDOM_DOT.getThemeName();
     }
 }

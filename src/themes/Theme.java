@@ -7,5 +7,5 @@ import javax.swing.JPanel;
 public interface Theme {
     void setTheme(Graphics g, JPanel sp);
 
-    String name();
+    String getThemeName();
 }

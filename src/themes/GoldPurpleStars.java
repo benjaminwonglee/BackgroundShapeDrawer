@@ -29,7 +29,7 @@ public class GoldPurpleStars implements Theme {
     }
 
     @Override
-    public String name() {
-        return "gold purple stars";
+    public String getThemeName() {
+        return ThemeName.GOLD_PURPLE_STARS.getThemeName();
     }
 }

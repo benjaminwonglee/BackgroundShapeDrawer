@@ -27,7 +27,7 @@ public class MetalTheme implements Theme {
     }
 
     @Override
-    public String name() {
-        return "metal theme";
+    public String getThemeName() {
+        return ThemeName.METAL_THEME.getThemeName();
     }
 }

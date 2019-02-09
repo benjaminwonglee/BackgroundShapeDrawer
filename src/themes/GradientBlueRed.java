@@ -21,7 +21,7 @@ public class GradientBlueRed implements Theme {
     }
 
     @Override
-    public String name() {
-        return "gradient blue red";
+    public String getThemeName() {
+        return ThemeName.GRADIENT_BLUE_RED.getThemeName();
     }
 }

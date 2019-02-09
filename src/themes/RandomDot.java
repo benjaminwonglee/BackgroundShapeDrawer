@@ -22,7 +22,7 @@ public class RandomDot implements Theme {
     }
 
     @Override
-    public String name() {
-        return "random dot";
+    public String getThemeName() {
+        return ThemeName.RANDOM_DOT.getThemeName();
     }
 }

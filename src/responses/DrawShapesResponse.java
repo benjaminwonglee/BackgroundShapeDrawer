@@ -35,7 +35,7 @@ public class DrawShapesResponse implements ButtonResponse {
         JTextField userInput = sp.getUserInput();
         userInput.setText("");
         userInput.update(userInput.getGraphics());
-        sp.userInputResponse();
         sp.setShapesToDraw(shapesToDraw);
+        sp.userInputResponse();
     }
 }

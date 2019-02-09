@@ -113,7 +113,7 @@ public class Utils {
                 theme = new SemiRandomDot();
                 break;
             case ("traffic light theme"):
-                theme = new TrafficLightTheme();
+                theme = new TrafficLight();
                 break;
             case ("yellow diamonds"):
                 theme = new YellowDiamonds();
@@ -128,6 +128,6 @@ public class Utils {
     public static Dimension getScreenSize() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int space = 40;
-        return new Dimension(screenSize.width - space, screenSize.height - space);
+        return new Dimension(screenSize.width - space, screenSize.height - (space * 2));
     }
 }
