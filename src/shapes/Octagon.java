@@ -41,7 +41,7 @@ public class Octagon extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "octagon";
+        return ShapeName.OCTAGON.getShapeName();
     }
 
     @Override

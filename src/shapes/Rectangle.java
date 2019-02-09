@@ -37,7 +37,7 @@ public class Rectangle extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "rectangle";
+        return ShapeName.RECTANGLE.getShapeName();
     }
 
     @Override

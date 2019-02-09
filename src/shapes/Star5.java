@@ -47,7 +47,7 @@ public class Star5 extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "5-pointed_star";
+        return ShapeName.STAR5.getShapeName();
     }
 
     @Override

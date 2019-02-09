@@ -35,7 +35,7 @@ public class Ellipse extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "ellipse";
+        return ShapeName.ELLIPSE.getShapeName();
     }
 
     @Override

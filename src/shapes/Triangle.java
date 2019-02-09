@@ -39,7 +39,7 @@ public class Triangle extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "triangle";
+        return ShapeName.TRIANGLE.getShapeName();
     }
 
     @Override

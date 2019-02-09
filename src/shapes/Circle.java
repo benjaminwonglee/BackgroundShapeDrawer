@@ -35,7 +35,7 @@ public class Circle extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "circle";
+        return ShapeName.CIRCLE.getShapeName();
     }
 
     @Override

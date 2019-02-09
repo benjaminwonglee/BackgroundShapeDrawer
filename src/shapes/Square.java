@@ -37,7 +37,7 @@ public class Square extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "square";
+        return ShapeName.SQUARE.getShapeName();
     }
 
     @Override

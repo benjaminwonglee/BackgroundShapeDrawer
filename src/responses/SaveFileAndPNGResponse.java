@@ -21,7 +21,7 @@ public class SaveFileAndPNGResponse implements ButtonResponse {
                     new Color(sp.getCanvasRedRGB(), sp.getCanvasGreenRGB(), sp.getCanvasBlueRGB()),
                     fileName + ".txt"
             );
-            sp.getPng().pngFromFile(fileName + ".txt", fileName + ".png");
+            sp.getPng().pngFromFile(sp,fileName + ".txt", fileName + ".png");
 
         }
 

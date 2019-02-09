@@ -41,7 +41,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "hexagon";
+        return ShapeName.HEXAGON.getShapeName();
     }
 
     @Override

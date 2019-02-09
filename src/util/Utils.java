@@ -33,9 +33,11 @@ public class Utils {
                 return RECTANGLE;
             case ("square"):
                 return SQUARE;
-            case ("5-pointed_star"):
+            case ("5-pointed star"):
+            case ("star5"):
                 return STAR5;
-            case ("6-pointed_star"):
+            case ("6-pointed star"):
+            case ("star6"):
                 return STAR6;
             case ("triangle"):
                 return TRIANGLE;
@@ -67,14 +69,16 @@ public class Utils {
                 return new shapes.Rectangle();
             case ("square"):
                 return new Square();
-            case ("5-pointed_star"):
+            case ("5-pointed star"):
+            case ("star5"):
                 return new Star5();
-            case ("6-pointed_star"):
+            case ("6-pointed star"):
+            case ("star6"):
                 return new Star6();
             case ("triangle"):
                 return new Triangle();
             default:
-                throw new NoSuchElementException();
+                throw new NoSuchElementException(String.format("A shape was entered which was invalid for this method %s", shapeName));
         }
     }
 

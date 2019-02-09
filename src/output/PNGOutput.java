@@ -64,12 +64,11 @@ public class PNGOutput {
         // s.getXY() returns: [x, y, width, height, fill, rgbColor]
         for (Shape s : allShapes) {
             for (int[] vars : s.getXY()) {
-
-                pw.print(s.name() + " ");
-                for (int variable : vars) {
-                    pw.print(variable + " ");
+                pw.print(s.name() + ",");
+                for (int iVariable = 0; iVariable < vars.length - 1; iVariable++) {
+                    pw.print(vars[iVariable] + ",");
                 }
-                pw.println();
+                pw.println(vars[vars.length - 1]);
             }
         }
         pw.close();
@@ -78,10 +77,11 @@ public class PNGOutput {
     /**
      * Makes a png file from a given txt file and assigns the png file newImageName.
      *
+     * @param sp           The ShapePanel that this is being called from
      * @param filename     The file to read from that is created by this program.
      * @param newImageName The name of the new png file
      */
-    public void pngFromFile(String filename, String newImageName) {
+    public void pngFromFile(ShapePanel sp, String filename, String newImageName) {
 
         Scanner sc = createScannerOverFile(filename);
         if (sc == null) {
@@ -103,20 +103,39 @@ public class PNGOutput {
             pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
             th.setTheme(png.getGraphics(), pngSize);
         }
+
+        // Retrieve the data from the file
         while (sc.hasNext()) {
             // s.getXY() returns: [x, y, width, height, fill, rgbColor]
-            String nm = sc.next();
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            int wd = sc.nextInt();
-            int ht = sc.nextInt();
-            int fillInt = sc.nextInt();
+            String line = sc.nextLine();
+            String[] vars = line.split(",");
+            String shapeName;
+            int x;
+            int y;
+            int wd;
+            int ht;
+            int fillInt;
+            int rgb;
+            try {
+                shapeName = vars[0];
+                x = Integer.parseInt(vars[1]);
+                y = Integer.parseInt(vars[2]);
+                wd = Integer.parseInt(vars[3]);
+                ht = Integer.parseInt(vars[4]);
+                fillInt = Integer.parseInt(vars[5]);
+                rgb = Integer.parseInt(vars[6]);
+            } catch (IndexOutOfBoundsException | NumberFormatException ex) {
+                // TODO: A better message for this. Currently debugging
+                sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Error retrieving from file");
+                return;
+            }
+
+            // Process and draw read variables
             boolean fill = false;
             if (fillInt == 1) {
                 fill = true;
             }
-            int rgb = sc.nextInt();
-            Shape s = determineShapeFromName(nm);
+            Shape s = determineShapeFromName(shapeName);
             s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
         }
         try {

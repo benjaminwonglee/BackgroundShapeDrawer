@@ -43,7 +43,7 @@ public class Lightning extends ShapeAbstract implements Shape {
 
     @Override
     public String name() {
-        return "lightning";
+        return ShapeName.LIGHTNING.getShapeName();
     }
 
     @Override
