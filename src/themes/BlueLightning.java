@@ -1,16 +1,14 @@
 package themes;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
-
 import shapes.Lightning;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class BlueLightning implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         Lightning l = new Lightning();
         g.setColor(new Color(20, 70, 200));
         g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
@@ -32,7 +30,7 @@ public class BlueLightning implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.BLUE_LIGHTNING.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.BLUE_LIGHTNING;
     }
 }

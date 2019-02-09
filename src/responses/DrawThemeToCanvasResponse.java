@@ -29,9 +29,9 @@ public class DrawThemeToCanvasResponse implements ButtonResponse {
         }
 
         // Draw theme to canvas
-        sp.getTheme().setTheme(canvas.getGraphics(), canvas);
+        sp.getTheme().applyTheme(canvas.getGraphics(), canvas);
         canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
-        sp.setTheme(sp.getPng().getPng().getGraphics());
+        sp.applyTheme(sp.getPng().getPng().getGraphics());
         sp.setThemeDrawn(true);
 
         // Update the text

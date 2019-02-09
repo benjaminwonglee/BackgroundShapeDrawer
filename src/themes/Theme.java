@@ -5,7 +5,11 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public interface Theme {
-    void setTheme(Graphics g, JPanel sp);
+    void applyTheme(Graphics g, JPanel sp);
 
-    String getThemeName();
+    default String getName() {
+        return getThemeName().getThemeName();
+    }
+
+    ThemeName getThemeName();
 }

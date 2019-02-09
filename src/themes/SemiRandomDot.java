@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class SemiRandomDot implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         g.setColor(Color.black);
         g.fillRect(sp.getBounds().x, sp.getBounds().y, sp.getBounds().width, sp.getBounds().height);
         int incr = sp.getBounds().width / 60;
@@ -24,7 +24,7 @@ public class SemiRandomDot implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.SEMI_RANDOM_DOT.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.SEMI_RANDOM_DOT;
     }
 }

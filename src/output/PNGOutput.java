@@ -56,7 +56,7 @@ public class PNGOutput {
         int rgbBgc = backgroundColor.getRGB();
         pw.println(rgbBgc);
         if (sp.isThemeDrawn()) {
-            pw.println(sp.getThemeName());
+            pw.println(sp.getTheme().getName());
         } else {
             pw.println("none");
         }
@@ -101,7 +101,7 @@ public class PNGOutput {
             Theme th = retrieveThemeFromName(theme);
             JPanel pngSize = new JPanel();
             pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
-            th.setTheme(png.getGraphics(), pngSize);
+            th.applyTheme(png.getGraphics(), pngSize);
         }
 
         // Retrieve the data from the file
@@ -174,7 +174,7 @@ public class PNGOutput {
             sp.setOpaque(false);
             sp.getCanvas().setOpaque(true);
             sp.repaint();
-            th.setTheme(sp.getCanvas().getGraphics(), sp);
+            th.applyTheme(sp.getCanvas().getGraphics(), sp);
         }
 
         HashSet<Shape> allShapes = new HashSet<>();

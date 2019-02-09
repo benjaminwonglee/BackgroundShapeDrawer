@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class GradientRedBlue implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         Color cOne = new Color(180, 20, 40);
         int incr = sp.getBounds().width / 80;
         g.setColor(cOne);
@@ -21,7 +21,7 @@ public class GradientRedBlue implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.GRADIENT_RED_BLUE.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.GRADIENT_RED_BLUE;
     }
 }

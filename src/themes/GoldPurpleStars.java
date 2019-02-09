@@ -10,7 +10,7 @@ import shapes.Star5;
 public class GoldPurpleStars implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         Star5 s = new Star5();
         g.setColor(new Color(100, 30, 100));
         g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
@@ -29,7 +29,7 @@ public class GoldPurpleStars implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.GOLD_PURPLE_STARS.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.GOLD_PURPLE_STARS;
     }
 }

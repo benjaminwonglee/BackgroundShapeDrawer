@@ -15,10 +15,8 @@ import themes.*;
 import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static util.Utils.getScreenSize;
 
@@ -75,7 +73,6 @@ public class ShapePanel extends JPanel {
     private JComboBox<String> patternSelector;
 
     // Theme Variables
-    private String themeName = "gradient red blue";
     private JTextArea themeText;
     private Theme theme = new GradientRedBlue();
     private boolean themeDrawn = false;
@@ -120,7 +117,7 @@ public class ShapePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        setTheme(g);
+        applyTheme(g);
         this.draw(getGraphics(), png.getPng().getGraphics());
     }
 
@@ -202,7 +199,7 @@ public class ShapePanel extends JPanel {
         addSaveToFileButton();
 
         yLoc += (120 - optionButtonHeight - 10);
-        addThemeButton(OptionButton.getOptColor());
+        addThemeButton();
         moveXY();
 
         // Set cursor for row 1
@@ -382,59 +379,19 @@ public class ShapePanel extends JPanel {
         this.add(save);
     }
 
-    private void addThemeButton(Color optColor) {
-        JButton themeButton = new JButton();
-        themeButton.setBounds(
+    private void addThemeButton() {
+        JButton changeThemeButton = new ChangeThemeButton(this, png, new ChangeThemeResponse());
+        changeThemeButton.setBounds(
                 new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10));
-        themeButton.setBorder(new OptionBorder("Change Theme", optColor));
         yLoc += optionButtonHeight;
 
+        String themeName = theme.getName();
         themeText = new JTextArea(themeName);
         themeText.setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
-        TextBorder themeBord = new TextBorder(this.themeName.substring(0, 1).toUpperCase() + this.themeName.substring(1));
-        themeBord.setFont(new Font("Arial", Font.BOLD, 18));
-        themeText.setBorder(themeBord);
-
-        themeButton.addActionListener(event -> {
-            // Set theme to the NEXT one in the list
-            switch (theme.getThemeName()) {
-                case ("blue lightning"):
-                    themeName = "gold purple stars";
-                    break;
-                case ("gold purple stars"):
-                    themeName = "gradient blue red";
-                    break;
-                case ("gradient blue red"):
-                    themeName = "gradient red blue";
-                    break;
-                case ("gradient red blue"):
-                    themeName = "metal theme";
-                    break;
-                case ("metal theme"):
-                    themeName = "random dot";
-                    break;
-                case ("random dot"):
-                    themeName = "semi random dot";
-                    break;
-                case ("semi random dot"):
-                    themeName = "traffic light theme";
-                    break;
-                case ("traffic light theme"):
-                    themeName = "yellow diamonds";
-                    break;
-                case ("yellow diamonds"):
-                    themeName = "blue lightning";
-                    break;
-                default:
-                    themeName = "gradient red blue";
-                    break;
-            }
-            repaint();
-            TextBorder t = (TextBorder) themeText.getBorder();
-            t.setText(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
-            themeDrawn = false;
-        });
-        this.add(themeButton);
+        TextBorder themeBorder = new TextBorder(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
+        themeBorder.setFont(new Font("Arial", Font.BOLD, 18));
+        themeText.setBorder(themeBorder);
+        this.add(changeThemeButton);
         this.add(themeText);
     }
 
@@ -445,42 +402,42 @@ public class ShapePanel extends JPanel {
      *
      * @param g The graphics object to draw the theme with
      */
-    public void setTheme(Graphics g) {
-        this.theme = null;
+    public void applyTheme(Graphics g) {
         allShapes.clear();
-        switch (themeName) {
-            case ("blue lightning"):
+        switch (theme.getThemeName()) {
+            case BLUE_LIGHTNING:
                 theme = new BlueLightning();
                 break;
-            case ("gold purple stars"):
+            case GOLD_PURPLE_STARS:
                 theme = new GoldPurpleStars();
                 break;
-            case ("gradient red blue"):
+            case GRADIENT_RED_BLUE:
                 theme = new GradientRedBlue();
                 break;
-            case ("gradient blue red"):
+            case GRADIENT_BLUE_RED:
                 theme = new GradientBlueRed();
                 break;
-            case ("metal theme"):
+            case METAL_THEME:
                 theme = new MetalTheme();
                 break;
-            case ("random dot"):
+            case RANDOM_DOT:
                 theme = new RandomDot();
                 break;
-            case ("semi random dot"):
+            case SEMI_RANDOM_DOT:
                 theme = new SemiRandomDot();
                 break;
-            case ("traffic light theme"):
+            case TRAFFIC_LIGHT:
                 theme = new TrafficLight();
                 break;
-            case ("yellow diamonds"):
+            case YELLOW_DIAMONDS:
                 theme = new YellowDiamonds();
                 break;
             default:
-                theme = new RandomDot();
-                break;
+                throw new NoSuchElementException(String.format(
+                        "The chosen theme %s could not be found while setting theme in ShapePanel",
+                        theme == null ? theme : theme.getThemeName().name()));
         }
-        this.theme.setTheme(g, this);
+        this.theme.applyTheme(g, this);
         writeToTextBoxAndRepaint(textDisplay, "Select buttons, then either change the properties, or draw shapes");
     }
 
@@ -835,15 +792,14 @@ public class ShapePanel extends JPanel {
         canvasBlueRGB = prevCanvasBlue;
     }
 
-    public void setThemeFromName(String theme) {
-        if (theme.equals("none")) {
+    public void setThemeFromName(String themeName) {
+        if (themeName.equals("none")) {
             return;
         }
-        themeName = theme;
         TextBorder t = (TextBorder) themeText.getBorder();
-        t.setText(theme.substring(0, 1).toUpperCase() + theme.substring(1));
+        t.setText(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
         themeDrawn = true;
-        setTheme(this.getGraphics());
+        applyTheme(this.getGraphics());
     }
 
     public List<Shape> getShapes() {
@@ -1014,14 +970,6 @@ public class ShapePanel extends JPanel {
         this.themeDrawn = themeDrawn;
     }
 
-    public String getThemeName() {
-        return themeName;
-    }
-
-    public void setThemeName(String themeName) {
-        this.themeName = themeName;
-    }
-
     public Theme getTheme() {
         return theme;
     }
@@ -1057,4 +1005,9 @@ public class ShapePanel extends JPanel {
     public JButton getClearButton() {
         return clearButton;
     }
+
+    public JTextArea getThemeText() {
+        return themeText;
+    }
 }
+

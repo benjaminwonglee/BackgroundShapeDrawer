@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class MetalTheme implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         int incr = sp.getBounds().width / 80;
         int add = 3;
         g.setColor(new Color(100, 100, 100));
@@ -27,7 +27,7 @@ public class MetalTheme implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.METAL_THEME.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.METAL_THEME;
     }
 }

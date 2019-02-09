@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class YellowDiamonds implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         int incr = sp.getBounds().width / 40;
         int add = 1;
         g.setColor(new Color(230, 230, 0));
@@ -29,7 +29,7 @@ public class YellowDiamonds implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.YELLOW_DIAMONDS.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.YELLOW_DIAMONDS;
     }
 }

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class RandomDot implements Theme {
 
     @Override
-    public void setTheme(Graphics g, JPanel sp) {
+    public void applyTheme(Graphics g, JPanel sp) {
         g.setColor(Color.black);
         g.fillRect(sp.getBounds().x, sp.getBounds().y, sp.getBounds().width, sp.getBounds().height);
         int incr = sp.getBounds().width / 50;
@@ -22,7 +22,7 @@ public class RandomDot implements Theme {
     }
 
     @Override
-    public String getThemeName() {
-        return ThemeName.RANDOM_DOT.getThemeName();
+    public ThemeName getThemeName() {
+        return ThemeName.RANDOM_DOT;
     }
 }
