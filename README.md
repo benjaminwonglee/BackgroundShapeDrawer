@@ -5,8 +5,6 @@ Currently there is one related project to this going on. It is the series of pag
 
 The first thing to do is to click "Fork" and fork your own copy of this to your GitHub account.
 
-If there are any burning questions, please contact me, Benjamin Wong-Lee via e-mail: benjaminwonglee@gmail.com, or via social media.
-
 **AIM**
 
 Ultimately, the aims of this project include creating a png output to add backgrounds for the PageOfThemedColours project, improving coding skills to create something interesting, using version control effectively; avoiding merge conflicts by committing code relatively frequently, and working as a team.
