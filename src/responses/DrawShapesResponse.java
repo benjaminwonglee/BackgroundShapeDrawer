@@ -24,7 +24,7 @@ public class DrawShapesResponse implements ButtonResponse {
         // Add activated shapes
         List<ShapeName> shapesToDraw = new ArrayList<>();
 
-        List<JButton> buttonList = sp.getButtonList();
+        List<JButton> buttonList = sp.getShapeButtonList();
         for (JButton button : buttonList) {
             ActivateBorder border = (ActivateBorder) button.getBorder();
             if (border.getActivated()) {

@@ -26,7 +26,7 @@ public class ShapePanel extends JPanel {
     private final static int BUTTON_HT = 60;
 
     // Buttons
-    private List<JButton> buttonList;
+    private List<JButton> shapeButtonList;
     private JButton clearButton;
 
     // TextAreas
@@ -45,10 +45,6 @@ public class ShapePanel extends JPanel {
     private int canvasRedRGB = 0;
     private int canvasBlueRGB = 0;
     private int canvasGreenRGB = 0;
-    // Three color values that represent the previous background color
-    private int prevCanvasRed = 0;
-    private int prevCanvasGreen = 0;
-    private int prevCanvasBlue = 0;
 
     private boolean toFill = false;
 
@@ -88,18 +84,26 @@ public class ShapePanel extends JPanel {
      * General constructor for the ShapePanel.
      */
     public ShapePanel() {
+        // Set the size of the panel to the screen size
         Dimension screenSize = getScreenSize();
         this.setBounds(new Rectangle(0, 0, screenSize.width, screenSize.height));
-        this.setLayout(null); // Important for specifying own layout preferences
+
+        // Setting layout to null is important for specifying specific tailored layout preferences in Swing
+        this.setLayout(null);
+
+        // Initialise fields
         textDisplay = new JTextArea();
         userInput = new JTextField();
         shapesToDraw = new ArrayList<>();
         shapes = new ArrayList<>();
         allShapes = new ArrayList<>();
         outlineColor = new Color(200, 0, 0);
+
+        // Initialise swing components
         createButtons();
         createTextAreas();
         defineCanvasBounds();
+
         canvas.setBackground(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
     }
 
@@ -127,10 +131,10 @@ public class ShapePanel extends JPanel {
      * buttons.
      */
     private void createButtons() {
-        buttonList = new ArrayList<>();
-        defineButtons();
-        for (JButton button : buttonList) {
-            arrangeLayout(button);
+        shapeButtonList = new ArrayList<>();
+        defineShapeButtons();
+        for (JButton shapeButton : shapeButtonList) {
+            arrangeShapeButtonLayout(shapeButton);
         }
         createOptionsButtons();
     }
@@ -138,19 +142,18 @@ public class ShapePanel extends JPanel {
     /**
      * Creates all the shape buttons.
      */
-    private void defineButtons() {
+    private void defineShapeButtons() {
         for (ShapeName shapeName : ShapeName.values()) {
             JButton shapeButton = setButtonDefaults(shapeName.getShapeName());
-            buttonList.add(shapeButton);
+            shapeButtonList.add(shapeButton);
         }
     }
 
     /**
-     * Sets the defaults for the shape buttons. This includes the size, the borders
-     * and the design.
+     * Creates a button with the defaults for a shape button. This includes the size, the borders and the design.
      *
      * @param shapeName The name of the shape to be put on the button
-     * @return The button with the default button settings set
+     * @return A button with the default button settings set
      */
     private JButton setButtonDefaults(String shapeName) {
         JButton button = new JButton();
@@ -162,24 +165,22 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Automatically adjusts the layout for the shape buttons. Should be called on
-     * all shape buttons in the buttonList.
+     * Automatically adjusts the layout for the shape buttons. Should be called on all shape buttons in the shape button list.
      *
-     * @param j The shape button to be arranged.
+     * @param shapeButton The shape button to be arranged.
      */
-    private void arrangeLayout(JButton j) {
-        j.setBounds(new Rectangle(xLoc, yLoc, BUTTON_WD, BUTTON_HT));
+    private void arrangeShapeButtonLayout(JButton shapeButton) {
+        shapeButton.setBounds(new Rectangle(xLoc, yLoc, BUTTON_WD, BUTTON_HT));
         yLoc += (BUTTON_HT + 20);
         if (yLoc > BUTTON_HT * 6) {
             xLoc += (BUTTON_WD + 20);
             yLoc = 20;
         }
-        this.add(j);
+        this.add(shapeButton);
     }
 
     /**
-     * Creates all the buttons that give options for drawing the shapes. This
-     * includes the pattern selector.
+     * Creates all the buttons that give options for drawing the shapes. This includes the pattern selector.
      */
     private void createOptionsButtons() {
         OptionButton.setOptColor(new Color(230, 0, 0));
@@ -308,13 +309,12 @@ public class ShapePanel extends JPanel {
         clearButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight * 2));
         clearButton.setBorder(new OptionBorder("Clear Drawing", optColour));
         clearButton.addActionListener(event -> {
-            Graphics g = canvas.getGraphics();
-            Graphics gr = png.getPng().getGraphics();
-            g.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
-            gr.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
-            g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            gr.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            TextBorder t = (TextBorder) textDisplay.getBorder();
+            Graphics canvasGraphics = canvas.getGraphics();
+            Graphics pngGraphics = png.getPng().getGraphics();
+            canvasGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
+            pngGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
+            canvasGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            pngGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
             writeToTextBoxAndRepaint(textDisplay, "Drawing Cleared");
 
             themeDrawn = false;
@@ -326,17 +326,24 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Adds the pattern selector combo box. This is the fold down menu which has the
-     * pattern names on it.
+     * Adds the pattern selector combo box. This is the fold down menu which has the pattern names on it.
      */
     private void addPatternSelector() {
+        addPatternSelectPrompt();
+        addPatternSelectDropdown();
+    }
+
+    private void addPatternSelectPrompt() {
         JTextArea patternSelect = new JTextArea();
         patternSelect
                 .setBounds(new Rectangle(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight));
         TextBorder patternBorder = new TextBorder("Select Pattern");
         patternBorder.setFont(new Font("Arial", Font.BOLD, 18));
         patternSelect.setBorder(patternBorder);
+        this.add(patternSelect);
+    }
 
+    private void addPatternSelectDropdown() {
         yLoc += optionButtonHeight;
         this.patternSelector = new JComboBox<>();
         patternSelector
@@ -362,10 +369,12 @@ public class ShapePanel extends JPanel {
                 }
             }
         });
-        this.add(patternSelect);
         this.add(patternSelector);
     }
 
+    /**
+     * Define and add the load button to the main panel
+     */
     private void addLoadFromFileButton() {
         JButton load = new LoadButton(this, png, new LoadFileResponse());
         load.setBounds(
@@ -373,6 +382,9 @@ public class ShapePanel extends JPanel {
         this.add(load);
     }
 
+    /**
+     * Define and add the save button to the main panel
+     */
     private void addSaveToFileButton() {
         JButton save = new SaveButton(this, png, new SaveFileAndPNGResponse());
         save.setBounds(
@@ -380,6 +392,9 @@ public class ShapePanel extends JPanel {
         this.add(save);
     }
 
+    /**
+     * Define and add the theme button to the main panel
+     */
     private void addThemeButton() {
         JButton changeThemeButton = new ChangeThemeButton(this, png, new ChangeThemeResponse());
         changeThemeButton.setBounds(
@@ -531,6 +546,9 @@ public class ShapePanel extends JPanel {
         }
     }
 
+    /**
+     * Execute the sequence of prompts to the user to take user input to set the width and height of shapes.
+     */
     public void setWidthAndHeight() {
         if (!userInput.getText().equals("")) {
             try {
@@ -572,6 +590,9 @@ public class ShapePanel extends JPanel {
         }
     }
 
+    /**
+     * Execute the sequence of prompts when drawing shapes including asking which type of shape and the amount of shapes desired.
+     */
     public void drawShapes() {
 
         if (shapesToDraw.size() > 0) {
@@ -614,6 +635,11 @@ public class ShapePanel extends JPanel {
         }
     }
 
+    /**
+     * Create a .png file from the current image on the panel canvas
+     *
+     * @param png The object to handle the image output
+     */
     private void createPNGFile(PNGOutput png) {
         // For storing RGB values to a file
         PNGOutput.outputToFile(this, new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB), "output.txt");
@@ -703,20 +729,19 @@ public class ShapePanel extends JPanel {
         shapes.clear();
     }
 
+    /**
+     * Execute the sequence of prompts when requiring a color input from the user. Handles various scenarios including
+     * if integers weren't entered, if the color values are outside of the RGB range, and if the format is incorrect
+     * ie. not enough values parsed in.
+     */
     public void askUserForColorInput() {
         if (userInput.getText().equals("")) {
             writeToTextBoxAndRepaint(textDisplay, "No numbers were entered! Try again.");
             return;
         }
 
-        boolean localShapeColour = toChangeShapeColor;
-        toChangeShapeColor = false;
-
         Scanner sc = new Scanner(userInput.getText());
-        prevCanvasRed = canvasRedRGB;
-        prevCanvasGreen = canvasGreenRGB;
-        prevCanvasBlue = canvasBlueRGB;
-
+        int[] colors = new int[3];
         try {
             int x = 0;
             while (sc.hasNext() && x < 3) {
@@ -731,68 +756,72 @@ public class ShapePanel extends JPanel {
                 // Error scenario 1
                 if (color < 0 || color > 255) {
                     sc.close();
-                    resetPrevColors();
                     writeToTextBoxAndRepaint(textDisplay,
                             "The chosen " + newColor + " value was out of range, please try again");
                     return;
                 }
-                if (x == 1) {
-                    canvasRedRGB = color;
-                } else if (x == 2) {
-                    canvasGreenRGB = color;
-                } else if (x == 3) {
-                    canvasBlueRGB = color;
-                }
+                colors[x - 1] = color;
             }
             // Error scenario 2
             if (x != 3) {
                 sc.close();
-                resetPrevColors();
                 writeToTextBoxAndRepaint(textDisplay, "Not enough integers were entered, please try again");
                 return;
             }
+            canvasRedRGB = colors[0];
+            canvasGreenRGB = colors[1];
+            canvasBlueRGB = colors[2];
+
             // Check if we are changing the shape colour or background colour
             Color change = new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB);
-            if (!localShapeColour) {
+            if (!toChangeShapeColor) {
                 changeBackgroundColor(change);
             } else {
+                toChangeShapeColor = false;
                 shapeOutlineColorChange(change);
             }
         } catch (NumberFormatException e) {
             // Error scenario 3
-            resetPrevColors();
             writeToTextBoxAndRepaint(textDisplay, "An integer number was not entered, please try again.");
             return;
         }
         sc.close();
     }
 
-    private void changeBackgroundColor(Color change) {
-        // Background colour change
-        canvas.setBackground(change);
+    /**
+     * Change the background color and inform the user that the background has been changed
+     *
+     * @param color The color to change the background to
+     */
+    private void changeBackgroundColor(Color color) {
+        // Background color change
+        canvas.setBackground(color);
         ColorBorder colorLabel = (ColorBorder) changeBackgroundPanelWrapper.getBorder();
-        colorLabel.setColor(change);
+        colorLabel.setColor(color);
         changeBackgroundPanelWrapper.repaint();
         writeToTextBoxAndRepaint(textDisplay, "Background colour changed successfully");
         themeDrawn = false;
     }
 
-    private void shapeOutlineColorChange(Color change) {
-        // Shape outline colour change
-        outlineColor = change;
+    /**
+     * Change the shape outline color and inform the user that the background has been changed
+     *
+     * @param color The color to change the shape outline to
+     */
+    private void shapeOutlineColorChange(Color color) {
+        // Shape outline color change
+        outlineColor = color;
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
-        colorLabel.setColor(change);
-        resetPrevColors();
+        colorLabel.setColor(color);
         changeOutlinePanelWrapper.repaint();
         writeToTextBoxAndRepaint(textDisplay, "Outline colour changed successfully");
     }
 
-    private void resetPrevColors() {
-        canvasRedRGB = prevCanvasRed;
-        canvasGreenRGB = prevCanvasGreen;
-        canvasBlueRGB = prevCanvasBlue;
-    }
-
+    /**
+     * Set a theme of the panel from the name of the theme.
+     *
+     * @param themeName The name of the theme
+     */
     public void setThemeFromName(String themeName) {
         if (themeName.equals("none")) {
             return;
@@ -859,12 +888,12 @@ public class ShapePanel extends JPanel {
         this.toChangeShapeColor = toChangeShapeColor;
     }
 
-    public List<JButton> getButtonList() {
-        return buttonList;
+    public List<JButton> getShapeButtonList() {
+        return shapeButtonList;
     }
 
-    public void setButtonList(List<JButton> buttonList) {
-        this.buttonList = buttonList;
+    public void setShapeButtonList(List<JButton> shapeButtonList) {
+        this.shapeButtonList = shapeButtonList;
     }
 
     public List<ShapeName> getShapesToDraw() {
