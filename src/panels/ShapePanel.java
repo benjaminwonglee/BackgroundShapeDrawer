@@ -7,8 +7,7 @@ import output.PNGOutput;
 import responses.*;
 import shapes.Shape;
 import shapes.*;
-import textboxes.ChangeBackgroundColor;
-import textboxes.ChangeOutlineColor;
+import textboxes.ColoredLabel;
 import textboxes.TextBox;
 import themes.*;
 
@@ -216,14 +215,14 @@ public class ShapePanel extends JPanel {
         // Add Change Background Button
         this.add(new ChangeBackgroundButton(this, png, new ChangeBackgroundResponse()));
         yLoc += optionButtonHeight;
-        changeBackgroundPanelWrapper = new ChangeBackgroundColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
+        changeBackgroundPanelWrapper = new ColoredLabel(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
         this.add(changeBackgroundPanelWrapper);
         moveXY();
 
         // Add Choose Shape Colour Button
         this.add(new ShapeColorButton(this, png, new ChangeShapeColorResponse()));
         yLoc += optionButtonHeight;
-        changeOutlinePanelWrapper = new ChangeOutlineColor(outlineColor);
+        changeOutlinePanelWrapper = new ColoredLabel(outlineColor);
         this.add(changeOutlinePanelWrapper);
         moveXY();
 
@@ -495,7 +494,7 @@ public class ShapePanel extends JPanel {
      * has been set.
      */
     public void setCanvasSizeVariables() {
-        int divisor = 14;
+        int divisor = 15;
         int w = canvasSize.width / divisor - (divisor / 2);
         // Set the static ShapeAbstract variables
         ShapeAbstract.setCanvasSize(canvasSize);

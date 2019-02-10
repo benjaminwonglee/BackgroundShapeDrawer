@@ -32,10 +32,7 @@ public class AutoBackgroundColorResponse implements ButtonResponse {
         ColorBorder colorLabel = (ColorBorder) changeBackgroundColor.getBorder();
         colorLabel.setColor(color);
         changeBackgroundColor.repaint();
-        JTextArea textDisplay = sp.getTextDisplay();
-        TextBorder t = (TextBorder) textDisplay.getBorder();
-        t.setText("Background colour changed successfully");
-        textDisplay.repaint();
+        sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Background colour changed successfully");
         sp.setThemeDrawn(false);
     }
 }

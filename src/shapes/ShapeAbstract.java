@@ -34,7 +34,7 @@ public abstract class ShapeAbstract implements Shape {
         int[] xys = new int[6];
         int x = p.xInCanvas(xCursor, yCursor);
         int y = p.yInCanvas(xCursor, yCursor);
-        xCursor = x + width + 1;
+        xCursor = x + width;
         yCursor = y;
         xys[0] = x;
         xys[1] = y;
@@ -56,7 +56,7 @@ public abstract class ShapeAbstract implements Shape {
             p = new AlignedPattern();
         } else if (pattern == DrawPattern.ALTERNATING) {
             xCursor -= width;
-            p = new AlternatingPattern();
+            p = new AlternatingPattern(1);
         } else if (pattern == DrawPattern.BORDERING) {
             p = new BorderingPattern();
         } else if (pattern == DrawPattern.CROSSALTERNATING) {
@@ -67,7 +67,7 @@ public abstract class ShapeAbstract implements Shape {
             } else {
                 crossAlternatingInt = 0;
             }
-            p = new AlternatingPattern();
+            p = new AlternatingPattern(crossAlternatingInt);
         }
         p.setWidth(width);
         p.setHeight(height);

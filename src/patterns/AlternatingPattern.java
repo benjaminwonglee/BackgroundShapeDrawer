@@ -6,24 +6,35 @@ public class AlternatingPattern implements Pattern {
 
     private int width;
     private int height;
+    private int offset;
     private Rectangle canvasSize;
+
+    public AlternatingPattern(int offset) {
+        this.offset = offset;
+    }
 
     @Override
     public int xInCanvas(int xCursor, int yCursor) {
-        xCursor += getWidth() * 2;
+        int xShift = getWidth() * 2;
+        xCursor += xShift;
+        // If the next starting x point is beyond the width of the canvas shift the y point
         if (xCursor >= canvasSize.getWidth()) {
+            // Shift y point down. Only draw if the there is still room to move down on the y axis on the canvas
             if (yInCanvas(xCursor, yCursor) != -1) {
-                if (xCursor - getWidth() * 2 >= canvasSize.getWidth() - (getWidth() / 4)) {
+                // Switch to tell whether this starts on the far left or offset by 1
+                if (offset == 0) {
+                    offset = 1;
                     xCursor = getWidth();
                 } else {
-                    xCursor = getWidth() * 2;
+                    offset = 0;
+                    xCursor = xShift;
                 }
             } else {
                 // Stop
                 return -1;
             }
         }
-        return xCursor - getWidth() + 1;
+        return xCursor - getWidth();
     }
 
     @Override

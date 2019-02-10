@@ -12,14 +12,14 @@ public class AlignedPattern implements Pattern {
     public int xInCanvas(int xCursor, int yCursor) {
         xCursor += width;
         if (xCursor >= canvasSize.getWidth()) {
-            if (yInCanvas(0, 0) != -1) {
+            if (yInCanvas(xCursor, yCursor) != -1) {
                 xCursor = getWidth();
             } else {
                 // Stop
                 return -1;
             }
         }
-        return xCursor - getWidth() + 1;
+        return xCursor - getWidth();
     }
 
     @Override

@@ -15,7 +15,7 @@ public class BorderingPattern implements Pattern {
             if (xCursor + getWidth() < canvasSize.getWidth()) {
                 xCursor += getWidth();
 
-                return xCursor - getWidth() + 1;
+                return xCursor - getWidth();
             }
             endWidth = xCursor;
             // Left border
@@ -30,7 +30,7 @@ public class BorderingPattern implements Pattern {
             }
         }
 
-        return xCursor - getWidth() + 1;
+        return xCursor - getWidth();
 
     }
 
