@@ -52,7 +52,7 @@ public class ShapePanel extends JPanel {
 
     private List<ShapeName> shapesToDraw;
     private List<Shape> shapes;
-    private HashSet<Shape> allShapes;
+    private LinkedHashSet<Shape> allShapes;
 
     private Color outlineColor;
 
@@ -93,7 +93,7 @@ public class ShapePanel extends JPanel {
         userInput = new JTextField();
         shapesToDraw = new ArrayList<>();
         shapes = new ArrayList<>();
-        allShapes = new HashSet<>();
+        allShapes = new LinkedHashSet<>();
         outlineColor = new Color(200, 0, 0);
         createButtons();
         createTextAreas();
@@ -809,11 +809,11 @@ public class ShapePanel extends JPanel {
         this.shapes = shapes;
     }
 
-    public HashSet<Shape> getAllShapes() {
+    public LinkedHashSet<Shape> getAllShapes() {
         return allShapes;
     }
 
-    public void setAllShapes(HashSet<Shape> allShapes) {
+    public void setAllShapes(LinkedHashSet<Shape> allShapes) {
         this.allShapes = allShapes;
     }
 

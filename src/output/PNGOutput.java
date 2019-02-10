@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 
 import static util.Utils.determineShapeFromName;
@@ -83,25 +84,39 @@ public class PNGOutput {
      */
     public void pngFromFile(ShapePanel sp, String filename, String newImageName) {
 
-        Scanner sc = createScannerOverFile(filename);
-        if (sc == null) {
+        boolean successfullyParsed = parseImageInfoTextFile(sp, filename, true);
+        if (!successfullyParsed) {
             return;
         }
+        try {
+            ImageIO.write(png, "PNG", new File(newImageName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        Color bgc = new Color(sc.nextInt());
+    public void loadFromTextFile(ShapePanel sp, String filename) {
+        if (sp.getAllShapes() == null) {
+            sp.setAllShapes(new LinkedHashSet<>());
+        }
+        parseImageInfoTextFile(sp, filename, false);
+    }
+
+    private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
+        Scanner sc = createScannerOverFile(filename);
+        if (sc == null) {
+            return false;
+        }
+
+        Color backgroundColor = new Color(sc.nextInt());
+
         // Skip over the next line character
         sc.nextLine();
-        String theme = sc.nextLine();
-
-        if (theme.equals("none")) {
-            Graphics2D g2d = png.createGraphics();
-            g2d.setPaint(bgc);
-            g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
+        String themeName = sc.nextLine();
+        if (toImage) {
+            applyThemeToBufferedImage(backgroundColor, themeName);
         } else {
-            Theme th = retrieveThemeFromName(theme);
-            JPanel pngSize = new JPanel();
-            pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
-            th.applyTheme(png.getGraphics(), pngSize);
+            applyThemeToShapePanelCanvas(sp, backgroundColor, themeName);
         }
 
         // Retrieve the data from the file
@@ -125,9 +140,8 @@ public class PNGOutput {
                 fillInt = Integer.parseInt(vars[5]);
                 rgb = Integer.parseInt(vars[6]);
             } catch (IndexOutOfBoundsException | NumberFormatException ex) {
-                // TODO: A better message for this. Currently debugging
-                sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Error retrieving from file");
-                return;
+                sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Error parsing image info file");
+                return false;
             }
 
             // Process and draw read variables
@@ -135,38 +149,38 @@ public class PNGOutput {
             if (fillInt == 1) {
                 fill = true;
             }
-            Shape s = determineShapeFromName(shapeName);
-            s.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
-        }
-        try {
-            ImageIO.write(png, "PNG", new File(newImageName));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            Shape shape = determineShapeFromName(shapeName);
+            if (!toImage) {
+                shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+                sp.getAllShapes().add(shape);
+            } else {
+                shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+            }
         }
         sc.close();
+        return true;
     }
 
-    /**
-     * Applies an image to the canvas from a given txt file
-     *
-     * @param sp       The ShapePanel containing the canvas
-     * @param filename The file to read from that is created by this program.
-     */
-    public static void loadFromTextFile(ShapePanel sp, String filename) {
-
-        Scanner sc = createScannerOverFile(filename);
-        if (sc == null) {
-            return;
+    private void applyThemeToBufferedImage(Color backgroundColor, String themeName) {
+        if (themeName.equals("none")) {
+            // Set background to the background colour
+            Graphics2D g2d = png.createGraphics();
+            g2d.setPaint(backgroundColor);
+            g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
+        } else {
+            // Apply a theme if it exists
+            Theme th = retrieveThemeFromName(themeName);
+            JPanel pngSize = new JPanel();
+            pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
+            th.applyTheme(png.getGraphics(), pngSize);
         }
+    }
 
-        Color bgc = new Color(sc.nextInt());
-        // Skip over the next line character
-        sc.nextLine();
-        String themeName = sc.nextLine();
-
+    private void applyThemeToShapePanelCanvas(ShapePanel sp, Color backgroundColor, String themeName) {
         if (themeName.equals("none")) {
             Graphics2D g2d = (Graphics2D) sp.getCanvas().getGraphics();
-            g2d.setPaint(bgc);
+            g2d.setPaint(backgroundColor);
             g2d.fillRect(0, 0, sp.getWidth(), sp.getHeight());
         } else {
             Theme th = retrieveThemeFromName(themeName);
@@ -176,28 +190,6 @@ public class PNGOutput {
             sp.repaint();
             th.applyTheme(sp.getCanvas().getGraphics(), sp);
         }
-
-        HashSet<Shape> allShapes = new HashSet<>();
-
-        while (sc.hasNext()) {
-            // s.getXY() returns: [x, y, width, height, fill, rgbColor]
-            String shapeName = sc.next();
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            int wd = sc.nextInt();
-            int ht = sc.nextInt();
-            int fillInt = sc.nextInt();
-            boolean fill = false;
-            if (fillInt == 1) {
-                fill = true;
-            }
-            int rgb = sc.nextInt();
-            Shape s = determineShapeFromName(shapeName);
-            s.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
-            allShapes.add(s);
-        }
-        sp.setAllShapes(allShapes);
-        sc.close();
     }
 
     private static Scanner createScannerOverFile(String filename) {

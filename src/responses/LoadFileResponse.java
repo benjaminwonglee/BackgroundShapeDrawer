@@ -30,7 +30,7 @@ public class LoadFileResponse implements ButtonResponse {
 
                 // Clears the canvas
                 sp.getClearButton().doClick();
-                PNGOutput.loadFromTextFile(sp, chooser.getSelectedFile().getName());
+                sp.getPng().loadFromTextFile(sp, chooser.getSelectedFile().getName());
                 TextBorder textDisplayWrapper = (TextBorder) textDisplay.getBorder();
                 textDisplayWrapper.setText("Loaded successfully.");
                 textDisplay.repaint();
