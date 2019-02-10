@@ -12,8 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static util.Utils.determineShapeFromName;
@@ -38,10 +37,9 @@ public class PNGOutput {
      * Outputs the current drawing to a txt format.
      *
      * @param sp        The ShapePanel of the program.
-     * @param allShapes The ArrayList of shapes drawn.
      * @param filename  The name of the txt file
      */
-    public static void outputToFile(ShapePanel sp, HashSet<Shape> allShapes, Color backgroundColor, String filename) {
+    public static void outputToFile(ShapePanel sp, Color backgroundColor, String filename) {
         // Create file and PrintWriter.
         PrintWriter pw = null;
         try {
@@ -63,7 +61,7 @@ public class PNGOutput {
         }
 
         // s.getXY() returns: [x, y, width, height, fill, rgbColor]
-        for (Shape s : allShapes) {
+        for (Shape s : sp.getAllShapes()) {
             for (int[] vars : s.getXY()) {
                 pw.print(s.name() + ",");
                 for (int iVariable = 0; iVariable < vars.length - 1; iVariable++) {
@@ -97,7 +95,7 @@ public class PNGOutput {
 
     public void loadFromTextFile(ShapePanel sp, String filename) {
         if (sp.getAllShapes() == null) {
-            sp.setAllShapes(new LinkedHashSet<>());
+            sp.setAllShapes(new ArrayList<>());
         }
         parseImageInfoTextFile(sp, filename, false);
     }

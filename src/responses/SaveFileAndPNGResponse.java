@@ -16,14 +16,9 @@ public class SaveFileAndPNGResponse implements ButtonResponse {
             String fileName = chooser.getSelectedFile().getName();
             // Save a file to the path
             PNGOutput.outputToFile(
-                    sp,
-                    sp.getAllShapes(),
-                    new Color(sp.getCanvasRedRGB(), sp.getCanvasGreenRGB(), sp.getCanvasBlueRGB()),
-                    fileName + ".txt"
+                    sp, new Color(sp.getCanvasRedRGB(), sp.getCanvasGreenRGB(), sp.getCanvasBlueRGB()), fileName + ".txt"
             );
             sp.getPng().pngFromFile(sp,fileName + ".txt", fileName + ".png");
-
         }
-
     }
 }

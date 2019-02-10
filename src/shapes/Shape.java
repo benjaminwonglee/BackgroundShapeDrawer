@@ -1,8 +1,7 @@
 package shapes;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.HashSet;
+import java.awt.*;
+import java.util.List;
 
 public interface Shape {
 
@@ -12,11 +11,9 @@ public interface Shape {
 
     boolean getCanvasFilled();
 
-    int getDrawnAmount();
-
     void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill);
 
-    HashSet<int[]> getXY();
+    List<int[]> getXY();
 
     static void clearAllShapes() {
         Circle.xy.clear();

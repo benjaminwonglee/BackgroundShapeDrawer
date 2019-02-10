@@ -1,24 +1,18 @@
 package tests;
 
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import output.PNGOutput;
+import panels.ShapePanel;
+import shapes.ShapeName;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import org.junit.Test;
-
-import panels.ShapePanel;
-import output.PNGOutput;
-import shapes.Shape;
-import shapes.ShapeName;
+import static org.junit.Assert.fail;
 
 public class OutputTests {
     /**
@@ -38,11 +32,10 @@ public class OutputTests {
         // Adds to ShapePanel shapes ArrayList.
         sp.createShape(ShapeName.CIRCLE, testNum);
         sp.createShape(ShapeName.SQUARE, testNum);
-        HashSet<Shape> shapes = sp.getAllShapes();
 
         // Before drawing, set the abstract variables
         sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
-        PNGOutput.outputToFile(sp, shapes, new Color(0, 0, 0), "test.txt");
+        PNGOutput.outputToFile(sp, new Color(0, 0, 0), "test.txt");
 
         Scanner sc = null;
         try {

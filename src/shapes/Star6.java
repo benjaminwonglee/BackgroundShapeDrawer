@@ -3,10 +3,11 @@ package shapes;
 import patterns.Pattern;
 
 import java.awt.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Star6 extends ShapeAbstract implements Shape {
-    static HashSet<int[]> xy = new HashSet<>();
+    static List<int[]> xy = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
@@ -69,7 +70,7 @@ public class Star6 extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public HashSet<int[]> getXY() {
+    public List<int[]> getXY() {
         return xy;
     }
 }

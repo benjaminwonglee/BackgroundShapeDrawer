@@ -14,8 +14,10 @@ import themes.*;
 import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 import static util.Utils.getScreenSize;
 
@@ -52,7 +54,7 @@ public class ShapePanel extends JPanel {
 
     private List<ShapeName> shapesToDraw;
     private List<Shape> shapes;
-    private LinkedHashSet<Shape> allShapes;
+    private List<Shape> allShapes;
 
     private Color outlineColor;
 
@@ -93,7 +95,7 @@ public class ShapePanel extends JPanel {
         userInput = new JTextField();
         shapesToDraw = new ArrayList<>();
         shapes = new ArrayList<>();
-        allShapes = new LinkedHashSet<>();
+        allShapes = new ArrayList<>();
         outlineColor = new Color(200, 0, 0);
         createButtons();
         createTextAreas();
@@ -614,7 +616,7 @@ public class ShapePanel extends JPanel {
 
     private void createPNGFile(PNGOutput png) {
         // For storing RGB values to a file
-        PNGOutput.outputToFile(this, allShapes, new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB), "output.txt");
+        PNGOutput.outputToFile(this, new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB), "output.txt");
         png.pngFromFile(this, "output.txt", "output.png");
     }
 
@@ -809,11 +811,11 @@ public class ShapePanel extends JPanel {
         this.shapes = shapes;
     }
 
-    public LinkedHashSet<Shape> getAllShapes() {
+    public List<Shape> getAllShapes() {
         return allShapes;
     }
 
-    public void setAllShapes(LinkedHashSet<Shape> allShapes) {
+    public void setAllShapes(List<Shape> allShapes) {
         this.allShapes = allShapes;
     }
 

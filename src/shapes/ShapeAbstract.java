@@ -1,12 +1,8 @@
 package shapes;
 
-import java.awt.Color;
+import patterns.*;
 
-import patterns.AlignedPattern;
-import patterns.AlternatingPattern;
-import patterns.BorderingPattern;
-import patterns.Pattern;
-import patterns.RandomPattern;
+import java.awt.*;
 
 public abstract class ShapeAbstract implements Shape {
     // Amount variables
