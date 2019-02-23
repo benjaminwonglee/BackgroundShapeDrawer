@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.*;
 
 import java.awt.*;
@@ -25,7 +26,7 @@ public abstract class ShapeAbstract implements Shape {
         RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
     }
 
-    public int[] setDrawVariables(Color c, Pattern p, boolean fill) {
+    public int[] setDrawVariables(Color c, Pattern p, FillStatus fill) {
         // xys = [x, y, width, height, fill, rgbColor]
         int[] xys = new int[6];
         int x = p.xInCanvas(xCursor, yCursor);
@@ -36,11 +37,7 @@ public abstract class ShapeAbstract implements Shape {
         xys[1] = y;
         xys[2] = ShapeAbstract.getWidth();
         xys[3] = ShapeAbstract.getHeight();
-        if (fill) {
-            xys[4] = 1;
-        } else {
-            xys[4] = 0;
-        }
+        xys[4] = fill.ordinal();
         xys[5] = c.getRGB();
         return xys;
     }

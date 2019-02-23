@@ -5,6 +5,7 @@ import panels.ShapePanel;
 import responses.ButtonResponse;
 
 public class WidthHeightButton extends OptionButton {
+
     public WidthHeightButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
         super(sp, png, response);
     }

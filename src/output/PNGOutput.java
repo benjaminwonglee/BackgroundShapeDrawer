@@ -1,5 +1,6 @@
 package output;
 
+import misc.FillStatus;
 import panels.ShapePanel;
 import shapes.Shape;
 import themes.Theme;
@@ -143,17 +144,12 @@ public class PNGOutput {
             }
 
             // Process and draw read variables
-            boolean fill = false;
-            if (fillInt == 1) {
-                fill = true;
-            }
-
             Shape shape = determineShapeFromName(shapeName);
             if (!toImage) {
-                shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+                shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
                 sp.getAllShapes().add(shape);
             } else {
-                shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, fill);
+                shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
             }
         }
         sc.close();

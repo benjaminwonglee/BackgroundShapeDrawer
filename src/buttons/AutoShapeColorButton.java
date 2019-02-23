@@ -5,6 +5,7 @@ import panels.ShapePanel;
 import responses.ButtonResponse;
 
 public class AutoShapeColorButton extends OptionButton {
+
     public AutoShapeColorButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
         super(sp, png, response);
     }

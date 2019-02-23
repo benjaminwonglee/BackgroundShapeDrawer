@@ -2,6 +2,7 @@ package panels;
 
 import borders.*;
 import buttons.*;
+import misc.FillStatus;
 import misc.UserInputKeyListener;
 import output.PNGOutput;
 import responses.*;
@@ -46,7 +47,7 @@ public class ShapePanel extends JPanel {
     private int canvasBlueRGB = 0;
     private int canvasGreenRGB = 0;
 
-    private boolean toFill = false;
+    private FillStatus fillStatus = FillStatus.NONE;
 
     private List<ShapeName> shapesToDraw;
     private List<Shape> shapes;
@@ -719,7 +720,7 @@ public class ShapePanel extends JPanel {
 
         for (Shape shapeType : shapes) {
             // Get the type of shape and draw a certain amount of the type of shape
-            shapeType.drawShape(g, pngGraphics, outlineColor, toFill);
+            shapeType.drawShape(g, pngGraphics, outlineColor, fillStatus);
             ShapeAbstract.setXCursor(0);
             ShapeAbstract.setYCursor(0);
         }
@@ -984,12 +985,12 @@ public class ShapePanel extends JPanel {
         this.toChangeHeight = toChangeHeight;
     }
 
-    public boolean isToFill() {
-        return toFill;
+    public FillStatus getFillStatus() {
+        return fillStatus;
     }
 
-    public void setToFill(boolean toFill) {
-        this.toFill = toFill;
+    public void setFillStatus(FillStatus fillStatus) {
+        this.fillStatus = fillStatus;
     }
 
     public boolean isThemeDrawn() {

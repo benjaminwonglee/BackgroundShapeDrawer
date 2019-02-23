@@ -5,6 +5,7 @@ import panels.ShapePanel;
 import responses.ButtonResponse;
 
 public class LoadButton extends OptionButton {
+
     public LoadButton(ShapePanel sp, PNGOutput png, ButtonResponse response) {
         super(sp, png, response);
     }

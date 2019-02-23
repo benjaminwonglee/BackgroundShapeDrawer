@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.Pattern;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Square extends ShapeAbstract implements Shape {
     static List<int[]> xy = new ArrayList<>();
 
     @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
         g.setColor(c);
         gr.setColor(c);
         Pattern p = selectPattern();
@@ -25,10 +26,10 @@ public class Square extends ShapeAbstract implements Shape {
                 return;
             }
             xy.add(xys);
-            if (fill) {
+            if (fill == FillStatus.FULL) {
                 g.fillRect(x, y, getWidth(), getWidth());
                 gr.fillRect(x, y, getWidth(), getWidth());
-            } else {
+            } else if (fill == FillStatus.NONE) {
                 g.drawRect(x, y, getWidth(), getWidth());
                 gr.drawRect(x, y, getWidth(), getWidth());
             }
@@ -46,11 +47,11 @@ public class Square extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
+    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        if (fill) {
+        if (fill == FillStatus.FULL) {
             g.fillRect(x, y, width, width);
-        } else {
+        } else if (fill == FillStatus.NONE) {
             g.drawRect(x, y, width, width);
         }
     }

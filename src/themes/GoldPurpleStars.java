@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import misc.FillStatus;
 import shapes.Star5;
 
 public class GoldPurpleStars implements Theme {
@@ -18,9 +19,13 @@ public class GoldPurpleStars implements Theme {
         int height = width - 3;
         g.setColor(new Color(230, 190, 50));
         for (int row = 0; row < sp.getBounds().width; row += width * 2) {
-            boolean fill = false;
+            FillStatus fill = FillStatus.NONE;
             for (int col = 0; col < sp.getBounds().height; col += height) {
-                fill = !fill;
+                if (fill == FillStatus.NONE) {
+                    fill = FillStatus.FULL;
+                } else {
+                    fill = FillStatus.NONE;
+                }
                 s.drawFromXY(g, g.getColor(), row, col, width, height, fill);
             }
             height += 3;

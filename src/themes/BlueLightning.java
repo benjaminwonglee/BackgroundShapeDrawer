@@ -1,5 +1,6 @@
 package themes;
 
+import misc.FillStatus;
 import shapes.Lightning;
 
 import javax.swing.*;
@@ -24,7 +25,7 @@ public class BlueLightning implements Theme {
                             g.getColor().getBlue() - width / 10));
                 }
 
-                l.drawFromXY(g, g.getColor(), row, col, width, height, true);
+                l.drawFromXY(g, g.getColor(), row, col, width, height, FillStatus.FULL);
             }
         }
     }

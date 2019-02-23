@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.Pattern;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Triangle extends ShapeAbstract implements Shape {
     static List<int[]> xy = new ArrayList<>();
 
     @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
         g.setColor(c);
         gr.setColor(c);
         Pattern p = selectPattern();
@@ -27,10 +28,10 @@ public class Triangle extends ShapeAbstract implements Shape {
             xy.add(xys);
             int[] xInts = new int[]{x, x + getWidth() / 2, x + getWidth(), x};
             int[] yInts = new int[]{y + getHeight(), y, y + getHeight(), y + getHeight()};
-            if (fill) {
+            if (fill == FillStatus.FULL) {
                 g.fillPolygon(xInts, yInts, 4);
                 gr.fillPolygon(xInts, yInts, 4);
-            } else {
+            } else if (fill == FillStatus.NONE) {
                 g.drawPolygon(xInts, yInts, 4);
                 gr.drawPolygon(xInts, yInts, 4);
             }
@@ -48,13 +49,13 @@ public class Triangle extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
+    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         int[] xInts = new int[]{x, x + width / 2, x + width, x};
         int[] yInts = new int[]{y + height, y, y + height, y + height};
-        if (fill) {
+        if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 4);
-        } else {
+        } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 4);
         }
     }

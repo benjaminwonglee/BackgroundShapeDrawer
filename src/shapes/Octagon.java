@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.Pattern;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Octagon extends ShapeAbstract implements Shape {
     static List<int[]> xy = new ArrayList<>();
 
     @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
         g.setColor(c);
         gr.setColor(c);
         Pattern p = selectPattern();
@@ -29,10 +30,10 @@ public class Octagon extends ShapeAbstract implements Shape {
                     x + getWidth() / 4 * 3, x + getWidth() / 4, x, x};
             int[] yInts = new int[]{y + (getHeight() / 4), y, y, y + (getHeight() / 4), y + getHeight() / 4 * 3,
                     y + getHeight(), y + getHeight(), y + (getHeight() / 4) * 3, y + (getHeight() / 4)};
-            if (fill) {
+            if (fill == FillStatus.FULL) {
                 g.fillPolygon(xInts, yInts, 9);
                 gr.fillPolygon(xInts, yInts, 9);
-            } else {
+            } else if (fill == FillStatus.NONE) {
                 g.drawPolygon(xInts, yInts, 9);
                 gr.drawPolygon(xInts, yInts, 9);
             }
@@ -50,15 +51,15 @@ public class Octagon extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
+    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         int[] xInts = new int[]{x, x + width / 4, x + width / 4 * 3, x + width, x + width, x + width / 4 * 3,
                 x + width / 4, x, x};
         int[] yInts = new int[]{y + (height / 4), y, y, y + (height / 4), y + height / 4 * 3, y + height, y + height,
                 y + (height / 4) * 3, y + (height / 4)};
-        if (fill) {
+        if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 9);
-        } else {
+        } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 9);
         }
     }

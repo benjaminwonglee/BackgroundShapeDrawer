@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.Pattern;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Star6 extends ShapeAbstract implements Shape {
     static List<int[]> xy = new ArrayList<>();
 
     @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
         g.setColor(c);
         gr.setColor(c);
         Pattern p = selectPattern();
@@ -32,10 +33,10 @@ public class Star6 extends ShapeAbstract implements Shape {
             int[] yInts = new int[]{y + getHeight() / 2, y + getHeight() / 3, y, y + getHeight() / 4, y,
                     y + getHeight() / 3, y + getHeight() / 2, y + getHeight() / 3 * 2, y + getHeight(),
                     y + getHeight() / 4 * 3, y + getHeight(), y + getHeight() / 3 * 2, y + getHeight() / 2};
-            if (fill) {
+            if (fill == FillStatus.FULL) {
                 g.fillPolygon(xInts, yInts, 13);
                 gr.fillPolygon(xInts, yInts, 13);
-            } else {
+            } else if (fill == FillStatus.NONE) {
                 g.drawPolygon(xInts, yInts, 13);
                 gr.drawPolygon(xInts, yInts, 13);
             }
@@ -53,7 +54,7 @@ public class Star6 extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
+    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         int[] xInts = new int[]{x, x + width / 3, x + width / 4, x + width / 2,
                 x + width - width / 4, x + width - width / 3, x + width,
@@ -62,9 +63,9 @@ public class Star6 extends ShapeAbstract implements Shape {
         int[] yInts = new int[]{y + height / 2, y + height / 3, y, y + height / 4, y,
                 y + height / 3, y + height / 2, y + height / 3 * 2, y + height,
                 y + height / 4 * 3, y + height, y + height / 3 * 2, y + height / 2};
-        if (fill) {
+        if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 13);
-        } else {
+        } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 13);
         }
     }

@@ -2,6 +2,7 @@ package buttons;
 
 import borders.OptionBorder;
 import borders.TextBorder;
+import misc.FillStatus;
 import output.PNGOutput;
 import panels.ShapePanel;
 import responses.ButtonResponse;
@@ -17,37 +18,29 @@ public class FillButton extends OptionButton {
 
     @Override
     public void create(String label) {
-        int textBoxSize = 100;
+        int textBoxSize = 150;
         ShapePanel sp = getShapePanel();
 
         newButtonBounds(this);
         Rectangle buttonSize = this.getBounds();
         this.setBounds(new Rectangle(buttonSize.x, buttonSize.y, buttonSize.width - textBoxSize,
                 buttonSize.height));
-
         setBorder(new OptionBorder(getButtonName(), getOptColor()));
 
-        JTextArea fillStatus = new JTextArea();
-        fillStatus.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
+        JTextArea fillStatusBox = new JTextArea();
+        fillStatusBox.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
                 textBoxSize, buttonSize.height));
         TextBorder fillBorder = new TextBorder("");
-        if (sp.isToFill()) {
-            fillBorder.setText("Yes");
-        } else {
-            fillBorder.setText("No");
-        }
-        fillBorder.setFont(new Font("Arial", Font.BOLD, 32));
-        fillStatus.setBorder(fillBorder);
+        fillBorder.setText(sp.getFillStatus().getFormattedName());
+        fillBorder.setFont(new Font("Arial", Font.BOLD, 24));
+        fillStatusBox.setBorder(fillBorder);
         addActionListener(event -> {
-            sp.setToFill(!sp.isToFill());
-            if (sp.isToFill()) {
-                fillBorder.setText("Yes");
-            } else {
-                fillBorder.setText("No");
-            }
-            fillStatus.repaint();
+            FillStatus nextFill = FillStatus.getNext(sp.getFillStatus());
+            sp.setFillStatus(nextFill);
+            fillBorder.setText(nextFill.getFormattedName());
+            fillStatusBox.repaint();
         });
-        sp.add(fillStatus);
+        sp.add(fillStatusBox);
     }
 
     @Override

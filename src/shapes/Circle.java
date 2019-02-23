@@ -1,5 +1,6 @@
 package shapes;
 
+import misc.FillStatus;
 import patterns.Pattern;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Circle extends ShapeAbstract implements Shape {
     static List<int[]> xy = new ArrayList<>();
 
     @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, boolean fill) {
+    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
         g.setColor(c);
         gr.setColor(c);
         Pattern p = selectPattern();
@@ -23,10 +24,10 @@ public class Circle extends ShapeAbstract implements Shape {
                 return;
             }
             xy.add(xys);
-            if (fill) {
+            if (fill == FillStatus.FULL) {
                 g.fillOval(xys[0], xys[1], getWidth(), getWidth());
                 gr.fillOval(xys[0], xys[1], getWidth(), getWidth());
-            } else {
+            } else if (fill == FillStatus.NONE) {
                 g.drawOval(xys[0], xys[1], getWidth(), getWidth());
                 gr.drawOval(xys[0], xys[1], getWidth(), getWidth());
             }
@@ -44,11 +45,11 @@ public class Circle extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill) {
+    public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        if (fill) {
+        if (fill == FillStatus.FULL) {
             g.fillOval(x, y, width, width);
-        } else {
+        } else if (fill == FillStatus.NONE) {
             g.drawOval(x, y, width, width);
         }
     }

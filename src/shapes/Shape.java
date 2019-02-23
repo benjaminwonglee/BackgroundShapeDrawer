@@ -1,17 +1,19 @@
 package shapes;
 
+import misc.FillStatus;
+
 import java.awt.*;
 import java.util.List;
 
 public interface Shape {
 
-    void drawShape(Graphics g, Graphics pngGraphics, Color c, boolean fill);
+    void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill);
 
     String name();
 
     boolean getCanvasFilled();
 
-    void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, boolean fill);
+    void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill);
 
     List<int[]> getXY();
 

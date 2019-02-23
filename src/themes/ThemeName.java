@@ -38,4 +38,11 @@ public enum ThemeName {
                         "The chosen theme Enum was not recorded in theme names %s", this.name()));
         }
     }
+
+    public static ThemeName getNext(ThemeName themeName) {
+        ThemeName[] values = ThemeName.values();
+        int ordinal = themeName.ordinal();
+        return ordinal + 1 < values.length ? values[ordinal + 1]
+                : values[0];
+    }
 }
