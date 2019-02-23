@@ -534,14 +534,16 @@ public class ShapePanel extends JPanel {
      */
     public void userInputResponse() {
         if (toChangeBackground) {
+            askUserForColorInput();
             toDrawShapes = false;
             toChangeBackground = false;
-            askUserForColorInput();
         } else if (toChangeShapeColor) {
-            toDrawShapes = false;
             askUserForColorInput();
+            toDrawShapes = false;
+            toChangeShapeColor = false;
         } else if (toSetWidthHeight) {
             setWidthAndHeight();
+            toSetWidthHeight = false;
         } else if (toDrawShapes) {
             drawShapes();
         }
