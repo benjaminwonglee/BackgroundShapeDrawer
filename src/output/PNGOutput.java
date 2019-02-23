@@ -144,6 +144,7 @@ public class PNGOutput {
             }
 
             // Process and draw read variables
+            // TODO: Be able to draw in random order so the shape colours are mixed up
             Shape shape = determineShapeFromName(shapeName);
             if (!toImage) {
                 shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);

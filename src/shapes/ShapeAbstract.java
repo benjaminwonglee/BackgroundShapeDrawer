@@ -23,6 +23,7 @@ public abstract class ShapeAbstract implements Shape {
     // Pattern variables
     private static DrawPattern pattern = DrawPattern.RANDOM;
     private static int crossAlternatingInt = 0;
+    private static final int gradientFactor = 3;
 
     public enum DrawPattern {
         RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
@@ -152,5 +153,9 @@ public abstract class ShapeAbstract implements Shape {
 
     public void setCanvasFilled(boolean b) {
         canvasFilled = b;
+    }
+
+    public static int getGradientFactor() {
+        return gradientFactor;
     }
 }

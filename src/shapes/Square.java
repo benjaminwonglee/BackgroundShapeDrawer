@@ -2,6 +2,7 @@ package shapes;
 
 import misc.FillStatus;
 import patterns.Pattern;
+import util.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,13 +27,8 @@ public class Square extends ShapeAbstract implements Shape {
                 return;
             }
             xy.add(xys);
-            if (fill == FillStatus.FULL) {
-                g.fillRect(x, y, getWidth(), getWidth());
-                gr.fillRect(x, y, getWidth(), getWidth());
-            } else if (fill == FillStatus.NONE) {
-                g.drawRect(x, y, getWidth(), getWidth());
-                gr.drawRect(x, y, getWidth(), getWidth());
-            }
+            drawFromXY(g, c, x, y, getWidth(), getWidth(), fill);
+            drawFromXY(gr, c, x, y, getWidth(), getWidth(), fill);
         }
     }
 
@@ -51,6 +47,16 @@ public class Square extends ShapeAbstract implements Shape {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
             g.fillRect(x, y, width, width);
+        } else if (fill == FillStatus.GRADIENT) {
+            int maxColorShade = Utils.findMaxColorShade(c);
+            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+            for (int i = 0; i < width / 2; i++) {
+                g.fillRect(x, y + i, width, width - i * 2);
+                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                    colorArray[maxColorShade] -= getGradientFactor();
+                }
+                g.setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
+            }
         } else if (fill == FillStatus.NONE) {
             g.drawRect(x, y, width, width);
         }

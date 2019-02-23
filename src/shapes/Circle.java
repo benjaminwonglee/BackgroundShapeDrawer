@@ -50,8 +50,8 @@ public class Circle extends ShapeAbstract implements Shape {
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
             for (int i = 0; i < width / 2; i++) {
                 g.fillOval(x, y + i, width, width - i * 2);
-                if (colorArray[maxColorShade] > 2) {
-                    colorArray[maxColorShade] -= 3;
+                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                    colorArray[maxColorShade] -= getGradientFactor();
                 }
                 g.setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
             }

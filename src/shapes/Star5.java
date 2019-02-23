@@ -2,6 +2,7 @@ package shapes;
 
 import misc.FillStatus;
 import patterns.Pattern;
+import util.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ public class Star5 extends ShapeAbstract implements Shape {
         gr.setColor(c);
         Pattern p = selectPattern();
 
-        for (int i = 0; i < getAmount(); i++) {
+        for (int shapeNumber = 0; shapeNumber < getAmount(); shapeNumber++) {
             int[] xys = setDrawVariables(c, p, fill);
             int x = xys[0];
             int y = xys[1];
             if (x == -1 || y == -1) {
-                setDrawnAmount(i);
+                setDrawnAmount(shapeNumber);
                 setCanvasFilled(true);
                 return;
             }
@@ -36,13 +37,9 @@ public class Star5 extends ShapeAbstract implements Shape {
             int[] yInts = new int[]{y + (height / 3), y + (height / 3), y, y + (height / 3),
                     y + (height / 3), y + (height / 8) * 5, y + height, y + (height / 8 * 7),
                     y + height, y + (height / 8) * 5, y + (height / 3)};
-            if (fill == FillStatus.FULL) {
-                g.fillPolygon(xInts, yInts, 11);
-                gr.fillPolygon(xInts, yInts, 11);
-            } else if (fill == FillStatus.NONE) {
-                g.drawPolygon(xInts, yInts, 11);
-                gr.drawPolygon(xInts, yInts, 11);
-            }
+
+            drawFromXY(g, c, x, y, width, height, fill);
+            drawFromXY(gr, c, x, y, width, height, fill);
         }
     }
 
@@ -69,6 +66,18 @@ public class Star5 extends ShapeAbstract implements Shape {
                 y + height, y + (height / 8) * 5, y + (height / 3)};
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 11);
+        } else if (fill == FillStatus.GRADIENT) {
+            // TODO: Somehow handle this complicated process
+            g.fillPolygon(xInts, yInts, 11);
+//            int maxColorShade = Utils.findMaxColorShade(c);
+//            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+//            for (int iGradient = 0; iGradient < width / 2; iGradient++) {
+//                g.fillPolygon(xInts, yInts, 11);
+//                if (colorArray[maxColorShade] > 2) {
+//                    colorArray[maxColorShade] -= getGradientFactor();
+//                }
+//                g.setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
+//            }
         } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 11);
         }

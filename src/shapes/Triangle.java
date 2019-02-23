@@ -2,6 +2,7 @@ package shapes;
 
 import misc.FillStatus;
 import patterns.Pattern;
+import util.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,15 +27,8 @@ public class Triangle extends ShapeAbstract implements Shape {
                 return;
             }
             xy.add(xys);
-            int[] xInts = new int[]{x, x + getWidth() / 2, x + getWidth(), x};
-            int[] yInts = new int[]{y + getHeight(), y, y + getHeight(), y + getHeight()};
-            if (fill == FillStatus.FULL) {
-                g.fillPolygon(xInts, yInts, 4);
-                gr.fillPolygon(xInts, yInts, 4);
-            } else if (fill == FillStatus.NONE) {
-                g.drawPolygon(xInts, yInts, 4);
-                gr.drawPolygon(xInts, yInts, 4);
-            }
+            drawFromXY(g, c, x, y, getWidth(), getHeight(), fill);
+            drawFromXY(gr, c, x, y, getWidth(), getHeight(), fill);
         }
     }
 
@@ -55,6 +49,19 @@ public class Triangle extends ShapeAbstract implements Shape {
         int[] yInts = new int[]{y + height, y, y + height, y + height};
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 4);
+        } else if (fill == FillStatus.GRADIENT) {
+            int maxColorShade = Utils.findMaxColorShade(c);
+            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+            // TODO: Handle the iterations so it is not width dependent only
+            for (int i = 0; i < width / 2; i++) {
+                xInts = new int[]{x + i, x + width / 2, x + width - i, x + i};
+                yInts = new int[]{y + height - i, y + i, y + height - i, y + height - i};
+                g.fillPolygon(xInts, yInts, 4);
+                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                    colorArray[maxColorShade] -= getGradientFactor();
+                }
+                g.setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
+            }
         } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 4);
         }
