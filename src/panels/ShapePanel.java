@@ -517,7 +517,9 @@ public class ShapePanel extends JPanel {
         // Set the static ShapeAbstract variables
         ShapeAbstract.setCanvasSize(canvasSize);
         ShapeAbstract.setWidth(w);
+        ShapeAbstract.setPrevWidth(w);
         ShapeAbstract.setHeight(w);
+        ShapeAbstract.setPrevHeight(w);
         // Update the width height text boxes
         TextBorder text = (TextBorder) widthText.getBorder();
         text.setText(String.valueOf(ShapeAbstract.getWidth()));
@@ -543,7 +545,6 @@ public class ShapePanel extends JPanel {
             toChangeShapeColor = false;
         } else if (toSetWidthHeight) {
             setWidthAndHeight();
-            toSetWidthHeight = false;
         } else if (toDrawShapes) {
             drawShapes();
         }
@@ -557,20 +558,22 @@ public class ShapePanel extends JPanel {
             try {
                 int input = Integer.parseInt(userInput.getText());
                 if (input < 0 || input > 400) {
-                    if (toChangeWidth) {
-                        writeToTextBoxAndRepaint(textDisplay,
-                                "Please enter an integer between 0 to 400. "
-                                        + "Choose width: (enter an integer between 0 to 400) ");
-                    } else {
-                        writeToTextBoxAndRepaint(textDisplay,
-                                "Please enter an integer between 0 to 400. "
-                                        + "Choose height: (enter an integer between 0 to 400) ");
+                    String dimension = "width";
+                    if (!toChangeWidth) {
+                        dimension = "height";
                     }
+                    writeToTextBoxAndRepaint(textDisplay,
+                            String.format("Please enter an integer between 0 to 400. "
+                                    + "Choose %s: (enter an integer between 0 to 400) ", dimension));
+                    resetShapeHeightAndWidth();
                     return;
                 }
                 if (toChangeWidth) {
+                    // Successfully changed width
                     ShapeAbstract.setWidth(input);
                     toChangeWidth = false;
+
+                    // Query change height
                     writeToTextBoxAndRepaint(textDisplay, "Choose height: (enter an integer between 0 to 400) ");
                     userInput.requestFocus();
 
@@ -582,6 +585,10 @@ public class ShapePanel extends JPanel {
                     toChangeHeight = false;
                     writeToTextBoxAndRepaint(textDisplay, "Width and height adjusted.");
 
+                    // Update previous width and height to be current ones
+                    ShapeAbstract.setPrevWidth(ShapeAbstract.getWidth());
+                    ShapeAbstract.setPrevHeight(ShapeAbstract.getHeight());
+
                     TextBorder text = (TextBorder) heightText.getBorder();
                     text.setText("" + input);
                     heightText.repaint();
@@ -589,8 +596,24 @@ public class ShapePanel extends JPanel {
                 }
             } catch (NumberFormatException e) {
                 writeToTextBoxAndRepaint(textDisplay, "You didn't enter an integer number!");
+                resetShapeHeightAndWidth();
+                toSetWidthHeight = false;
             }
         }
+    }
+
+    private void resetShapeHeightAndWidth() {
+        int prevWidth = ShapeAbstract.getPrevWidth();
+        ShapeAbstract.setWidth(prevWidth);
+        TextBorder wdText = (TextBorder) widthText.getBorder();
+        wdText.setText("" + prevWidth);
+        widthText.repaint();
+
+        int prevHeight = ShapeAbstract.getPrevHeight();
+        ShapeAbstract.setHeight(prevHeight);
+        TextBorder htText = (TextBorder) heightText.getBorder();
+        htText.setText("" + prevHeight);
+        heightText.repaint();
     }
 
     /**

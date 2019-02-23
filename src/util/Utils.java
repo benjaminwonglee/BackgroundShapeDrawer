@@ -5,6 +5,7 @@ import shapes.*;
 import themes.*;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import static shapes.ShapeName.*;
@@ -123,6 +124,17 @@ public class Utils {
                 break;
         }
         return theme;
+    }
+
+    public static int findMaxColorShade(Color c) {
+        int maxColorShade = -1;
+        int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+        for (int i = 0; i < colorArray.length; i++) {
+            if (colorArray[i] > maxColorShade) {
+                maxColorShade = i;
+            }
+        }
+        return maxColorShade;
     }
 
     public static Dimension getScreenSize() {

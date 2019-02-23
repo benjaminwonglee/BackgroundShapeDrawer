@@ -15,6 +15,8 @@ public abstract class ShapeAbstract implements Shape {
     // Shape size variables
     private static int width = 90;
     private static int height = 90;
+    private static int prevWidth = 90;
+    private static int prevHeight = 90;
     // Cursor variables
     private static int xCursor = 0;
     private static int yCursor = 0;
@@ -98,6 +100,22 @@ public abstract class ShapeAbstract implements Shape {
 
     public static void setHeight(int height) {
         ShapeAbstract.height = height;
+    }
+
+    public static int getPrevWidth() {
+        return prevWidth;
+    }
+
+    public static void setPrevWidth(int prevWidth) {
+        ShapeAbstract.prevWidth = prevWidth;
+    }
+
+    public static int getPrevHeight() {
+        return prevHeight;
+    }
+
+    public static void setPrevHeight(int prevHeight) {
+        ShapeAbstract.prevHeight = prevHeight;
     }
 
     public static void setPattern(DrawPattern p) {
