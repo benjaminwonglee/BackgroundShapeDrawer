@@ -23,8 +23,8 @@ import java.util.Scanner;
 import static util.Utils.getScreenSize;
 
 public class ShapePanel extends JPanel {
-    private final static int BUTTON_WD = 180;
-    private final static int BUTTON_HT = 60;
+    private static final int BUTTON_WD = 180;
+    private static final int BUTTON_HT = 60;
 
     // Buttons
     private List<JButton> shapeButtonList;
@@ -70,7 +70,7 @@ public class ShapePanel extends JPanel {
     private JTextArea heightText;
     private JComboBox<String> patternSelector;
 
-    // Theme Variables
+    // Theme variables
     private JTextArea themeText;
     private Theme theme = new GradientRedBlue();
     private boolean themeDrawn = false;
@@ -79,7 +79,11 @@ public class ShapePanel extends JPanel {
     private int optionButtonHeight;
     private JPanel canvas;
     private int space;
+
+    // Output image and text file variable
     private PNGOutput png;
+    private final String outputFilename = "output.txt";
+    private final String outputImageName = "output.png";
 
     /**
      * General constructor for the ShapePanel.
@@ -310,20 +314,28 @@ public class ShapePanel extends JPanel {
         clearButton.setBounds(new Rectangle(xLoc, yLoc, optionButtonWidth, optionButtonHeight * 2));
         clearButton.setBorder(new OptionBorder("Clear Drawing", optColour));
         clearButton.addActionListener(event -> {
-            Graphics canvasGraphics = canvas.getGraphics();
-            Graphics pngGraphics = png.getPng().getGraphics();
-            canvasGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
-            pngGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
-            canvasGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            pngGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            writeToTextBoxAndRepaint(textDisplay, "Drawing Cleared");
-
-            themeDrawn = false;
-            shapes.clear();
-            allShapes.clear();
-            Shape.clearAllShapes();
+            clearDrawing();
         });
         this.add(clearButton);
+    }
+
+    private void clearDrawing() {
+        // Fill the background with the colour that is currently set
+        Graphics canvasGraphics = canvas.getGraphics();
+        Graphics pngGraphics = png.getPng().getGraphics();
+        canvasGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
+        pngGraphics.setColor(new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB));
+        canvasGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        pngGraphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Clear all memory of shapes
+        themeDrawn = false;
+        shapes.clear();
+        allShapes.clear();
+        shapesToDraw.clear();
+        Shape.clearAllShapes();
+
+        writeToTextBoxAndRepaint(textDisplay, "Drawing Cleared");
     }
 
     /**
@@ -668,8 +680,8 @@ public class ShapePanel extends JPanel {
      */
     private void createPNGFile(PNGOutput png) {
         // For storing RGB values to a file
-        PNGOutput.outputToFile(this, new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB), "output.txt");
-        png.pngFromFile(this, "output.txt", "output.png");
+        PNGOutput.outputToFile(this, new Color(canvasRedRGB, canvasGreenRGB, canvasBlueRGB), outputFilename);
+        png.pngFromFile(this, outputFilename, outputImageName);
     }
 
     /**
@@ -815,15 +827,24 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Change the background color and inform the user that the background has been changed
+     * Change the background colour and inform the user that the background has been changed
      *
-     * @param color The color to change the background to
+     * @param color The colour to change the background to
      */
-    private void changeBackgroundColor(Color color) {
-        // Background color change
+    public void changeBackgroundColor(Color color) {
+
+        // Background colour change on canvas
+        setCanvasRedRGB(color.getRed());
+        setCanvasGreenRGB(color.getGreen());
+        setCanvasBlueRGB(color.getBlue());
         canvas.setBackground(color);
+
         ColorBorder colorLabel = (ColorBorder) changeBackgroundPanelWrapper.getBorder();
         colorLabel.setColor(color);
+
+        // For simplicity, clear the shapes when the background colour is changed
+        clearDrawing();
+
         changeBackgroundPanelWrapper.repaint();
         writeToTextBoxAndRepaint(textDisplay, "Background colour changed successfully");
         themeDrawn = false;

@@ -23,15 +23,18 @@ public class AutoBackgroundColorResponse implements ButtonResponse {
     @Override
     public void respond(ShapePanel sp) {
         backgroundColorChooser.chooseColor();
+
+        // Change the canvas background colour
         Color color = backgroundColorChooser.getColor();
-        sp.setCanvasRedRGB(color.getRed());
-        sp.setCanvasGreenRGB(color.getGreen());
-        sp.setCanvasBlueRGB(color.getBlue());
-        sp.getCanvas().setBackground(color);
+        sp.changeBackgroundColor(color);
+
+        // Set the colour of the display button
         JTextArea changeBackgroundColor = sp.getChangeBackgroundPanelWrapper();
         ColorBorder colorLabel = (ColorBorder) changeBackgroundColor.getBorder();
         colorLabel.setColor(color);
         changeBackgroundColor.repaint();
+
+        // Update the user of the status via text box
         sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Background colour changed successfully");
         sp.setThemeDrawn(false);
     }

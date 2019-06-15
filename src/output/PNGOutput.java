@@ -107,6 +107,14 @@ public class PNGOutput {
         parseImageInfoTextFile(sp, filename, false);
     }
 
+    /**
+     * Parse the text file to load a previously saved output
+     *
+     * @param sp        The shape panel object to display status information
+     * @param filename  The file to parse from
+     * @param toImage   Whether the image is being loaded or being saved to an image file
+     * @return
+     */
     private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
         Scanner sc = createScannerOverFile(filename);
         if (sc == null) {
@@ -126,7 +134,7 @@ public class PNGOutput {
 
         // Retrieve the data from the file
         while (sc.hasNext()) {
-            // s.getXY() returns: [x, y, width, height, fill, rgbColor]
+            // File is in the form: [x, y, width, height, fill, rgbColor]
             String line = sc.nextLine();
             String[] vars = line.split(",");
             String shapeName;
@@ -150,11 +158,20 @@ public class PNGOutput {
             }
 
             // Process and draw read variables
-            // TODO: Be able to draw in random order so the shape colours are mixed up
+            // TODO: Feature: Add an option to be able to draw in random order so the shape colours are mixed up
             Shape shape = determineShapeFromName(shapeName);
             if (!toImage) {
                 shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
-                sp.getAllShapes().add(shape);
+
+                // Add the metadata to the shape object it belongs to for continuation
+                ShapeMetadata metadata = new ShapeMetadata();
+                metadata.setX(x);
+                metadata.setY(y);
+                metadata.setWidth(wd);
+                metadata.setHeight(ht);
+                metadata.setFillStatus(fillInt);
+                metadata.setRgb(rgb);
+                shape.getXY().add(metadata);
             } else {
                 shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
             }
