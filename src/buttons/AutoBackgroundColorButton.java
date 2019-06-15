@@ -12,6 +12,6 @@ public class AutoBackgroundColorButton extends OptionButton {
 
     @Override
     public String getButtonName() {
-        return "Auto Background Color";
+        return "Auto Background Colour";
     }
 }

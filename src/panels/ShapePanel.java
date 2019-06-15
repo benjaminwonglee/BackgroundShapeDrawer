@@ -42,7 +42,7 @@ public class ShapePanel extends JPanel {
     private static int xLoc = 20;
     private static int yLoc = 20;
 
-    // Three color values that represent the background color
+    // Three colour values that represent the background color
     private int canvasRedRGB = 0;
     private int canvasBlueRGB = 0;
     private int canvasGreenRGB = 0;
@@ -856,7 +856,7 @@ public class ShapePanel extends JPanel {
      * @param color The color to change the shape outline to
      */
     private void shapeOutlineColorChange(Color color) {
-        // Shape outline color change
+        // Shape outline colour change
         outlineColor = color;
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
         colorLabel.setColor(color);

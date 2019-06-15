@@ -134,7 +134,7 @@ public class PNGOutput {
 
         // Retrieve the data from the file
         while (sc.hasNext()) {
-            // File is in the form: [x, y, width, height, fill, rgbColor]
+            // File is in the form: [x, y, width, height, fill, rgbColour]
             String line = sc.nextLine();
             String[] vars = line.split(",");
             String shapeName;

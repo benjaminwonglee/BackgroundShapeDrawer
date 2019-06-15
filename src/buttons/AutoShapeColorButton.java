@@ -12,6 +12,6 @@ public class AutoShapeColorButton extends OptionButton {
 
     @Override
     public String getButtonName() {
-        return "Auto Shape Color";
+        return "Auto Shape Colour";
     }
 }
