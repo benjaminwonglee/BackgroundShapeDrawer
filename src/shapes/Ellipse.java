@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ellipse extends ShapeAbstract implements Shape {
-    static List<int[]> xy = new ArrayList<>();
+    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
@@ -17,19 +17,19 @@ public class Ellipse extends ShapeAbstract implements Shape {
         Pattern p = selectPattern();
 
         for (int i = 0; i < getAmount(); i++) {
-            int[] xys = setDrawVariables(c, p, fill);
-            if (xys[0] == -1 || xys[1] == -1) {
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            if (metadata.getX() == -1 || metadata.getY() == -1) {
                 setDrawnAmount(i);
                 setCanvasFilled(true);
                 return;
             }
-            xy.add(xys);
+            shapeMetadata.add(metadata);
             if (fill == FillStatus.FULL) {
-                g.fillOval(xys[0], xys[1], getWidth(), getHeight());
-                gr.fillOval(xys[0], xys[1], getWidth(), getHeight());
+                g.fillOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
+                gr.fillOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
             } else if (fill == FillStatus.NONE) {
-                g.drawOval(xys[0], xys[1], getWidth(), getHeight());
-                gr.drawOval(xys[0], xys[1], getWidth(), getHeight());
+                g.drawOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
+                gr.drawOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
             }
         }
     }
@@ -49,14 +49,15 @@ public class Ellipse extends ShapeAbstract implements Shape {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
             g.fillOval(x, y, width, height);
-        } else if (fill == FillStatus.FULL) {
+        } // TODO: Gradient Fill
+        else if (fill == FillStatus.NONE) {
             g.drawOval(x, y, width, height);
         }
     }
 
     @Override
-    public List<int[]> getXY() {
-        return xy;
+    public List<ShapeMetadata> getXY() {
+        return shapeMetadata;
     }
 
 }

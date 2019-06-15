@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Circle extends ShapeAbstract implements Shape {
-    static List<int[]> xy = new ArrayList<>();
+    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
@@ -18,15 +18,15 @@ public class Circle extends ShapeAbstract implements Shape {
         Pattern p = selectPattern();
 
         for (int i = 0; i < getAmount(); i++) {
-            int[] xys = setDrawVariables(c, p, fill);
-            if (xys[0] == -1 || xys[1] == -1) {
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            if (metadata.getX() == -1 || metadata.getY() == -1) {
                 setDrawnAmount(i);
                 setCanvasFilled(true);
                 return;
             }
-            xy.add(xys);
-            drawFromXY(g, c, xys[0], xys[1], getWidth(), getWidth(), fill);
-            drawFromXY(gr, c, xys[0], xys[1], getWidth(), getWidth(), fill);
+            shapeMetadata.add(metadata);
+            drawFromXY(g, c, metadata.getX(), metadata.getY(), getWidth(), getWidth(), fill);
+            drawFromXY(gr, c, metadata.getX(), metadata.getY(), getWidth(), getWidth(), fill);
         }
     }
 
@@ -44,10 +44,12 @@ public class Circle extends ShapeAbstract implements Shape {
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
+            // Intentionally ignore height since this is a circle
             g.fillOval(x, y, width, width);
         } else if (fill == FillStatus.GRADIENT) {
             int maxColorShade = Utils.findMaxColorShade(c);
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+
             for (int i = 0; i < width / 2; i++) {
                 g.fillOval(x, y + i, width, width - i * 2);
                 if (colorArray[maxColorShade] > getGradientFactor() - 1) {
@@ -61,7 +63,7 @@ public class Circle extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public List<int[]> getXY() {
-        return xy;
+    public List<ShapeMetadata> getXY() {
+        return shapeMetadata;
     }
 }

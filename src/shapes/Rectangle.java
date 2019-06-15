@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rectangle extends ShapeAbstract implements Shape {
-    static List<int[]> xy = new ArrayList<>();
+    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
@@ -17,15 +17,15 @@ public class Rectangle extends ShapeAbstract implements Shape {
         Pattern p = selectPattern();
 
         for (int i = 0; i < getAmount(); i++) {
-            int[] xys = setDrawVariables(c, p, fill);
-            int x = xys[0];
-            int y = xys[1];
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            int x = metadata.getX();
+            int y = metadata.getY();
             if (x == -1 || y == -1) {
                 setDrawnAmount(i);
                 setCanvasFilled(true);
                 return;
             }
-            xy.add(xys);
+            shapeMetadata.add(metadata);
             if (fill == FillStatus.FULL) {
                 g.fillRect(x, y, getWidth(), getHeight());
                 gr.fillRect(x, y, getWidth(), getHeight());
@@ -51,14 +51,15 @@ public class Rectangle extends ShapeAbstract implements Shape {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
             g.fillRect(x, y, width, height);
-        } else if (fill == FillStatus.NONE) {
+        } // TODO: Gradient fill
+        else if (fill == FillStatus.NONE) {
             g.drawRect(x, y, width, height);
         }
     }
 
     @Override
-    public List<int[]> getXY() {
-        return xy;
+    public List<ShapeMetadata> getXY() {
+        return shapeMetadata;
     }
 
 }

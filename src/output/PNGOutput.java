@@ -3,6 +3,7 @@ package output;
 import misc.FillStatus;
 import panels.ShapePanel;
 import shapes.Shape;
+import shapes.ShapeMetadata;
 import themes.Theme;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static util.Utils.determineShapeFromName;
@@ -35,10 +37,10 @@ public class PNGOutput {
     }
 
     /**
-     * Outputs the current drawing to a txt format.
+     * Outputs the current drawing to a .txt file.
      *
-     * @param sp        The ShapePanel of the program.
-     * @param filename  The name of the txt file
+     * @param sp       The ShapePanel of the program.
+     * @param filename The name of the txt file
      */
     public static void outputToFile(ShapePanel sp, Color backgroundColor, String filename) {
         // Create file and PrintWriter.
@@ -61,14 +63,18 @@ public class PNGOutput {
             pw.println("none");
         }
 
-        // s.getXY() returns: [x, y, width, height, fill, rgbColor]
         for (Shape s : sp.getAllShapes()) {
-            for (int[] vars : s.getXY()) {
+            List<ShapeMetadata> shapeMetadata = s.getXY();
+            for (ShapeMetadata metadata : shapeMetadata) {
                 pw.print(s.name() + ",");
-                for (int iVariable = 0; iVariable < vars.length - 1; iVariable++) {
-                    pw.print(vars[iVariable] + ",");
-                }
-                pw.println(vars[vars.length - 1]);
+                pw.print(metadata.getX() + ",");
+                pw.print(metadata.getY() + ",");
+                pw.print(metadata.getWidth() + ",");
+                pw.print(metadata.getHeight() + ",");
+                pw.print(metadata.getFillStatus() + ",");
+
+                // print the final variable without a comma
+                pw.println(metadata.getRgb());
             }
         }
         pw.close();

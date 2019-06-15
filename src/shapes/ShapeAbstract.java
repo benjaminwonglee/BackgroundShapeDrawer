@@ -29,20 +29,22 @@ public abstract class ShapeAbstract implements Shape {
         RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
     }
 
-    public int[] setDrawVariables(Color c, Pattern p, FillStatus fill) {
+    public ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill) {
         // xys = [x, y, width, height, fill, rgbColor]
-        int[] xys = new int[6];
+        ShapeMetadata metadata = new ShapeMetadata();
+
         int x = p.xInCanvas(xCursor, yCursor);
         int y = p.yInCanvas(xCursor, yCursor);
         xCursor = x + width;
         yCursor = y;
-        xys[0] = x;
-        xys[1] = y;
-        xys[2] = ShapeAbstract.getWidth();
-        xys[3] = ShapeAbstract.getHeight();
-        xys[4] = fill.ordinal();
-        xys[5] = c.getRGB();
-        return xys;
+
+        metadata.setX(x);
+        metadata.setY(y);
+        metadata.setWidth(ShapeAbstract.getWidth());
+        metadata.setHeight(ShapeAbstract.getHeight());
+        metadata.setFillStatus(fill.ordinal());
+        metadata.setRgb(c.getRGB());
+        return metadata;
     }
 
     protected Pattern selectPattern() {

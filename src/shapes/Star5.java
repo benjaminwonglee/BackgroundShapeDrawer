@@ -2,14 +2,13 @@ package shapes;
 
 import misc.FillStatus;
 import patterns.Pattern;
-import util.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Star5 extends ShapeAbstract implements Shape {
-    static List<int[]> xy = new ArrayList<>();
+    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
@@ -18,15 +17,15 @@ public class Star5 extends ShapeAbstract implements Shape {
         Pattern p = selectPattern();
 
         for (int shapeNumber = 0; shapeNumber < getAmount(); shapeNumber++) {
-            int[] xys = setDrawVariables(c, p, fill);
-            int x = xys[0];
-            int y = xys[1];
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            int x = metadata.getX();
+            int y = metadata.getY();
             if (x == -1 || y == -1) {
                 setDrawnAmount(shapeNumber);
                 setCanvasFilled(true);
                 return;
             }
-            xy.add(xys);
+            shapeMetadata.add(metadata);
             int width = getWidth();
             double span = width / 6.0;
             int iSpan = (int) span;
@@ -84,8 +83,8 @@ public class Star5 extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public List<int[]> getXY() {
-        return xy;
+    public List<ShapeMetadata> getXY() {
+        return shapeMetadata;
     }
 
 

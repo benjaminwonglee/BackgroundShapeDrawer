@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Star6 extends ShapeAbstract implements Shape {
-    static List<int[]> xy = new ArrayList<>();
+    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
@@ -17,15 +17,15 @@ public class Star6 extends ShapeAbstract implements Shape {
         Pattern p = selectPattern();
 
         for (int i = 0; i < getAmount(); i++) {
-            int[] xys = setDrawVariables(c, p, fill);
-            int x = xys[0];
-            int y = xys[1];
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            int x = metadata.getX();
+            int y = metadata.getY();
             if (x == -1 || y == -1) {
                 setDrawnAmount(i);
                 setCanvasFilled(true);
                 return;
             }
-            xy.add(xys);
+            shapeMetadata.add(metadata);
             int[] xInts = new int[]{x, x + getWidth() / 3, x + getWidth() / 4, x + getWidth() / 2,
                     x + getWidth() - getWidth() / 4, x + getWidth() - getWidth() / 3, x + getWidth(),
                     x + getWidth() - getWidth() / 3, x + getWidth() - getWidth() / 4, x + getWidth() / 2,
@@ -71,7 +71,7 @@ public class Star6 extends ShapeAbstract implements Shape {
     }
 
     @Override
-    public List<int[]> getXY() {
-        return xy;
+    public List<ShapeMetadata> getXY() {
+        return shapeMetadata;
     }
 }
