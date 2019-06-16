@@ -1,7 +1,6 @@
 package responses;
 
 import borders.ColorBorder;
-import borders.TextBorder;
 import misc.ColorChooser;
 import panels.ShapePanel;
 
@@ -35,7 +34,7 @@ public class AutoBackgroundColorResponse implements ButtonResponse {
         changeBackgroundColor.repaint();
 
         // Update the user of the status via text box
-        sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Background colour changed successfully");
+        sp.writeToTextBoxAndRepaint("Background colour changed successfully");
         sp.setThemeDrawn(false);
     }
 }

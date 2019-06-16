@@ -46,7 +46,7 @@ public class ChangeThemeResponse implements ButtonResponse {
         sp.repaint();
 
         String themeName = sp.getTheme().getName();
-        sp.writeToTextBoxAndRepaint(sp.getThemeText(), themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
+        sp.writeToTextBoxAndRepaint(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
         sp.setThemeDrawn(false);
     }
 }

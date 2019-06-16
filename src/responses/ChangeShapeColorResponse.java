@@ -17,9 +17,8 @@ public class ChangeShapeColorResponse implements ButtonResponse {
         sp.setToChangeShapeColor(true);
         JTextArea textDisplay = sp.getTextDisplay();
         TextBorder t = (TextBorder) textDisplay.getBorder();
-        t.setText(
-                "Changing outline color: Choose rgb color in the panel below: input 3 integers; " +
-                        "each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
+        t.setText("Changing outline color: Choose rgb color in the panel below: input 3 integers " +
+                "each between 0 and 255 (space separated) for red, green, blue values. Click \"OK!\" when ready");
         sp.getUserInput().requestFocus();
         textDisplay.repaint();
     }

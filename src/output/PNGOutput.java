@@ -48,7 +48,7 @@ public class PNGOutput {
         try {
             pw = new PrintWriter(new File(filename));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            sp.writeToTextBoxAndRepaint("Could not save image: An output text file could not be written or created.");
         }
         if (pw == null) {
             return;
@@ -96,7 +96,8 @@ public class PNGOutput {
         try {
             ImageIO.write(png, "PNG", new File(newImageName));
         } catch (IOException e) {
-            e.printStackTrace();
+            sp.writeToTextBoxAndRepaint("An error occurred during creating a png from text file. " +
+                    "Check that the file is in the correct format.");
         }
     }
 
@@ -110,14 +111,17 @@ public class PNGOutput {
     /**
      * Parse the text file to load a previously saved output
      *
-     * @param sp        The shape panel object to display status information
-     * @param filename  The file to parse from
-     * @param toImage   Whether the image is being loaded or being saved to an image file
+     * @param sp       The shape panel object to display status information
+     * @param filename The file to parse from
+     * @param toImage  Whether the image is being loaded or being saved to an image file
      * @return
      */
     private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
-        Scanner sc = createScannerOverFile(filename);
-        if (sc == null) {
+        Scanner sc;
+        try {
+            sc = createScannerOverFile(filename);
+        } catch (FileNotFoundException e) {
+            sp.writeToTextBoxAndRepaint("There was an reading the text file at " + filename + ".");
             return false;
         }
 
@@ -153,7 +157,7 @@ public class PNGOutput {
                 fillInt = Integer.parseInt(vars[5]);
                 rgb = Integer.parseInt(vars[6]);
             } catch (IndexOutOfBoundsException | NumberFormatException ex) {
-                sp.writeToTextBoxAndRepaint(sp.getTextDisplay(), "Error parsing image info file");
+                sp.writeToTextBoxAndRepaint("Error parsing image info file");
                 return false;
             }
 
@@ -210,17 +214,8 @@ public class PNGOutput {
         }
     }
 
-    private static Scanner createScannerOverFile(String filename) {
-        Scanner sc = null;
-        try {
-            sc = new Scanner(new File(filename));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (sc == null) {
-            return null;
-        }
-        return sc;
+    private static Scanner createScannerOverFile(String filename) throws FileNotFoundException {
+        return new Scanner(new File(filename));
     }
 
     public BufferedImage getPng() {

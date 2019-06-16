@@ -19,7 +19,7 @@ public class WidthHeightResponse implements ButtonResponse {
         sp.setToChangeHeight(true);
         JTextArea textDisplay = sp.getTextDisplay();
         TextBorder t = (TextBorder) textDisplay.getBorder();
-        t.setText("Choose width: (enter an integer between 0 to 400) ");
+        t.setText("Choose width: (enter an integer between 0 to 400)");
         sp.getUserInput().requestFocus();
         textDisplay.repaint();
     }

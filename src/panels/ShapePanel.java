@@ -117,7 +117,7 @@ public class ShapePanel extends JPanel {
         return false;
     }
 
-    public void writeToTextBoxAndRepaint(JTextArea textDisplay, String message) {
+    public void writeToTextBoxAndRepaint(String message) {
         TextBorder textDisplayWrapper = (TextBorder) textDisplay.getBorder();
         textDisplayWrapper.setText(message);
         textDisplay.repaint();
@@ -335,7 +335,7 @@ public class ShapePanel extends JPanel {
         shapesToDraw.clear();
         Shape.clearAllShapes();
 
-        writeToTextBoxAndRepaint(textDisplay, "Drawing Cleared");
+        writeToTextBoxAndRepaint("Drawing Cleared");
     }
 
     /**
@@ -467,7 +467,7 @@ public class ShapePanel extends JPanel {
                         theme == null ? theme : theme.getThemeName().name()));
         }
         this.theme.applyTheme(g, this);
-        writeToTextBoxAndRepaint(textDisplay, "Select buttons, then either change the properties, or draw shapes");
+        writeToTextBoxAndRepaint("Select buttons, then either change the properties, or draw shapes");
     }
 
     /**
@@ -574,9 +574,8 @@ public class ShapePanel extends JPanel {
                     if (!toChangeWidth) {
                         dimension = "height";
                     }
-                    writeToTextBoxAndRepaint(textDisplay,
-                            String.format("Please enter an integer between 0 to 400. "
-                                    + "Choose %s: (enter an integer between 0 to 400) ", dimension));
+                    writeToTextBoxAndRepaint(String.format("Please enter an integer between 0 to 400."
+                            + "Choose %s: (enter an integer between 0 to 400)", dimension));
                     resetShapeHeightAndWidth();
                     return;
                 }
@@ -586,7 +585,7 @@ public class ShapePanel extends JPanel {
                     toChangeWidth = false;
 
                     // Query change height
-                    writeToTextBoxAndRepaint(textDisplay, "Choose height: (enter an integer between 0 to 400) ");
+                    writeToTextBoxAndRepaint("Choose height: (enter an integer between 0 to 400)");
                     userInput.requestFocus();
 
                     TextBorder text = (TextBorder) widthText.getBorder();
@@ -595,7 +594,7 @@ public class ShapePanel extends JPanel {
                 } else if (toChangeHeight) {
                     ShapeAbstract.setHeight(input);
                     toChangeHeight = false;
-                    writeToTextBoxAndRepaint(textDisplay, "Width and height adjusted.");
+                    writeToTextBoxAndRepaint("Width and height adjusted.");
 
                     // Update previous width and height to be current ones
                     ShapeAbstract.setPrevWidth(ShapeAbstract.getWidth());
@@ -607,7 +606,7 @@ public class ShapePanel extends JPanel {
                     toSetWidthHeight = false;
                 }
             } catch (NumberFormatException e) {
-                writeToTextBoxAndRepaint(textDisplay, "You didn't enter an integer number!");
+                writeToTextBoxAndRepaint("You didn't enter an integer number!");
                 resetShapeHeightAndWidth();
                 toSetWidthHeight = false;
             }
@@ -634,14 +633,13 @@ public class ShapePanel extends JPanel {
     public void drawShapes() {
 
         if (shapesToDraw.size() > 0) {
-            writeToTextBoxAndRepaint(textDisplay,
-                    "How many " + shapesToDraw.get(0).getShapeName() + "s? ");
+            writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
             userInput.requestFocus();
             if (!userInput.getText().equals("")) {
                 try {
                     int input = Integer.parseInt(userInput.getText());
                     if (input > 1000 || input < 0) {
-                        writeToTextBoxAndRepaint(textDisplay, "Please enter a number that is between 0 and 1000 inclusive");
+                        writeToTextBoxAndRepaint("Please enter a number that is between 0 and 1000 inclusive");
                         return;
                     }
 
@@ -650,8 +648,7 @@ public class ShapePanel extends JPanel {
                     shapesToDraw.remove(shapesToDraw.get(0));
                     if (!shapesToDraw.isEmpty()) {
                         // Continue. Pressing the ok button restarts this method
-                        writeToTextBoxAndRepaint(textDisplay,
-                                "How many " + shapesToDraw.get(0).name().toLowerCase() + "s? ");
+                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).name().toLowerCase() + "s?");
                     } else {
                         /* End case */
                         // Set the background of the png before drawing
@@ -664,10 +661,10 @@ public class ShapePanel extends JPanel {
                         createPNGFile(png);
                         shapes = new ArrayList<>();
                         toDrawShapes = false;
-                        writeToTextBoxAndRepaint(textDisplay, "Drawn successfully");
+                        writeToTextBoxAndRepaint("Drawn successfully");
                     }
                 } catch (NumberFormatException e) {
-                    writeToTextBoxAndRepaint(textDisplay, "You didn't enter an integer number!");
+                    writeToTextBoxAndRepaint("You didn't enter an integer number!");
                 }
             }
         }
@@ -774,7 +771,7 @@ public class ShapePanel extends JPanel {
      */
     public void askUserForColorInput() {
         if (userInput.getText().equals("")) {
-            writeToTextBoxAndRepaint(textDisplay, "No numbers were entered! Try again.");
+            writeToTextBoxAndRepaint("No numbers were entered! Try again.");
             return;
         }
 
@@ -794,8 +791,7 @@ public class ShapePanel extends JPanel {
                 // Error scenario 1
                 if (color < 0 || color > 255) {
                     sc.close();
-                    writeToTextBoxAndRepaint(textDisplay,
-                            "The chosen " + newColor + " value was out of range, please try again");
+                    writeToTextBoxAndRepaint("The chosen " + newColor + " value was out of range, please try again");
                     return;
                 }
                 colors[x - 1] = color;
@@ -803,7 +799,7 @@ public class ShapePanel extends JPanel {
             // Error scenario 2
             if (x != 3) {
                 sc.close();
-                writeToTextBoxAndRepaint(textDisplay, "Not enough integers were entered, please try again");
+                writeToTextBoxAndRepaint("Not enough integers were entered, please try again");
                 return;
             }
             canvasRedRGB = colors[0];
@@ -820,7 +816,7 @@ public class ShapePanel extends JPanel {
             }
         } catch (NumberFormatException e) {
             // Error scenario 3
-            writeToTextBoxAndRepaint(textDisplay, "An integer number was not entered, please try again.");
+            writeToTextBoxAndRepaint("An integer number was not entered, please try again.");
             return;
         }
         sc.close();
@@ -846,7 +842,7 @@ public class ShapePanel extends JPanel {
         clearDrawing();
 
         changeBackgroundPanelWrapper.repaint();
-        writeToTextBoxAndRepaint(textDisplay, "Background colour changed successfully");
+        writeToTextBoxAndRepaint("Background colour changed successfully");
         themeDrawn = false;
     }
 
@@ -861,7 +857,7 @@ public class ShapePanel extends JPanel {
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
         colorLabel.setColor(color);
         changeOutlinePanelWrapper.repaint();
-        writeToTextBoxAndRepaint(textDisplay, "Outline colour changed successfully");
+        writeToTextBoxAndRepaint("Outline colour changed successfully");
     }
 
     /**
@@ -899,7 +895,7 @@ public class ShapePanel extends JPanel {
         return canvas;
     }
 
-    public void setCanvas(JPanel canvas) {
+    void setCanvas(JPanel canvas) {
         this.canvas = canvas;
     }
 
@@ -907,7 +903,7 @@ public class ShapePanel extends JPanel {
         return textDisplay;
     }
 
-    public void setTextDisplay(JTextArea textDisplay) {
+    void setTextDisplay(JTextArea textDisplay) {
         this.textDisplay = textDisplay;
     }
 
