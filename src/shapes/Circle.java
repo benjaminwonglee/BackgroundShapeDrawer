@@ -27,16 +27,16 @@ public class Circle extends ShapeAbstract implements Shape {
             // Intentionally ignore height since this is a circle
             g.fillOval(x, y, width, width);
         } else if (fill == FillStatus.GRADIENT) {
-            if (!Utils.determineDarkColor(c)) {
+            if (Utils.isDarkColor(c)) {
                 for (int i = 0; i < width / 2; i++) {
                     g.fillOval(x, y + i, width, width - i * 2);
-                    c = Utils.darkenColor(c, getGradientFactor() * 2);
+                    c = Utils.lightenColor(c, getGradientFactor());
                     g.setColor(c);
                 }
             } else {
                 for (int i = 0; i < width / 2; i++) {
                     g.fillOval(x, y + i, width, width - i * 2);
-                    c = Utils.lightenColor(c, getGradientFactor() * 2);
+                    c = Utils.darkenColor(c, getGradientFactor());
                     g.setColor(c);
                 }
             }

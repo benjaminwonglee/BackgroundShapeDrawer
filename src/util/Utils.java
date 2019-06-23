@@ -225,9 +225,9 @@ public class Utils {
         return new Dimension(screenSize.width - space, screenSize.height - (space * 2));
     }
 
-    public static boolean determineDarkColor(Color color) {
+    public static boolean isDarkColor(Color color) {
         int[] colorArray = new int[]{color.getRed(), color.getGreen(), color.getBlue()};
         int max = findMaxInThreeIndexArray(colorArray);
-        return max < 140;
+        return colorArray[max] < 140;
     }
 }
