@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
 import util.Utils;
 
 import java.awt.*;
@@ -10,25 +9,6 @@ import java.util.List;
 
 public class Circle extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            if (metadata.getX() == -1 || metadata.getY() == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            drawFromXY(g, c, metadata.getX(), metadata.getY(), getWidth(), getWidth(), fill);
-            drawFromXY(gr, c, metadata.getX(), metadata.getY(), getWidth(), getWidth(), fill);
-        }
-    }
 
     @Override
     public String name() {

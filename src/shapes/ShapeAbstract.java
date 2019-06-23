@@ -6,11 +6,8 @@ import patterns.*;
 import java.awt.*;
 
 public abstract class ShapeAbstract implements Shape {
-    // Amount variables
-    private int amount = 0;
-    private int drawnAmount = 0;
-    // Canvas variables
-    protected boolean canvasFilled = false;
+
+    private static final int gradientFactor = 3;
     private static java.awt.Rectangle canvasSize;
     // Shape size variables
     private static int width = 90;
@@ -23,71 +20,11 @@ public abstract class ShapeAbstract implements Shape {
     // Pattern variables
     private static DrawPattern pattern = DrawPattern.RANDOM;
     private static int crossAlternatingInt = 0;
-    private static final int gradientFactor = 3;
-
-    public enum DrawPattern {
-        RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
-    }
-
-    public ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill) {
-        // xys = [x, y, width, height, fill, rgbColor]
-        ShapeMetadata metadata = new ShapeMetadata();
-
-        int x = p.xInCanvas(xCursor, yCursor);
-        int y = p.yInCanvas(xCursor, yCursor);
-        xCursor = x + width;
-        yCursor = y;
-
-        metadata.setX(x);
-        metadata.setY(y);
-        metadata.setWidth(ShapeAbstract.getWidth());
-        metadata.setHeight(ShapeAbstract.getHeight());
-        metadata.setFillStatus(fill.ordinal());
-        metadata.setRgb(c.getRGB());
-        return metadata;
-    }
-
-    protected Pattern selectPattern() {
-        // Default to random pattern
-        Pattern p = new RandomPattern();
-        if (pattern == DrawPattern.ALIGNED) {
-            p = new AlignedPattern();
-        } else if (pattern == DrawPattern.ALTERNATING) {
-            xCursor -= width;
-            p = new AlternatingPattern(1);
-        } else if (pattern == DrawPattern.BORDERING) {
-            p = new BorderingPattern();
-        } else if (pattern == DrawPattern.CROSSALTERNATING) {
-            // The 2nd shape for cross alternating
-            if (crossAlternatingInt == 0) {
-                xCursor -= width;
-                crossAlternatingInt = 1;
-            } else {
-                crossAlternatingInt = 0;
-            }
-            p = new AlternatingPattern(crossAlternatingInt);
-        }
-        p.setWidth(width);
-        p.setHeight(height);
-        p.setCanvasSize(canvasSize);
-        return p;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public java.awt.Rectangle getCanvasSize() {
-        return canvasSize;
-    }
-
-    public static void setCanvasSize(java.awt.Rectangle canvasSize) {
-        ShapeAbstract.canvasSize = canvasSize;
-    }
+    // Canvas variables
+    protected boolean canvasFilled = false;
+    // Amount variables
+    private int amount = 0;
+    private int drawnAmount = 0;
 
     public static int getWidth() {
         return width;
@@ -141,23 +78,92 @@ public abstract class ShapeAbstract implements Shape {
         ShapeAbstract.yCursor = yCursor;
     }
 
+    public static int getGradientFactor() {
+        return gradientFactor;
+    }
+
+    @Override
+    public ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill) {
+        ShapeMetadata metadata = new ShapeMetadata();
+
+        int x = p.xInCanvas(xCursor, yCursor);
+        int y = p.yInCanvas(xCursor, yCursor);
+        xCursor = x + width;
+        yCursor = y;
+
+        metadata.setX(x);
+        metadata.setY(y);
+        metadata.setWidth(getWidth());
+        metadata.setHeight(getHeight());
+        metadata.setFillStatus(fill.ordinal());
+        metadata.setRgb(c.getRGB());
+        return metadata;
+    }
+
+    @Override
+    public Pattern selectPattern() {
+        // Default to random pattern
+        Pattern p = new RandomPattern();
+        if (pattern == DrawPattern.ALIGNED) {
+            p = new AlignedPattern();
+        } else if (pattern == DrawPattern.ALTERNATING) {
+            xCursor -= width;
+            p = new AlternatingPattern(1);
+        } else if (pattern == DrawPattern.BORDERING) {
+            p = new BorderingPattern();
+        } else if (pattern == DrawPattern.CROSSALTERNATING) {
+            // The 2nd shape for cross alternating
+            if (crossAlternatingInt == 0) {
+                xCursor -= width;
+                crossAlternatingInt = 1;
+            } else {
+                crossAlternatingInt = 0;
+            }
+            p = new AlternatingPattern(crossAlternatingInt);
+        }
+        p.setWidth(width);
+        p.setHeight(height);
+        p.setCanvasSize(canvasSize);
+        return p;
+    }
+
+    @Override
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @Override
     public int getDrawnAmount() {
         return drawnAmount;
     }
 
-    public void setDrawnAmount(int i) {
-        this.drawnAmount = i;
+    @Override
+    public void setDrawnAmount(int amountDrawn) {
+        this.drawnAmount = amountDrawn;
+    }
+
+    public java.awt.Rectangle getCanvasSize() {
+        return canvasSize;
+    }
+
+    public static void setCanvasSize(java.awt.Rectangle canvasSize) {
+        ShapeAbstract.canvasSize = canvasSize;
     }
 
     public boolean getCanvasFilled() {
         return canvasFilled;
     }
 
-    public void setCanvasFilled(boolean b) {
-        canvasFilled = b;
+    @Override
+    public void setCanvasFilled(boolean isCanvasFilled) {
+        canvasFilled = isCanvasFilled;
     }
 
-    public static int getGradientFactor() {
-        return gradientFactor;
+    public enum DrawPattern {
+        RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
     }
 }

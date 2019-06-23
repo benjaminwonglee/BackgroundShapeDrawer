@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,30 +8,6 @@ import java.util.List;
 
 public class Ellipse extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            if (metadata.getX() == -1 || metadata.getY() == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            if (fill == FillStatus.FULL) {
-                g.fillOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
-                gr.fillOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
-            } else if (fill == FillStatus.NONE) {
-                g.drawOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
-                gr.drawOval(metadata.getX(), metadata.getY(), getWidth(), getHeight());
-            }
-        }
-    }
 
     @Override
     public String name() {
@@ -59,5 +34,4 @@ public class Ellipse extends ShapeAbstract implements Shape {
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
     }
-
 }

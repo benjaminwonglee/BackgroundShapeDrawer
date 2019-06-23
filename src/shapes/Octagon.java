@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,36 +8,6 @@ import java.util.List;
 
 public class Octagon extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            int x = metadata.getX();
-            int y = metadata.getY();
-            if (x == -1 || y == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            int[] xInts = new int[]{x, x + getWidth() / 4, x + getWidth() / 4 * 3, x + getWidth(), x + getWidth(),
-                    x + getWidth() / 4 * 3, x + getWidth() / 4, x, x};
-            int[] yInts = new int[]{y + (getHeight() / 4), y, y, y + (getHeight() / 4), y + getHeight() / 4 * 3,
-                    y + getHeight(), y + getHeight(), y + (getHeight() / 4) * 3, y + (getHeight() / 4)};
-            if (fill == FillStatus.FULL) {
-                g.fillPolygon(xInts, yInts, 9);
-                gr.fillPolygon(xInts, yInts, 9);
-            } else if (fill == FillStatus.NONE) {
-                g.drawPolygon(xInts, yInts, 9);
-                gr.drawPolygon(xInts, yInts, 9);
-            }
-        }
-    }
 
     @Override
     public String name() {
@@ -68,5 +37,4 @@ public class Octagon extends ShapeAbstract implements Shape {
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
     }
-
 }

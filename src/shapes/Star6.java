@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,39 +8,6 @@ import java.util.List;
 
 public class Star6 extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            int x = metadata.getX();
-            int y = metadata.getY();
-            if (x == -1 || y == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            int[] xInts = new int[]{x, x + getWidth() / 3, x + getWidth() / 4, x + getWidth() / 2,
-                    x + getWidth() - getWidth() / 4, x + getWidth() - getWidth() / 3, x + getWidth(),
-                    x + getWidth() - getWidth() / 3, x + getWidth() - getWidth() / 4, x + getWidth() / 2,
-                    x + getWidth() / 4, x + getWidth() / 3, x};
-            int[] yInts = new int[]{y + getHeight() / 2, y + getHeight() / 3, y, y + getHeight() / 4, y,
-                    y + getHeight() / 3, y + getHeight() / 2, y + getHeight() / 3 * 2, y + getHeight(),
-                    y + getHeight() / 4 * 3, y + getHeight(), y + getHeight() / 3 * 2, y + getHeight() / 2};
-            if (fill == FillStatus.FULL) {
-                g.fillPolygon(xInts, yInts, 13);
-                gr.fillPolygon(xInts, yInts, 13);
-            } else if (fill == FillStatus.NONE) {
-                g.drawPolygon(xInts, yInts, 13);
-                gr.drawPolygon(xInts, yInts, 13);
-            }
-        }
-    }
 
     @Override
     public String name() {

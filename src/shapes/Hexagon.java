@@ -1,7 +1,7 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
+import util.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,40 +9,6 @@ import java.util.List;
 
 public class Hexagon extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            int x = metadata.getX();
-            int y = metadata.getY();
-            if (x == -1 || y == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            int width = getWidth();
-            int height = getHeight();
-
-            int[] xInts = new int[]{x, x + width / 3, x + width / 3 * 2, x + width,
-                    x + width / 3 * 2, x + width / 3, x};
-            int[] yInts = new int[]{y + height / 2, y, y, y + height / 2, y + height, y + height,
-                    y + height / 2};
-            if (fill == FillStatus.FULL) {
-                g.fillPolygon(xInts, yInts, 7);
-                gr.fillPolygon(xInts, yInts, 7);
-            }  // TODO: Gradient fill
-            else if (fill == FillStatus.NONE) {
-                g.drawPolygon(xInts, yInts, 7);
-                gr.drawPolygon(xInts, yInts, 7);
-            }
-        }
-    }
 
     @Override
     public String name() {
@@ -59,8 +25,24 @@ public class Hexagon extends ShapeAbstract implements Shape {
         g.setColor(c);
         int[] xInts = new int[]{x, x + width / 3, x + width / 3 * 2, x + width, x + width / 3 * 2, x + width / 3, x};
         int[] yInts = new int[]{y + height / 2, y, y, y + height / 2, y + height, y + height, y + height / 2};
+
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 7);
+        } else if (fill == FillStatus.GRADIENT) {
+            int[] tempXs = xInts;
+            int[] tempYs = yInts;
+            int maxColorShade = Utils.findMaxColorShade(c);
+            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+            for (int j = 0; j < width / 2; j++) {
+                tempXs = gradientXIncrement(tempXs);
+                tempYs = gradientYIncrement(tempYs);
+                g.fillPolygon(tempXs, tempYs, 7);
+                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                    colorArray[maxColorShade] -= getGradientFactor();
+                }
+                Color nextColor = new Color(colorArray[0], colorArray[1], colorArray[2]);
+                g.setColor(nextColor);
+            }
         } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xInts, yInts, 7);
         }
@@ -69,5 +51,29 @@ public class Hexagon extends ShapeAbstract implements Shape {
     @Override
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
+    }
+
+    public int[] gradientXIncrement(int[] xs) {
+        assert xs.length == 7;
+        xs[0] = xs[0] + 1;
+        xs[1] = xs[1] - 1;
+        xs[2] = xs[2] - 1;
+        xs[3] = xs[3] - 1;
+        xs[4] = xs[4] - 1;
+        xs[5] = xs[5] + 1;
+        xs[6] = xs[6] + 1;
+        return xs;
+    }
+
+    public int[] gradientYIncrement(int[] ys) {
+        assert ys.length == 7;
+        ys[0] = ys[0] + 1;
+        ys[1] = ys[1] + 1;
+        // ys[2] = ys[2]; Remains the same
+        ys[3] = ys[3] - 1;
+        ys[4] = ys[4] - 1;
+        // ys[5] = ys[5]; Remains the same
+        ys[6] = ys[6] + 1;
+        return ys;
     }
 }

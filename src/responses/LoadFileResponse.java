@@ -1,10 +1,10 @@
 package responses;
 
 import borders.TextBorder;
-import output.PNGOutput;
 import panels.ShapePanel;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 public class LoadFileResponse implements ButtonResponse {
@@ -16,14 +16,17 @@ public class LoadFileResponse implements ButtonResponse {
     @Override
     public void respond(ShapePanel sp) {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        chooser.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text file (*.txt)", "txt");
+        chooser.setFileFilter(filter);
         int option = chooser.showOpenDialog(new JDialog());
         if (option != JFileChooser.CANCEL_OPTION) {
             if (option == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 JTextArea textDisplay = sp.getTextDisplay();
-                if (file == null || !chooser.getSelectedFile().getName().endsWith(".txt")) {
+                if (file == null || !file.exists()) {
                     TextBorder t = (TextBorder) textDisplay.getBorder();
-                    t.setText("Please select an appropriate .txt file to load from. Please try again.");
+                    t.setText("Please select an appropriate *.txt file to load from. Please try again.");
                     textDisplay.repaint();
                     return;
                 }

@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
 import util.Utils;
 
 import java.awt.*;
@@ -10,27 +9,6 @@ import java.util.List;
 
 public class Triangle extends ShapeAbstract implements Shape {
     static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
-
-    @Override
-    public void drawShape(Graphics g, Graphics gr, Color c, FillStatus fill) {
-        g.setColor(c);
-        gr.setColor(c);
-        Pattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            int x = metadata.getX();
-            int y = metadata.getY();
-            if (x == -1 || y == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            shapeMetadata.add(metadata);
-            drawFromXY(g, c, x, y, getWidth(), getHeight(), fill);
-            drawFromXY(gr, c, x, y, getWidth(), getHeight(), fill);
-        }
-    }
 
     @Override
     public String name() {
