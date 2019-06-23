@@ -27,15 +27,18 @@ public class Circle extends ShapeAbstract implements Shape {
             // Intentionally ignore height since this is a circle
             g.fillOval(x, y, width, width);
         } else if (fill == FillStatus.GRADIENT) {
-            int maxColorShade = Utils.findMaxColorShade(c);
-            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
-
-            for (int i = 0; i < width / 2; i++) {
-                g.fillOval(x, y + i, width, width - i * 2);
-                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
-                    colorArray[maxColorShade] -= getGradientFactor();
+            if (!Utils.determineDarkColor(c)) {
+                for (int i = 0; i < width / 2; i++) {
+                    g.fillOval(x, y + i, width, width - i * 2);
+                    c = Utils.darkenColor(c, getGradientFactor() * 2);
+                    g.setColor(c);
                 }
-                g.setColor(new Color(colorArray[0], colorArray[1], colorArray[2]));
+            } else {
+                for (int i = 0; i < width / 2; i++) {
+                    g.fillOval(x, y + i, width, width - i * 2);
+                    c = Utils.lightenColor(c, getGradientFactor() * 2);
+                    g.setColor(c);
+                }
             }
         } else if (fill == FillStatus.NONE) {
             g.drawOval(x, y, width, width);

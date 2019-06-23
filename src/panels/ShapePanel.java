@@ -524,7 +524,8 @@ public class ShapePanel extends JPanel {
      * has been set.
      */
     public void setCanvasSizeVariables() {
-        int divisor = 15;
+        // Set the width and height depending on how many shapes can fit across the canvas according to its size
+        int divisor = 11;
         int w = canvasSize.width / divisor - (divisor / 2);
         // Set the static ShapeAbstract variables
         ShapeAbstract.setCanvasSize(canvasSize);
@@ -543,8 +544,8 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Controls the booleans to flag when to handle user response and delegates the
-     * work to other methods.
+     * Controls the booleans to flag when to handle user response and delegates the work to other methods.
+     * This happens whenever the user selects ok, or presses the Enter button on their keyboard.
      */
     public void userInputResponse() {
         if (toChangeBackground) {
@@ -574,7 +575,7 @@ public class ShapePanel extends JPanel {
                     if (!toChangeWidth) {
                         dimension = "height";
                     }
-                    writeToTextBoxAndRepaint(String.format("Please enter an integer between 0 to 400."
+                    writeToTextBoxAndRepaint(String.format("Please enter an integer between 0 to 400. "
                             + "Choose %s: (enter an integer between 0 to 400)", dimension));
                     resetShapeHeightAndWidth();
                     return;

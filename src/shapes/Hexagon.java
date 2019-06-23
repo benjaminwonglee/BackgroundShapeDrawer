@@ -33,12 +33,22 @@ public class Hexagon extends ShapeAbstract implements Shape {
             int[] tempYs = yInts;
             int maxColorShade = Utils.findMaxColorShade(c);
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
-            for (int j = 0; j < width / 2; j++) {
+            // Loop an arbitrary number of times expecting break from loop before it reaches this number
+            for (int j = 0; j < 3; j++) {
                 tempXs = gradientXIncrement(tempXs);
                 tempYs = gradientYIncrement(tempYs);
-                g.fillPolygon(tempXs, tempYs, 7);
-                if (colorArray[maxColorShade] > getGradientFactor() - 1) {
-                    colorArray[maxColorShade] -= getGradientFactor();
+                if (!Utils.determineDarkColor(c)) {
+                    for (int i = 0; i < width / 2; i++) {
+                        g.fillPolygon(tempXs, tempYs, 7);
+                        c = Utils.darkenColor(c, getGradientFactor() * 2);
+                        g.setColor(c);
+                    }
+                } else {
+                    for (int i = 0; i < width / 2; i++) {
+                        g.fillPolygon(tempXs, tempYs, 7);
+                        c = Utils.lightenColor(c, getGradientFactor() * 2);
+                        g.setColor(c);
+                    }
                 }
                 Color nextColor = new Color(colorArray[0], colorArray[1], colorArray[2]);
                 g.setColor(nextColor);
@@ -59,7 +69,7 @@ public class Hexagon extends ShapeAbstract implements Shape {
         xs[1] = xs[1] - 1;
         xs[2] = xs[2] - 1;
         xs[3] = xs[3] - 1;
-        xs[4] = xs[4] - 1;
+        xs[4] = xs[4] + 1;
         xs[5] = xs[5] + 1;
         xs[6] = xs[6] + 1;
         return xs;
