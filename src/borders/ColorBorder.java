@@ -1,11 +1,7 @@
 package borders;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
-
 import javax.swing.border.Border;
+import java.awt.*;
 
 public class ColorBorder implements Border {
 

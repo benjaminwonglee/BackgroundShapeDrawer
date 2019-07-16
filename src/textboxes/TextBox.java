@@ -1,17 +1,16 @@
 package textboxes;
 
-import java.awt.Rectangle;
-
-import javax.swing.JTextArea;
-
 import panels.ShapePanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class TextBox extends JTextArea {
     private static int optionButtonWidth;
     private static int optionButtonHeight;
 
     public static void newTextAreaBounds(JTextArea t) {
-        t.setBounds(new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
+        t.setBounds(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight);
     }
 
     public static int getOptionButtonWidth() {

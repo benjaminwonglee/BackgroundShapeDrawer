@@ -13,10 +13,11 @@ import java.util.Scanner;
 import static org.junit.Assert.fail;
 
 public class OutputTests {
-    /**
-     * Testing should be in the similar format to:
-     * png.outputToFile("output.txt", getShapes(), canvasRed, canvasGreen,
-     * canvasBlue); png.pngFromFile(this, "output.txt", "output.png");
+    /*
+     * Testing should be in a format similar to:
+     * png.outputToFile("testOutput.txt", getShapes(), canvasRed, canvasGreen, canvasBlue);
+     *
+     * png.pngFromFile(this, "testOutput.txt", "testOutput.png");
      */
 
     private final Rectangle testCanvasSize = new Rectangle(0, 0, 100, 100);
@@ -25,11 +26,11 @@ public class OutputTests {
     public void testPNGOutputToFile1() {
         ShapePanel sp = new ShapePanel();
         PNGOutput png = createPNGOutput();
-        int testNum = 5;
+        int numShapes = 5;
 
         // Adds to ShapePanel shapes ArrayList.
-        sp.createShape(ShapeName.CIRCLE, testNum);
-        sp.createShape(ShapeName.SQUARE, testNum);
+        sp.addShapeToDrawQueue(ShapeName.CIRCLE, numShapes);
+        sp.addShapeToDrawQueue(ShapeName.SQUARE, numShapes);
 
         // Before drawing, set the abstract variables
         sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());
@@ -51,18 +52,29 @@ public class OutputTests {
         int fill = 0;
         int rgb = 0;
         try {
+            // Skip background colour line
+            sc.nextLine();
+            // Skip theme name line
+            sc.nextLine();
             while (sc.hasNext()) {
                 count++;
-                nm = sc.next();
-                x = sc.nextInt();
-                y = sc.nextInt();
-                wd = sc.nextInt();
-                ht = sc.nextInt();
-                fill = sc.nextInt();
-                rgb = sc.nextInt();
+                String[] variables = sc.next().split(",");
+                try {
+                    nm = variables[0];
+                    x = Integer.parseInt(variables[1]);
+                    y = Integer.parseInt(variables[2]);
+                    wd = Integer.parseInt(variables[3]);
+                    ht = Integer.parseInt(variables[4]);
+                    fill = Integer.parseInt(variables[5]);
+                    rgb = Integer.parseInt(variables[6]);
+                } catch (IndexOutOfBoundsException e) {
+                    fail("Not enough variables detected. Expected: 7 variables but had: " + variables.length + "\n" + e);
+                } catch (NumberFormatException e) {
+                    fail("Failed to parse a variable as an integer:\n" + e);
+                }
             }
-            if (count != testNum * 2) {
-                fail("Outputted wrong number of shapes, should be: " + testNum + " but was: " + count);
+            if (count != numShapes * 2) {
+                fail("Outputted wrong number of shapes, should be: " + numShapes + " but was: " + count);
             }
         } catch (InputMismatchException e) {
             fail("Formatting of txt file was incorrect. nm: " + nm + " x: " + x + " y: " + y + " wd: " + wd + " ht: "
@@ -78,7 +90,7 @@ public class OutputTests {
 //		int testNum = 2;
 //
 //		// Adds to ShapePanel shapes arraylist.
-//		sp.createShape("Triangle", testNum);
+//		sp.addShapeToDrawQueue("Triangle", testNum);
 //		HashSet<Shape> shapes = sp.getAllShapes();
 //
 //		// Before drawing, set the abstract variables
@@ -88,8 +100,8 @@ public class OutputTests {
 //		if (shapes.size() != 1) {
 //			fail("Size should be equal to 1");
 //		}
-//		
-//		Triangle t = null; 
+//
+//		Triangle t = null;
 //		for (Shape s : shapes) {
 //			t = (Triangle) s;
 //		}

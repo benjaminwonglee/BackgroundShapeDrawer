@@ -1,8 +1,7 @@
 package themes;
 
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public interface Theme {
     void applyTheme(Graphics g, JPanel sp);

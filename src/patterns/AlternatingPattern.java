@@ -1,6 +1,6 @@
 package patterns;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 public class AlternatingPattern implements Pattern {
 

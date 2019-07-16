@@ -1,10 +1,8 @@
 package themes;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
-
-import javax.swing.JPanel;
 
 public class SemiRandomDot implements Theme {
 

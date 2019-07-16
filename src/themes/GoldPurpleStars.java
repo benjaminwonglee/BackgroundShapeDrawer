@@ -1,12 +1,10 @@
 package themes;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
-
 import misc.FillStatus;
 import shapes.Star5;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class GoldPurpleStars implements Theme {
 

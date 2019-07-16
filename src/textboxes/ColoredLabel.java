@@ -1,8 +1,8 @@
 package textboxes;
 
-import java.awt.Color;
-
 import borders.ColorBorder;
+
+import java.awt.*;
 
 public class ColoredLabel extends TextBox {
 
@@ -13,7 +13,7 @@ public class ColoredLabel extends TextBox {
         create();
     }
 
-    public void create() {
+    private void create() {
         newTextAreaBounds(this);
         setBorder(new ColorBorder(backgroundColor));
     }

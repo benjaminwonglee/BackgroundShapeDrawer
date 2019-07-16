@@ -25,8 +25,7 @@ public abstract class OptionButton extends JButton {
     }
 
     public static void newButtonBounds(JButton button) {
-        button.setBounds(
-                new Rectangle(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight));
+        button.setBounds(ShapePanel.getXLoc(), ShapePanel.getYLoc(), optionButtonWidth, optionButtonHeight);
     }
 
     public void create(String label) {

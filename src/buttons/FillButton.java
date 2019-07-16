@@ -23,13 +23,11 @@ public class FillButton extends OptionButton {
 
         newButtonBounds(this);
         Rectangle buttonSize = this.getBounds();
-        this.setBounds(new Rectangle(buttonSize.x, buttonSize.y, buttonSize.width - textBoxSize,
-                buttonSize.height));
+        this.setBounds(buttonSize.x, buttonSize.y, buttonSize.width - textBoxSize, buttonSize.height);
         setBorder(new OptionBorder(getButtonName(), getOptColor()));
 
         JTextArea fillStatusBox = new JTextArea();
-        fillStatusBox.setBounds(new Rectangle(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y,
-                textBoxSize, buttonSize.height));
+        fillStatusBox.setBounds(buttonSize.x + buttonSize.width - textBoxSize, buttonSize.y, textBoxSize, buttonSize.height);
         TextBorder fillBorder = new TextBorder("");
         fillBorder.setText(sp.getFillStatus().getFormattedName());
         fillBorder.setFont(new Font("Arial", Font.BOLD, 24));

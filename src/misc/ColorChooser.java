@@ -1,6 +1,6 @@
 package misc;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorChooser {
     private Color color;
