@@ -18,13 +18,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import static util.Utils.getScreenSize;
 
 public class ShapePanel extends JPanel {
     private static final int BUTTON_WD = 180;
     private static final int BUTTON_HT = 60;
+
+    private static final String OUTPUT_FILENAME = "output.txt";
+    private static final String OUTPUT_IMAGE_NAME = "output.png";
 
     // Cursors
     private static int xLoc = 20;
@@ -50,9 +52,7 @@ public class ShapePanel extends JPanel {
     private Color outlineColor;
 
     // Button response booleans
-    private boolean toChangeBackground = false;
     private boolean toDrawShapes = false;
-    private boolean toChangeShapeColor = false;
     private boolean toSetWidthHeight = false;
     private boolean toChangeWidth = false;
     private boolean toChangeHeight = false;
@@ -76,8 +76,6 @@ public class ShapePanel extends JPanel {
 
     // Output image and text file variable
     private PNGOutput png;
-    private final String outputFilename = "output.txt";
-    private final String outputImageName = "output.png";
 
     /**
      * General constructor for the ShapePanel.
@@ -547,15 +545,7 @@ public class ShapePanel extends JPanel {
      * This happens whenever the user selects ok, or presses the Enter button on their keyboard.
      */
     public void userInputResponse() {
-        if (toChangeBackground) {
-            askUserForColorInput();
-            toDrawShapes = false;
-            toChangeBackground = false;
-        } else if (toChangeShapeColor) {
-            askUserForColorInput();
-            toDrawShapes = false;
-            toChangeShapeColor = false;
-        } else if (toSetWidthHeight) {
+        if (toSetWidthHeight) {
             setWidthAndHeight();
         } else if (toDrawShapes) {
             drawShapes();
@@ -675,8 +665,8 @@ public class ShapePanel extends JPanel {
      */
     private void createPNGFile(PNGOutput png) {
         // For storing RGB values to a file
-        PNGOutput.outputToFile(this, backgroundColor, outputFilename);
-        png.pngFromFile(this, outputFilename, outputImageName);
+        PNGOutput.outputToFile(this, backgroundColor, OUTPUT_FILENAME);
+        png.pngFromFile(this, OUTPUT_FILENAME, OUTPUT_IMAGE_NAME);
     }
 
     /**
@@ -746,8 +736,8 @@ public class ShapePanel extends JPanel {
      * Draws the shapes in the shapes ArrayList onto the canvas and on the PNGOutput
      * BufferedImage Object.
      *
-     * @param canvasGraphics           The graphics object of the canvas to draw with
-     * @param pngGraphics The graphics object of the png image to draw with
+     * @param canvasGraphics The graphics object of the canvas to draw with
+     * @param pngGraphics    The graphics object of the png image to draw with
      */
     public void draw(Graphics canvasGraphics, Graphics pngGraphics) {
 
@@ -761,62 +751,6 @@ public class ShapePanel extends JPanel {
         // Finished drawing. Reset variables
         allShapes.addAll(shapes);
         shapes.clear();
-    }
-
-    /**
-     * Execute the sequence of prompts when requiring a color input from the user. Handles various scenarios including
-     * if integers weren't entered, if the color values are outside of the RGB range, and if the format is incorrect
-     * ie. not enough values parsed in.
-     */
-    public void askUserForColorInput() {
-        if (userInput.getText().equals("")) {
-            writeToTextBoxAndRepaint("No numbers were entered! Try again.");
-            return;
-        }
-
-        Scanner sc = new Scanner(userInput.getText());
-        int[] colors = new int[3];
-        try {
-            int x = 0;
-            while (sc.hasNext() && x < 3) {
-                x++;
-                String newColor = "red";
-                if (x == 2) {
-                    newColor = "green";
-                } else if (x == 3) {
-                    newColor = "blue";
-                }
-                int color = Integer.parseInt(sc.next());
-                // Error scenario 1
-                if (color < 0 || color > 255) {
-                    sc.close();
-                    writeToTextBoxAndRepaint("The chosen " + newColor + " value was out of range, please try again");
-                    return;
-                }
-                colors[x - 1] = color;
-            }
-            // Error scenario 2
-            if (x != 3) {
-                sc.close();
-                writeToTextBoxAndRepaint("Not enough integers were entered, please try again");
-                return;
-            }
-
-            // Check if we are changing the shape colour or background colour
-            Color selectedColor = new Color(colors[0], colors[1], colors[2]);
-            if (!toChangeShapeColor) {
-                backgroundColor = selectedColor;
-                changeBackgroundColor(selectedColor);
-            } else {
-                toChangeShapeColor = false;
-                shapeOutlineColorChange(selectedColor);
-            }
-        } catch (NumberFormatException e) {
-            // Error scenario 3
-            writeToTextBoxAndRepaint("An integer number was not entered, please try again.");
-            return;
-        }
-        sc.close();
     }
 
     /**
@@ -846,7 +780,7 @@ public class ShapePanel extends JPanel {
      *
      * @param color The color to change the shape outline to
      */
-    private void shapeOutlineColorChange(Color color) {
+    public void shapeOutlineColorChange(Color color) {
         // Shape outline colour change
         outlineColor = color;
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
@@ -898,32 +832,12 @@ public class ShapePanel extends JPanel {
         return textDisplay;
     }
 
-    void setTextDisplay(JTextArea textDisplay) {
-        this.textDisplay = textDisplay;
-    }
-
     public PNGOutput getPng() {
         return png;
     }
 
     public void setPng(PNGOutput png) {
         this.png = png;
-    }
-
-    public boolean isToChangeBackground() {
-        return toChangeBackground;
-    }
-
-    public void setToChangeBackground(boolean toChangeBackground) {
-        this.toChangeBackground = toChangeBackground;
-    }
-
-    public boolean isToChangeShapeColor() {
-        return toChangeShapeColor;
-    }
-
-    public void setToChangeShapeColor(boolean toChangeShapeColor) {
-        this.toChangeShapeColor = toChangeShapeColor;
     }
 
     public List<JButton> getShapeButtonList() {
@@ -962,16 +876,8 @@ public class ShapePanel extends JPanel {
         return changeBackgroundPanelWrapper;
     }
 
-    public void setChangeBackgroundPanelWrapper(JTextArea changeBackgroundPanelWrapper) {
-        this.changeBackgroundPanelWrapper = changeBackgroundPanelWrapper;
-    }
-
     public JTextArea getChangeOutlinePanelWrapper() {
         return changeOutlinePanelWrapper;
-    }
-
-    public void setChangeOutlinePanelWrapper(JTextArea changeOutlinePanelWrapper) {
-        this.changeOutlinePanelWrapper = changeOutlinePanelWrapper;
     }
 
     public boolean isToDrawShapes() {
@@ -1042,4 +948,3 @@ public class ShapePanel extends JPanel {
         return backgroundColor;
     }
 }
-

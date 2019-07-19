@@ -134,7 +134,7 @@ public class OutputTests {
     private class TestCanvas extends JPanel {
         private static final long serialVersionUID = -1863297224513004580L;
 
-        public TestCanvas() {
+        TestCanvas() {
             JFrame frame = new JFrame();
             frame.setBounds(testCanvasSize);
             frame.add(this);

@@ -4,12 +4,17 @@ import shapes.Shape;
 import shapes.*;
 import themes.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.NoSuchElementException;
 
 import static shapes.ShapeName.*;
 
 public class Utils {
+
+    public static Color openJColorChooser(Color color) {
+        return JColorChooser.showDialog(null, "Choose a colour", color);
+    }
 
     /**
      * Returns a ShapeName type from a shape name in string format.
