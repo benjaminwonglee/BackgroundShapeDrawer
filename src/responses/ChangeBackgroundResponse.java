@@ -1,7 +1,7 @@
 package responses;
 
 import panels.ShapePanel;
-import util.Utils;
+import util.ColouringUtils;
 
 public class ChangeBackgroundResponse implements ButtonResponse {
 
@@ -10,6 +10,6 @@ public class ChangeBackgroundResponse implements ButtonResponse {
      */
     @Override
     public void respond(ShapePanel sp) {
-        sp.changeBackgroundColor(Utils.openJColorChooser(sp.getBackgroundColor()));
+        sp.changeBackgroundColor(ColouringUtils.openJColorChooser(sp.getBackgroundColor()));
     }
 }

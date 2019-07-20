@@ -7,7 +7,7 @@ import java.awt.*;
 
 public abstract class ShapeAbstract implements Shape {
 
-    private static final int gradientFactor = 6;
+    private static final int gradientFactor = 3;
     private static java.awt.Rectangle canvasSize;
     // Shape size variables
     private static int width = 90;

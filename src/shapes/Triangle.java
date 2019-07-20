@@ -1,7 +1,7 @@
 package shapes;
 
 import misc.FillStatus;
-import util.Utils;
+import util.ColouringUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Triangle extends ShapeAbstract implements Shape {
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 4);
         } else if (fill == FillStatus.GRADIENT) {
-            int maxColorShade = Utils.findMaxColorShade(c);
+            int maxColorShade = ColouringUtils.findMaxColorShade(c);
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
             // TODO: Handle the iterations so it is not width dependent only
             for (int i = 0; i < width / 2; i++) {

@@ -1,7 +1,7 @@
 package responses;
 
 import panels.ShapePanel;
-import util.Utils;
+import util.ColouringUtils;
 
 public class ChangeShapeColorResponse implements ButtonResponse {
 
@@ -10,6 +10,6 @@ public class ChangeShapeColorResponse implements ButtonResponse {
      */
     @Override
     public void respond(ShapePanel sp) {
-        sp.shapeOutlineColorChange(Utils.openJColorChooser(sp.getOutlineColor()));
+        sp.shapeOutlineColorChange(ColouringUtils.openJColorChooser(sp.getOutlineColor()));
     }
 }

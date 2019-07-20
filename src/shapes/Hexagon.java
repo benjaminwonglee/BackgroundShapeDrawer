@@ -1,7 +1,7 @@
 package shapes;
 
 import misc.FillStatus;
-import util.Utils;
+import util.ColouringUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,22 +31,22 @@ public class Hexagon extends ShapeAbstract implements Shape {
         } else if (fill == FillStatus.GRADIENT) {
             int[] tempXs = xInts;
             int[] tempYs = yInts;
-            int maxColorShade = Utils.findMaxColorShade(c);
+            int maxColorShade = ColouringUtils.findMaxColorShade(c);
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
             // Loop an arbitrary number of times expecting break from loop before it reaches this number
             for (int j = 0; j < 3; j++) {
                 tempXs = gradientXIncrement(tempXs);
                 tempYs = gradientYIncrement(tempYs);
-                if (Utils.isDarkColor(c)) {
+                if (ColouringUtils.isDarkColor(c)) {
                     for (int i = 0; i < width / 2; i++) {
                         g.fillPolygon(tempXs, tempYs, 7);
-                        c = Utils.lightenColor(c, getGradientFactor());
+                        c = ColouringUtils.lightenColor(c, getGradientFactor());
                         g.setColor(c);
                     }
                 } else {
                     for (int i = 0; i < width / 2; i++) {
                         g.fillPolygon(tempXs, tempYs, 7);
-                        c = Utils.darkenColor(c, getGradientFactor());
+                        c = ColouringUtils.darkenColor(c, getGradientFactor());
                         g.setColor(c);
                     }
                 }

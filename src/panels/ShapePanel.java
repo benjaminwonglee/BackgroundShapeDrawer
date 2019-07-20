@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 import static util.Utils.getScreenSize;
 
 public class ShapePanel extends JPanel {
+
     private static final int BUTTON_WD = 180;
     private static final int BUTTON_HT = 60;
 
@@ -44,12 +45,9 @@ public class ShapePanel extends JPanel {
     private Rectangle canvasSize;
     private int optionButtonWidth;
 
-    private Color backgroundColor;
-    private FillStatus fillStatus = FillStatus.NONE;
     private List<ShapeName> shapesToDraw;
     private List<Shape> shapes;
     private List<Shape> allShapes;
-    private Color outlineColor;
 
     // Button response booleans
     private boolean toDrawShapes = false;
@@ -73,6 +71,9 @@ public class ShapePanel extends JPanel {
     private int optionButtonHeight;
     private JPanel canvas;
     private int space;
+    private FillStatus fillStatus = FillStatus.NONE;
+    private Color backgroundColor = new Color(0, 0, 0);
+    private Color outlineColor = new Color(200, 0, 0);;
 
     // Output image and text file variable
     private PNGOutput png;
@@ -93,8 +94,6 @@ public class ShapePanel extends JPanel {
         shapesToDraw = new ArrayList<>();
         shapes = new ArrayList<>();
         allShapes = new ArrayList<>();
-        outlineColor = new Color(200, 0, 0);
-        backgroundColor = new Color(0, 0, 0);
 
         // Initialise swing components
         createButtons();
