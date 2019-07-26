@@ -421,15 +421,19 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Made for the paintComponent method. Minimises work done upon repaint. Sets ct
-     * (Current Theme) to the theme specified by the theme field string. Delegates
-     * to a theme class to draw.
+     * Made for the paintComponent method. Minimises work done upon repaint. Sets current Theme to the theme
+     * specified by the theme field string. Delegates to a theme class to draw.
      *
      * @param mainFrameGraphics The graphics object to draw the theme with
      */
     public void applyTheme(Graphics mainFrameGraphics) {
         allShapes.clear();
-        switch (theme.getThemeName()) {
+        ThemeName themeName = theme.getThemeName();
+        String themeNameText = themeName.getThemeName();
+        TextBorder t = (TextBorder) themeText.getBorder();
+        t.setText(themeNameText.substring(0, 1).toUpperCase() + themeNameText.substring(1));
+        themeDrawn = true;
+        switch (themeName) {
             case BLUE_LIGHTNING:
                 theme = new BlueLightning();
                 break;
@@ -460,7 +464,7 @@ public class ShapePanel extends JPanel {
             default:
                 throw new NoSuchElementException(String.format(
                         "The chosen theme %s could not be found while setting theme in ShapePanel",
-                        theme == null ? theme : theme.getThemeName().name()));
+                        theme == null ? theme : themeName.name()));
         }
         this.theme.applyTheme(mainFrameGraphics, this);
         writeToTextBoxAndRepaint("Select buttons, then either change the properties, or draw shapes");
@@ -636,7 +640,7 @@ public class ShapePanel extends JPanel {
                     shapesToDraw.remove(shapesToDraw.get(0));
                     if (!shapesToDraw.isEmpty()) {
                         // Continue. Pressing the ok button restarts this method
-                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).name().toLowerCase() + "s?");
+                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
                     } else {
                         /* End case */
                         // Set the background of the png before drawing
@@ -797,9 +801,6 @@ public class ShapePanel extends JPanel {
         if (themeName.equals("none")) {
             return;
         }
-        TextBorder t = (TextBorder) themeText.getBorder();
-        t.setText(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
-        themeDrawn = true;
         applyTheme(this.getGraphics());
     }
 
