@@ -36,6 +36,11 @@ public class ColouringUtils {
         return new Color(colorArray[0], colorArray[1], colorArray[2]);
     }
 
+    /**
+     * Returns the max value out of a color array of the form [red, green, blue] so it can be adjusted
+     *
+     * @param c a colour
+     */
     public static int findMaxColorShade(Color c) {
         int maxColorShade = -1;
         int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};

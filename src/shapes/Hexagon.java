@@ -34,22 +34,20 @@ public class Hexagon extends ShapeAbstract implements Shape {
             int maxColorShade = ColouringUtils.findMaxColorShade(c);
             int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
             // Loop an arbitrary number of times expecting break from loop before it reaches this number
-            for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < width / 4; i++) {
                 tempXs = gradientXIncrement(tempXs);
                 tempYs = gradientYIncrement(tempYs);
+
                 if (ColouringUtils.isDarkColor(c)) {
-                    for (int i = 0; i < width / 2; i++) {
-                        g.fillPolygon(tempXs, tempYs, 7);
-                        c = ColouringUtils.lightenColor(c, getGradientFactor());
-                        g.setColor(c);
+                    if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                        colorArray[maxColorShade] += getGradientFactor();
                     }
                 } else {
-                    for (int i = 0; i < width / 2; i++) {
-                        g.fillPolygon(tempXs, tempYs, 7);
-                        c = ColouringUtils.darkenColor(c, getGradientFactor());
-                        g.setColor(c);
+                    if (colorArray[maxColorShade] > getGradientFactor() - 1) {
+                        colorArray[maxColorShade] -= getGradientFactor();
                     }
                 }
+                g.fillPolygon(tempXs, tempYs, 7);
                 Color nextColor = new Color(colorArray[0], colorArray[1], colorArray[2]);
                 g.setColor(nextColor);
             }
@@ -66,10 +64,10 @@ public class Hexagon extends ShapeAbstract implements Shape {
     public int[] gradientXIncrement(int[] xs) {
         assert xs.length == 7;
         xs[0] = xs[0] + 1;
-        xs[1] = xs[1] - 1;
-        xs[2] = xs[2] - 1;
-        xs[3] = xs[3] - 1;
-        xs[4] = xs[4] + 1;
+        xs[1] = xs[1] + 1;
+//        xs[2] = xs[2] - 1;
+//        xs[3] = xs[3] - 1;
+//        xs[4] = xs[4] - 1;
         xs[5] = xs[5] + 1;
         xs[6] = xs[6] + 1;
         return xs;
@@ -77,13 +75,13 @@ public class Hexagon extends ShapeAbstract implements Shape {
 
     public int[] gradientYIncrement(int[] ys) {
         assert ys.length == 7;
-        ys[0] = ys[0] + 1;
-        ys[1] = ys[1] + 1;
-        // ys[2] = ys[2]; Remains the same
-        ys[3] = ys[3] - 1;
-        ys[4] = ys[4] - 1;
-        // ys[5] = ys[5]; Remains the same
-        ys[6] = ys[6] + 1;
+//        ys[0] = ys[0] + 1;
+//        ys[1] = ys[1] + 1;
+//        ys[2] = ys[2] + 1;
+//        ys[3] = ys[3] - 1;
+//        ys[4] = ys[4] - 1;
+//        ys[5] = ys[5] - 1;
+//        ys[6] = ys[6] + 1;
         return ys;
     }
 }
