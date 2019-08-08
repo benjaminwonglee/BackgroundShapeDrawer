@@ -3,7 +3,7 @@ package themes;
 import javax.swing.*;
 import java.awt.*;
 
-public class RandomDot implements Theme {
+public class RandomDot implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -20,7 +20,7 @@ public class RandomDot implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.RANDOM_DOT;
+    public Theme getTheme() {
+        return Theme.RANDOM_DOT;
     }
 }

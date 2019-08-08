@@ -6,7 +6,7 @@ import shapes.Lightning;
 import javax.swing.*;
 import java.awt.*;
 
-public class BlueLightning implements Theme {
+public class BlueLightning implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -31,7 +31,7 @@ public class BlueLightning implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.BLUE_LIGHTNING;
+    public Theme getTheme() {
+        return Theme.BLUE_LIGHTNING;
     }
 }

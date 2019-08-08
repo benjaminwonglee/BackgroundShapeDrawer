@@ -3,7 +3,7 @@ package themes;
 import javax.swing.*;
 import java.awt.*;
 
-public class TrafficLight implements Theme {
+public class TrafficLight implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -20,7 +20,7 @@ public class TrafficLight implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.TRAFFIC_LIGHT;
+    public Theme getTheme() {
+        return Theme.TRAFFIC_LIGHT;
     }
 }

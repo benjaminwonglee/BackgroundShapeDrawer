@@ -3,7 +3,7 @@ package themes;
 import javax.swing.*;
 import java.awt.*;
 
-public class YellowDiamonds implements Theme {
+public class YellowDiamonds implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -27,7 +27,7 @@ public class YellowDiamonds implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.YELLOW_DIAMONDS;
+    public Theme getTheme() {
+        return Theme.YELLOW_DIAMONDS;
     }
 }

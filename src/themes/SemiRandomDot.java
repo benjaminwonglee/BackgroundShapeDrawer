@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-public class SemiRandomDot implements Theme {
+public class SemiRandomDot implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -22,7 +22,7 @@ public class SemiRandomDot implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.SEMI_RANDOM_DOT;
+    public Theme getTheme() {
+        return Theme.SEMI_RANDOM_DOT;
     }
 }

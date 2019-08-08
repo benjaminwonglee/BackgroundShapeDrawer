@@ -9,9 +9,9 @@ public class ChangeThemeResponse implements ButtonResponse {
 
     @Override
     public void respond(ShapePanel sp) {
-        Theme theme = sp.getTheme();
+        ITheme theme = sp.getTheme();
         // Set theme to the NEXT one in the list
-        switch (theme.getThemeName()) {
+        switch (theme.getTheme()) {
             case BLUE_LIGHTNING:
                 sp.setTheme(new GoldPurpleStars());
                 break;
@@ -22,7 +22,7 @@ public class ChangeThemeResponse implements ButtonResponse {
                 sp.setTheme(new GradientRedBlue());
                 break;
             case GRADIENT_RED_BLUE:
-                sp.setTheme(new MetalTheme());
+                sp.setTheme(new Steel());
                 break;
             case METAL_THEME:
                 sp.setTheme(new RandomDot());
@@ -41,7 +41,7 @@ public class ChangeThemeResponse implements ButtonResponse {
                 break;
             default:
                 throw new NoSuchElementException(String.format(
-                        "The theme was not found in the change theme response %s", theme.getThemeName()));
+                        "The theme was not found in the change theme response %s", theme.getTheme()));
         }
         sp.repaint();
 

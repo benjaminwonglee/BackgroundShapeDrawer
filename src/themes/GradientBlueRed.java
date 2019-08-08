@@ -3,7 +3,7 @@ package themes;
 import javax.swing.*;
 import java.awt.*;
 
-public class GradientBlueRed implements Theme {
+public class GradientBlueRed implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -19,7 +19,7 @@ public class GradientBlueRed implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.GRADIENT_BLUE_RED;
+    public Theme getTheme() {
+        return Theme.GRADIENT_BLUE_RED;
     }
 }

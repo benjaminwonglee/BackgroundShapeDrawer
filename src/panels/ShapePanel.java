@@ -26,9 +26,6 @@ public class ShapePanel extends JPanel {
     private static final int BUTTON_WD = 180;
     private static final int BUTTON_HT = 60;
 
-    private static final String OUTPUT_FILENAME = "output.txt";
-    private static final String OUTPUT_IMAGE_NAME = "output.png";
-
     // Cursors
     private static int xLoc = 20;
     private static int yLoc = 20;
@@ -64,7 +61,7 @@ public class ShapePanel extends JPanel {
 
     // Theme variables
     private JTextArea themeText;
-    private Theme theme = new GradientRedBlue();
+    private ITheme theme = new GradientRedBlue();
     private boolean themeDrawn = false;
 
     // Canvas variables
@@ -73,10 +70,18 @@ public class ShapePanel extends JPanel {
     private int space;
     private FillStatus fillStatus = FillStatus.NONE;
     private Color backgroundColor = new Color(0, 0, 0);
-    private Color outlineColor = new Color(200, 0, 0);;
+    private Color outlineColor = new Color(200, 0, 0);
 
     // Output image and text file variable
     private PNGOutput png;
+
+    public static int getXLoc() {
+        return xLoc;
+    }
+
+    public static int getYLoc() {
+        return yLoc;
+    }
 
     /**
      * General constructor for the ShapePanel.
@@ -103,22 +108,6 @@ public class ShapePanel extends JPanel {
         canvas.setBackground(backgroundColor);
     }
 
-    public static int getXLoc() {
-        return xLoc;
-    }
-
-    public static void setXLoc(int xLoc) {
-        ShapePanel.xLoc = xLoc;
-    }
-
-    public static int getYLoc() {
-        return yLoc;
-    }
-
-    public static void setYLoc(int yLoc) {
-        ShapePanel.yLoc = yLoc;
-    }
-
     @Override
     public boolean isOptimizedDrawingEnabled() {
         return false;
@@ -134,8 +123,343 @@ public class ShapePanel extends JPanel {
     public void paintComponent(Graphics mainFrameGraphics) {
         super.paintComponent(mainFrameGraphics);
 
-        applyTheme(mainFrameGraphics);
+        applyTheme(theme.getTheme(), mainFrameGraphics);
         this.draw(getGraphics(), png.getPng().getGraphics());
+    }
+
+    /**
+     * Controls the booleans to flag when to handle user response and delegates the work to other methods.
+     * This happens whenever the user selects ok, or presses the Enter button on their keyboard.
+     */
+    public void userInputResponse() {
+        if (toSetWidthHeight) {
+            setWidthAndHeight();
+        } else if (toDrawShapes) {
+            drawShapes();
+        }
+    }
+
+    public void applyTheme(String themeName, Graphics mainFrameGraphics) {
+        Theme theme = Theme.getThemeFromName(themeName);
+        if (theme == null) {
+            return;
+        }
+        applyTheme(theme, mainFrameGraphics);
+    }
+
+
+    /**
+     * Made for the paintComponent method. Minimises work done upon repaint. Sets current Theme to the theme
+     * specified by the theme field string. Delegates to a theme class to draw.
+     *
+     * @param theme             The theme to apply
+     * @param mainFrameGraphics The graphics object to draw the theme with
+     */
+    public void applyTheme(Theme theme, Graphics mainFrameGraphics) {
+        allShapes.clear();
+        TextBorder t = (TextBorder) themeText.getBorder();
+        String themeName = theme.getThemeName();
+        t.setText(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
+        themeDrawn = true;
+        switch (theme) {
+            case BLUE_LIGHTNING:
+                this.theme = new BlueLightning();
+                break;
+            case GOLD_PURPLE_STARS:
+                this.theme = new GoldPurpleStars();
+                break;
+            case GRADIENT_RED_BLUE:
+                this.theme = new GradientRedBlue();
+                break;
+            case GRADIENT_BLUE_RED:
+                this.theme = new GradientBlueRed();
+                break;
+            case METAL_THEME:
+                this.theme = new Steel();
+                break;
+            case RANDOM_DOT:
+                this.theme = new RandomDot();
+                break;
+            case SEMI_RANDOM_DOT:
+                this.theme = new SemiRandomDot();
+                break;
+            case TRAFFIC_LIGHT:
+                this.theme = new TrafficLight();
+                break;
+            case YELLOW_DIAMONDS:
+                this.theme = new YellowDiamonds();
+                break;
+            default:
+                throw new NoSuchElementException(String.format(
+                        "The chosen theme %s could not be found while setting theme in ShapePanel",
+                        this.theme == null ? this.theme : this.theme.getTheme().getThemeName()));
+        }
+        this.theme.applyTheme(mainFrameGraphics, this);
+        writeToTextBoxAndRepaint("Select buttons, then either change the properties, or draw shapes");
+    }
+
+    /**
+     * "shapeName" is the name on each button in the program. Format: First letter
+     * always capitalised. Amount is the amount to draw.
+     *
+     * @param shapeName The name of the shape to be drawn
+     * @param amount    The amount of the shape to draw
+     */
+    public void addShapeToDrawQueue(ShapeName shapeName, int amount) {
+        switch (shapeName) {
+            case CIRCLE:
+                Circle c = new Circle();
+                c.setAmount(amount);
+                shapes.add(c);
+                break;
+            case ELLIPSE:
+                Ellipse e = new Ellipse();
+                e.setAmount(amount);
+                shapes.add(e);
+                break;
+            case HEXAGON:
+                Hexagon h = new Hexagon();
+                h.setAmount(amount);
+                shapes.add(h);
+                break;
+            case LIGHTNING:
+                Lightning l = new Lightning();
+                l.setAmount(amount);
+                shapes.add(l);
+                break;
+            case OCTAGON:
+                Octagon o = new Octagon();
+                o.setAmount(amount);
+                shapes.add(o);
+                break;
+            case RECTANGLE:
+                shapes.Rectangle r = new shapes.Rectangle();
+                r.setAmount(amount);
+                shapes.add(r);
+                break;
+            case SQUARE:
+                Square s = new Square();
+                s.setAmount(amount);
+                shapes.add(s);
+                break;
+            case STAR5:
+                Star5 star = new Star5();
+                star.setAmount(amount);
+                shapes.add(star);
+                break;
+            case STAR6:
+                Star6 st = new Star6();
+                st.setAmount(amount);
+                shapes.add(st);
+                break;
+            case TRIANGLE:
+            default:
+                Triangle t = new Triangle();
+                t.setAmount(amount);
+                shapes.add(t);
+                break;
+        }
+    }
+
+    /**
+     * Draws the shapes in the shapes ArrayList onto the canvas and on the PNGOutput
+     * BufferedImage Object.
+     *
+     * @param canvasGraphics The graphics object of the canvas to draw with
+     * @param pngGraphics    The graphics object of the png image to draw with
+     */
+    public void draw(Graphics canvasGraphics, Graphics pngGraphics) {
+
+        for (Shape shapeType : shapes) {
+            // Get the type of shape and draw a certain amount of the type of shape
+            shapeType.drawShape(canvasGraphics, pngGraphics, outlineColor, fillStatus);
+            ShapeAbstract.setXCursor(0);
+            ShapeAbstract.setYCursor(0);
+        }
+
+        // Finished drawing. Reset variables
+        allShapes.addAll(shapes);
+        shapes.clear();
+    }
+
+    public void drawThemeToCanvas() {
+        JPanel canvas = getCanvas();
+
+        // Set the background of the ShapePanel to black
+        Graphics2D g2d = (Graphics2D) getGraphics().create();
+        g2d.setPaint(new Color(0, 0, 0));
+        g2d.fillRect(0, 0, getBounds().width, getBounds().height);
+        getAllShapes().clear();
+        Shape.clearAllShapes();
+
+        // Redraw all the buttons
+        for (Component c : getComponents()) {
+            if (!c.equals(canvas)) {
+                c.repaint();
+            }
+        }
+
+        // Draw theme to canvas
+        getTheme().applyTheme(canvas.getGraphics(), canvas);
+        canvas.getGraphics().drawRect(0, 0, canvas.getBounds().width - 1, canvas.getBounds().height - 1);
+        applyTheme(theme.getTheme(), getPng().getPng().getGraphics());
+        setThemeDrawn(true);
+    }
+
+    /**
+     * Change the background colour and inform the user that the background has been changed
+     *
+     * @param color The colour to change the background to
+     */
+    public void changeBackgroundColor(Color color) {
+
+        // Background colour change on canvas
+        backgroundColor = color;
+        canvas.setBackground(color);
+
+        ColorBorder colorLabel = (ColorBorder) changeBackgroundPanelWrapper.getBorder();
+        colorLabel.setColor(color);
+
+        // For simplicity, clear the shapes when the background colour is changed
+        clearDrawing();
+
+        changeBackgroundPanelWrapper.repaint();
+        writeToTextBoxAndRepaint("Background colour changed successfully");
+        themeDrawn = false;
+    }
+
+    /**
+     * Change the shape outline color and inform the user that the background has been changed
+     *
+     * @param color The color to change the shape outline to
+     */
+    public void shapeOutlineColorChange(Color color) {
+        // Shape outline colour change
+        outlineColor = color;
+        ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
+        colorLabel.setColor(color);
+        changeOutlinePanelWrapper.repaint();
+        writeToTextBoxAndRepaint("Outline colour changed successfully");
+    }
+
+    /**
+     * Set a theme of the panel from the name of the theme.
+     *
+     * @param themeName The name of the theme
+     */
+    public void setThemeFromName(String themeName) {
+        if (themeName.equals("none")) {
+            return;
+        }
+        applyTheme(themeName, this.getGraphics());
+    }
+
+    public List<Shape> getShapes() {
+        return shapes;
+    }
+
+    public void setShapes(List<Shape> shapes) {
+        this.shapes = shapes;
+    }
+
+    public List<Shape> getAllShapes() {
+        return allShapes;
+    }
+
+    public void setAllShapes(List<Shape> allShapes) {
+        this.allShapes = allShapes;
+    }
+
+    public JPanel getCanvas() {
+        return canvas;
+    }
+
+    public JTextArea getTextDisplay() {
+        return textDisplay;
+    }
+
+    public PNGOutput getPng() {
+        return png;
+    }
+
+    public void setPng(PNGOutput png) {
+        this.png = png;
+    }
+
+    public List<JButton> getShapeButtonList() {
+        return shapeButtonList;
+    }
+
+    public void setShapesToDraw(List<ShapeName> shapesToDraw) {
+        this.shapesToDraw = shapesToDraw;
+    }
+
+    public JTextField getUserInput() {
+        return userInput;
+    }
+
+    public Color getOutlineColor() {
+        return outlineColor;
+    }
+
+    public void setOutlineColor(Color outlineColor) {
+        this.outlineColor = outlineColor;
+    }
+
+    public JTextArea getChangeBackgroundPanelWrapper() {
+        return changeBackgroundPanelWrapper;
+    }
+
+    public JTextArea getChangeOutlinePanelWrapper() {
+        return changeOutlinePanelWrapper;
+    }
+
+    public void setToDrawShapes(boolean toDrawShapes) {
+        this.toDrawShapes = toDrawShapes;
+    }
+
+    public void setToSetWidthHeight(boolean toSetWidthHeight) {
+        this.toSetWidthHeight = toSetWidthHeight;
+    }
+
+    public void setToChangeWidth(boolean toChangeWidth) {
+        this.toChangeWidth = toChangeWidth;
+    }
+
+    public void setToChangeHeight(boolean toChangeHeight) {
+        this.toChangeHeight = toChangeHeight;
+    }
+
+    public FillStatus getFillStatus() {
+        return fillStatus;
+    }
+
+    public void setFillStatus(FillStatus fillStatus) {
+        this.fillStatus = fillStatus;
+    }
+
+    public boolean isThemeDrawn() {
+        return themeDrawn;
+    }
+
+    public void setThemeDrawn(boolean themeDrawn) {
+        this.themeDrawn = themeDrawn;
+    }
+
+    public ITheme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(ITheme theme) {
+        this.theme = theme;
+    }
+
+    public JButton getClearButton() {
+        return clearButton;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     /**
@@ -189,6 +513,47 @@ public class ShapePanel extends JPanel {
             yLoc = 20;
         }
         this.add(shapeButton);
+    }
+
+    /**
+     * Execute the sequence of prompts when drawing shapes including asking which type of shape and the amount of shapes desired.
+     */
+    private void drawShapes() {
+
+        if (shapesToDraw.size() > 0) {
+            writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
+            userInput.requestFocus();
+            if (!userInput.getText().equals("")) {
+                try {
+                    int input = Integer.parseInt(userInput.getText());
+                    if (input > 1000 || input < 0) {
+                        writeToTextBoxAndRepaint("Please enter a number that is between 0 and 1000 inclusive");
+                        return;
+                    }
+
+                    addShapeToDrawQueue(shapesToDraw.get(0), input);
+                    shapesToDraw.remove(shapesToDraw.get(0));
+                    if (!shapesToDraw.isEmpty()) {
+                        // Continue. Pressing the ok button restarts this method
+                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
+                    } else {
+                        /* End case */
+                        // Set the background of the png before drawing
+                        Graphics pngGraphics = png.getPng().getGraphics();
+                        pngGraphics.setColor(backgroundColor);
+                        pngGraphics.fillRect(0, 0, png.getPng().getWidth(), png.getPng().getHeight());
+
+                        draw(canvas.getGraphics(), png.getPng().getGraphics());
+                        PNGOutput.createPNGFile(this, png);
+                        shapes = new ArrayList<>();
+                        toDrawShapes = false;
+                        writeToTextBoxAndRepaint("Drawn successfully");
+                    }
+                } catch (NumberFormatException e) {
+                    writeToTextBoxAndRepaint("You didn't enter an integer number!");
+                }
+            }
+        }
     }
 
     /**
@@ -314,9 +679,7 @@ public class ShapePanel extends JPanel {
         this.clearButton = new JButton();
         clearButton.setBounds(xLoc, yLoc, optionButtonWidth, optionButtonHeight * 2);
         clearButton.setBorder(new OptionBorder("Clear Drawing", optColour));
-        clearButton.addActionListener(event -> {
-            clearDrawing();
-        });
+        clearButton.addActionListener(event -> clearDrawing());
         this.add(clearButton);
     }
 
@@ -421,56 +784,6 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Made for the paintComponent method. Minimises work done upon repaint. Sets current Theme to the theme
-     * specified by the theme field string. Delegates to a theme class to draw.
-     *
-     * @param mainFrameGraphics The graphics object to draw the theme with
-     */
-    public void applyTheme(Graphics mainFrameGraphics) {
-        allShapes.clear();
-        ThemeName themeName = theme.getThemeName();
-        String themeNameText = themeName.getThemeName();
-        TextBorder t = (TextBorder) themeText.getBorder();
-        t.setText(themeNameText.substring(0, 1).toUpperCase() + themeNameText.substring(1));
-        themeDrawn = true;
-        switch (themeName) {
-            case BLUE_LIGHTNING:
-                theme = new BlueLightning();
-                break;
-            case GOLD_PURPLE_STARS:
-                theme = new GoldPurpleStars();
-                break;
-            case GRADIENT_RED_BLUE:
-                theme = new GradientRedBlue();
-                break;
-            case GRADIENT_BLUE_RED:
-                theme = new GradientBlueRed();
-                break;
-            case METAL_THEME:
-                theme = new MetalTheme();
-                break;
-            case RANDOM_DOT:
-                theme = new RandomDot();
-                break;
-            case SEMI_RANDOM_DOT:
-                theme = new SemiRandomDot();
-                break;
-            case TRAFFIC_LIGHT:
-                theme = new TrafficLight();
-                break;
-            case YELLOW_DIAMONDS:
-                theme = new YellowDiamonds();
-                break;
-            default:
-                throw new NoSuchElementException(String.format(
-                        "The chosen theme %s could not be found while setting theme in ShapePanel",
-                        theme == null ? theme : themeName.name()));
-        }
-        this.theme.applyTheme(mainFrameGraphics, this);
-        writeToTextBoxAndRepaint("Select buttons, then either change the properties, or draw shapes");
-    }
-
-    /**
      * Creates the text areas for user notification and user input.
      */
     private void createTextAreas() {
@@ -523,7 +836,7 @@ public class ShapePanel extends JPanel {
      * Sets up all variables related to the canvas size once the final canvas size
      * has been set.
      */
-    public void setCanvasSizeVariables() {
+    private void setCanvasSizeVariables() {
         // Set the width and height depending on how many shapes can fit across the canvas according to its size
         int divisor = 11;
         int w = canvasSize.width / divisor - (divisor / 2);
@@ -544,21 +857,9 @@ public class ShapePanel extends JPanel {
     }
 
     /**
-     * Controls the booleans to flag when to handle user response and delegates the work to other methods.
-     * This happens whenever the user selects ok, or presses the Enter button on their keyboard.
-     */
-    public void userInputResponse() {
-        if (toSetWidthHeight) {
-            setWidthAndHeight();
-        } else if (toDrawShapes) {
-            drawShapes();
-        }
-    }
-
-    /**
      * Execute the sequence of prompts to the user to take user input to set the width and height of shapes.
      */
-    public void setWidthAndHeight() {
+    private void setWidthAndHeight() {
         if (!userInput.getText().equals("")) {
             try {
                 int input = Integer.parseInt(userInput.getText());
@@ -618,333 +919,5 @@ public class ShapePanel extends JPanel {
         TextBorder htText = (TextBorder) heightText.getBorder();
         htText.setText("" + prevHeight);
         heightText.repaint();
-    }
-
-    /**
-     * Execute the sequence of prompts when drawing shapes including asking which type of shape and the amount of shapes desired.
-     */
-    public void drawShapes() {
-
-        if (shapesToDraw.size() > 0) {
-            writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
-            userInput.requestFocus();
-            if (!userInput.getText().equals("")) {
-                try {
-                    int input = Integer.parseInt(userInput.getText());
-                    if (input > 1000 || input < 0) {
-                        writeToTextBoxAndRepaint("Please enter a number that is between 0 and 1000 inclusive");
-                        return;
-                    }
-
-                    addShapeToDrawQueue(shapesToDraw.get(0), input);
-                    shapesToDraw.remove(shapesToDraw.get(0));
-                    if (!shapesToDraw.isEmpty()) {
-                        // Continue. Pressing the ok button restarts this method
-                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
-                    } else {
-                        /* End case */
-                        // Set the background of the png before drawing
-                        Graphics pngGraphics = png.getPng().getGraphics();
-                        pngGraphics.setColor(backgroundColor);
-                        pngGraphics.fillRect(0, 0, png.getPng().getWidth(), png.getPng().getHeight());
-
-                        draw(canvas.getGraphics(), png.getPng().getGraphics());
-                        createPNGFile(png);
-                        shapes = new ArrayList<>();
-                        toDrawShapes = false;
-                        writeToTextBoxAndRepaint("Drawn successfully");
-                    }
-                } catch (NumberFormatException e) {
-                    writeToTextBoxAndRepaint("You didn't enter an integer number!");
-                }
-            }
-        }
-    }
-
-    /**
-     * Create a .png file from the current image on the panel canvas
-     *
-     * @param png The object to handle the image output
-     */
-    private void createPNGFile(PNGOutput png) {
-        // For storing RGB values to a file
-        PNGOutput.outputToFile(this, backgroundColor, OUTPUT_FILENAME);
-        png.pngFromFile(this, OUTPUT_FILENAME, OUTPUT_IMAGE_NAME);
-    }
-
-    /**
-     * "shapeName" is the name on each button in the program. Format: First letter
-     * always capitalised. Amount is the amount to draw.
-     *
-     * @param shapeName The name of the shape to be drawn
-     * @param amount    The amount of the shape to draw
-     */
-    public void addShapeToDrawQueue(ShapeName shapeName, int amount) {
-        switch (shapeName) {
-            case CIRCLE:
-                Circle c = new Circle();
-                c.setAmount(amount);
-                shapes.add(c);
-                break;
-            case ELLIPSE:
-                Ellipse e = new Ellipse();
-                e.setAmount(amount);
-                shapes.add(e);
-                break;
-            case HEXAGON:
-                Hexagon h = new Hexagon();
-                h.setAmount(amount);
-                shapes.add(h);
-                break;
-            case LIGHTNING:
-                Lightning l = new Lightning();
-                l.setAmount(amount);
-                shapes.add(l);
-                break;
-            case OCTAGON:
-                Octagon o = new Octagon();
-                o.setAmount(amount);
-                shapes.add(o);
-                break;
-            case RECTANGLE:
-                shapes.Rectangle r = new shapes.Rectangle();
-                r.setAmount(amount);
-                shapes.add(r);
-                break;
-            case SQUARE:
-                Square s = new Square();
-                s.setAmount(amount);
-                shapes.add(s);
-                break;
-            case STAR5:
-                Star5 star = new Star5();
-                star.setAmount(amount);
-                shapes.add(star);
-                break;
-            case STAR6:
-                Star6 st = new Star6();
-                st.setAmount(amount);
-                shapes.add(st);
-                break;
-            case TRIANGLE:
-            default:
-                Triangle t = new Triangle();
-                t.setAmount(amount);
-                shapes.add(t);
-                break;
-        }
-    }
-
-    /**
-     * Draws the shapes in the shapes ArrayList onto the canvas and on the PNGOutput
-     * BufferedImage Object.
-     *
-     * @param canvasGraphics The graphics object of the canvas to draw with
-     * @param pngGraphics    The graphics object of the png image to draw with
-     */
-    public void draw(Graphics canvasGraphics, Graphics pngGraphics) {
-
-        for (Shape shapeType : shapes) {
-            // Get the type of shape and draw a certain amount of the type of shape
-            shapeType.drawShape(canvasGraphics, pngGraphics, outlineColor, fillStatus);
-            ShapeAbstract.setXCursor(0);
-            ShapeAbstract.setYCursor(0);
-        }
-
-        // Finished drawing. Reset variables
-        allShapes.addAll(shapes);
-        shapes.clear();
-    }
-
-    /**
-     * Change the background colour and inform the user that the background has been changed
-     *
-     * @param color The colour to change the background to
-     */
-    public void changeBackgroundColor(Color color) {
-
-        // Background colour change on canvas
-        backgroundColor = color;
-        canvas.setBackground(color);
-
-        ColorBorder colorLabel = (ColorBorder) changeBackgroundPanelWrapper.getBorder();
-        colorLabel.setColor(color);
-
-        // For simplicity, clear the shapes when the background colour is changed
-        clearDrawing();
-
-        changeBackgroundPanelWrapper.repaint();
-        writeToTextBoxAndRepaint("Background colour changed successfully");
-        themeDrawn = false;
-    }
-
-    /**
-     * Change the shape outline color and inform the user that the background has been changed
-     *
-     * @param color The color to change the shape outline to
-     */
-    public void shapeOutlineColorChange(Color color) {
-        // Shape outline colour change
-        outlineColor = color;
-        ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
-        colorLabel.setColor(color);
-        changeOutlinePanelWrapper.repaint();
-        writeToTextBoxAndRepaint("Outline colour changed successfully");
-    }
-
-    /**
-     * Set a theme of the panel from the name of the theme.
-     *
-     * @param themeName The name of the theme
-     */
-    public void setThemeFromName(String themeName) {
-        if (themeName.equals("none")) {
-            return;
-        }
-        applyTheme(this.getGraphics());
-    }
-
-    public List<Shape> getShapes() {
-        return shapes;
-    }
-
-    public void setShapes(List<Shape> shapes) {
-        this.shapes = shapes;
-    }
-
-    public List<Shape> getAllShapes() {
-        return allShapes;
-    }
-
-    public void setAllShapes(List<Shape> allShapes) {
-        this.allShapes = allShapes;
-    }
-
-    public JPanel getCanvas() {
-        return canvas;
-    }
-
-    void setCanvas(JPanel canvas) {
-        this.canvas = canvas;
-    }
-
-    public JTextArea getTextDisplay() {
-        return textDisplay;
-    }
-
-    public PNGOutput getPng() {
-        return png;
-    }
-
-    public void setPng(PNGOutput png) {
-        this.png = png;
-    }
-
-    public List<JButton> getShapeButtonList() {
-        return shapeButtonList;
-    }
-
-    public void setShapeButtonList(List<JButton> shapeButtonList) {
-        this.shapeButtonList = shapeButtonList;
-    }
-
-    public List<ShapeName> getShapesToDraw() {
-        return shapesToDraw;
-    }
-
-    public void setShapesToDraw(List<ShapeName> shapesToDraw) {
-        this.shapesToDraw = shapesToDraw;
-    }
-
-    public JTextField getUserInput() {
-        return userInput;
-    }
-
-    public void setUserInput(JTextField userInput) {
-        this.userInput = userInput;
-    }
-
-    public Color getOutlineColor() {
-        return outlineColor;
-    }
-
-    public void setOutlineColor(Color outlineColor) {
-        this.outlineColor = outlineColor;
-    }
-
-    public JTextArea getChangeBackgroundPanelWrapper() {
-        return changeBackgroundPanelWrapper;
-    }
-
-    public JTextArea getChangeOutlinePanelWrapper() {
-        return changeOutlinePanelWrapper;
-    }
-
-    public boolean isToDrawShapes() {
-        return toDrawShapes;
-    }
-
-    public void setToDrawShapes(boolean toDrawShapes) {
-        this.toDrawShapes = toDrawShapes;
-    }
-
-    public boolean isToSetWidthHeight() {
-        return toSetWidthHeight;
-    }
-
-    public void setToSetWidthHeight(boolean toSetWidthHeight) {
-        this.toSetWidthHeight = toSetWidthHeight;
-    }
-
-    public boolean isToChangeWidth() {
-        return toChangeWidth;
-    }
-
-    public void setToChangeWidth(boolean toChangeWidth) {
-        this.toChangeWidth = toChangeWidth;
-    }
-
-    public boolean isToChangeHeight() {
-        return toChangeHeight;
-    }
-
-    public void setToChangeHeight(boolean toChangeHeight) {
-        this.toChangeHeight = toChangeHeight;
-    }
-
-    public FillStatus getFillStatus() {
-        return fillStatus;
-    }
-
-    public void setFillStatus(FillStatus fillStatus) {
-        this.fillStatus = fillStatus;
-    }
-
-    public boolean isThemeDrawn() {
-        return themeDrawn;
-    }
-
-    public void setThemeDrawn(boolean themeDrawn) {
-        this.themeDrawn = themeDrawn;
-    }
-
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public void setTheme(Theme theme) {
-        this.theme = theme;
-    }
-
-    public JButton getClearButton() {
-        return clearButton;
-    }
-
-    public JTextArea getThemeText() {
-        return themeText;
-    }
-
-    public Color getBackgroundColor() {
-        return backgroundColor;
     }
 }

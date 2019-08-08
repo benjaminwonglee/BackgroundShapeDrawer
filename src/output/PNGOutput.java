@@ -4,7 +4,7 @@ import misc.FillStatus;
 import panels.ShapePanel;
 import shapes.Shape;
 import shapes.ShapeMetadata;
-import themes.Theme;
+import themes.ITheme;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,18 +23,22 @@ import static util.Utils.retrieveThemeFromName;
 
 public class PNGOutput {
 
+    private static final String OUTPUT_FILENAME = "output.txt";
+    private static final String OUTPUT_IMAGE_NAME = "output.png";
+
     private final BufferedImage png;
 
     /**
-     * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
-     * argument for the size of the new PNG file it will output.
+     * Create a .png file from the current image on the panel canvas
      *
-     * @param canvasSize The size of the expected PNGOutput
+     * @param png The object to handle the image output
      */
-    public PNGOutput(Rectangle canvasSize) {
-        this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
-                BufferedImage.TYPE_INT_ARGB);
+    public static void createPNGFile(ShapePanel sp, PNGOutput png) {
+        // For storing RGB values to a file
+        PNGOutput.outputToFile(sp, sp.getBackgroundColor(), OUTPUT_FILENAME);
+        png.pngFromFile(sp, OUTPUT_FILENAME, OUTPUT_IMAGE_NAME);
     }
+
 
     /**
      * Outputs the current drawing to a .txt file.
@@ -81,6 +85,17 @@ public class PNGOutput {
     }
 
     /**
+     * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
+     * argument for the size of the new PNG file it will output.
+     *
+     * @param canvasSize The size of the expected PNGOutput
+     */
+    public PNGOutput(Rectangle canvasSize) {
+        this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
+                BufferedImage.TYPE_INT_ARGB);
+    }
+
+    /**
      * Makes a png file from a given txt file and assigns the png file newImageName.
      *
      * @param sp           The ShapePanel that this is being called from
@@ -108,12 +123,21 @@ public class PNGOutput {
         parseImageInfoTextFile(sp, filename, false);
     }
 
+    public BufferedImage getPng() {
+        return png;
+    }
+
+    private static Scanner createScannerOverFile(String filename) throws FileNotFoundException {
+        return new Scanner(new File(filename));
+    }
+
     /**
      * Parse the text file to load a previously saved output
      *
      * @param sp       The shape panel object to display status information
      * @param filename The file to parse from
      * @param toImage  Whether the image is being loaded or being saved to an image file
+     *
      * @return
      */
     private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
@@ -121,7 +145,7 @@ public class PNGOutput {
         try {
             sc = createScannerOverFile(filename);
         } catch (FileNotFoundException e) {
-            sp.writeToTextBoxAndRepaint("There was an reading the text file at " + filename + ".");
+            sp.writeToTextBoxAndRepaint("There was an error reading the text file " + filename + ".");
             return false;
         }
 
@@ -192,7 +216,7 @@ public class PNGOutput {
             g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
         } else {
             // Apply a theme if it exists
-            Theme th = retrieveThemeFromName(themeName);
+            ITheme th = retrieveThemeFromName(themeName);
             JPanel pngSize = new JPanel();
             pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
             th.applyTheme(png.getGraphics(), pngSize);
@@ -205,20 +229,8 @@ public class PNGOutput {
             g2d.setPaint(backgroundColor);
             g2d.fillRect(0, 0, sp.getWidth(), sp.getHeight());
         } else {
-            Theme th = retrieveThemeFromName(themeName);
             sp.setThemeFromName(themeName);
-            sp.setOpaque(false);
-            sp.getCanvas().setOpaque(true);
-            sp.repaint();
-            th.applyTheme(sp.getCanvas().getGraphics(), sp);
+            sp.drawThemeToCanvas();
         }
-    }
-
-    private static Scanner createScannerOverFile(String filename) throws FileNotFoundException {
-        return new Scanner(new File(filename));
-    }
-
-    public BufferedImage getPng() {
-        return png;
     }
 }

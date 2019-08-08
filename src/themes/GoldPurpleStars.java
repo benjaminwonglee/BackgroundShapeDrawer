@@ -6,7 +6,7 @@ import shapes.Star5;
 import javax.swing.*;
 import java.awt.*;
 
-public class GoldPurpleStars implements Theme {
+public class GoldPurpleStars implements ITheme {
 
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
@@ -32,7 +32,7 @@ public class GoldPurpleStars implements Theme {
     }
 
     @Override
-    public ThemeName getThemeName() {
-        return ThemeName.GOLD_PURPLE_STARS;
+    public Theme getTheme() {
+        return Theme.GOLD_PURPLE_STARS;
     }
 }

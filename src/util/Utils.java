@@ -88,8 +88,8 @@ public class Utils {
      * @param themeName The name of the theme
      * @return A Shape object representing the named shape
      */
-    public static Theme retrieveThemeFromName(String themeName) {
-        Theme theme;
+    public static ITheme retrieveThemeFromName(String themeName) {
+        ITheme theme;
         switch (themeName) {
             case ("blue lightning"):
                 theme = new BlueLightning();
@@ -104,7 +104,7 @@ public class Utils {
                 theme = new GradientBlueRed();
                 break;
             case ("metal theme"):
-                theme = new MetalTheme();
+                theme = new Steel();
                 break;
             case ("random dot"):
                 theme = new RandomDot();
