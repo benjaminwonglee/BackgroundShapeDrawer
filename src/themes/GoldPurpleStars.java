@@ -32,7 +32,7 @@ public class GoldPurpleStars implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.GOLD_PURPLE_STARS;
     }
 }

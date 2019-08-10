@@ -19,7 +19,7 @@ public class GradientRedBlue implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.GRADIENT_RED_BLUE;
     }
 }

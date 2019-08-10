@@ -22,7 +22,7 @@ public class SemiRandomDot implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.SEMI_RANDOM_DOT;
     }
 }

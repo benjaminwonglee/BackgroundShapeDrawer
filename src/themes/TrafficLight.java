@@ -20,7 +20,7 @@ public class TrafficLight implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.TRAFFIC_LIGHT;
     }
 }

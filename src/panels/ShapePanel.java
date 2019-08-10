@@ -17,7 +17,6 @@ import java.awt.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static util.Utils.getScreenSize;
 
@@ -140,7 +139,7 @@ public class ShapePanel extends JPanel {
     }
 
     public void applyTheme(String themeName, Graphics mainFrameGraphics) {
-        Theme theme = Theme.getThemeFromName(themeName);
+        ITheme theme = Theme.getThemeFromName(themeName);
         if (theme == null) {
             return;
         }
@@ -155,45 +154,12 @@ public class ShapePanel extends JPanel {
      * @param theme             The theme to apply
      * @param mainFrameGraphics The graphics object to draw the theme with
      */
-    public void applyTheme(Theme theme, Graphics mainFrameGraphics) {
+    public void applyTheme(ITheme theme, Graphics mainFrameGraphics) {
         allShapes.clear();
         TextBorder t = (TextBorder) themeText.getBorder();
-        String themeName = theme.getThemeName();
+        String themeName = theme.getName();
+        this.theme = theme;
         t.setText(themeName.substring(0, 1).toUpperCase() + themeName.substring(1));
-        themeDrawn = true;
-        switch (theme) {
-            case BLUE_LIGHTNING:
-                this.theme = new BlueLightning();
-                break;
-            case GOLD_PURPLE_STARS:
-                this.theme = new GoldPurpleStars();
-                break;
-            case GRADIENT_RED_BLUE:
-                this.theme = new GradientRedBlue();
-                break;
-            case GRADIENT_BLUE_RED:
-                this.theme = new GradientBlueRed();
-                break;
-            case METAL_THEME:
-                this.theme = new Steel();
-                break;
-            case RANDOM_DOT:
-                this.theme = new RandomDot();
-                break;
-            case SEMI_RANDOM_DOT:
-                this.theme = new SemiRandomDot();
-                break;
-            case TRAFFIC_LIGHT:
-                this.theme = new TrafficLight();
-                break;
-            case YELLOW_DIAMONDS:
-                this.theme = new YellowDiamonds();
-                break;
-            default:
-                throw new NoSuchElementException(String.format(
-                        "The chosen theme %s could not be found while setting theme in ShapePanel",
-                        this.theme == null ? this.theme : this.theme.getTheme().getThemeName()));
-        }
         this.theme.applyTheme(mainFrameGraphics, this);
         writeToTextBoxAndRepaint("Select buttons, then either change the properties, or draw shapes");
     }
@@ -289,8 +255,7 @@ public class ShapePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) getGraphics().create();
         g2d.setPaint(new Color(0, 0, 0));
         g2d.fillRect(0, 0, getBounds().width, getBounds().height);
-        getAllShapes().clear();
-        Shape.clearAllShapes();
+        clearAllShapes();
 
         // Redraw all the buttons
         for (Component c : getComponents()) {
@@ -349,9 +314,19 @@ public class ShapePanel extends JPanel {
      */
     public void setThemeFromName(String themeName) {
         if (themeName.equals("none")) {
+            this.theme = null;
             return;
         }
         applyTheme(themeName, this.getGraphics());
+    }
+
+    public void clearAllShapes() {
+        if (allShapes == null) {
+            allShapes = new ArrayList<>();
+        } else {
+            allShapes.clear();
+            Shape.clearAllShapes();
+        }
     }
 
     public List<Shape> getShapes() {

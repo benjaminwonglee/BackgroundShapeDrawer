@@ -1,21 +1,23 @@
 package themes;
 
 public enum Theme {
-    BLUE_LIGHTNING("blue lightning"),
-    GOLD_PURPLE_STARS("gold purple stars"),
-    GRADIENT_BLUE_RED("gradient blue red"),
-    GRADIENT_RED_BLUE("gradient red blue"),
-    METAL_THEME("metal theme"),
-    RANDOM_DOT("random dot"),
-    SEMI_RANDOM_DOT("semi random dot"),
-    TRAFFIC_LIGHT("traffic light"),
-    YELLOW_DIAMONDS("yellow diamonds"),
+    BLUE_LIGHTNING("blue lightning", new BlueLightning()),
+    GOLD_PURPLE_STARS("gold purple stars", new GoldPurpleStars()),
+    GRADIENT_BLUE_RED("gradient blue red", new GradientBlueRed()),
+    GRADIENT_RED_BLUE("gradient red blue", new GradientRedBlue()),
+    STEEL("steel", new Steel()),
+    RANDOM_DOT("random dot", new RandomDot()),
+    SEMI_RANDOM_DOT("semi random dot", new SemiRandomDot()),
+    TRAFFIC_LIGHT("traffic light", new TrafficLight()),
+    YELLOW_DIAMONDS("yellow diamonds", new YellowDiamonds()),
     ;
 
-    private String themeName;
+    private final ITheme theme;
+    private final String themeName;
 
-    Theme(String themeName) {
+    Theme(String themeName, ITheme theme) {
         this.themeName = themeName;
+        this.theme = theme;
     }
 
     public static Theme getNext(Theme theme) {
@@ -24,7 +26,12 @@ public enum Theme {
         return ordinal + 1 < values.length ? values[ordinal + 1] : values[0];
     }
 
-    public static Theme getThemeFromName(String themeName) {
+    public static ITheme getThemeFromName(String themeName) {
+        Theme themeEnum = getThemeEnumFromName(themeName);
+        return themeEnum != null ? themeEnum.getTheme() : null;
+    }
+
+    public static Theme getThemeEnumFromName(String themeName) {
         Theme[] values = Theme.values();
         for (Theme theme : values) {
             if (theme.getThemeName().equalsIgnoreCase(themeName)) {
@@ -36,5 +43,9 @@ public enum Theme {
 
     public String getThemeName() {
         return themeName;
+    }
+
+    public ITheme getTheme() {
+        return theme;
     }
 }

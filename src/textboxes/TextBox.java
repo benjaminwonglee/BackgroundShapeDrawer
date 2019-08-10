@@ -3,7 +3,6 @@ package textboxes;
 import panels.ShapePanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public abstract class TextBox extends JTextArea {
     private static int optionButtonWidth;

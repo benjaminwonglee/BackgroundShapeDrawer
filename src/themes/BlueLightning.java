@@ -31,7 +31,7 @@ public class BlueLightning implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.BLUE_LIGHTNING;
     }
 }

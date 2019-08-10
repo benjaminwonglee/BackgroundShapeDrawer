@@ -5,6 +5,7 @@ import panels.ShapePanel;
 import shapes.Shape;
 import shapes.ShapeMetadata;
 import themes.ITheme;
+import themes.Theme;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,12 +15,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import static util.Utils.determineShapeFromName;
-import static util.Utils.retrieveThemeFromName;
 
 public class PNGOutput {
 
@@ -117,9 +116,6 @@ public class PNGOutput {
     }
 
     public void loadFromTextFile(ShapePanel sp, String filename) {
-        if (sp.getAllShapes() == null) {
-            sp.setAllShapes(new ArrayList<>());
-        }
         parseImageInfoTextFile(sp, filename, false);
     }
 
@@ -138,7 +134,7 @@ public class PNGOutput {
      * @param filename The file to parse from
      * @param toImage  Whether the image is being loaded or being saved to an image file
      *
-     * @return
+     * @return {@code true} if parsing was successful
      */
     private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
         Scanner sc;
@@ -157,6 +153,7 @@ public class PNGOutput {
         if (toImage) {
             applyThemeToBufferedImage(backgroundColor, themeName);
         } else {
+            sp.clearAllShapes();
             applyThemeToShapePanelCanvas(sp, backgroundColor, themeName);
         }
 
@@ -186,7 +183,7 @@ public class PNGOutput {
             }
 
             // Process and draw read variables
-            // TODO: Feature: Add an option to be able to draw in random order so the shape colours are mixed up
+            // TODO: Feature: Add an option to be able to draw in random order so overlapping shape colours are mixed up
             Shape shape = determineShapeFromName(shapeName);
             if (!toImage) {
                 shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
@@ -200,6 +197,7 @@ public class PNGOutput {
                 metadata.setFillStatus(fillInt);
                 metadata.setRgb(rgb);
                 shape.getXY().add(metadata);
+                sp.getAllShapes().add(shape);
             } else {
                 shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
             }
@@ -216,7 +214,7 @@ public class PNGOutput {
             g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
         } else {
             // Apply a theme if it exists
-            ITheme th = retrieveThemeFromName(themeName);
+            ITheme th = Theme.getThemeFromName(themeName);
             JPanel pngSize = new JPanel();
             pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
             th.applyTheme(png.getGraphics(), pngSize);

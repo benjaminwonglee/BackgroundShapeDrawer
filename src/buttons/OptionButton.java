@@ -31,7 +31,7 @@ public abstract class OptionButton extends JButton {
     public void create(String label) {
         newButtonBounds(this);
         setBorder(new OptionBorder(label, getOptColor()));
-        addActionListener(event -> getResponse().respond(sp));
+        addActionListener(event -> response.respond(sp));
     }
 
     public static void setOptColor(Color optColor) {
@@ -42,16 +42,8 @@ public abstract class OptionButton extends JButton {
         return optColor;
     }
 
-    public static int getOptionButtonWidth() {
-        return optionButtonWidth;
-    }
-
     public static void setOptionButtonWidth(int optionButtonWidth) {
         OptionButton.optionButtonWidth = optionButtonWidth;
-    }
-
-    public static int getOptionButtonHeight() {
-        return optionButtonHeight;
     }
 
     public static void setOptionButtonHeight(int optionButtonHeight) {

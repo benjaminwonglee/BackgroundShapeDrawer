@@ -27,7 +27,7 @@ public class YellowDiamonds implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
+    public Theme getThemeEnum() {
         return Theme.YELLOW_DIAMONDS;
     }
 }

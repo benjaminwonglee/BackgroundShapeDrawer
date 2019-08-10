@@ -25,7 +25,7 @@ public class Steel implements ITheme {
     }
 
     @Override
-    public Theme getTheme() {
-        return Theme.METAL_THEME;
+    public Theme getThemeEnum() {
+        return Theme.STEEL;
     }
 }

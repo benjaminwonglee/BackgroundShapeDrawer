@@ -2,10 +2,6 @@ package responses;
 
 import borders.TextBorder;
 import panels.ShapePanel;
-import shapes.Shape;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class DrawThemeToCanvasResponse implements ButtonResponse {
 

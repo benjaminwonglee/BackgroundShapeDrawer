@@ -116,10 +116,8 @@ public class Utils {
                 theme = new TrafficLight();
                 break;
             case ("yellow diamonds"):
-                theme = new YellowDiamonds();
-                break;
             default:
-                theme = new RandomDot();
+                theme = new YellowDiamonds();
                 break;
         }
         return theme;

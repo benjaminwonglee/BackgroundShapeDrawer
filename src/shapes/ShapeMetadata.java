@@ -2,12 +2,12 @@ package shapes;
 
 public class ShapeMetadata {
 
-    int x = Integer.MIN_VALUE;
-    int y = Integer.MIN_VALUE;
-    int width = Integer.MIN_VALUE;
-    int height = Integer.MIN_VALUE;
-    int fillStatus = Integer.MIN_VALUE;
-    int rgb = Integer.MIN_VALUE;
+    private int x = Integer.MIN_VALUE;
+    private int y = Integer.MIN_VALUE;
+    private int width = Integer.MIN_VALUE;
+    private int height = Integer.MIN_VALUE;
+    private int fillStatus = Integer.MIN_VALUE;
+    private int rgb = Integer.MIN_VALUE;
 
     public int getX() {
         return x;

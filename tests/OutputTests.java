@@ -89,7 +89,7 @@ public class OutputTests {
 //		ShapePanel sp = new ShapePanel();
 //		int testNum = 2;
 //
-//		// Adds to ShapePanel shapes arraylist.
+//		// Adds to ShapePanel shapes array list.
 //		sp.addShapeToDrawQueue("Triangle", testNum);
 //		HashSet<Shape> shapes = sp.getAllShapes();
 //
