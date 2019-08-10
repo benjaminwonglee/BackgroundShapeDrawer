@@ -2,7 +2,7 @@ package patterns;
 
 import java.awt.*;
 
-public class RandomPattern implements Pattern {
+public class RandomPattern implements IPattern {
 
     private int width;
     private int height;

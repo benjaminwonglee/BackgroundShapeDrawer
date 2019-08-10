@@ -2,7 +2,7 @@ package patterns;
 
 import java.awt.*;
 
-public class AlignedPattern implements Pattern {
+public class AlignedPattern implements IPattern {
 
     private int width;
     private int height;

@@ -75,7 +75,7 @@ public abstract class ShapeAbstract implements IShape {
     }
 
     @Override
-    public ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill) {
+    public ShapeMetadata setDrawVariables(Color c, IPattern p, FillStatus fill) {
         ShapeMetadata metadata = new ShapeMetadata();
 
         int x = p.xInCanvas(xCursor, yCursor);
@@ -93,9 +93,9 @@ public abstract class ShapeAbstract implements IShape {
     }
 
     @Override
-    public Pattern selectPattern() {
+    public IPattern selectPattern() {
         // Default to random pattern
-        Pattern p = new RandomPattern();
+        IPattern p = new RandomPattern();
         if (pattern == DrawPattern.ALIGNED) {
             p = new AlignedPattern();
         } else if (pattern == DrawPattern.ALTERNATING) {
@@ -147,10 +147,6 @@ public abstract class ShapeAbstract implements IShape {
     @Override
     public void setCanvasFilled(boolean isCanvasFilled) {
         canvasFilled = isCanvasFilled;
-    }
-
-    public enum DrawPattern {
-        RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSS_ALTERNATING
     }
 
     static int getGradientFactor() {

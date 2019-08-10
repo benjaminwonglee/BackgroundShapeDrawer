@@ -2,7 +2,7 @@ package patterns;
 
 import java.awt.*;
 
-public class AlternatingPattern implements Pattern {
+public class AlternatingPattern implements IPattern {
 
     private int width;
     private int height;

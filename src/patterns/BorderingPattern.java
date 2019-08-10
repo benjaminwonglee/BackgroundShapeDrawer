@@ -2,7 +2,7 @@ package patterns;
 
 import java.awt.*;
 
-public class BorderingPattern implements Pattern {
+public class BorderingPattern implements IPattern {
 
     private int width;
     private int height;

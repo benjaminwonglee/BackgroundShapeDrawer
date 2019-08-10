@@ -5,6 +5,7 @@ import buttons.*;
 import misc.FillStatus;
 import misc.UserInputKeyListener;
 import output.PNGOutput;
+import patterns.DrawPattern;
 import responses.*;
 import shapes.IShape;
 import shapes.*;
@@ -21,7 +22,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static util.Utils.getScreenSize;
+import static util.LocalSwingUtils.getScreenSize;
 
 public class ShapePanel extends JPanel {
 
@@ -124,8 +125,9 @@ public class ShapePanel extends JPanel {
     @Override
     public void paintComponent(Graphics mainFrameGraphics) {
         super.paintComponent(mainFrameGraphics);
-
-        applyTheme(theme.getTheme(), mainFrameGraphics);
+        if (!themeDrawn) {
+            applyTheme(theme.getTheme(), mainFrameGraphics);
+        }
         this.draw(getGraphics(), png.getPng().getGraphics());
     }
 
@@ -649,23 +651,19 @@ public class ShapePanel extends JPanel {
         this.patternSelector = new JComboBox<>();
         patternSelector.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight);
         patternSelector.setFont(new Font("Arial", Font.BOLD, 16));
-        patternSelector.addItem("Random");
-        patternSelector.addItem("Aligned");
-        patternSelector.addItem("Alternating");
-        patternSelector.addItem("Bordering");
-        patternSelector.addItem("Cross Alternating");
+        patternSelector.addItem(DrawPattern.RANDOM.getPatternName());
+        patternSelector.addItem(DrawPattern.ALIGNED.getPatternName());
+        patternSelector.addItem(DrawPattern.ALTERNATING.getPatternName());
+        patternSelector.addItem(DrawPattern.BORDERING.getPatternName());
+        patternSelector.addItem(DrawPattern.CROSS_ALTERNATING.getPatternName());
         patternSelector.addActionListener(event -> {
             if (patternSelector.getSelectedItem() != null) {
-                if (patternSelector.getSelectedItem().equals("Random")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.RANDOM);
-                } else if (patternSelector.getSelectedItem().equals("Aligned")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALIGNED);
-                } else if (patternSelector.getSelectedItem().equals("Alternating")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.ALTERNATING);
-                } else if (patternSelector.getSelectedItem().equals("Bordering")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.BORDERING);
-                } else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSS_ALTERNATING);
+                String selectedItem = patternSelector.getSelectedItem().toString();
+                DrawPattern patternFromName = DrawPattern.getPatternFromName(selectedItem);
+                if (patternFromName != null) {
+                    ShapeAbstract.setPattern(patternFromName);
+                } else {
+                    writeToTextBoxAndRepaint("Error: Selected pattern could not be established.");
                 }
             }
         });
@@ -763,14 +761,14 @@ public class ShapePanel extends JPanel {
      */
     private void setCanvasSizeVariables() {
         // Set the width and height depending on how many shapes can fit across the canvas according to its size
-        int divisor = 11;
-        int w = canvasSize.width / divisor - (divisor / 2);
+        int width = 93;
+        int height = 83;
         // Set the static ShapeAbstract variables
         ShapeAbstract.setCanvasSize(canvasSize);
-        ShapeAbstract.setWidth(w);
-        ShapeAbstract.setPrevWidth(w);
-        ShapeAbstract.setHeight(w);
-        ShapeAbstract.setPrevHeight(w);
+        ShapeAbstract.setWidth(width);
+        ShapeAbstract.setPrevWidth(width);
+        ShapeAbstract.setHeight(height);
+        ShapeAbstract.setPrevHeight(height);
         // Update the width height text boxes
         TextBorder text = (TextBorder) widthText.getBorder();
         text.setText(String.valueOf(ShapeAbstract.getWidth()));

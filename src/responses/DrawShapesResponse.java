@@ -3,7 +3,6 @@ package responses;
 import borders.ActivateBorder;
 import panels.ShapePanel;
 import shapes.Shape;
-import util.Utils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class DrawShapesResponse implements ButtonResponse {
             ActivateBorder border = (ActivateBorder) button.getBorder();
             if (border.getActivated()) {
                 String shapeName = border.getLabel();
-                shapesToDraw.add(Utils.determineShapeNameFromString(shapeName));
+                shapesToDraw.add(Shape.getShapeEnumFromName(shapeName));
             }
         }
         JTextField userInput = sp.getUserInput();

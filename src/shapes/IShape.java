@@ -1,7 +1,7 @@
 package shapes;
 
 import misc.FillStatus;
-import patterns.Pattern;
+import patterns.IPattern;
 
 import java.awt.*;
 import java.util.List;
@@ -11,7 +11,7 @@ public interface IShape {
     default void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill) {
         g.setColor(c);
         pngGraphics.setColor(c);
-        Pattern p = selectPattern();
+        IPattern p = selectPattern();
 
         for (int i = 0; i < getAmount(); i++) {
             ShapeMetadata metadata = setDrawVariables(c, p, fill);
@@ -28,9 +28,9 @@ public interface IShape {
 
     String name();
 
-    ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill);
+    ShapeMetadata setDrawVariables(Color c, IPattern p, FillStatus fill);
 
-    Pattern selectPattern();
+    IPattern selectPattern();
 
     int getAmount();
 

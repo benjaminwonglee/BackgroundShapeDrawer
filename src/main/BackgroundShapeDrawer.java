@@ -1,7 +1,7 @@
 package main;
 
 import panels.ShapePanel;
-import util.Utils;
+import util.LocalSwingUtils;
 
 import javax.swing.*;
 
@@ -16,7 +16,7 @@ public class BackgroundShapeDrawer {
 
     private void setFrameProperties(JFrame frame) {
         frame.setTitle("BackgroundShapeDrawer");
-        frame.setPreferredSize(Utils.getScreenSize());
+        frame.setPreferredSize(LocalSwingUtils.getScreenSize());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.pack();
@@ -25,6 +25,6 @@ public class BackgroundShapeDrawer {
     }
 
     public static void main(String[] args) {
-        new BackgroundShapeDrawer();
+        SwingUtilities.invokeLater(() -> new BackgroundShapeDrawer());
     }
 }

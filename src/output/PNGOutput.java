@@ -18,8 +18,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 
-import static util.Utils.determineShapeFromName;
-
 public class PNGOutput {
 
     private static final String OUTPUT_FILENAME = "output.txt";
@@ -143,7 +141,6 @@ public class PNGOutput {
             return false;
         }
 
-        sp.paint(sp.getGraphics());
         Color backgroundColor = new Color(sc.nextInt());
 
         // Skip over the next line character
@@ -152,6 +149,7 @@ public class PNGOutput {
         if (toImage) {
             applyThemeToBufferedImage(backgroundColor, themeName);
         } else {
+            sp.paint(sp.getGraphics());
             sp.clearAllShapes();
             applyThemeToShapePanelCanvas(sp, backgroundColor, themeName);
         }
@@ -183,7 +181,12 @@ public class PNGOutput {
 
             // Process and draw read variables
             // TODO: Feature: Add an option to be able to draw in random order so overlapping shape colours are mixed up
-            IShape shape = determineShapeFromName(shapeName);
+            IShape shape = shapes.Shape.getShapeFromName(shapeName);
+            if (shape == null) {
+                sp.writeToTextBoxAndRepaint("There was an error reading the text file " + filename + ".\n" +
+                        "Shape name (" + shapeName + ") was not a recognised shape.");
+                return false;
+            }
 
             List<IShape> allShapes = sp.getAllShapes();
             boolean shouldAdd = true;
