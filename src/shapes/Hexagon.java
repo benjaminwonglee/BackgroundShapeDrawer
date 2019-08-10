@@ -7,12 +7,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hexagon extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Hexagon extends ShapeAbstract implements IShape {
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.HEXAGON.getShapeName();
+        return Shape.HEXAGON.getShapeName();
     }
 
     @Override
@@ -83,5 +83,10 @@ public class Hexagon extends ShapeAbstract implements Shape {
 //        ys[5] = ys[5] - 1;
 //        ys[6] = ys[6] + 1;
         return ys;
+    }
+
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
     }
 }

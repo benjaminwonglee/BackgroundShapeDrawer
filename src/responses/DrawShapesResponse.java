@@ -2,7 +2,7 @@ package responses;
 
 import borders.ActivateBorder;
 import panels.ShapePanel;
-import shapes.ShapeName;
+import shapes.Shape;
 import util.Utils;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class DrawShapesResponse implements ButtonResponse {
         sp.setToDrawShapes(true);
 
         // Add activated shapes
-        List<ShapeName> shapesToDraw = new ArrayList<>();
+        List<Shape> shapesToDraw = new ArrayList<>();
 
         List<JButton> buttonList = sp.getShapeButtonList();
         for (JButton button : buttonList) {

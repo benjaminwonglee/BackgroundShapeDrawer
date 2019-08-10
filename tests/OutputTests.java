@@ -1,7 +1,7 @@
 import org.junit.Test;
 import output.PNGOutput;
 import panels.ShapePanel;
-import shapes.ShapeName;
+import shapes.Shape;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,8 +29,8 @@ public class OutputTests {
         int numShapes = 5;
 
         // Adds to ShapePanel shapes ArrayList.
-        sp.addShapeToDrawQueue(ShapeName.CIRCLE, numShapes);
-        sp.addShapeToDrawQueue(ShapeName.SQUARE, numShapes);
+        sp.addShapeToDrawQueue(Shape.CIRCLE, numShapes);
+        sp.addShapeToDrawQueue(Shape.SQUARE, numShapes);
 
         // Before drawing, set the abstract variables
         sp.draw(new TestCanvas().getGraphics(), png.getPng().getGraphics());

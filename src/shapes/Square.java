@@ -7,12 +7,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Square extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Square extends ShapeAbstract implements IShape {
+
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.SQUARE.getShapeName();
+        return Shape.SQUARE.getShapeName();
     }
 
     @Override
@@ -49,4 +50,8 @@ public class Square extends ShapeAbstract implements Shape {
         return shapeMetadata;
     }
 
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
+    }
 }

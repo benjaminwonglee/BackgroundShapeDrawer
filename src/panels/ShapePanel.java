@@ -2,13 +2,13 @@ package panels;
 
 import borders.*;
 import buttons.*;
-import com.sun.deploy.util.OrderedHashSet;
 import misc.FillStatus;
 import misc.UserInputKeyListener;
 import output.PNGOutput;
 import responses.*;
-import shapes.Shape;
+import shapes.IShape;
 import shapes.*;
+import shapes.Shape;
 import textboxes.ColoredLabel;
 import textboxes.TextBox;
 import themes.GradientRedBlue;
@@ -19,7 +19,6 @@ import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import static util.Utils.getScreenSize;
@@ -45,9 +44,9 @@ public class ShapePanel extends JPanel {
     private Rectangle canvasSize;
     private int optionButtonWidth;
 
-    private List<ShapeName> shapesToDraw;
-    private List<Shape> shapes;
-    private List<Shape> allShapes;
+    private List<Shape> shapesToDraw;
+    private List<IShape> shapes;
+    private List<IShape> allShapes;
 
     // Button response booleans
     private boolean toDrawShapes = false;
@@ -175,61 +174,10 @@ public class ShapePanel extends JPanel {
      * @param shapeName The name of the shape to be drawn
      * @param amount    The amount of the shape to draw
      */
-    public void addShapeToDrawQueue(ShapeName shapeName, int amount) {
-        // TODO: Simplify this to be more flexible
-        switch (shapeName) {
-            case CIRCLE:
-                Circle c = new Circle();
-                c.setAmount(amount);
-                shapes.add(c);
-                break;
-            case ELLIPSE:
-                Ellipse e = new Ellipse();
-                e.setAmount(amount);
-                shapes.add(e);
-                break;
-            case HEXAGON:
-                Hexagon h = new Hexagon();
-                h.setAmount(amount);
-                shapes.add(h);
-                break;
-            case LIGHTNING:
-                Lightning l = new Lightning();
-                l.setAmount(amount);
-                shapes.add(l);
-                break;
-            case OCTAGON:
-                Octagon o = new Octagon();
-                o.setAmount(amount);
-                shapes.add(o);
-                break;
-            case RECTANGLE:
-                shapes.Rectangle r = new shapes.Rectangle();
-                r.setAmount(amount);
-                shapes.add(r);
-                break;
-            case SQUARE:
-                Square s = new Square();
-                s.setAmount(amount);
-                shapes.add(s);
-                break;
-            case STAR5:
-                Star5 star = new Star5();
-                star.setAmount(amount);
-                shapes.add(star);
-                break;
-            case STAR6:
-                Star6 st = new Star6();
-                st.setAmount(amount);
-                shapes.add(st);
-                break;
-            case TRIANGLE:
-            default:
-                Triangle t = new Triangle();
-                t.setAmount(amount);
-                shapes.add(t);
-                break;
-        }
+    public void addShapeToDrawQueue(Shape shapeName, int amount) {
+        IShape shape = shapeName.getShape();
+        shape.setAmount(amount);
+        shapes.add(shape);
     }
 
     /**
@@ -241,7 +189,7 @@ public class ShapePanel extends JPanel {
      */
     public void draw(Graphics canvasGraphics, Graphics pngGraphics) {
 
-        for (Shape shapeType : shapes) {
+        for (IShape shapeType : shapes) {
             // Get the type of shape and draw a certain amount of the type of shape
             shapeType.drawShape(canvasGraphics, pngGraphics, outlineColor, fillStatus);
             ShapeAbstract.setXCursor(0);
@@ -304,7 +252,6 @@ public class ShapePanel extends JPanel {
      * @param color The color to change the shape outline to
      */
     public void shapeOutlineColorChange(Color color) {
-        // Shape outline colour change
         outlineColor = color;
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
         colorLabel.setColor(color);
@@ -330,19 +277,21 @@ public class ShapePanel extends JPanel {
             allShapes = new ArrayList<>();
         } else {
             allShapes.clear();
-            Shape.clearAllShapes();
+            for (Shape shape : Shape.values()) {
+                shape.getShape().clearShape();
+            }
         }
     }
 
-    public List<Shape> getShapes() {
+    public List<IShape> getShapes() {
         return shapes;
     }
 
-    public void setShapes(List<Shape> shapes) {
+    public void setShapes(List<IShape> shapes) {
         this.shapes = shapes;
     }
 
-    public List<Shape> getAllShapes() {
+    public List<IShape> getAllShapes() {
         return allShapes;
     }
 
@@ -366,7 +315,7 @@ public class ShapePanel extends JPanel {
         return shapeButtonList;
     }
 
-    public void setShapesToDraw(List<ShapeName> shapesToDraw) {
+    public void setShapesToDraw(List<Shape> shapesToDraw) {
         this.shapesToDraw = shapesToDraw;
     }
 
@@ -455,8 +404,8 @@ public class ShapePanel extends JPanel {
      * Creates all the shape buttons.
      */
     private void defineShapeButtons() {
-        for (ShapeName shapeName : ShapeName.values()) {
-            JButton shapeButton = setButtonDefaults(shapeName.getShapeName());
+        for (Shape shape : Shape.values()) {
+            JButton shapeButton = setButtonDefaults(shape.getShapeName());
             shapeButtonList.add(shapeButton);
         }
     }
@@ -497,7 +446,8 @@ public class ShapePanel extends JPanel {
     private void drawShapes() {
 
         if (shapesToDraw.size() > 0) {
-            writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
+            Shape shapeToDraw = shapesToDraw.get(0);
+            writeToTextBoxAndRepaint("How many " + shapeToDraw.getShapeName() + "s?");
             userInput.requestFocus();
             if (!userInput.getText().equals("")) {
                 try {
@@ -507,11 +457,11 @@ public class ShapePanel extends JPanel {
                         return;
                     }
 
-                    addShapeToDrawQueue(shapesToDraw.get(0), input);
-                    shapesToDraw.remove(shapesToDraw.get(0));
+                    addShapeToDrawQueue(shapeToDraw, input);
+                    shapesToDraw.remove(shapeToDraw);
                     if (!shapesToDraw.isEmpty()) {
                         // Continue. Pressing the ok button restarts this method
-                        writeToTextBoxAndRepaint("How many " + shapesToDraw.get(0).getShapeName() + "s?");
+                        writeToTextBoxAndRepaint("How many " + shapeToDraw.getShapeName() + "s?");
                     } else {
                         /* End case */
                         // Set the background of the png before drawing
@@ -671,9 +621,8 @@ public class ShapePanel extends JPanel {
         // Clear all memory of shapes
         themeDrawn = false;
         shapes.clear();
-        allShapes.clear();
         shapesToDraw.clear();
-        Shape.clearAllShapes();
+        clearAllShapes();
 
         writeToTextBoxAndRepaint("Drawing Cleared");
     }
@@ -716,7 +665,7 @@ public class ShapePanel extends JPanel {
                 } else if (patternSelector.getSelectedItem().equals("Bordering")) {
                     ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.BORDERING);
                 } else if (patternSelector.getSelectedItem().equals("Cross Alternating")) {
-                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSSALTERNATING);
+                    ShapeAbstract.setPattern(ShapeAbstract.DrawPattern.CROSS_ALTERNATING);
                 }
             }
         });

@@ -1,13 +1,14 @@
 package util;
 
-import shapes.Shape;
+import shapes.IShape;
 import shapes.*;
+import shapes.Shape;
 import themes.*;
 
 import java.awt.*;
 import java.util.NoSuchElementException;
 
-import static shapes.ShapeName.*;
+import static shapes.Shape.*;
 
 public class Utils {
 
@@ -17,7 +18,7 @@ public class Utils {
      * @param shapeName The name of the shape
      * @return A Shape Enum representing the named shape
      */
-    public static ShapeName determineShapeNameFromString(String shapeName) {
+    public static Shape determineShapeNameFromString(String shapeName) {
         switch (shapeName.toLowerCase()) {
             case ("circle"):
                 return CIRCLE;
@@ -53,7 +54,7 @@ public class Utils {
      * @param shapeName The name of the shape
      * @return A Shape object representing the named shape
      */
-    public static Shape determineShapeFromName(String shapeName) {
+    public static IShape determineShapeFromName(String shapeName) {
         switch (shapeName.toLowerCase()) {
             case ("circle"):
                 return new Circle();
@@ -80,47 +81,6 @@ public class Utils {
             default:
                 throw new NoSuchElementException(String.format("A shape was entered which was invalid for this method %s", shapeName));
         }
-    }
-
-    /**
-     * Returns a theme from a theme name.
-     *
-     * @param themeName The name of the theme
-     * @return A Shape object representing the named shape
-     */
-    public static ITheme retrieveThemeFromName(String themeName) {
-        ITheme theme;
-        switch (themeName) {
-            case ("blue lightning"):
-                theme = new BlueLightning();
-                break;
-            case ("gold purple stars"):
-                theme = new GoldPurpleStars();
-                break;
-            case ("gradient red blue"):
-                theme = new GradientRedBlue();
-                break;
-            case ("gradient blue red"):
-                theme = new GradientBlueRed();
-                break;
-            case ("metal theme"):
-                theme = new Steel();
-                break;
-            case ("random dot"):
-                theme = new RandomDot();
-                break;
-            case ("semi random dot"):
-                theme = new SemiRandomDot();
-                break;
-            case ("traffic light theme"):
-                theme = new TrafficLight();
-                break;
-            case ("yellow diamonds"):
-            default:
-                theme = new YellowDiamonds();
-                break;
-        }
-        return theme;
     }
 
     public static Dimension getScreenSize() {

@@ -2,7 +2,7 @@ package output;
 
 import misc.FillStatus;
 import panels.ShapePanel;
-import shapes.Shape;
+import shapes.IShape;
 import shapes.ShapeMetadata;
 import themes.ITheme;
 import themes.Theme;
@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,6 +28,17 @@ public class PNGOutput {
     private final BufferedImage png;
 
     /**
+     * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
+     * argument for the size of the new PNG file it will output.
+     *
+     * @param canvasSize The size of the expected PNGOutput
+     */
+    public PNGOutput(Rectangle canvasSize) {
+        this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
+                BufferedImage.TYPE_INT_ARGB);
+    }
+
+    /**
      * Create a .png file from the current image on the panel canvas
      *
      * @param png The object to handle the image output
@@ -38,7 +48,6 @@ public class PNGOutput {
         PNGOutput.outputToFile(sp, sp.getBackgroundColor(), OUTPUT_FILENAME);
         png.pngFromFile(sp, OUTPUT_FILENAME, OUTPUT_IMAGE_NAME);
     }
-
 
     /**
      * Outputs the current drawing to a .txt file.
@@ -67,10 +76,10 @@ public class PNGOutput {
             pw.println("none");
         }
 
-        for (Shape s : sp.getAllShapes()) {
-            List<ShapeMetadata> shapeMetadata = s.getXY();
+        for (IShape shape : sp.getAllShapes()) {
+            List<ShapeMetadata> shapeMetadata = shape.getXY();
             for (ShapeMetadata metadata : shapeMetadata) {
-                pw.print(s.name() + ",");
+                pw.print(shape.name() + ",");
                 pw.print(metadata.getX() + ",");
                 pw.print(metadata.getY() + ",");
                 pw.print(metadata.getWidth() + ",");
@@ -82,17 +91,6 @@ public class PNGOutput {
             }
         }
         pw.close();
-    }
-
-    /**
-     * The constructor for a PNGOutput. Takes the canvasSize Rectangle as an
-     * argument for the size of the new PNG file it will output.
-     *
-     * @param canvasSize The size of the expected PNGOutput
-     */
-    public PNGOutput(Rectangle canvasSize) {
-        this.png = new BufferedImage((int) canvasSize.getWidth(), (int) canvasSize.getHeight() + 5,
-                BufferedImage.TYPE_INT_ARGB);
     }
 
     /**
@@ -134,7 +132,6 @@ public class PNGOutput {
      * @param sp       The shape panel object to display status information
      * @param filename The file to parse from
      * @param toImage  Whether the image is being loaded or being saved to an image file
-     *
      * @return {@code true} if parsing was successful
      */
     private boolean parseImageInfoTextFile(ShapePanel sp, String filename, boolean toImage) {
@@ -185,11 +182,12 @@ public class PNGOutput {
 
             // Process and draw read variables
             // TODO: Feature: Add an option to be able to draw in random order so overlapping shape colours are mixed up
-            Shape shape = determineShapeFromName(shapeName);
+            IShape shape = determineShapeFromName(shapeName);
 
-            List<Shape> allShapes = sp.getAllShapes();
+            List<IShape> allShapes = sp.getAllShapes();
             boolean shouldAdd = true;
-            for (Shape shapeType : allShapes) {
+            // Only add if the class of shape has not been added
+            for (IShape shapeType : allShapes) {
                 if (shapeType.getClass() == shape.getClass()) {
                     shouldAdd = false;
                     break;
@@ -227,10 +225,12 @@ public class PNGOutput {
             g2d.fillRect(0, 0, png.getWidth(), png.getHeight());
         } else {
             // Apply a theme if it exists
-            ITheme th = Theme.getThemeFromName(themeName);
-            JPanel pngSize = new JPanel();
-            pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
-            th.applyTheme(png.getGraphics(), pngSize);
+            ITheme theme = Theme.getThemeFromName(themeName);
+            if (theme != null) {
+                JPanel pngSize = new JPanel();
+                pngSize.setBounds(0, 0, png.getWidth(), png.getHeight());
+                theme.applyTheme(png.getGraphics(), pngSize);
+            }
         }
     }
 

@@ -6,12 +6,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rectangle extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Rectangle extends ShapeAbstract implements IShape {
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.RECTANGLE.getShapeName();
+        return Shape.RECTANGLE.getShapeName();
     }
 
     @Override
@@ -33,5 +33,10 @@ public class Rectangle extends ShapeAbstract implements Shape {
     @Override
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
+    }
+
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
     }
 }

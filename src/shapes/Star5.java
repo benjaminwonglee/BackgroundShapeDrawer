@@ -6,12 +6,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Star5 extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Star5 extends ShapeAbstract implements IShape {
+
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.STAR5.getShapeName();
+        return Shape.STAR5.getShapeName();
     }
 
     @Override
@@ -54,5 +55,8 @@ public class Star5 extends ShapeAbstract implements Shape {
         return shapeMetadata;
     }
 
-
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
+    }
 }

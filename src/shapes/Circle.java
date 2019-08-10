@@ -7,12 +7,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Circle extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Circle extends ShapeAbstract implements IShape {
+
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.CIRCLE.getShapeName();
+        return Shape.CIRCLE.getShapeName();
     }
 
     @Override
@@ -48,5 +49,10 @@ public class Circle extends ShapeAbstract implements Shape {
     @Override
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
+    }
+
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
     }
 }

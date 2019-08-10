@@ -26,6 +26,12 @@ public enum Theme {
         return ordinal + 1 < values.length ? values[ordinal + 1] : values[0];
     }
 
+    /**
+     * Returns a theme from a theme name.
+     *
+     * @param themeName The name of the theme
+     * @return A Shape object representing the named shape
+     */
     public static ITheme getThemeFromName(String themeName) {
         Theme themeEnum = getThemeEnumFromName(themeName);
         return themeEnum != null ? themeEnum.getTheme() : null;
@@ -36,7 +42,7 @@ public enum Theme {
         for (Theme theme : values) {
             if (theme.getThemeName().equalsIgnoreCase(themeName)) {
                 return theme;
-            };
+            }
         }
         return null;
     }

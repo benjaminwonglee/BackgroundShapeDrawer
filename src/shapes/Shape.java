@@ -1,61 +1,52 @@
 package shapes;
 
-import misc.FillStatus;
-import patterns.Pattern;
+public enum Shape {
+    CIRCLE("Circle", new Circle()),
+    ELLIPSE("Ellipse", new Ellipse()),
+    HEXAGON("Hexagon", new Hexagon()),
+    LIGHTNING("Lightning", new Lightning()),
+    OCTAGON("Octagon", new Octagon()),
+    RECTANGLE("Rectangle", new Rectangle()),
+    SQUARE("Square", new Square()),
+    STAR5("5-Pointed Star", new Star5()),
+    STAR6("6-Pointed Star", new Star6()),
+    TRIANGLE("Triangle", new Triangle()),
+    ;
 
-import java.awt.*;
-import java.util.List;
+    private final String shapeName;
+    private final IShape shape;
 
-public interface Shape {
-
-    static void clearAllShapes() {
-        Circle.shapeMetadata.clear();
-        Ellipse.shapeMetadata.clear();
-        Hexagon.shapeMetadata.clear();
-        Lightning.shapeMetadata.clear();
-        Octagon.shapeMetadata.clear();
-        Rectangle.shapeMetadata.clear();
-        Square.shapeMetadata.clear();
-        Star5.shapeMetadata.clear();
-        Star6.shapeMetadata.clear();
-        Triangle.shapeMetadata.clear();
+    Shape(String shapeName, IShape shape) {
+        this.shapeName = shapeName;
+        this.shape = shape;
     }
 
-    default void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill) {
-        g.setColor(c);
-        pngGraphics.setColor(c);
-        Pattern p = selectPattern();
+    public static Shape getNext(Shape shape) {
+        Shape[] values = Shape.values();
+        int ordinal = shape.ordinal();
+        return ordinal + 1 < values.length ? values[ordinal + 1] : values[0];
+    }
 
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            if (metadata.getX() == -1 || metadata.getY() == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
+    public static IShape getShapeFromName(String shapeName) {
+        Shape shapeEnum = getShapeEnumFromName(shapeName);
+        return shapeEnum != null ? shapeEnum.getShape() : null;
+    }
+
+    public static Shape getShapeEnumFromName(String shapeName) {
+        Shape[] values = Shape.values();
+        for (Shape shape : values) {
+            if (shape.getShapeName().equalsIgnoreCase(shapeName)) {
+                return shape;
             }
-            getXY().add(metadata);
-            drawFromXY(g, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
-            drawFromXY(pngGraphics, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
         }
+        return null;
     }
 
-    String name();
+    public String getShapeName() {
+        return shapeName;
+    }
 
-    ShapeMetadata setDrawVariables(Color c, Pattern p, FillStatus fill);
-
-    Pattern selectPattern();
-
-    int getAmount();
-
-    int getDrawnAmount();
-
-    void setDrawnAmount(int amountDrawn);
-
-    boolean getCanvasFilled();
-
-    void setCanvasFilled(boolean isCanvasFilled);
-
-    void drawFromXY(Graphics graphics, Color color, int x, int y, int width, int height, FillStatus fill);
-
-    List<ShapeMetadata> getXY();
+    public IShape getShape() {
+        return shape;
+    }
 }

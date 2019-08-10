@@ -5,7 +5,7 @@ import patterns.*;
 
 import java.awt.*;
 
-public abstract class ShapeAbstract implements Shape {
+public abstract class ShapeAbstract implements IShape {
 
     private static final int gradientFactor = 4;
     private static java.awt.Rectangle canvasSize;
@@ -62,24 +62,16 @@ public abstract class ShapeAbstract implements Shape {
         ShapeAbstract.pattern = p;
     }
 
-    public static int getXCursor() {
-        return xCursor;
-    }
-
     public static void setXCursor(int xCursor) {
         ShapeAbstract.xCursor = xCursor;
-    }
-
-    public static int getYCursor() {
-        return yCursor;
     }
 
     public static void setYCursor(int yCursor) {
         ShapeAbstract.yCursor = yCursor;
     }
 
-    public static int getGradientFactor() {
-        return gradientFactor;
+    public static void setCanvasSize(java.awt.Rectangle canvasSize) {
+        ShapeAbstract.canvasSize = canvasSize;
     }
 
     @Override
@@ -111,7 +103,7 @@ public abstract class ShapeAbstract implements Shape {
             p = new AlternatingPattern(1);
         } else if (pattern == DrawPattern.BORDERING) {
             p = new BorderingPattern();
-        } else if (pattern == DrawPattern.CROSSALTERNATING) {
+        } else if (pattern == DrawPattern.CROSS_ALTERNATING) {
             // The 2nd shape for cross alternating
             if (crossAlternatingInt == 0) {
                 xCursor -= width;
@@ -132,6 +124,7 @@ public abstract class ShapeAbstract implements Shape {
         return amount;
     }
 
+    @Override
     public void setAmount(int amount) {
         this.amount = amount;
     }
@@ -146,14 +139,7 @@ public abstract class ShapeAbstract implements Shape {
         this.drawnAmount = amountDrawn;
     }
 
-    public java.awt.Rectangle getCanvasSize() {
-        return canvasSize;
-    }
-
-    public static void setCanvasSize(java.awt.Rectangle canvasSize) {
-        ShapeAbstract.canvasSize = canvasSize;
-    }
-
+    @Override
     public boolean getCanvasFilled() {
         return canvasFilled;
     }
@@ -164,6 +150,10 @@ public abstract class ShapeAbstract implements Shape {
     }
 
     public enum DrawPattern {
-        RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSSALTERNATING
+        RANDOM, ALIGNED, ALTERNATING, BORDERING, CROSS_ALTERNATING
+    }
+
+    static int getGradientFactor() {
+        return gradientFactor;
     }
 }

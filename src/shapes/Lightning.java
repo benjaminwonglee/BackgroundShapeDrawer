@@ -6,12 +6,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Lightning extends ShapeAbstract implements Shape {
-    static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
+public class Lightning extends ShapeAbstract implements IShape {
+    private static List<ShapeMetadata> shapeMetadata = new ArrayList<>();
 
     @Override
     public String name() {
-        return ShapeName.LIGHTNING.getShapeName();
+        return Shape.LIGHTNING.getShapeName();
     }
 
     @Override
@@ -38,5 +38,10 @@ public class Lightning extends ShapeAbstract implements Shape {
     @Override
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
+    }
+
+    @Override
+    public void clearShape() {
+        shapeMetadata.clear();
     }
 }
