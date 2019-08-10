@@ -8,23 +8,7 @@ import java.util.List;
 
 public interface IShape {
 
-    default void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill) {
-        g.setColor(c);
-        pngGraphics.setColor(c);
-        IPattern p = selectPattern();
-
-        for (int i = 0; i < getAmount(); i++) {
-            ShapeMetadata metadata = setDrawVariables(c, p, fill);
-            if (metadata.getX() == -1 || metadata.getY() == -1) {
-                setDrawnAmount(i);
-                setCanvasFilled(true);
-                return;
-            }
-            getXY().add(metadata);
-            drawFromXY(g, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
-            drawFromXY(pngGraphics, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
-        }
-    }
+    void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill);
 
     String name();
 

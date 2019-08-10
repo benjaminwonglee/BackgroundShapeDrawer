@@ -1,7 +1,6 @@
 package shapes;
 
 import misc.FillStatus;
-import util.ColouringUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,19 +27,12 @@ public class Circle extends ShapeAbstract implements IShape {
             // Intentionally ignore height since this is a circle
             g.fillOval(x, y, width, width);
         } else if (fill == FillStatus.GRADIENT) {
-            if (ColouringUtils.isDarkColor(c)) {
                 for (int i = 0; i < width / 2; i++) {
                     g.fillOval(x, y + i, width, width - i * 2);
-                    c = ColouringUtils.lightenColor(c, getGradientFactor());
+                    int[] colorArray = incrementGradient(c);
+                    c = new Color(colorArray[0], colorArray[1], colorArray[2]);
                     g.setColor(c);
                 }
-            } else {
-                for (int i = 0; i < width / 2; i++) {
-                    g.fillOval(x, y + i, width, width - i * 2);
-                    c = ColouringUtils.darkenColor(c, getGradientFactor());
-                    g.setColor(c);
-                }
-            }
         } else if (fill == FillStatus.NONE) {
             g.drawOval(x, y, width, width);
         }

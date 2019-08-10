@@ -53,9 +53,8 @@ public class ColouringUtils {
     }
 
     public static boolean isDarkColor(Color color) {
-        int[] colorArray = new int[]{color.getRed(), color.getGreen(), color.getBlue()};
-        int max = findMaxInThreeIndexArray(colorArray);
-        return colorArray[max] < 140;
+        int totalColorValue = color.getRed() + color.getGreen() + color.getBlue();
+        return totalColorValue < ((255 * 3) / 2);
     }
 
     /**

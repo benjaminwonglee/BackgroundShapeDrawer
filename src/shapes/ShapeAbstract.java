@@ -2,12 +2,13 @@ package shapes;
 
 import misc.FillStatus;
 import patterns.*;
+import util.ColouringUtils;
 
 import java.awt.*;
 
 public abstract class ShapeAbstract implements IShape {
 
-    private static final int gradientFactor = 4;
+    private static final int gradientFactor = 3;
     private static java.awt.Rectangle canvasSize;
     // Shape size variables
     private static int width = 90;
@@ -25,6 +26,8 @@ public abstract class ShapeAbstract implements IShape {
     // Amount variables
     private int amount = 0;
     private int drawnAmount = 0;
+    // Colour variables
+    private Color initialColor = new Color(0, 0, 0);
 
     public static int getWidth() {
         return width;
@@ -74,6 +77,24 @@ public abstract class ShapeAbstract implements IShape {
         ShapeAbstract.canvasSize = canvasSize;
     }
 
+    public void drawShape(Graphics g, Graphics pngGraphics, Color c, FillStatus fill) {
+        g.setColor(c);
+        pngGraphics.setColor(c);
+        IPattern p = selectPattern();
+        initialColor = c;
+        for (int i = 0; i < getAmount(); i++) {
+            ShapeMetadata metadata = setDrawVariables(c, p, fill);
+            if (metadata.getX() == -1 || metadata.getY() == -1) {
+                setDrawnAmount(i);
+                setCanvasFilled(true);
+                return;
+            }
+            getXY().add(metadata);
+            drawFromXY(g, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
+            drawFromXY(pngGraphics, c, metadata.getX(), metadata.getY(), ShapeAbstract.getWidth(), ShapeAbstract.getHeight(), fill);
+        }
+    }
+
     @Override
     public ShapeMetadata setDrawVariables(Color c, IPattern p, FillStatus fill) {
         ShapeMetadata metadata = new ShapeMetadata();
@@ -90,6 +111,26 @@ public abstract class ShapeAbstract implements IShape {
         metadata.setFillStatus(fill.ordinal());
         metadata.setRgb(c.getRGB());
         return metadata;
+    }
+
+    int[] incrementGradient(Color c) {
+        int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+        for (int iColorVal = 0; iColorVal < colorArray.length; iColorVal++) {
+            int colorVal = colorArray[iColorVal];
+            if (ColouringUtils.isDarkColor(initialColor)) {
+                colorVal += getGradientFactor();
+                if (colorVal > 255) {
+                    colorVal = 255;
+                }
+            } else {
+                colorVal -= getGradientFactor();
+                if (colorVal < 0) {
+                    colorVal = 0;
+                }
+            }
+            colorArray[iColorVal] = colorVal;
+        }
+        return colorArray;
     }
 
     @Override
