@@ -143,6 +143,7 @@ public class PNGOutput {
             return false;
         }
 
+        sp.paint(sp.getGraphics());
         Color backgroundColor = new Color(sc.nextInt());
 
         // Skip over the next line character
