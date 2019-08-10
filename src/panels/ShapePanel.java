@@ -2,6 +2,7 @@ package panels;
 
 import borders.*;
 import buttons.*;
+import com.sun.deploy.util.OrderedHashSet;
 import misc.FillStatus;
 import misc.UserInputKeyListener;
 import output.PNGOutput;
@@ -10,12 +11,15 @@ import shapes.Shape;
 import shapes.*;
 import textboxes.ColoredLabel;
 import textboxes.TextBox;
-import themes.*;
+import themes.GradientRedBlue;
+import themes.ITheme;
+import themes.Theme;
 
 import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import static util.Utils.getScreenSize;
@@ -172,6 +176,7 @@ public class ShapePanel extends JPanel {
      * @param amount    The amount of the shape to draw
      */
     public void addShapeToDrawQueue(ShapeName shapeName, int amount) {
+        // TODO: Simplify this to be more flexible
         switch (shapeName) {
             case CIRCLE:
                 Circle c = new Circle();
@@ -339,10 +344,6 @@ public class ShapePanel extends JPanel {
 
     public List<Shape> getAllShapes() {
         return allShapes;
-    }
-
-    public void setAllShapes(List<Shape> allShapes) {
-        this.allShapes = allShapes;
     }
 
     public JPanel getCanvas() {

@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -185,6 +186,19 @@ public class PNGOutput {
             // Process and draw read variables
             // TODO: Feature: Add an option to be able to draw in random order so overlapping shape colours are mixed up
             Shape shape = determineShapeFromName(shapeName);
+
+            List<Shape> allShapes = sp.getAllShapes();
+            boolean shouldAdd = true;
+            for (Shape shapeType : allShapes) {
+                if (shapeType.getClass() == shape.getClass()) {
+                    shouldAdd = false;
+                    break;
+                }
+            }
+            if (shouldAdd) {
+                allShapes.add(shape);
+            }
+
             if (!toImage) {
                 shape.drawFromXY(sp.getCanvas().getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
 
@@ -197,7 +211,6 @@ public class PNGOutput {
                 metadata.setFillStatus(fillInt);
                 metadata.setRgb(rgb);
                 shape.getXY().add(metadata);
-                sp.getAllShapes().add(shape);
             } else {
                 shape.drawFromXY(png.getGraphics(), new Color(rgb), x, y, wd, ht, FillStatus.values()[fillInt]);
             }
