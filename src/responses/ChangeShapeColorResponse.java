@@ -10,6 +10,6 @@ public class ChangeShapeColorResponse implements ButtonResponse {
      */
     @Override
     public void respond(ShapePanel sp) {
-        sp.shapeOutlineColorChange(ColouringUtils.openJColorChooser(sp.getOutlineColor()));
+        sp.changeOutlineColor(ColouringUtils.openJColorChooser(sp.getOutlineColor()));
     }
 }

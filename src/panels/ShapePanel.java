@@ -233,6 +233,11 @@ public class ShapePanel extends JPanel {
      */
     public void changeBackgroundColor(Color color) {
 
+        if (backgroundColor.equals(color)) {
+            // Either cancelled or unchanged
+            return;
+        }
+
         // Background colour change on canvas
         backgroundColor = color;
         canvas.setBackground(color);
@@ -253,7 +258,13 @@ public class ShapePanel extends JPanel {
      *
      * @param color The color to change the shape outline to
      */
-    public void shapeOutlineColorChange(Color color) {
+    public void changeOutlineColor(Color color) {
+
+        if (outlineColor.equals(color)) {
+            // Either cancelled or unchanged
+            return;
+        }
+
         outlineColor = color;
         ColorBorder colorLabel = (ColorBorder) changeOutlinePanelWrapper.getBorder();
         colorLabel.setColor(color);
