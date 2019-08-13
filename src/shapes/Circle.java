@@ -24,17 +24,12 @@ public class Circle extends ShapeAbstract implements IShape {
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
-            // Intentionally ignore height since this is a circle
-            g.fillOval(x, y, width, width);
+            height = width;
+            g.fillOval(x, y, width, height);
         } else if (fill == FillStatus.GRADIENT) {
-                for (int i = 0; i < width / 2; i++) {
-                    g.fillOval(x, y + i, width, width - i * 2);
-                    int[] colorArray = incrementGradient(c);
-                    c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-                    g.setColor(c);
-                }
+            drawGradientOval(g, c, x, y, width, height);
         } else if (fill == FillStatus.NONE) {
-            g.drawOval(x, y, width, width);
+            g.drawOval(x, y, width, height);
         }
     }
 

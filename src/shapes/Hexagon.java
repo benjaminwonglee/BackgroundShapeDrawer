@@ -60,9 +60,9 @@ public class Hexagon extends ShapeAbstract implements IShape {
         }
         xs[0] = xs[0] + incrementVal;
         xs[1] = xs[1] + incrementVal;
-//        xs[2] = xs[2] - incrementVal;
-//        xs[3] = xs[3] - incrementVal;
-//        xs[4] = xs[4] - incrementVal;
+        xs[2] = xs[2] - incrementVal;
+        xs[3] = xs[3] - incrementVal;
+        xs[4] = xs[4] - incrementVal;
         xs[5] = xs[5] + incrementVal;
         xs[6] = xs[6] + incrementVal;
         return xs;
@@ -70,13 +70,13 @@ public class Hexagon extends ShapeAbstract implements IShape {
 
     public int[] gradientYIncrement(int[] ys) {
         assert ys.length == 7;
-//        ys[0] = ys[0] + 1;
-//        ys[1] = ys[1] + 1;
-//        ys[2] = ys[2] + 1;
-//        ys[3] = ys[3] - 1;
-//        ys[4] = ys[4] - 1;
-//        ys[5] = ys[5] - 1;
-//        ys[6] = ys[6] + 1;
+        ys[0] = ys[0] + 1;
+        ys[1] = ys[1] + 1;
+        ys[2] = ys[2] + 1;
+        ys[3] = ys[3] - 1;
+        ys[4] = ys[4] - 1;
+        ys[5] = ys[5] - 1;
+        ys[6] = ys[6] + 1;
         return ys;
     }
 

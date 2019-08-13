@@ -24,16 +24,12 @@ public class Square extends ShapeAbstract implements IShape {
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
-            g.fillRect(x, y, width, width);
+            height = width;
+            g.fillRect(x, y, width, height);
         } else if (fill == FillStatus.GRADIENT) {
-            for (int i = 0; i < width / 2; i++) {
-                g.fillRect(x, y + i, width, width - i * 2);
-                int[] colorArray = incrementGradient(c);
-                c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-                g.setColor(c);
-            }
+            drawGradientRectangle(g, c, x, y, width, height);
         } else if (fill == FillStatus.NONE) {
-            g.drawRect(x, y, width, width);
+            g.drawRect(x, y, width, height);
         }
     }
 

@@ -24,8 +24,9 @@ public class Rectangle extends ShapeAbstract implements IShape {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
             g.fillRect(x, y, width, height);
-        } // TODO: Gradient fill
-        else if (fill == FillStatus.NONE) {
+        } else if (fill == FillStatus.GRADIENT) {
+            drawGradientRectangle(g, c, x, y, width, height);
+        } else if (fill == FillStatus.NONE) {
             g.drawRect(x, y, width, height);
         }
     }

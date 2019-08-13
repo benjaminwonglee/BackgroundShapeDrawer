@@ -27,7 +27,7 @@ public abstract class ShapeAbstract implements IShape {
     private int amount = 0;
     private int drawnAmount = 0;
     // Colour variables
-    private Color initialColor = new Color(0, 0, 0);
+    private static Color initialColor = new Color(0, 0, 0);
 
     public static int getWidth() {
         return width;
@@ -113,7 +113,27 @@ public abstract class ShapeAbstract implements IShape {
         return metadata;
     }
 
-    int[] incrementGradient(Color c) {
+    static void drawGradientOval(Graphics g, Color c, int x, int y, int width, int height) {
+        int minDimension = Math.min(width, height);
+        for (int i = 0; i < minDimension / 2; i++) {
+            g.fillOval(x + i, y + i, width - i * 2, height - i * 2);
+            int[] colorArray = incrementGradient(c);
+            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+            g.setColor(c);
+        }
+    }
+
+    static void drawGradientRectangle(Graphics g, Color c, int x, int y, int width, int height) {
+        int minDimension = Math.min(width, height);
+        for (int i = 0; i < minDimension / 2; i++) {
+            g.fillRect(x + i, y + i, width - i * 2, height - i * 2);
+            int[] colorArray = incrementGradient(c);
+            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+            g.setColor(c);
+        }
+    }
+
+    static int[] incrementGradient(Color c) {
         int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
         for (int iColorVal = 0; iColorVal < colorArray.length; iColorVal++) {
             int colorVal = colorArray[iColorVal];

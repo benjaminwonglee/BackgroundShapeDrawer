@@ -6,7 +6,8 @@ import java.awt.*;
 public class ColouringUtils {
 
     public static Color openJColorChooser(Color color) {
-        return JColorChooser.showDialog(null, "Choose a colour", color);
+        Color chosenColor = JColorChooser.showDialog(null, "Choose a colour", color);
+        return chosenColor == null ? color : chosenColor;
     }
 
     public static Color darkenColor(Color currentColor, int darkenAmount) {

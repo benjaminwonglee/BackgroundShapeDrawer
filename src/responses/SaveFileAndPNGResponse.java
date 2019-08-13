@@ -12,7 +12,7 @@ public class SaveFileAndPNGResponse implements ButtonResponse {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
         int option = chooser.showSaveDialog(new JDialog());
         if (option == JFileChooser.APPROVE_OPTION) {
-            String fileName = chooser.getSelectedFile().getName();
+            String fileName = chooser.getSelectedFile().getPath();
             // Adjust the file name
             if (fileName.endsWith(".png")) {
                 fileName = fileName.replace(".png", "");

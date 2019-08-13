@@ -25,8 +25,9 @@ public class Ellipse extends ShapeAbstract implements IShape {
         g.setColor(c);
         if (fill == FillStatus.FULL) {
             g.fillOval(x, y, width, height);
-        } // TODO: Gradient Fill
-        else if (fill == FillStatus.NONE) {
+        } else if (fill == FillStatus.GRADIENT) {
+            drawGradientOval(g, c, x, y, width, height);
+        } else if (fill == FillStatus.NONE) {
             g.drawOval(x, y, width, height);
         }
     }
