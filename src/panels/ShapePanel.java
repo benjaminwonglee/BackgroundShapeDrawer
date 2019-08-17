@@ -8,8 +8,8 @@ import output.PNGOutput;
 import patterns.DrawPattern;
 import responses.*;
 import shapes.IShape;
-import shapes.*;
 import shapes.Shape;
+import shapes.ShapeAbstract;
 import textboxes.ColoredLabel;
 import textboxes.TextBox;
 import themes.GradientRedBlue;
@@ -17,7 +17,6 @@ import themes.ITheme;
 import themes.Theme;
 
 import javax.swing.*;
-import java.awt.Rectangle;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -459,6 +458,7 @@ public class ShapePanel extends JPanel {
     private void drawShapes() {
 
         if (shapesToDraw.size() > 0) {
+            // Show prompt when this is initially called
             Shape shapeToDraw = shapesToDraw.get(0);
             writeToTextBoxAndRepaint("How many " + shapeToDraw.getShapeName() + "s?");
             userInput.requestFocus();
@@ -474,6 +474,7 @@ public class ShapePanel extends JPanel {
                     shapesToDraw.remove(shapeToDraw);
                     if (!shapesToDraw.isEmpty()) {
                         // Continue. Pressing the ok button restarts this method
+                        shapeToDraw = shapesToDraw.get(0);
                         writeToTextBoxAndRepaint("How many " + shapeToDraw.getShapeName() + "s?");
                     } else {
                         /* End case */
@@ -591,9 +592,15 @@ public class ShapePanel extends JPanel {
         this.widthText = new JTextArea();
         widthText.setBounds(xLoc, yLoc, optionButtonWidth / 2, optionButtonHeight);
         widthText.setBorder(new TextBorder("" + ShapeAbstract.getWidth()));
+        widthText.setEditable(true);
+        widthText.addKeyListener(new WidthHeightKeyListener(widthText, SizeDimension.WIDTH));
+
         this.heightText = new JTextArea();
         heightText.setBounds(xLoc + optionButtonWidth / 2, yLoc, optionButtonWidth / 2, optionButtonHeight);
         heightText.setBorder(new TextBorder("" + ShapeAbstract.getHeight()));
+        heightText.setEditable(true);
+        heightText.addKeyListener(new WidthHeightKeyListener(heightText, SizeDimension.HEIGHT));
+
         this.add(widthText);
         this.add(heightText);
     }
