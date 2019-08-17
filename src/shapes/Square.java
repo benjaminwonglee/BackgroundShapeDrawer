@@ -23,8 +23,8 @@ public class Square extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
+        height = width;
         if (fill == FillStatus.FULL) {
-            height = width;
             g.fillRect(x, y, width, height);
         } else if (fill == FillStatus.GRADIENT) {
             drawGradientRectangle(g, c, x, y, width, height);
