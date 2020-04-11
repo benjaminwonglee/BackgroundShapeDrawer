@@ -25,20 +25,20 @@ public class Hexagon extends ShapeAbstract implements IShape {
 
         int[] xCoords = new int[]{
                 x,
-                x + width / 3,
-                x + width / 3 * 2,
+                (int) (x + width / 3.0),
+                (int) (x + width / 3.0 * 2),
                 x + width,
-                x + width / 3 * 2,
-                x + width / 3,
+                (int) (x + width / 3.0 * 2),
+                (int) (x + width / 3.0),
                 x};
         int[] yCoords = new int[]{
-                y + height / 2,
+                (int) (y + height / 2.0),
                 y,
                 y,
-                y + height / 2,
+                (int) (y + height / 2.0),
                 y + height,
                 y + height,
-                y + height / 2};
+                (int) (y + height / 2.0)};
         int nPoints = xCoords.length;
 
         if (fill == FillStatus.FULL) {
@@ -48,7 +48,7 @@ public class Hexagon extends ShapeAbstract implements IShape {
             int[] tempYs = yCoords;
 
             int loopAmount = Math.min(width / 4, height / 4);
-            for (int i = 0; i < loopAmount; i++) {
+            for (int i = 1; i < loopAmount- 1; i++) {
                 tempXs = gradientXIncrement(tempXs);
                 tempYs = gradientYIncrement(tempYs);
                 g.fillPolygon(tempXs, tempYs, nPoints);
