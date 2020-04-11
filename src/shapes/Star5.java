@@ -25,17 +25,36 @@ public class Star5 extends ShapeAbstract implements IShape {
         g.setColor(c);
         double span = width / 6.0;
         int sp = (int) span;
-        int[] xInts = new int[]{x, x + width / 3, x + width / 2, x + width - (width / 3),
-                x + width, x + width / 4 * 3, x + width - sp, x + width / 2, x + sp - 2,
-                x + width / 4, x};
-        int[] yInts = new int[]{y + (height / 3), y + (height / 3), y, y + (height / 3),
-                y + (height / 3), y + (height / 8) * 5, y + height, y + (height / 8 * 7),
-                y + height, y + (height / 8) * 5, y + (height / 3)};
+        int[] xInts = new int[]{
+                x,
+                (int) (x + width / 3.0),
+                (int) (x + width / 2.0),
+                (int) (x + width - width / 3.0),
+                x + width,
+                (int) (x + width / 4.0 * 3),
+                x + width - sp,
+                (int) (x + width / 2.0),
+                x + sp,
+                (int) (x + width / 4.0),
+                x
+        };
+        int[] yInts = new int[]{
+                (int) (y + height / 3.0),
+                (int) (y + height / 3.0),
+                y,
+                (int) (y + height / 3.0),
+                (int) (y + height / 3.0),
+                (int) (y + height / 8.0) * 5,
+                y + height,
+                (int) (y + height / 8.0 * 7),
+                y + height,
+                (int) (y + height / 8.0 * 5),
+                (int) (y + height / 3.0)};
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 11);
         } else if (fill == FillStatus.GRADIENT) {
-            // TODO: Somehow handle this complicated process
-            g.fillPolygon(xInts, yInts, 11);
+            // TODO: gradient fill
+//            g.fillPolygon(xInts, yInts, 11);
 //            int maxColorShade = Utils.findMaxColorShade(c);
 //            int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
 //            for (int iGradient = 0; iGradient < width / 2; iGradient++) {

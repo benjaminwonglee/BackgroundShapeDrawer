@@ -24,7 +24,7 @@ public class Triangle extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        int[] xInts = new int[]{x, x + width / 2, x + width, x};
+        int[] xInts = new int[]{x, (int) (x + width / 2.0), x + width, x};
         int[] yInts = new int[]{y + height, y, y + height, y + height};
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 4);

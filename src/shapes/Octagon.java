@@ -25,24 +25,25 @@ public class Octagon extends ShapeAbstract implements IShape {
 
         int[] xCoords = new int[]{
                 x,
-                x + width / 4,
-                x + width / 4 * 3,
+                (int) (x + width / 4.0),
+                (int) (x + width / 4.0 * 3),
                 x + width,
                 x + width,
-                x + width / 4 * 3,
-                x + width / 4,
+                (int) (x + width / 4.0 * 3),
+                (int) (x + width / 4.0),
                 x,
                 x};
         int[] yCoords = new int[]{
-                y + (height / 4),
+                (int) (y + height / 4.0),
                 y,
                 y,
-                y + (height / 4),
-                y + height / 4 * 3,
+                (int) (y + height / 4.0),
+                (int) (y + height / 4.0 * 3),
                 y + height,
                 y + height,
-                y + (height / 4) * 3,
-                y + (height / 4)};
+                (int) (y + height / 4.0 * 3),
+                (int) (y + height / 4.0)
+        };
         int nPoints = xCoords.length;
 
         if (fill == FillStatus.FULL) {

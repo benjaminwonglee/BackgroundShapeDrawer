@@ -22,11 +22,33 @@ public class Lightning extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        int[] xInts = new int[]{x + width / 5 * 2, x + width, x + width / 5 * 3, x + width, x + width / 5 * 3,
-                x + width, x + width / 5, x + width / 5 * 2, x, x + width / 5 * 2, x, x + width / 5 * 2};
-        int[] yInts = new int[]{y, y, y + height / 7 * 2, y + height / 7 * 2, y + height / 7 * 4, y + height / 7 * 4,
-                y + height, y + height / 7 * 5, y + height / 7 * 5, y + height / 7 * 3, y + height / 7 * 3,
-                y + height / 7 * 3};
+        int[] xInts = new int[]{
+                (int) (x + width / 5.0 * 2),
+                x + width,
+                (int) (x + width / 5.0 * 3),
+                x + width,
+                (int) (x + width / 5.0 * 3),
+                x + width,
+                (int) (x + width / 5.0),
+                (int) (x + width / 5.0 * 2),
+                x,
+                (int) (x + width / 5.0 * 2),
+                x,
+                (int) (x + width / 5.0 * 2)
+        };
+        int[] yInts = new int[]{
+                y,
+                y,
+                (int) (y + height / 7.0 * 2),
+                (int) (y + height / 7.0 * 2),
+                (int) (y + height / 7.0 * 4),
+                (int) (y + height / 7.0 * 4),
+                y + height,
+                (int) (y + height / 7.0 * 5),
+                (int) (y + height / 7.0 * 5),
+                (int) (y + height / 7.0 * 3),
+                (int) (y + height / 7.0 * 3),
+                (int) (y + height / 7.0 * 3)};
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xInts, yInts, 11);
         } // TODO: Gradient Fill
