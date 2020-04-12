@@ -14,13 +14,39 @@ public enum DrawPattern {
         this.patternName = patternName;
     }
 
-    public static DrawPattern getPatternFromName(String selectedItem) {
+    public static DrawPattern parse(String patternStr) {
+        String upperCase = patternStr.toUpperCase().trim();
+        upperCase = upperCase.replaceAll(" ", "_");
         for (DrawPattern drawPattern : values()) {
-            if (drawPattern.getPatternName().equalsIgnoreCase(selectedItem)) {
+            if (upperCase.equals(drawPattern.name())) {
                 return drawPattern;
             }
         }
-        return null;
+        return DrawPattern.RANDOM;
+    }
+
+    public static DrawPattern parseRelaxed(String patternStr) {
+        for (DrawPattern drawPattern : values()) {
+            if (patternStr.equals(drawPattern.getPatternName())) {
+                return drawPattern;
+            }
+        }
+        return DrawPattern.RANDOM;
+    }
+
+    public static DrawPattern findNext(DrawPattern currPattern) {
+        DrawPattern[] values = values();
+        for (int i = 0; i < values.length; i++) {
+            DrawPattern pattern = values[i];
+            if (pattern == currPattern) {
+                if (i == values.length - 1) {
+                    return values[0];
+                } else {
+                    return values[i + 1];
+                }
+            }
+        }
+        return DrawPattern.RANDOM;
     }
 
     public String getPatternName() {

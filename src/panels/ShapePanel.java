@@ -59,7 +59,7 @@ public class ShapePanel extends JPanel {
     private JTextArea changeOutlinePanelWrapper;
     private JTextArea widthText;
     private JTextArea heightText;
-    private JComboBox<String> patternSelector;
+    private JTextArea selectedPatternText;
 
     // Theme variables
     private JTextArea themeText;
@@ -68,6 +68,7 @@ public class ShapePanel extends JPanel {
 
     // Canvas variables
     private int optionButtonHeight;
+    private int altOptionButtonHeight;
     private JPanel canvas;
     private int space;
     private FillStatus fillStatus = FillStatus.NONE;
@@ -505,13 +506,14 @@ public class ShapePanel extends JPanel {
 
         optionButtonWidth = BUTTON_WD * 2 + 20;
         optionButtonHeight = BUTTON_HT / 2 + 10;
+        altOptionButtonHeight = optionButtonHeight + 10;
 
         xLoc -= (BUTTON_WD + 20) * 2;
         yLoc = (int) ((this.getPreferredSize().getHeight() / 2)) + 20;
 
         // Add pattern selector to left side
         addPatternSelector();
-        yLoc += 240;
+        yLoc += 200;
         yLoc += optionButtonHeight + 9;
         addLoadFromFileButton();
         yLoc += optionButtonHeight + 9;
@@ -563,7 +565,7 @@ public class ShapePanel extends JPanel {
         this.add(new FillButton(this, png, null));
         moveXY();
 
-        this.add(new AutoShapeColorButton(this, png, new AutoShapeColor()));
+        this.add(new AutoShapeColorButton(this, png, new AutoShapeColorResponse()));
         yLoc += optionButtonHeight;
 
         this.add(new DrawThemeToCanvasButton(this, png, new DrawThemeToCanvasResponse()));
@@ -651,41 +653,21 @@ public class ShapePanel extends JPanel {
      * Adds the pattern selector combo box. This is the fold down menu which has the pattern names on it.
      */
     private void addPatternSelector() {
-        addPatternSelectPrompt();
-        addPatternSelectDropdown();
+        addPatternSelectionControls();
     }
 
-    private void addPatternSelectPrompt() {
-        JTextArea patternSelect = new JTextArea();
-        patternSelect.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight);
-        TextBorder patternBorder = new TextBorder("Select Pattern");
-        patternBorder.setFont(new Font("Arial", Font.BOLD, 18));
-        patternSelect.setBorder(patternBorder);
-        this.add(patternSelect);
-    }
-
-    private void addPatternSelectDropdown() {
+    private void addPatternSelectionControls() {
+        PatternSelectButton selectedPatternButton = new PatternSelectButton(this, png, new PatternSelectResponse());
         yLoc += optionButtonHeight;
-        this.patternSelector = new JComboBox<>();
-        patternSelector.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight);
-        patternSelector.setFont(new Font("Arial", Font.BOLD, 16));
-        patternSelector.addItem(DrawPattern.RANDOM.getPatternName());
-        patternSelector.addItem(DrawPattern.ALIGNED.getPatternName());
-        patternSelector.addItem(DrawPattern.ALTERNATING.getPatternName());
-        patternSelector.addItem(DrawPattern.BORDERING.getPatternName());
-        patternSelector.addItem(DrawPattern.CROSS_ALTERNATING.getPatternName());
-        patternSelector.addActionListener(event -> {
-            if (patternSelector.getSelectedItem() != null) {
-                String selectedItem = patternSelector.getSelectedItem().toString();
-                DrawPattern patternFromName = DrawPattern.getPatternFromName(selectedItem);
-                if (patternFromName != null) {
-                    ShapeAbstract.setPattern(patternFromName);
-                } else {
-                    writeToTextBoxAndRepaint("Error: Selected pattern could not be established.");
-                }
-            }
-        });
-        this.add(patternSelector);
+        selectedPatternButton.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, altOptionButtonHeight);
+        this.add(selectedPatternButton);
+
+        selectedPatternText = new JTextArea();
+        yLoc += altOptionButtonHeight;
+        selectedPatternText.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space, optionButtonWidth, optionButtonHeight);
+        TextBorder patternBorder = new TextBorder(DrawPattern.RANDOM.getPatternName());
+        selectedPatternText.setBorder(patternBorder);
+        this.add(selectedPatternText);
     }
 
     /**
@@ -693,7 +675,7 @@ public class ShapePanel extends JPanel {
      */
     private void addLoadFromFileButton() {
         JButton load = new LoadButton(this, png, new LoadFileResponse());
-        load.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10);
+        load.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, altOptionButtonHeight);
         this.add(load);
     }
 
@@ -702,7 +684,7 @@ public class ShapePanel extends JPanel {
      */
     private void addSaveToFileButton() {
         JButton save = new SaveButton(this, png, new SaveFileAndPNGResponse());
-        save.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10);
+        save.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, altOptionButtonHeight);
         this.add(save);
     }
 
@@ -711,7 +693,7 @@ public class ShapePanel extends JPanel {
      */
     private void addThemeButton() {
         JButton changeThemeButton = new ChangeThemeButton(this, png, new ChangeThemeResponse());
-        changeThemeButton.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, optionButtonHeight + 10);
+        changeThemeButton.setBounds(xLoc, yLoc - BUTTON_HT * 2 + space - 10, optionButtonWidth, altOptionButtonHeight);
         yLoc += optionButtonHeight;
 
         String themeName = theme.getName();
@@ -860,5 +842,9 @@ public class ShapePanel extends JPanel {
         TextBorder htText = (TextBorder) heightText.getBorder();
         htText.setText("" + prevHeight);
         heightText.repaint();
+    }
+
+    public JTextArea getPatternTextArea() {
+        return selectedPatternText;
     }
 }

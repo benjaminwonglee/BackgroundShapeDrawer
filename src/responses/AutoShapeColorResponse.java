@@ -8,11 +8,11 @@ import panels.ShapePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class AutoShapeColor implements ButtonResponse {
+public class AutoShapeColorResponse implements ButtonResponse {
 
     private final ColorChooser shapeColorChooser;
 
-    public AutoShapeColor() {
+    public AutoShapeColorResponse() {
         shapeColorChooser = new ColorChooser();
     }
 

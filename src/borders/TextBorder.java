@@ -50,12 +50,15 @@ public class TextBorder implements Border {
         return new Insets(0, 0, 0, 0);
     }
 
+    public String getText() {
+        return text;
+    }
+
     public void setText(String text) {
         this.text = text;
     }
 
     public void setFont(Font f) {
         this.font = f;
-
     }
 }
