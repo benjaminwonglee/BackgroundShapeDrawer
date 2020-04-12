@@ -44,7 +44,7 @@ public class Star5 extends ShapeAbstract implements IShape {
                 y,
                 (int) (y + height / 3.0),
                 (int) (y + height / 3.0),
-                (int) (y + height / 8.0) * 5,
+                (int) (y + height / 8.0 * 5),
                 y + height,
                 (int) (y + height / 8.0 * 7),
                 y + height,
