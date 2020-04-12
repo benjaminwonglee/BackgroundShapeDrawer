@@ -11,11 +11,11 @@ public class BlueLightning implements ITheme {
     @Override
     public void applyTheme(Graphics g, JPanel sp) {
         Lightning l = new Lightning();
-        g.setColor(new Color(20, 70, 200));
+        g.setColor(new Color(20, 20, 100));
         g.fillRect(0, 0, sp.getBounds().width, sp.getBounds().height);
         int width = sp.getBounds().width / 80;
         int height = width * 2;
-        g.setColor(new Color(20, 20, 220));
+        g.setColor(new Color(120, 120, 220));
         int incr = 0;
         for (int row = 0; row < sp.getBounds().width; row += (width * 2)) {
             for (int col = 0; col < sp.getBounds().height; col += height + 5) {
