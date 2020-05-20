@@ -23,32 +23,47 @@ public class Star5 extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        double span = width / 6.0;
-        int sp = (int) span;
-        int[] xCoords = getXCoords(x, width, sp);
+        int[] xCoords = getXCoords(x, width);
         int[] yCoords = getYCoords(y, height);
         int nPoints = xCoords.length;
 
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xCoords, yCoords, nPoints);
         } else if (fill == FillStatus.GRADIENT) {
-            int loopAmount = Math.min(width / 2, height / 2);
             int[] tempXCoords = xCoords;
             int[] tempYCoords = yCoords;
             int tempX = x;
             int tempY = y;
             int tempWidth = width;
             int tempHeight = height;
-            for (int i = 1; i < loopAmount; i++) {
+            int incrGradient = 0;
+            int sizeBasedColorIncr = Math.min(width, height) / 150;
+            int maxIterations = Math.max(width, height);
+            for (int i = 0; i < maxIterations; i++) {
                 g.fillPolygon(tempXCoords, tempYCoords, nPoints);
                 tempX += 1;
                 tempY += 1;
                 tempWidth -= 2;
                 tempHeight -= 2;
-                tempXCoords = getXCoords(tempX, tempWidth, sp);
+                tempXCoords = getXCoords(tempX, tempWidth);
                 tempYCoords = getYCoords(tempY, tempHeight);
-                int[] colorArray = incrementGradient(c);
-                c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+
+                if (incrGradient == sizeBasedColorIncr) {
+                    incrGradient = -1;
+                    int[] colorArray = incrementGradient(c);
+                    c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+                    if (colorArray[0] == 0 && colorArray[1] == 0 && colorArray[2] == 0) {
+                        break;
+                    }
+                    if (colorArray[0] == 255 && colorArray[1] == 255 && colorArray[2] == 255) {
+                        break;
+                    }
+                }
+                incrGradient++;
+
+                if (tempWidth <= width / 4 || tempHeight <= height / 4) {
+                    break;
+                }
                 g.setColor(c);
             }
 
@@ -72,7 +87,9 @@ public class Star5 extends ShapeAbstract implements IShape {
                     (int) (y + height / 3.0)};
     }
 
-    private int[] getXCoords(int x, int width, int sp) {
+    private int[] getXCoords(int x, int width) {
+        double span = width / 6.0;
+        int sp = (int) span;
         return new int[]{
                     x,
                     (int) (x + width / 3.0),
