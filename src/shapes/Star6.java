@@ -23,7 +23,21 @@ public class Star6 extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        int[] xInts = new int[]{
+        int[] xCoords = getXCoords(x, width);
+        int[] yCoords = getYCoords(y, height);
+        int nPoints = xCoords.length;
+        if (fill == FillStatus.FULL) {
+            g.fillPolygon(xCoords, yCoords, nPoints);
+        } else if (fill == FillStatus.GRADIENT) {
+            drawShapeWithColorGradient(g, c, x, y, width, height, nPoints);
+        } else if (fill == FillStatus.NONE) {
+            g.drawPolygon(xCoords, yCoords, nPoints);
+        }
+    }
+
+    @Override
+    public int[] getXCoords(int x, int width) {
+        return new int[]{
                 x,
                 (int) (x + width / 3.0),
                 (int) (x + width / 4.0),
@@ -38,7 +52,11 @@ public class Star6 extends ShapeAbstract implements IShape {
                 (int) (x + width / 3.0),
                 x
         };
-        int[] yInts = new int[]{
+    }
+
+    @Override
+    public int[] getYCoords(int y, int height) {
+        return new int[]{
                 (int) (y + height / 2.0),
                 (int) (y + height / 3.0),
                 y,
@@ -53,12 +71,6 @@ public class Star6 extends ShapeAbstract implements IShape {
                 (int) (y + height / 3.0 * 2),
                 (int) (y + height / 2.0)
         };
-        if (fill == FillStatus.FULL) {
-            g.fillPolygon(xInts, yInts, 13);
-        // TODO gradient fill
-        } else if (fill == FillStatus.NONE) {
-            g.drawPolygon(xInts, yInts, 13);
-        }
     }
 
     @Override

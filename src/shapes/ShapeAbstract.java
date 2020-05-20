@@ -113,45 +113,6 @@ public abstract class ShapeAbstract implements IShape {
         return metadata;
     }
 
-    static void drawGradientOval(Graphics g, Color c, int x, int y, int width, int height) {
-        int minDimension = Math.min(width, height);
-        for (int i = 0; i < minDimension / 2; i++) {
-            g.fillOval(x + i, y + i, width - i * 2, height - i * 2);
-            int[] colorArray = incrementGradient(c);
-            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-            g.setColor(c);
-        }
-    }
-
-    static void drawGradientRectangle(Graphics g, Color c, int x, int y, int width, int height) {
-        int minDimension = Math.min(width, height);
-        for (int i = 0; i < minDimension / 2; i++) {
-            g.fillRect(x + i, y + i, width - i * 2, height - i * 2);
-            int[] colorArray = incrementGradient(c);
-            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-            g.setColor(c);
-        }
-    }
-
-    static int[] incrementGradient(Color c) {
-        int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
-        for (int iColorVal = 0; iColorVal < colorArray.length; iColorVal++) {
-            int colorVal = colorArray[iColorVal];
-            if (ColouringUtils.isDarkColor(initialColor)) {
-                colorVal += getGradientFactor();
-                if (colorVal > 255) {
-                    colorVal = 255;
-                }
-            } else {
-                colorVal -= getGradientFactor();
-                if (colorVal < 0) {
-                    colorVal = 0;
-                }
-            }
-            colorArray[iColorVal] = colorVal;
-        }
-        return colorArray;
-    }
 
     @Override
     public IPattern selectPattern() {
@@ -210,7 +171,86 @@ public abstract class ShapeAbstract implements IShape {
         canvasFilled = isCanvasFilled;
     }
 
+    static void drawGradientOval(Graphics g, Color c, int x, int y, int width, int height) {
+        int minDimension = Math.min(width, height);
+        for (int i = 0; i < minDimension / 2; i++) {
+            g.fillOval(x + i, y + i, width - i * 2, height - i * 2);
+            int[] colorArray = incrementGradient(c);
+            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+            g.setColor(c);
+        }
+    }
+
+    static void drawGradientRectangle(Graphics g, Color c, int x, int y, int width, int height) {
+        int minDimension = Math.min(width, height);
+        for (int i = 0; i < minDimension / 2; i++) {
+            g.fillRect(x + i, y + i, width - i * 2, height - i * 2);
+            int[] colorArray = incrementGradient(c);
+            c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+            g.setColor(c);
+        }
+    }
+
+    static int[] incrementGradient(Color c) {
+        int[] colorArray = new int[]{c.getRed(), c.getGreen(), c.getBlue()};
+        for (int iColorVal = 0; iColorVal < colorArray.length; iColorVal++) {
+            int colorVal = colorArray[iColorVal];
+            if (ColouringUtils.isDarkColor(initialColor)) {
+                colorVal += getGradientFactor();
+                if (colorVal > 255) {
+                    colorVal = 255;
+                }
+            } else {
+                colorVal -= getGradientFactor();
+                if (colorVal < 0) {
+                    colorVal = 0;
+                }
+            }
+            colorArray[iColorVal] = colorVal;
+        }
+        return colorArray;
+    }
+
     static int getGradientFactor() {
         return gradientFactor;
+    }
+
+    void drawShapeWithColorGradient(Graphics g, Color c, int x, int y, int width, int height, int nPoints) {
+        int[] tempXCoords = getXCoords(x, width);
+        int[] tempYCoords = getYCoords(y, height);
+        int tempX = x;
+        int tempY = y;
+        int tempWidth = width;
+        int tempHeight = height;
+        int incrGradient = 0;
+        int sizeBasedColorIncr = Math.min(width, height) / 150;
+        int maxIterations = Math.max(width, height);
+        for (int i = 0; i < maxIterations; i++) {
+            g.fillPolygon(tempXCoords, tempYCoords, nPoints);
+            tempX += 1;
+            tempY += 1;
+            tempWidth -= 2;
+            tempHeight -= 2;
+            tempXCoords = getXCoords(tempX, tempWidth);
+            tempYCoords = getYCoords(tempY, tempHeight);
+
+            if (incrGradient == sizeBasedColorIncr) {
+                incrGradient = -1;
+                int[] colorArray = incrementGradient(c);
+                c = new Color(colorArray[0], colorArray[1], colorArray[2]);
+                if (colorArray[0] == 0 && colorArray[1] == 0 && colorArray[2] == 0) {
+                    break;
+                }
+                if (colorArray[0] == 255 && colorArray[1] == 255 && colorArray[2] == 255) {
+                    break;
+                }
+            }
+            incrGradient++;
+
+            if (tempWidth <= width / 8 || tempHeight <= height / 8) {
+                break;
+            }
+            g.setColor(c);
+        }
     }
 }

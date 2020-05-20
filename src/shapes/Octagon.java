@@ -23,7 +23,22 @@ public class Octagon extends ShapeAbstract implements IShape {
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
 
-        int[] xCoords = new int[]{
+        int[] xCoords = getXCoords(x, width);
+        int[] yCoords = getYCoords(y, height);
+        int nPoints = xCoords.length;
+
+        if (fill == FillStatus.FULL) {
+            g.fillPolygon(xCoords, yCoords, nPoints);
+        } else if (fill == FillStatus.GRADIENT) {
+            drawShapeWithColorGradient(g, c, x, y, width, height, nPoints);
+        } else if (fill == FillStatus.NONE) {
+            g.drawPolygon(xCoords, yCoords, nPoints);
+        }
+    }
+
+    @Override
+    public int[] getXCoords(int x, int width) {
+        return new int[]{
                 x,
                 (int) (x + width / 4.0),
                 (int) (x + width / 4.0 * 3),
@@ -33,7 +48,11 @@ public class Octagon extends ShapeAbstract implements IShape {
                 (int) (x + width / 4.0),
                 x,
                 x};
-        int[] yCoords = new int[]{
+    }
+
+    @Override
+    public int[] getYCoords(int y, int height) {
+        return new int[]{
                 (int) (y + height / 4.0),
                 y,
                 y,
@@ -44,28 +63,9 @@ public class Octagon extends ShapeAbstract implements IShape {
                 (int) (y + height / 4.0 * 3),
                 (int) (y + height / 4.0)
         };
-        int nPoints = xCoords.length;
-
-        if (fill == FillStatus.FULL) {
-            g.fillPolygon(xCoords, yCoords, nPoints);
-        } else if (fill == FillStatus.GRADIENT) {
-            int[] tempXs = xCoords;
-            int[] tempYs = yCoords;
-
-            int loopAmount = Math.min(width / 4, height / 4);
-            for (int i = 0; i < loopAmount; i++) {
-                tempXs = gradientXIncrement(tempXs);
-                tempYs = gradientYIncrement(tempYs);
-                g.fillPolygon(tempXs, tempYs, nPoints);
-                int[] colorArray = incrementGradient(c);
-                c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-                g.setColor(c);
-            }
-        } else if (fill == FillStatus.NONE) {
-            g.drawPolygon(xCoords, yCoords, nPoints);
-        }
     }
 
+    @Override
     public int[] gradientXIncrement(int[] xs) {
         assert xs.length == 9;
         xs[0] = xs[0] + 1;
@@ -80,6 +80,7 @@ public class Octagon extends ShapeAbstract implements IShape {
         return xs;
     }
 
+    @Override
     public int[] gradientYIncrement(int[] ys) {
         assert ys.length == 9;
         ys[0] = ys[0] + 1;

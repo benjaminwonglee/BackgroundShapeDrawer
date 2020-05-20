@@ -22,21 +22,39 @@ public class Lightning extends ShapeAbstract implements IShape {
     @Override
     public void drawFromXY(Graphics g, Color c, int x, int y, int width, int height, FillStatus fill) {
         g.setColor(c);
-        int[] xInts = new int[]{
-                (int) (x + width / 5.0 * 2),
+        int[] xCoords = getXCoords(x, width);
+        int[] yCoords = getYCoords(y, height);
+        int nPoints = xCoords.length;
+        if (fill == FillStatus.FULL) {
+            g.fillPolygon(xCoords, yCoords, nPoints);
+        } else if (fill == FillStatus.GRADIENT) {
+            drawShapeWithColorGradient(g, c, x, y, width, height, nPoints);
+        } else if (fill == FillStatus.NONE) {
+            g.drawPolygon(xCoords, yCoords, nPoints);
+        }
+    }
+
+    @Override
+    public int[] getXCoords(int x, int width) {
+        return new int[]{
+                (int) (x + width / 6.0 * 2),
                 x + width,
-                (int) (x + width / 5.0 * 3),
+                (int) (x + width / 6.0 * 4),
                 x + width,
-                (int) (x + width / 5.0 * 3),
+                (int) (x + width / 6.0 * 4),
                 x + width,
-                (int) (x + width / 5.0),
-                (int) (x + width / 5.0 * 2),
+                (int) (x + width / 6.0),
+                (int) (x + width / 6.0 * 2),
                 x,
-                (int) (x + width / 5.0 * 2),
+                (int) (x + width / 6.0 * 2),
                 x,
-                (int) (x + width / 5.0 * 2)
+                (int) (x + width / 6.0 * 2)
         };
-        int[] yInts = new int[]{
+    }
+
+    @Override
+    public int[] getYCoords(int y, int height) {
+        return new int[]{
                 y,
                 y,
                 (int) (y + height / 7.0 * 2),
@@ -48,13 +66,8 @@ public class Lightning extends ShapeAbstract implements IShape {
                 (int) (y + height / 7.0 * 5),
                 (int) (y + height / 7.0 * 3),
                 (int) (y + height / 7.0 * 3),
-                (int) (y + height / 7.0 * 3)};
-        if (fill == FillStatus.FULL) {
-            g.fillPolygon(xInts, yInts, 11);
-        } // TODO: Gradient Fill
-        else if (fill == FillStatus.NONE) {
-            g.drawPolygon(xInts, yInts, 11);
-        }
+                y
+        };
     }
 
     @Override

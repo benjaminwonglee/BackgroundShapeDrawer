@@ -30,64 +30,14 @@ public class Star5 extends ShapeAbstract implements IShape {
         if (fill == FillStatus.FULL) {
             g.fillPolygon(xCoords, yCoords, nPoints);
         } else if (fill == FillStatus.GRADIENT) {
-            int[] tempXCoords = xCoords;
-            int[] tempYCoords = yCoords;
-            int tempX = x;
-            int tempY = y;
-            int tempWidth = width;
-            int tempHeight = height;
-            int incrGradient = 0;
-            int sizeBasedColorIncr = Math.min(width, height) / 150;
-            int maxIterations = Math.max(width, height);
-            for (int i = 0; i < maxIterations; i++) {
-                g.fillPolygon(tempXCoords, tempYCoords, nPoints);
-                tempX += 1;
-                tempY += 1;
-                tempWidth -= 2;
-                tempHeight -= 2;
-                tempXCoords = getXCoords(tempX, tempWidth);
-                tempYCoords = getYCoords(tempY, tempHeight);
-
-                if (incrGradient == sizeBasedColorIncr) {
-                    incrGradient = -1;
-                    int[] colorArray = incrementGradient(c);
-                    c = new Color(colorArray[0], colorArray[1], colorArray[2]);
-                    if (colorArray[0] == 0 && colorArray[1] == 0 && colorArray[2] == 0) {
-                        break;
-                    }
-                    if (colorArray[0] == 255 && colorArray[1] == 255 && colorArray[2] == 255) {
-                        break;
-                    }
-                }
-                incrGradient++;
-
-                if (tempWidth <= width / 4 || tempHeight <= height / 4) {
-                    break;
-                }
-                g.setColor(c);
-            }
-
+            drawShapeWithColorGradient(g, c, x, y, width, height, nPoints);
         } else if (fill == FillStatus.NONE) {
             g.drawPolygon(xCoords, yCoords, 11);
         }
     }
 
-    private int[] getYCoords(int y, int height) {
-        return new int[]{
-                    (int) (y + height / 3.0),
-                    (int) (y + height / 3.0),
-                    y,
-                    (int) (y + height / 3.0),
-                    (int) (y + height / 3.0),
-                    (int) (y + height / 8.0 * 5),
-                    y + height,
-                    (int) (y + height / 8.0 * 7),
-                    y + height,
-                    (int) (y + height / 8.0 * 5),
-                    (int) (y + height / 3.0)};
-    }
-
-    private int[] getXCoords(int x, int width) {
+    @Override
+    public int[] getXCoords(int x, int width) {
         double span = width / 6.0;
         int sp = (int) span;
         return new int[]{
@@ -106,6 +56,22 @@ public class Star5 extends ShapeAbstract implements IShape {
     }
 
     @Override
+    public int[] getYCoords(int y, int height) {
+        return new int[]{
+                (int) (y + height / 3.0),
+                (int) (y + height / 3.0),
+                y,
+                (int) (y + height / 3.0),
+                (int) (y + height / 3.0),
+                (int) (y + height / 8.0 * 5),
+                y + height,
+                (int) (y + height / 8.0 * 7),
+                y + height,
+                (int) (y + height / 8.0 * 5),
+                (int) (y + height / 3.0)};
+    }
+
+    @Override
     public List<ShapeMetadata> getXY() {
         return shapeMetadata;
     }
@@ -115,6 +81,7 @@ public class Star5 extends ShapeAbstract implements IShape {
         shapeMetadata.clear();
     }
 
+    @Override
     public int[] gradientXIncrement(int[] xs) {
         assert xs.length == 11;
         xs[0] = xs[0] + 1;
